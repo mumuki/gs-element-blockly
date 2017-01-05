@@ -19,6 +19,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <body unresolved>
 
     <p>An example of <code>&lt;gs-element-blockly&gt;</code>:</p>
+    <p>
+      <button id="default_toolboxbtn">Default toolbox</button>
+      <button id="limited_toolboxbtn">Limited toolbox</button>
+      <button id="set_customblocksbtn">Set customblocks</button>
+      <input type="text" id="customblocks_txt" value="Poner_FloresAl_"></input>
+    </p>
     <gs-element-blockly>
     </gs-element-blockly>
 
@@ -29,6 +35,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         document.getElementById("code").innerHTML = blocklyElement.generateCode();
       });
 
+      document.querySelector('#default_toolboxbtn').addEventListener('click', function() {
+        blocklyElement.set('blocks', "");
+      });
+
+      document.querySelector('#limited_toolboxbtn').addEventListener('click', function() {
+        blocklyElement.set('blocks', "Poner,Sacar");
+      });
+
+      document.querySelector('#set_customblocksbtn').addEventListener('click', function() {
+        blocklyElement.set('customblocks', document.getElementById("customblocks_txt").value);
+      });
     </script>
 
     <p><button id="generatebtn">Generar Código</button></p>

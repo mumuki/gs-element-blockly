@@ -204,6 +204,9 @@ function createDireccionBlock(name) {
 	return createExpressionBlock(name, 'Direccion');
 }
 
+Blockly.Blocks.True = createExpressionBlock('True', 'Boolean');
+Blockly.Blocks.False = createExpressionBlock('False', 'Boolean');
+
 Blockly.Blocks.Rojo = createColorBlock('Rojo');
 Blockly.Blocks.Verde = createColorBlock('Verde');
 Blockly.Blocks.Negro = createColorBlock('Negro');
@@ -266,7 +269,7 @@ Blockly.Blocks.NroBolitas = {
 };
 
 // ------------------------------------------------------
-// Relacionales:
+// Operaciones:
 // ------------------------------------------------------
 
 Blockly.Blocks.Relation = {
@@ -325,4 +328,50 @@ Blockly.Blocks.OpNum = {
       output: 'Number'
     });
   }
+};
+
+Blockly.Blocks.OpBoolBinary = {
+  init: function () {
+    this.jsonInit({
+      message0: '%1 %2 %3 %4',
+      args0: [
+        {
+          type: 'input_value',
+          name: 'arg1'
+        },
+        {
+          type: "field_dropdown",
+          name: "OPERATOR",
+          options: [["||", "||"], ["&&", "&&"]]
+        },
+        {
+          type: "input_dummy"
+        },
+        {
+          type: 'input_value',
+          name: 'arg2'
+        }
+      ],
+      colour: ExpressionColor,
+      inputsInline: false,
+      output: 'Boolean'
+    });
+  }
+};
+
+Blockly.Blocks.Not = {
+	init: function () {
+		this.jsonInit({
+			message0: 'Not %1',
+			args0: [
+				{
+					type: 'input_value',
+					name: 'VALUE'
+				}
+			],
+			colour: ExpressionColor,
+			inputsInline: true,
+			output: 'Boolean'
+		});
+	}
 };

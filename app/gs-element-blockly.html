@@ -33,7 +33,8 @@ Example:
 
     <h1>&lt;gs-element-blockly&gt;</h1>
     <content></content>
-    <div id="blocklyDiv" style="width: 800px; height: 300px;"></div>
+    <div id="blocklyDiv" style="height: 400px; width: 800px;"></div>
+
     <xml id="toolbox" style="display: none">
       <category name="Comandos">
         <category name="Comandos primitivos">
@@ -58,6 +59,8 @@ Example:
       <category name="Expresiones">
         <category name="Literales">
           <block type="math_number"></block>
+          <block type="True"></block>
+          <block type="False"></block>
           <block type="Rojo"></block>
           <block type="Verde"></block>
           <block type="Azul"></block>
@@ -74,7 +77,9 @@ Example:
         </category>
         <category name="Operaciones">
           <block type="Relation"></block>
+          <block type="OpBoolBinary"></block>
           <block type="OpNum"></block>
+          <block type="Not"></block>
         </category>
       </category>
     </xml>
@@ -86,23 +91,150 @@ Example:
 
       properties: {
         /*
-         * `fancy` indicates that the element should don a monocle and tophat,
-         * while checking its pocket watch.
+         * `customblocks` lista de definiciones de bloques custom, separados por ","
+         * Ej: Poner_FloresAl_ Se transormara en un bloque con dos inputs inline, cuyo
+         * codigo sera Poner_FloresAl_(arg1, arg2).
          */
-        //fancy: Boolean,
+        customblocks:  {
+          type: String,
+          observer: '_onCustomBlocksChange'
+        },
+
+        /*
+         * `blocks` Lista de id de los bloques a incluir en el toolbox, separados por ",".
+         */
+        blocks: {
+          type: String,
+          observer: '_onBlocksChange'
+        }
       },
 
+      _onBlocksChange: function() {
+        this._updateToolbox();
+      },
+
+      _onCustomBlocksChange: function() {
+        this._defineCustomBlocks();
+        this._updateToolbox();
+      },
+
+      _updateToolbox: function() {
+        let toolbox = this._createToolbox();
+        this.workspace.updateToolbox(toolbox);
+      },
+
+      /**
+       * Crea el toolbox a partir de la propiedad blocks, bloques visibles, y
+       * customblocks.
+       *
+       * Funciona podando el toolbox por defecto.
+       */
+      _createToolbox: function() {
+        let toolbox = [];
+        let toolboxDefault = document.getElementById('toolbox');
+
+        toolbox.push('<xml>');
+        let toolboxDefaultLines = toolboxDefault.innerHTML.split("\n");
+        if(this.blocks) {
+          let blocks = this.blocks.split(",").map(function (x) { return x.trim() });
+
+          for(var i in toolboxDefaultLines) {
+            let line = toolboxDefaultLines[i];
+            if(line.indexOf('<block') >= 0) {
+              let m = line.match('type="([^"]*)"')
+              if(m.length == 2 && blocks.indexOf(m[1]) >= 0) {
+                toolbox.push(line);
+              }
+            }
+            else {
+              toolbox.push(line);
+            }
+          }
+        }
+        else {
+          toolbox.push(toolboxDefaultLines);
+        }
+
+        if(this.customblocks) {
+          let defs = this.customblocks.split(",").map(function (x) { return x.trim() });
+          toolbox.push('<category name="Procedimientos Primitivos">');
+          for(var i in defs) {
+            toolbox.push(`<block type="${defs[i]}"></block>`);
+          }
+          toolbox.push('</category>');
+        }
+
+        toolbox.push('</xml>');
+        return toolbox.join("\n");
+      },
+
+      /**
+       * Define un bloque a partir de una definicion tipo Poner_En_
+       */
+      _defineCustomBlock: function(def) {
+        let parts = def.replace(/([A-Z])/g, " $1").toLowerCase();
+        parts = parts[1].toUpperCase() + parts.substring(2);
+        parts = parts.split("_");
+
+        // Bloque
+        Blockly.Blocks[def] = {
+        	init: function () {
+            let argsIndex = 1;
+        		this.setColour(CommandColor);
+        		for(var i in parts) {
+              if(i == (parts.length - 1)) {
+    		        this.appendDummyInput().appendField(parts[i]);
+              }
+              else {
+                this.appendValueInput('arg' + argsIndex).appendField(parts[i]);
+                argsIndex++;
+              }
+            }
+
+        		this.setPreviousStatement(true);
+        		this.setNextStatement(true);
+        		this.setInputsInline(true);
+        	}
+        };
+        let argsList = [];
+        for(var i=1;i<parts.length;i++) {
+          argsList.push('arg' + i);
+        }
+        // Generator
+        Blockly.GobstonesLanguage[def] = procBlockCodeGenerator(def.replace(/_/g, ""), argsList);
+      },
+
+      _defineCustomBlocks: function () {
+        if(!this.customblocks) {
+          return;
+        }
+
+        let defs = this.customblocks.split(",").map(function (x) { return x.trim() });
+        for(var i in defs) {
+          this._defineCustomBlock(defs[i]);
+        }
+      },
       // Element Lifecycle
 
       ready: function() {
-        this.workspace = Blockly.inject('blocklyDiv', {
-          toolbox: document.getElementById('toolbox'),
-          media: '../bower_components/blockly-package/media/'
+        var blocklyDiv = document.getElementById('blocklyDiv');
+        this._defineCustomBlocks();
+
+        this.workspace = Blockly.inject(blocklyDiv, {
+          toolbox: this._createToolbox(),
+          media: '../bower_components/blockly-package/media/',
+          toolboxPosition: "start",
+          trashcan: true,
+          scrollbars: true,
+          horizontalLayout: false,
+          collapse: false,
+          css: true,
         });
 
-        let xmlInicial = '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" id="aF,i.tK-O(jDm1^GT4bP" deletable="false" x="100" y="40"></block></xml>';
+        let xmlInicial = '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" x="30" y="30"></block></xml>';
         let dom = Blockly.Xml.textToDom(xmlInicial)
         Blockly.Xml.domToWorkspace(dom, this.workspace);
+        Blockly.svgResize(this.workspace);
       },
 
       attached: function() {
