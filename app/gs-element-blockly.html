@@ -91,30 +91,42 @@ Example:
 
       properties: {
         /*
-         * `customblocks` lista de definiciones de bloques custom, separados por ","
+         * `primitiveProcedures` lista de definiciones de procedimientos primitivos, separados por ","
          * Ej: Poner_FloresAl_ Se transormara en un bloque con dos inputs inline, cuyo
          * codigo sera Poner_FloresAl_(arg1, arg2).
          */
-        customblocks:  {
+        primitiveProcedures:  {
           type: String,
-          observer: '_onCustomBlocksChange'
+          observer: '_onPrimitiveProceduresChange'
         },
 
         /*
-         * `blocks` Lista de id de los bloques a incluir en el toolbox, separados por ",".
+         * `toolbox` Lista de id de los bloques a incluir en el toolbox, separados por ",".
+         * Nota: Los bloques de primitiveProcedures siempre aparecen en el toolbox, aunque no figuren
+         * en esta propiedad.
          */
-        blocks: {
+        toolbox: {
           type: String,
-          observer: '_onBlocksChange'
-        }
+          observer: '_updateToolbox'
+        },
+
+        /*
+         * `workspaceXML` Código XML de los bloques en el workspace.
+         */
+        workspaceXML: {
+          type: String,
+        },
+
+        /*
+         * `workspaceCanEdit` Indica si el usuario puede modificar el workspace.
+         */
+        workspaceCanEdit: {
+          type: Boolean,
+        },
       },
 
-      _onBlocksChange: function() {
-        this._updateToolbox();
-      },
-
-      _onCustomBlocksChange: function() {
-        this._defineCustomBlocks();
+      _onPrimitiveProceduresChange: function() {
+        this._definePrimitiveProcedures();
         this._updateToolbox();
       },
 
@@ -135,8 +147,8 @@ Example:
 
         toolbox.push('<xml>');
         let toolboxDefaultLines = toolboxDefault.innerHTML.split("\n");
-        if(this.blocks) {
-          let blocks = this.blocks.split(",").map(function (x) { return x.trim() });
+        if(this.toolbox) {
+          let blocks = this.toolbox.split(",").map(function (x) { return x.trim() });
 
           for(var i in toolboxDefaultLines) {
             let line = toolboxDefaultLines[i];
@@ -155,8 +167,8 @@ Example:
           toolbox.push(toolboxDefaultLines);
         }
 
-        if(this.customblocks) {
-          let defs = this.customblocks.split(",").map(function (x) { return x.trim() });
+        if(this.primitiveProcedures) {
+          let defs = this.primitiveProcedures.split(",").map(function (x) { return x.trim() });
           toolbox.push('<category name="Procedimientos Primitivos">');
           for(var i in defs) {
             toolbox.push(`<block type="${defs[i]}"></block>`);
@@ -171,7 +183,7 @@ Example:
       /**
        * Define un bloque a partir de una definicion tipo Poner_En_
        */
-      _defineCustomBlock: function(def) {
+      _definePrimitiveProcedure: function(def) {
         let parts = def.replace(/([A-Z])/g, " $1").toLowerCase();
         parts = parts[1].toUpperCase() + parts.substring(2);
         parts = parts.split("_");
@@ -204,21 +216,21 @@ Example:
         Blockly.GobstonesLanguage[def] = procBlockCodeGenerator(def.replace(/_/g, ""), argsList);
       },
 
-      _defineCustomBlocks: function () {
-        if(!this.customblocks) {
+      _definePrimitiveProcedures: function () {
+        if(!this.primitiveProcedures) {
           return;
         }
 
-        let defs = this.customblocks.split(",").map(function (x) { return x.trim() });
+        let defs = this.primitiveProcedures.split(",").map(function (x) { return x.trim() });
         for(var i in defs) {
-          this._defineCustomBlock(defs[i]);
+          this._definePrimitiveProcedure(defs[i]);
         }
       },
       // Element Lifecycle
 
       ready: function() {
         var blocklyDiv = document.getElementById('blocklyDiv');
-        this._defineCustomBlocks();
+        this._definePrimitiveProcedures();
 
         this.workspace = Blockly.inject(blocklyDiv, {
           toolbox: this._createToolbox(),
@@ -265,6 +277,14 @@ Example:
         lang.addReservedWords('code');
         var code = lang.workspaceToCode(this.workspace);
         return code;
+      },
+
+      /**
+       * Append blocks to workspace. Se agrega al contenido actual del workspace
+       * los bloques especificados en el xml (descartando el program si es que viene).
+       *
+       */
+      appendBlocksToWorkspace: function(xml) {
       },
     });
   </script>

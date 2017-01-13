@@ -22,8 +22,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <p>
       <button id="default_toolboxbtn">Default toolbox</button>
       <button id="limited_toolboxbtn">Limited toolbox</button>
-      <button id="set_customblocksbtn">Set customblocks</button>
-      <input type="text" id="customblocks_txt" value="Poner_FloresAl_"></input>
+      <button id="set_primitive_proceduresbtn">Set customblocks</button>
+      <input type="text" id="primitive_procedurestxt" value="Poner_FloresAl_"></input>
     </p>
     <gs-element-blockly>
     </gs-element-blockly>
@@ -36,15 +36,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
 
       document.querySelector('#default_toolboxbtn').addEventListener('click', function() {
-        blocklyElement.set('blocks', "");
+        blocklyElement.set('toolbox', "");
       });
 
       document.querySelector('#limited_toolboxbtn').addEventListener('click', function() {
-        blocklyElement.set('blocks', "Poner,Sacar");
+        blocklyElement.set('toolbox', "Poner,Sacar");
       });
 
-      document.querySelector('#set_customblocksbtn').addEventListener('click', function() {
-        blocklyElement.set('customblocks', document.getElementById("customblocks_txt").value);
+      document.querySelector('#set_primitive_proceduresbtn').addEventListener('click', function() {
+        console.log("hola");
+        blocklyElement.set('primitiveProcedures', document.getElementById("primitive_procedurestxt").value);
       });
     </script>
 
