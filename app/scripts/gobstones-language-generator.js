@@ -46,51 +46,43 @@ Blockly.GobstonesLanguage.ORDER_COMMA = 17;					 // ,
 Blockly.GobstonesLanguage.ORDER_NONE = 99;						// (...)
 
 /**
+ * Retorna la función que representa la llamada a un procedimiento o funcion F(arg1, arg2, ...)
+ */
+function callGenerator(name, args = [], newLine, order) {
+	return function (block) {
+		var code = name + '(';
+		var sep = '';
+		args.forEach(function (arg) {
+			code += sep + Blockly.GobstonesLanguage.valueToCode(block, arg,
+				Blockly.GobstonesLanguage.ORDER_NONE) || '\'\'';
+			sep = ', ';
+		});
+		code += newLine ? ')\n' : ')';
+		return order ? [code, order] : code;
+	};
+}
+
+/**
  * Retorna la funcion que genera el codigo para un bloque tipo PROC(arg1, arg2, ...)
  */
-function procBlockCodeGenerator(procName, args)
-{
-  return function (block) {
-  	var code = procName + '(';
-    var sep = '';
-    for(var a in args)
-    {
-      code += sep + Blockly.GobstonesLanguage.valueToCode(block, args[a],
-    	Blockly.GobstonesLanguage.ORDER_NONE) || '\'\'';
-      sep = ', ';
-    }
-    code += ')\n';
-  	return code;
-  };
+function procBlockCodeGenerator(procName, args) {
+	return callGenerator(procName, args, true);
 }
 
 /**
  * Retorna la funcion que genera el codigo para un bloque tipo Expr(arg1, arg2, ...)
  */
-function exprParamsBlockCodeGenerator(expr, args)
-{
-  return function (block) {
-  	var code = expr + '(';
-    var sep = '';
-    for(var a in args)
-    {
-      code += sep + Blockly.GobstonesLanguage.valueToCode(block, args[a],
-    	Blockly.GobstonesLanguage.ORDER_NONE) || '\'\'';
-      sep = ', ';
-    }
-    code += ')';
-  	return [code, Blockly.GobstonesLanguage.ORDER_FUNCTION_CALL];
-  };
+function exprParamsBlockCodeGenerator(expr, args) {
+	return callGenerator(expr, args, false, Blockly.GobstonesLanguage.ORDER_FUNCTION_CALL);
 }
 
 /**
  * Retorna la funcion que genera el codigo para un bloque tipo literal
  */
-function literalBlockCodeGenerator(value)
-{
-  return function (block) {
-  	return [value, Blockly.GobstonesLanguage.ORDER_ATOMIC];
-  };
+function literalBlockCodeGenerator(value) {
+	return function () {
+		return [value, Blockly.GobstonesLanguage.ORDER_ATOMIC];
+	};
 }
 
 /**
@@ -290,39 +282,39 @@ Blockly.GobstonesLanguage.Norte = literalBlockCodeGenerator('Norte');
 Blockly.GobstonesLanguage.Sur = literalBlockCodeGenerator('Sur');
 
 Blockly.GobstonesLanguage.Relation = function (block) {
-  var code =  (Blockly.GobstonesLanguage.valueToCode(block, 'arg1',
-    Blockly.GobstonesLanguage.ORDER_RELATIONAL) || '\'\'') +
-    ' ' + block.getFieldValue('RELATION') + ' ' +
-    (Blockly.GobstonesLanguage.valueToCode(block, 'arg2',
-      Blockly.GobstonesLanguage.ORDER_RELATIONAL) || '\'\'')
-    ;
-  return [code, Blockly.GobstonesLanguage.ORDER_RELATIONAL];
+	var code =
+		(Blockly.GobstonesLanguage.valueToCode(block, 'arg1', Blockly.GobstonesLanguage.ORDER_RELATIONAL) || '\'\'') +
+' ' +
+		block.getFieldValue('RELATION') +
+		' ' +
+		(Blockly.GobstonesLanguage.valueToCode(block, 'arg2', Blockly.GobstonesLanguage.ORDER_RELATIONAL) || '\'\'');
+	return [code, Blockly.GobstonesLanguage.ORDER_RELATIONAL];
 };
 
 Blockly.GobstonesLanguage.OpNum = function (block) {
-  var code =  (Blockly.GobstonesLanguage.valueToCode(block, 'arg1',
-    Blockly.GobstonesLanguage.ORDER_ATOMIC) || '\'\'') +
-    ' ' + block.getFieldValue('OPERATOR') + ' ' +
-    (Blockly.GobstonesLanguage.valueToCode(block, 'arg2',
-      Blockly.GobstonesLanguage.ORDER_ATOMIC) || '\'\'')
-    ;
-  return [code, Blockly.GobstonesLanguage.ORDER_ATOMIC];
+	var code = (Blockly.GobstonesLanguage.valueToCode(block, 'arg1',
+		Blockly.GobstonesLanguage.ORDER_ATOMIC) || '\'\'') +
+		' ' + block.getFieldValue('OPERATOR') + ' ' +
+		(Blockly.GobstonesLanguage.valueToCode(block, 'arg2',
+			Blockly.GobstonesLanguage.ORDER_ATOMIC) || '\'\'')
+		;
+	return [code, Blockly.GobstonesLanguage.ORDER_ATOMIC];
 };
 
 Blockly.GobstonesLanguage.OpBoolBinary = function (block) {
-  var code =  (Blockly.GobstonesLanguage.valueToCode(block, 'arg1',
-    Blockly.GobstonesLanguage.ORDER_ATOMIC) || '\'\'') +
-    ' ' + block.getFieldValue('OPERATOR') + ' ' +
-    (Blockly.GobstonesLanguage.valueToCode(block, 'arg2',
-      Blockly.GobstonesLanguage.ORDER_ATOMIC) || '\'\'')
-    ;
-  return [code, Blockly.GobstonesLanguage.ORDER_ATOMIC];
+	var code = (Blockly.GobstonesLanguage.valueToCode(block, 'arg1',
+		Blockly.GobstonesLanguage.ORDER_ATOMIC) || '\'\'') +
+		' ' + block.getFieldValue('OPERATOR') + ' ' +
+		(Blockly.GobstonesLanguage.valueToCode(block, 'arg2',
+			Blockly.GobstonesLanguage.ORDER_ATOMIC) || '\'\'')
+		;
+	return [code, Blockly.GobstonesLanguage.ORDER_ATOMIC];
 };
 
 Blockly.GobstonesLanguage.Not = function (block) {
-  var code = 'not ' + Blockly.GobstonesLanguage.valueToCode(block, 'VALUE',
-    Blockly.GobstonesLanguage.ORDER_NONE) || '';
-  return [code, Blockly.GobstonesLanguage.ORDER_ATOMIC];
+	var code = 'not ' + Blockly.GobstonesLanguage.valueToCode(block, 'VALUE',
+		Blockly.GobstonesLanguage.ORDER_NONE) || '';
+	return [code, Blockly.GobstonesLanguage.ORDER_ATOMIC];
 };
 
 Blockly.GobstonesLanguage.math_number = function (block) {

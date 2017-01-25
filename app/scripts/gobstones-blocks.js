@@ -273,90 +273,90 @@ Blockly.Blocks.NroBolitas = {
 // ------------------------------------------------------
 
 Blockly.Blocks.Relation = {
-  init: function () {
-    this.jsonInit({
-      message0: '%1 %2 %3 %4',
-      args0: [
-        {
-          type: 'input_value',
-          name: 'arg1'
-        },
-        {
-          type: "field_dropdown",
-          name: "RELATION",
-          options: [["==", "=="], ["/=", "/="], ['<=', '<='], ['<', '<'], ['>=', '>='] ,['>', '>']]
-        },
-        {
-          type: "input_dummy"
-        },
-        {
-          type: 'input_value',
-          name: 'arg2'
-        }
-      ],
-      colour: ExpressionColor,
-      inputsInline: false,
-      output: 'Boolean'
-    });
-  }
+	init: function () {
+		this.jsonInit({
+			message0: '%1 %2 %3 %4',
+			args0: [
+				{
+					type: 'input_value',
+					name: 'arg1'
+				},
+				{
+					type: 'field_dropdown',
+					name: 'RELATION',
+					options: [['==', '=='], ['/=', '/='], ['<=', '<='], ['<', '<'], ['>=', '>='], ['>', '>']]
+				},
+				{
+					type: 'input_dummy'
+				},
+				{
+					type: 'input_value',
+					name: 'arg2'
+				}
+			],
+			colour: ExpressionColor,
+			inputsInline: false,
+			output: 'Boolean'
+		});
+	}
 };
 
 Blockly.Blocks.OpNum = {
-  init: function () {
-    this.jsonInit({
-      message0: '%1 %2 %3 %4',
-      args0: [
-        {
-          type: 'input_value',
-          name: 'arg1'
-        },
-        {
-          type: "field_dropdown",
-          name: "OPERATOR",
-          options: [["+", "+"], ["-", "-"], ['*', '*'], ['div', 'div'], ['mod', 'mod'] ,['^', '^']]
-        },
-        {
-          type: "input_dummy"
-        },
-        {
-          type: 'input_value',
-          name: 'arg2'
-        }
-      ],
-      colour: ExpressionColor,
-      inputsInline: false,
-      output: 'Number'
-    });
-  }
+	init: function () {
+		this.jsonInit({
+			message0: '%1 %2 %3 %4',
+			args0: [
+				{
+					type: 'input_value',
+					name: 'arg1'
+				},
+				{
+					type: 'field_dropdown',
+					name: 'OPERATOR',
+					options: [['+', '+'], ['-', '-'], ['*', '*'], ['div', 'div'], ['mod', 'mod'], ['^', '^']]
+				},
+				{
+					type: 'input_dummy'
+				},
+				{
+					type: 'input_value',
+					name: 'arg2'
+				}
+			],
+			colour: ExpressionColor,
+			inputsInline: false,
+			output: 'Number'
+		});
+	}
 };
 
 Blockly.Blocks.OpBoolBinary = {
-  init: function () {
-    this.jsonInit({
-      message0: '%1 %2 %3 %4',
-      args0: [
-        {
-          type: 'input_value',
-          name: 'arg1'
-        },
-        {
-          type: "field_dropdown",
-          name: "OPERATOR",
-          options: [["||", "||"], ["&&", "&&"]]
-        },
-        {
-          type: "input_dummy"
-        },
-        {
-          type: 'input_value',
-          name: 'arg2'
-        }
-      ],
-      colour: ExpressionColor,
-      inputsInline: false,
-      output: 'Boolean'
-    });
-  }
+	init: function () {
+		this.jsonInit({
+			message0: '%1 %2 %3 %4',
+			args0: [
+				{
+					type: 'input_value',
+					name: 'arg1'
+				},
+				{
+					type: 'field_dropdown',
+					name: 'OPERATOR',
+					options: [['||', '||'], ['&&', '&&']]
+				},
+				{
+					type: 'input_dummy'
+				},
+				{
+					type: 'input_value',
+					name: 'arg2'
+				}
+			],
+			colour: ExpressionColor,
+			inputsInline: false,
+			output: 'Boolean'
+		});
+	}
 };
 
 Blockly.Blocks.Not = {
