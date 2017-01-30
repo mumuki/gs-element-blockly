@@ -143,7 +143,7 @@ Example:
        */
       _createToolbox: function() {
         let toolbox = [];
-        let toolboxDefault = document.getElementById('toolbox');
+        let toolboxDefault = this.$$('#toolbox');
 
         toolbox.push('<xml>');
         let toolboxDefaultLines = toolboxDefault.innerHTML.split("\n");
@@ -229,7 +229,7 @@ Example:
       // Element Lifecycle
 
       ready: function() {
-        var blocklyDiv = document.getElementById('blocklyDiv');
+        var blocklyDiv = this.$$('#blocklyDiv');
         this._definePrimitiveProcedures();
 
         this.workspace = Blockly.inject(blocklyDiv, {
