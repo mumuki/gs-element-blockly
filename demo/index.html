@@ -28,6 +28,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <gs-element-blockly>
     </gs-element-blockly>
 
+		<p><button id="generatebtn">Generar Código</button></p>
+    <textarea id="code" rows="20" cols="80"></textarea>
+
     <script>
       var blocklyElement = document.querySelector('gs-element-blockly');
 
@@ -44,12 +47,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
 
       document.querySelector('#set_primitive_proceduresbtn').addEventListener('click', function() {
-        console.log("hola");
         blocklyElement.set('primitiveProcedures', document.getElementById("primitive_procedurestxt").value);
       });
     </script>
 
-    <p><button id="generatebtn">Generar Código</button></p>
-    <textarea id="code" rows="20" cols="80"></textarea>
   </body>
 </html>

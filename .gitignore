@@ -1,10 +1,4 @@
-node_modules
-dist
 bower_components
-components
-.tmp
-.publish/
-client
 
 ### Windows template
 # Windows image file caches
@@ -72,4 +66,3 @@ $RECYCLE.BIN/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
-

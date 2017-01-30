@@ -1,35 +1,26 @@
 {
   "name": "gs-element-blockly",
-  "version": "0.0.1",
-  "authors": [
-    "miguelgarcia"
-  ],
-  "description": "Elemento blockly para gobstones.",
-  "keywords": [
-    "web-component",
-    "polymer",
-    "gobstones"
-  ],
+	"version": "0.1.0",
+	"authors": [
+		"miguelgarcia", "asanzo"
+	],
+  "description": "Element providing Blockly interface for Gobstones Web",
+	"keywords": [
+		"web-component",
+		"polymer",
+		"gobstones"
+	],
   "main": "gs-element-blockly.html",
-  "license": "http://polymer.github.io/LICENSE.txt",
-  "homepage": "https://github.com/Program-AR/gs-element-blockly",
-  "ignore": [
-    "/.*",
-    "/test/"
-  ],
+	"license": "http://polymer.github.io/LICENSE.txt",
+	"homepage": "https://github.com/Program-AR/gs-element-blockly",
   "dependencies": {
-    "iron-elements": "PolymerElements/iron-elements#1.0.0",
-    "neon-elements": "PolymerElements/neon-elements#1.0.0",
-    "page": "visionmedia/page.js#1.6.4",
-    "paper-elements": "PolymerElements/paper-elements#1.0.1",
-    "platinum-elements": "PolymerElements/platinum-elements#1.1.0",
-    "polymer": "Polymer/polymer#1.2.0",
-    "blockly-package": "0.0.10"
+    "polymer": "Polymer/polymer#^1.4.0",
+		"blockly-package": "0.0.10"
   },
   "devDependencies": {
-    "web-component-tester": "4.0.0"
-  },
-  "resolutions": {
-    "polymer": "^1.5.0"
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
   }
 }
