@@ -228,24 +228,26 @@ Example:
       // Element Lifecycle
 
       ready: function() {
-        var blocklyDiv = this.$$('#blocklyDiv');
         this._definePrimitiveProcedures();
+        setTimeout(() => {
+					// create workspace
+          var blocklyDiv = this.$$('#blocklyDiv');
+					this.workspace = Blockly.inject(blocklyDiv, {
+            toolbox: this._createToolbox(),
+            media: '../bower_components/blockly-package/media/',
+            toolboxPosition: "start",
+            trashcan: true,
+            scrollbars: true,
+            horizontalLayout: false,
+            collapse: false,
+            css: true,
+					});
 
-        this.workspace = Blockly.inject(blocklyDiv, {
-          toolbox: this._createToolbox(),
-          media: '../bower_components/blockly-package/media/',
-          toolboxPosition: "start",
-          trashcan: true,
-          scrollbars: true,
-          horizontalLayout: false,
-          collapse: false,
-          css: true,
-        });
-
-        let xmlInicial = '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" x="30" y="30"></block></xml>';
-        let dom = Blockly.Xml.textToDom(xmlInicial)
-        Blockly.Xml.domToWorkspace(dom, this.workspace);
-        Blockly.svgResize(this.workspace);
+          let xmlInicial = '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" x="30" y="30"></block></xml>';
+          let dom = Blockly.Xml.textToDom(xmlInicial)
+          Blockly.Xml.domToWorkspace(dom, this.workspace);
+          Blockly.svgResize(this.workspace);
+				}, 0);
       },
 
       attached: function() {
