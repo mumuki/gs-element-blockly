@@ -268,6 +268,12 @@ Blockly.GobstonesLanguage.IrAlBorde = procBlockCodeGenerator('IrAlBorde', ['DIRE
 Blockly.GobstonesLanguage.VaciarTablero = procBlockCodeGenerator('VaciarTablero');
 Blockly.GobstonesLanguage.BOOM = procBlockCodeGenerator('BOOM');
 
+Blockly.GobstonesLanguage.Asignacion = function(block) {
+  var varName = block.getFieldValue('varName');
+  var varValue = Blockly.GobstonesLanguage.valueToCode(block, 'varValue', Blockly.GobstonesLanguage.ORDER_ATOMIC);
+  return varName + ' := ' + varValue + '\n';
+};
+
 Blockly.GobstonesLanguage.True = literalBlockCodeGenerator('True');
 Blockly.GobstonesLanguage.False = literalBlockCodeGenerator('False');
 

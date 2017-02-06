@@ -176,11 +176,41 @@ Blockly.Blocks.BOOM = {
 			previousStatement: true,
 			nextStatement: true,
 			colour: CommandColor,
-			tooltip: 'boom!',
+			tooltip: 'Hace que el programa haga ¡BOOM!',
 			inputsInline: true
 		});
 	}
 };
+
+Blockly.Blocks.Asignacion = {
+	init: function () {
+		this.jsonInit({
+			message0: "%1 %2 := %3 %4",
+			args0: [
+				{
+					type: "field_input",
+					name: "varName",
+					text: "nombre de variable"
+				},
+				{
+					type: "input_dummy"
+				},
+				{
+					type: "input_dummy"
+				},
+				{
+					type: "input_value",
+					name: "varValue"
+				}
+			],
+			inputsInline: true,
+			previousStatement: true,
+			nextStatement: true,
+			colour: CommandColor,
+			tooltip: "Escribí el nombre de la variable y elegí un valor para la misma"
+		});
+	}
+}
 // ------------------------------------------------------
 // Expresiones:
 // ------------------------------------------------------
