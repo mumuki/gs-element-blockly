@@ -250,8 +250,42 @@ Example:
           let dom = Blockly.Xml.textToDom(xmlInicial)
           Blockly.Xml.domToWorkspace(dom, this.workspace);
           Blockly.svgResize(this.workspace);
+          this._connectBlocklyEvents();
 				}, 0);
       },
+
+			_connectBlocklyEvents: function() {
+				var _this = this;
+				function variableGetterUpdate(event) {
+					// Moments where it should update: On adding/deletting asignation, on changing assignation.
+						if (event.type == Blockly.Events.CREATE &&
+								event.xml.getAttribute('type') == 'Asignacion') {
+							_this._addVariableGetter(event.xml.getElementsByTagName('field')[0].innerText);
+						};
+						if (event.type == Blockly.Events.DELETE &&
+								event.oldXml.getAttribute('type') == 'Asignacion') {
+							_this._removeVariableGetter(event.xml.getElementsByTagName('field')[0].innerText);
+						};
+						if (event.type == Blockly.Events.CHANGE &&
+						    event.element == 'field' &&
+								event.name == 'varName') {
+						  _this._updateVariableGetter(event.oldValue, event.newValue);
+						};
+					}
+				this.workspace.addChangeListener(variableGetterUpdate);
+			},
+
+			_addVariableGetter: function (variableName) {
+				alert("Should implement: add var getter: " + variableName);
+			},
+
+			_removeVariableGetter: function (variableName) {
+				alert("Should implement: remove var getter: " + variableName);
+			},
+
+			_updateVariableGetter: function (oldVarName, variableName) {
+				alert("Should implement: update: '" + oldVarName + "' var getter to: " + variableName);
+			},
 
       attached: function() {
         // `attached` fires once the element and its parents have been inserted
