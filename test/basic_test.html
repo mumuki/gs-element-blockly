@@ -1,0 +1,29 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+    <link rel="import" href="../gs-element-blockly.html">
+  </head>
+  <body>
+    <test-fixture id="basic">
+      <template>
+        <gs-element-blockly></gs-element-blockly>
+      </template>
+    </test-fixture>
+    <script>
+      suite('gs-element-blockly', function() {
+
+				var element;
+
+				setup(function() {
+					element = fixture('basic');
+				});
+
+        test('instantiating the element works', function() {
+          assert.equal(element.is, 'gs-element-blockly');
+        });
+      });
+    </script>
+  </body>
+</html>

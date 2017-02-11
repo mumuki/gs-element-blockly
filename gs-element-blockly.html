@@ -106,7 +106,7 @@ Example:
          */
         toolbox: {
           type: String,
-          observer: '_updateToolbox'
+          observer: '_onUpdateToolbox'
         },
 
         /*
@@ -126,10 +126,10 @@ Example:
 
       _onPrimitiveProceduresChange: function() {
         this._definePrimitiveProcedures();
-        this._updateToolbox();
+        this._onUpdateToolbox();
       },
 
-      _updateToolbox: function() {
+      _onUpdateToolbox: function() {
         let toolbox = this._createToolbox();
         this.workspace.updateToolbox(toolbox);
       },
@@ -225,6 +225,11 @@ Example:
           this._definePrimitiveProcedure(defs[i]);
         }
       },
+
+      _onBlocklyWorkspaceUpdate: function () {
+        let xml = Blockly.Xml.workspaceToDom(this.workspace);
+        this.workspaceXML = Blockly.Xml.domToText(xml);
+      },
       // Element Lifecycle
 
       ready: function() {
@@ -247,7 +252,11 @@ Example:
           let dom = Blockly.Xml.textToDom(xmlInicial)
           Blockly.Xml.domToWorkspace(dom, this.workspace);
           Blockly.svgResize(this.workspace);
+          var _this = this;
+          this.workspace.addChangeListener(function () { _this._onBlocklyWorkspaceUpdate(); });
+          _this._onBlocklyWorkspaceUpdate();
 				}, 0);
+
       },
 
       attached: function() {
@@ -257,6 +266,7 @@ Example:
         // This is a good place to perform any work related to your element's
         // visual state or active behavior (measuring sizes, beginning animations,
         // loading resources, etc).
+        console.log("attached");
       },
 
       detached: function() {
@@ -276,6 +286,7 @@ Example:
       generateCode: function() {
         var lang = Blockly.GobstonesLanguage;
         lang.addReservedWords('code');
+        console.log("workspace:", this.workspace);
         var code = lang.workspaceToCode(this.workspace);
         return code;
       },
@@ -286,6 +297,17 @@ Example:
        *
        */
       appendBlocksToWorkspace: function(xml) {
+      },
+
+      /**
+       * replace workspace. Se pisa el contenido actual del workspace con
+       * los bloques especificados en el xml.
+       *
+       */
+      replaceWorkspace: function(xml) {
+        this.workspace.clear();
+        let dom = Blockly.Xml.textToDom(xml)
+        Blockly.Xml.domToWorkspace(dom, this.workspace);
       },
     });
   </script>

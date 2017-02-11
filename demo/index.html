@@ -22,6 +22,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <p>
       <button id="default_toolboxbtn">Default toolbox</button>
       <button id="limited_toolboxbtn">Limited toolbox</button>
+      <button id="print_xmlbtn">Print xml</button>
       <button id="set_primitive_proceduresbtn">Set customblocks</button>
       <input type="text" id="primitive_procedurestxt" value="Poner_FloresAl_"></input>
     </p>
@@ -48,6 +49,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       document.querySelector('#set_primitive_proceduresbtn').addEventListener('click', function() {
         blocklyElement.set('primitiveProcedures', document.getElementById("primitive_procedurestxt").value);
+      });
+
+      document.querySelector('#print_xmlbtn').addEventListener('click', function() {
+        console.log(blocklyElement.get('workspaceXML'));
       });
     </script>
 
