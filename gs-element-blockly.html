@@ -233,40 +233,30 @@ Example:
       // Element Lifecycle
 
       ready: function() {
-        this._definePrimitiveProcedures();
-        setTimeout(() => {
-					// create workspace
-          var blocklyDiv = this.$$('#blocklyDiv');
-					this.workspace = Blockly.inject(blocklyDiv, {
-            toolbox: this._createToolbox(),
-            media: '../bower_components/blockly-package/media/',
-            toolboxPosition: "start",
-            trashcan: true,
-            scrollbars: true,
-            horizontalLayout: false,
-            collapse: false,
-            css: true,
-					});
-
-          let xmlInicial = '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" x="30" y="30"></block></xml>';
-          let dom = Blockly.Xml.textToDom(xmlInicial)
-          Blockly.Xml.domToWorkspace(dom, this.workspace);
-          Blockly.svgResize(this.workspace);
-          var _this = this;
-          this.workspace.addChangeListener(function () { _this._onBlocklyWorkspaceUpdate(); });
-          _this._onBlocklyWorkspaceUpdate();
-				}, 0);
-
       },
 
       attached: function() {
-        // `attached` fires once the element and its parents have been inserted
-        // into a document.
-        //
-        // This is a good place to perform any work related to your element's
-        // visual state or active behavior (measuring sizes, beginning animations,
-        // loading resources, etc).
-        console.log("attached");
+        this._definePrimitiveProcedures();
+        	// create workspace
+        var blocklyDiv = this.$$('#blocklyDiv');
+				this.workspace = Blockly.inject(blocklyDiv, {
+          toolbox: this._createToolbox(),
+          media: '../bower_components/blockly-package/media/',
+          toolboxPosition: "start",
+          trashcan: true,
+          scrollbars: true,
+          horizontalLayout: false,
+          collapse: false,
+          css: true,
+				});
+
+        let xmlInicial = '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" x="30" y="30"></block></xml>';
+        let dom = Blockly.Xml.textToDom(xmlInicial)
+        Blockly.Xml.domToWorkspace(dom, this.workspace);
+        Blockly.svgResize(this.workspace);
+        var _this = this;
+        this.workspace.addChangeListener(function () { _this._onBlocklyWorkspaceUpdate(); });
+        _this._onBlocklyWorkspaceUpdate();
       },
 
       detached: function() {
