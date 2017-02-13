@@ -228,14 +228,12 @@ Example:
       },
 
       _onBlocklyWorkspaceUpdate: function () {
-        console.log("wBupdate");
         let xml = Blockly.Xml.workspaceToDom(this.workspace);
         this._blocklyWorkspaceXML = Blockly.Xml.domToText(xml);
         this.workspaceXML = this._blocklyWorkspaceXML;
       },
 
       _onWorkspaceUpdate: function () {
-        console.log("wupdate");
         if(this.workspaceXML != this._blocklyWorkspaceXML) {
           this.workspace.clear();
           let dom = Blockly.Xml.textToDom(this.workspaceXML);
