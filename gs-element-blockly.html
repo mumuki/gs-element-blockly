@@ -100,7 +100,13 @@ Example:
         },
 
         /*
-         * `toolbox` Lista de id de los bloques a incluir en el toolbox, separados por ",".
+         * `toolbox` Definicion de visibilidad y habilitación de los bloques en el toolbox.
+         * Pueden nombrarse bloques individuales o categorias.
+         * Ej:
+         *  {
+         *    "visible": ["Comandos primitivos", "Literales", "Expresiones"],
+         *    "disabled": ["Poner", "hayBolitas", "Literales"]
+         *  }
          * Nota: Los bloques de primitiveProcedures siempre aparecen en el toolbox, aunque no figuren
          * en esta propiedad.
          */
@@ -131,8 +137,71 @@ Example:
       },
 
       _onUpdateToolbox: function() {
+        if(typeof this.toolbox == 'string') {
+          this.toolbox = JSON.parse(this.toolbox);
+          return;
+        }
         let toolbox = this._createToolbox();
         this.workspace.updateToolbox(toolbox);
+      },
+
+      /**
+       * Retorna el arbol por defecto de bloques y categorias
+       */
+      _defaultToolboxTree : function() {
+        let tree = []
+        let toolboxDefault = this.$$('#toolbox');
+        let toolboxDefaultLines = toolboxDefault.innerHTML.split("\n");
+
+        let parent = tree;
+        let stack = [];
+        for(var i in toolboxDefaultLines) {
+          let line = toolboxDefaultLines[i];
+          if(line.indexOf('<block') >= 0) {
+            let m = line.match('type="([^"]*)"')
+            if(m.length == 2) {
+              parent.push({
+                type: 'block',
+                name: m[1],
+              });
+            }
+          }
+          else if(line.indexOf('<category') >= 0) {
+            let m = line.match('name="([^"]*)"')
+            if(m.length == 2) {
+              parent.push({
+                type: 'category',
+                name: m[1],
+                child: [],
+                xml: line
+              });
+              stack.push(parent);
+              parent = parent[parent.length - 1].child;
+            }
+          }
+          else if(line.indexOf('</category') >= 0) {
+            parent = stack.pop();
+          }
+        }
+
+        if(this.primitiveProcedures) {
+          let defs = this.primitiveProcedures.split(",").map(function (x) { return x.trim() });
+          tree.push({
+            type: 'category',
+            name: 'Procedimientos Primitivos',
+            child: [],
+            xml: '<category name="Procedimientos Primitivos">'
+          });
+          parent = tree[tree.length-1].child;
+          for(var i in defs) {
+            parent.push({
+              type: 'block',
+              name: defs[i],
+            });
+          }
+        }
+
+        return tree;
       },
 
       /**
@@ -142,42 +211,82 @@ Example:
        * Funciona podando el toolbox por defecto.
        */
       _createToolbox: function() {
+        let tree = this._defaultToolboxTree();
         let toolbox = [];
-        let toolboxDefault = this.$$('#toolbox');
-
-        toolbox.push('<xml>');
-        let toolboxDefaultLines = toolboxDefault.innerHTML.split("\n");
         if(this.toolbox) {
-          let blocks = this.toolbox.split(",").map(function (x) { return x.trim() });
+          let visibles = this.toolbox.visible || [];
+          let disabled = this.toolbox.disabled || [];
+          if(visibles.length > 0) {
+            visibles = visibles.concat(disabled);
+            visibles = visibles.concat(this._definedProcedures);
+          }
 
-          for(var i in toolboxDefaultLines) {
-            let line = toolboxDefaultLines[i];
-            if(line.indexOf('<block') >= 0) {
-              let m = line.match('type="([^"]*)"')
-              if(m.length == 2 && blocks.indexOf(m[1]) >= 0) {
-                toolbox.push(line);
+          function filtrarToolboxTree(ttree) {
+            let tbox = [];
+            for(var i in ttree) {
+              if(visibles.length == 0 || visibles.indexOf(ttree[i].name) >= 0) {
+                tbox.push(ttree[i]);
+              }
+              else if(ttree[i].type == 'category') {
+                let tmp = filtrarToolboxTree(ttree[i].child);
+                if(tmp.length > 0) {
+                  ttree[i].child = tmp;
+                  tbox.push(ttree[i]);
+                }
               }
             }
-            else {
-              toolbox.push(line);
+            return tbox;
+          }
+
+          toolbox = filtrarToolboxTree(tree);
+
+          // Marcar disabled
+          function marcarDisabled(tbox) {
+            for(var i in tbox) {
+              if(disabled.indexOf(tbox[i].name) >= 0) {
+                tbox[i].disabled = true;
+              }
+              if(tbox[i].child) {
+                marcarDisabled(tbox[i].child);
+              }
             }
           }
+          marcarDisabled(toolbox);
         }
         else {
-          toolbox.push(toolboxDefaultLines);
+          toolbox = tree;
         }
+        return this._toolboxTreeToXML(toolbox);
+      },
 
-        if(this.primitiveProcedures) {
-          let defs = this.primitiveProcedures.split(",").map(function (x) { return x.trim() });
-          toolbox.push('<category name="Procedimientos Primitivos">');
-          for(var i in defs) {
-            toolbox.push(`<block type="${defs[i]}"></block>`);
+      _toolboxBlockXML: function(blockDef, forceDisabled) {
+        let args = "";
+        if(blockDef.disabled || forceDisabled) {
+          args = 'disabled="true"';
+        }
+        let xml = `<block type="${blockDef.name}" ${args}></block>`;
+        return xml;
+      },
+
+      _toolboxTreeToXML : function(toolbox, noXmlTags, disabled) {
+        let xml = [];
+        if(!noXmlTags) {
+          xml.push('<xml>');
+        }
+        for(var i in toolbox) {
+          if(toolbox[i].type == 'block') {
+            xml.push(this._toolboxBlockXML(toolbox[i], disabled));
           }
-          toolbox.push('</category>');
+          else if(toolbox[i].type == 'category') {
+            xml.push(toolbox[i].xml);
+            xml.push(this._toolboxTreeToXML(toolbox[i].child, true, toolbox[i].disabled || disabled));
+            xml.push('</category>');
+          }
         }
-
-        toolbox.push('</xml>');
-        return toolbox.join("\n");
+        if(!noXmlTags) {
+          xml.push('</xml>');
+        }
+        return xml.join('\n');
       },
 
       /**
@@ -217,13 +326,16 @@ Example:
       },
 
       _definePrimitiveProcedures: function () {
+        this._definedProcedures = []
         if(!this.primitiveProcedures) {
           return;
         }
 
+        ;
         let defs = this.primitiveProcedures.split(",").map(function (x) { return x.trim() });
         for(var i in defs) {
           this._definePrimitiveProcedure(defs[i]);
+          this._definedProcedures.push(defs[i]);
         }
       },
 
@@ -287,7 +399,6 @@ Example:
       generateCode: function() {
         var lang = Blockly.GobstonesLanguage;
         lang.addReservedWords('code');
-        console.log("workspace:", this.workspace);
         var code = lang.workspaceToCode(this.workspace);
         return code;
       },

@@ -44,7 +44,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
 
       document.querySelector('#limited_toolboxbtn').addEventListener('click', function() {
-        blocklyElement.set('toolbox', "Poner,Sacar");
+        blocklyElement.set('toolbox', '{ "visible": ["Poner", "Sacar"], "disabled": ["Literales"]}');
       });
 
       document.querySelector('#set_primitive_proceduresbtn').addEventListener('click', function() {
