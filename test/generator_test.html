@@ -16,7 +16,7 @@
          */
         function gsTest(name, xml, code) {
           test(name, function() {
-            element.replaceWorkspace(xml);
+            element.workspaceXML = xml;
             assert.equal(element.generateCode(), code);
           });
         }

@@ -114,6 +114,7 @@ Example:
          */
         workspaceXML: {
           type: String,
+          observer: '_onWorkspaceUpdate'
         },
 
         /*
@@ -227,11 +228,27 @@ Example:
       },
 
       _onBlocklyWorkspaceUpdate: function () {
+        console.log("wBupdate");
         let xml = Blockly.Xml.workspaceToDom(this.workspace);
-        this.workspaceXML = Blockly.Xml.domToText(xml);
+        this._blocklyWorkspaceXML = Blockly.Xml.domToText(xml);
+        this.workspaceXML = this._blocklyWorkspaceXML;
       },
-      // Element Lifecycle
 
+      _onWorkspaceUpdate: function () {
+        console.log("wupdate");
+        if(this.workspaceXML != this._blocklyWorkspaceXML) {
+          this.workspace.clear();
+          let dom = Blockly.Xml.textToDom(this.workspaceXML);
+          Blockly.Xml.domToWorkspace(dom, this.workspace);
+        }
+      },
+
+      _initWorkspace: function() {
+        let xmlInicial = '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" x="30" y="30"></block></xml>';
+        this.workspaceXML = xmlInicial;
+      },
+
+      // Element Lifecycle
       ready: function() {
       },
 
@@ -249,14 +266,10 @@ Example:
           collapse: false,
           css: true,
 				});
-
-        let xmlInicial = '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" x="30" y="30"></block></xml>';
-        let dom = Blockly.Xml.textToDom(xmlInicial)
-        Blockly.Xml.domToWorkspace(dom, this.workspace);
         Blockly.svgResize(this.workspace);
         var _this = this;
         this.workspace.addChangeListener(function () { _this._onBlocklyWorkspaceUpdate(); });
-        _this._onBlocklyWorkspaceUpdate();
+        this._initWorkspace()
       },
 
       detached: function() {
@@ -287,17 +300,6 @@ Example:
        *
        */
       appendBlocksToWorkspace: function(xml) {
-      },
-
-      /**
-       * replace workspace. Se pisa el contenido actual del workspace con
-       * los bloques especificados en el xml.
-       *
-       */
-      replaceWorkspace: function(xml) {
-        this.workspace.clear();
-        let dom = Blockly.Xml.textToDom(xml)
-        Blockly.Xml.domToWorkspace(dom, this.workspace);
       },
     });
   </script>
