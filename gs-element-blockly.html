@@ -90,8 +90,8 @@ Example:
 
       properties: {
         /*
-         * `primitiveProcedures` lista de definiciones de procedimientos primitivos, separados por ","
-         * Ej: Poner_FloresAl_ Se transormara en un bloque con dos inputs inline, cuyo
+         * `primitiveProcedures` lista de definiciones de procedimientos primitivos.
+         * Ej: ["Poner_FloresAl_"] Se transormara en un bloque con dos inputs inline, cuyo
          * codigo sera Poner_FloresAl_(arg1, arg2).
          */
         primitiveProcedures:  {
@@ -132,6 +132,10 @@ Example:
       },
 
       _onPrimitiveProceduresChange: function() {
+        if(typeof this.primitiveProcedures == 'string') {
+          this.primitiveProcedures = JSON.parse(this.primitiveProcedures);
+          return;
+        }
         this._definePrimitiveProcedures();
         this._onUpdateToolbox();
       },
@@ -184,8 +188,7 @@ Example:
           }
         }
 
-        if(this.primitiveProcedures) {
-          let defs = this.primitiveProcedures.split(",").map(function (x) { return x.trim() });
+        if(this.primitiveProcedures && this.primitiveProcedures.length > 0) {
           tree.push({
             type: 'category',
             name: 'Procedimientos Primitivos',
@@ -193,10 +196,10 @@ Example:
             xml: '<category name="Procedimientos Primitivos">'
           });
           parent = tree[tree.length-1].child;
-          for(var i in defs) {
+          for(var i in this.primitiveProcedures) {
             parent.push({
               type: 'block',
-              name: defs[i],
+              name: this.primitiveProcedures[i],
             });
           }
         }
@@ -218,7 +221,9 @@ Example:
           let disabled = this.toolbox.disabled || [];
           if(visibles.length > 0) {
             visibles = visibles.concat(disabled);
-            visibles = visibles.concat(this._definedProcedures);
+            if(this.primitiveProcedures) {
+              visibles = visibles.concat(this.primitiveProcedures);
+            }
           }
 
           function filtrarToolboxTree(ttree) {
@@ -326,16 +331,12 @@ Example:
       },
 
       _definePrimitiveProcedures: function () {
-        this._definedProcedures = []
         if(!this.primitiveProcedures) {
           return;
         }
 
-        ;
-        let defs = this.primitiveProcedures.split(",").map(function (x) { return x.trim() });
-        for(var i in defs) {
-          this._definePrimitiveProcedure(defs[i]);
-          this._definedProcedures.push(defs[i]);
+        for(var i in this.primitiveProcedures) {
+          this._definePrimitiveProcedure(this.primitiveProcedures[i]);
         }
       },
 
