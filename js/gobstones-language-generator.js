@@ -374,7 +374,7 @@ Blockly.GobstonesLanguage.formatProcName = function (name) {
 	var pname = Blockly.GobstonesLanguage.variableDB_.getName(
 		name, Blockly.Procedures.NAME_TYPE);
 
-	pname = pname[0].toUpperCase() + pname.slice(1);
+	pname = pname.split('_').map(function(x) { return x[0].toUpperCase() + x.slice(1) }).join('');
 	return pname;
 };
 
