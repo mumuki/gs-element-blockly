@@ -316,7 +316,6 @@ Example:
                 argsIndex++;
               }
             }
-
         		this.setPreviousStatement(true);
         		this.setNextStatement(true);
         		this.setInputsInline(true);
@@ -327,7 +326,7 @@ Example:
           argsList.push('arg' + i);
         }
         // Generator
-        Blockly.GobstonesLanguage[def] = procBlockCodeGenerator(def.replace(/_/g, ""), argsList);
+        Blockly.GobstonesLanguage[def] = procBlockCodeGenerator(def, argsList);
       },
 
       _definePrimitiveProcedures: function () {
@@ -354,9 +353,21 @@ Example:
         }
       },
 
-      _initWorkspace: function() {
+      /**
+       * Reinicializa el workspace, dejando solo el bloque programa
+       */
+      resetWorkspace: function() {
         let xmlInicial = '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" x="30" y="30"></block></xml>';
         this.workspaceXML = xmlInicial;
+      },
+
+      /**
+       * Reinicializa el estado del componente,
+       */
+      cleanup: function() {
+        this.primitiveProcedures = [];
+        this.toolbox = {};
+        this.resetWorkspace;
       },
 
       // Element Lifecycle
@@ -380,7 +391,7 @@ Example:
         Blockly.svgResize(this.workspace);
         var _this = this;
         this.workspace.addChangeListener(function () { _this._onBlocklyWorkspaceUpdate(); });
-        this._initWorkspace()
+        this.resetWorkspace()
       },
 
       detached: function() {
