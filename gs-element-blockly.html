@@ -116,9 +116,9 @@ Example:
         },
 
         /*
-         * `workspaceXML` Código XML de los bloques en el workspace.
+         * `workspaceXml` Código XML de los bloques en el workspace.
          */
-        workspaceXML: {
+        workspaceXml: {
           type: String,
           observer: '_onWorkspaceUpdate'
         },
@@ -342,13 +342,13 @@ Example:
       _onBlocklyWorkspaceUpdate: function () {
         let xml = Blockly.Xml.workspaceToDom(this.workspace);
         this._blocklyWorkspaceXML = Blockly.Xml.domToText(xml);
-        this.workspaceXML = this._blocklyWorkspaceXML;
+        this.workspaceXml = this._blocklyWorkspaceXML;
       },
 
       _onWorkspaceUpdate: function () {
-        if(this.workspaceXML != this._blocklyWorkspaceXML) {
+        if(this.workspaceXml != this._blocklyWorkspaceXML) {
           this.workspace.clear();
-          let dom = Blockly.Xml.textToDom(this.workspaceXML);
+          let dom = Blockly.Xml.textToDom(this.workspaceXml);
           Blockly.Xml.domToWorkspace(dom, this.workspace);
         }
       },
@@ -358,7 +358,7 @@ Example:
        */
       resetWorkspace: function() {
         let xmlInicial = '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" x="30" y="30"></block></xml>';
-        this.workspaceXML = xmlInicial;
+        this.workspaceXml = xmlInicial;
       },
 
       /**
