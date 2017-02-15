@@ -86,7 +86,7 @@ program {
 test('Procedimiento primitivo', function() {
   let element = document.getElementById("gseb");
   element.primitiveProcedures = ['Poner_FloresAl_'];
-  element.workspaceXML = `<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" deletable="false" movable="false" editable="false" x="30" y="30"><statement name="program"><block type="Poner_FloresAl_"><value name="arg1"><block type="math_number"><field name="NUM">4</field></block></value><value name="arg2"><block type="Este"></block></value></block></statement></block></xml>`;
+  element.workspaceXml = `<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" deletable="false" movable="false" editable="false" x="30" y="30"><statement name="program"><block type="Poner_FloresAl_"><value name="arg1"><block type="math_number"><field name="NUM">4</field></block></value><value name="arg2"><block type="Este"></block></value></block></statement></block></xml>`;
   assert.equal(element.generateCode(), `program {
   Poner_FloresAl_(4, Este)
 }`);

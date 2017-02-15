@@ -4,7 +4,7 @@
  function gsTestCode(name, xml, code) {
    test(name, function() {
      let element = document.getElementById("gseb");
-     element.workspaceXML = xml;
+     element.workspaceXml = xml;
      assert.equal(element.generateCode(), code);
    });
  }
