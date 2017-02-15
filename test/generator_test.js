@@ -40,7 +40,7 @@ suite('gs-element-blockly_generator', function() {
 
   gsTestCode('Procedimiento',
   '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="procedures_defnoreturn"><mutation><arg name="valor1"></arg><arg name="otroValor"></arg></mutation><field name="NAME">hacer algo con parametros</field><comment pinned="false" h="80" w="160">Un comentario para el procedimiento</comment></block></xml>',
-  `/**
+  `/*
  * Un comentario para el procedimiento
  */
 procedure HacerAlgoConParametros(valor1, otroValor) {
