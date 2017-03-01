@@ -226,9 +226,9 @@ function createSingleParameterExpressionBlock(blockText,returnType){
 	};
 }
 
-Blockly.Blocks.HayBolitas = createSingleParameterExpressionBlock('hay bolitas','Bool');
-Blockly.Blocks.PuedeMover = createSingleParameterExpressionBlock('puede mover','Bool');
-Blockly.Blocks.NroBolitas = createSingleParameterExpressionBlock('numero de bolitas','Number');
+Blockly.Blocks.hayBolitas = createSingleParameterExpressionBlock('hay bolitas','Bool');
+Blockly.Blocks.puedeMover = createSingleParameterExpressionBlock('puede mover','Bool');
+Blockly.Blocks.nroBolitas = createSingleParameterExpressionBlock('numero de bolitas','Number');
 
 // ------------------------------------------------------
 // Operaciones:

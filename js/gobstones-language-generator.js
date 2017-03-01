@@ -372,9 +372,9 @@ Blockly.GobstonesLanguage.SiEntoncesSiNo = function (block) {
 	return codigo;
 };
 
-Blockly.GobstonesLanguage.HayBolitas = exprParamsBlockCodeGenerator('HayBolitas', ['VALUE']);
-Blockly.GobstonesLanguage.NroBolitas = exprParamsBlockCodeGenerator('NroBolitas', ['VALUE']);
-Blockly.GobstonesLanguage.PuedeMover = exprParamsBlockCodeGenerator('PuedeMover', ['VALUE']);
+Blockly.GobstonesLanguage.hayBolitas = exprParamsBlockCodeGenerator('hayBolitas', ['VALUE']);
+Blockly.GobstonesLanguage.nroBolitas = exprParamsBlockCodeGenerator('nroBolitas', ['VALUE']);
+Blockly.GobstonesLanguage.puedeMover = exprParamsBlockCodeGenerator('puedeMover', ['VALUE']);
 
 Blockly.GobstonesLanguage.formatProcName = function (name) {
 	var pname = Blockly.GobstonesLanguage.variableDB_.getName(
