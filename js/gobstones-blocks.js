@@ -304,7 +304,7 @@ Blockly.Blocks.OpBoolBinary = {
 				{
 					type: 'field_dropdown',
 					name: 'OPERATOR',
-					options: [['||', '||'], ['&&', '&&']]
+					options: [['o bien', '||'], ['y también', '&&']]
 				},
 				{
 					type: 'input_dummy'
