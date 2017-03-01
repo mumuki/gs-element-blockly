@@ -302,18 +302,10 @@ Blockly.GobstonesLanguage.OpBoolBinary = function (block) {
 	return [code, Blockly.GobstonesLanguage.ORDER_ATOMIC];
 };
 
-function singleParameterExpressionGenerator(name){
-	return function(block){
-		var code = name + '(' + Blockly.GobstonesLanguage.valueToCode(block, 'VALUE',
-			Blockly.GobstonesLanguage.ORDER_ATOMIC) + ')';
-		return [code, Blockly.GobstonesLanguage.ORDER_ATOMIC];
-	};
-};
-
-Blockly.GobstonesLanguage.not = singleParameterExpressionGenerator('not');
-Blockly.GobstonesLanguage.siguiente = singleParameterExpressionGenerator('siguiente');
-Blockly.GobstonesLanguage.previo = singleParameterExpressionGenerator('previo');
-Blockly.GobstonesLanguage.opuesto = singleParameterExpressionGenerator('opuesto');
+Blockly.GobstonesLanguage.not = exprParamsBlockCodeGenerator('not',['VALUE']);
+Blockly.GobstonesLanguage.siguiente = exprParamsBlockCodeGenerator('siguiente',['VALUE']);
+Blockly.GobstonesLanguage.previo = exprParamsBlockCodeGenerator('previo',['VALUE']);
+Blockly.GobstonesLanguage.opuesto = exprParamsBlockCodeGenerator('opuesto',['VALUE']);
 
 Blockly.GobstonesLanguage.math_number = function (block) {
 	// Numeric value.
@@ -364,9 +356,9 @@ Blockly.GobstonesLanguage.SiEntoncesSiNo = function (block) {
 	return codigo;
 };
 
-Blockly.GobstonesLanguage.HayBolitas = exprParamsBlockCodeGenerator('HayBolitas', ['COLOR']);
-Blockly.GobstonesLanguage.NroBolitas = exprParamsBlockCodeGenerator('NroBolitas', ['COLOR']);
-Blockly.GobstonesLanguage.PuedeMover = exprParamsBlockCodeGenerator('PuedeMover', ['DIRECCION']);
+Blockly.GobstonesLanguage.HayBolitas = exprParamsBlockCodeGenerator('HayBolitas', ['VALUE']);
+Blockly.GobstonesLanguage.NroBolitas = exprParamsBlockCodeGenerator('NroBolitas', ['VALUE']);
+Blockly.GobstonesLanguage.PuedeMover = exprParamsBlockCodeGenerator('PuedeMover', ['VALUE']);
 
 Blockly.GobstonesLanguage.formatProcName = function (name) {
 	var pname = Blockly.GobstonesLanguage.variableDB_.getName(

@@ -207,56 +207,28 @@ Blockly.Blocks.ColorSelector = createLiteralSelectorBlock('Color',['Rojo','Verde
 Blockly.Blocks.DireccionSelector = createLiteralSelectorBlock('Direccion',['Este','Oeste','Norte','Sur']);
 Blockly.Blocks.BoolSelector = createLiteralSelectorBlock('Bool',['True','False']);
 
-Blockly.Blocks.HayBolitas = {
-	init: function () {
-		this.jsonInit({
-			message0: 'Hay bolitas %1',
-			args0: [
-				{
-					type: 'input_value',
-					name: 'COLOR'
-				}
-			],
-			colour: ExpressionColor,
-			inputsInline: true,
-			output: 'Bool'
-		});
-	}
-};
+function createSingleParameterExpressionBlock(blockText,returnType){
+	return {
+		init: function () {
+			this.jsonInit({
+				message0: blockText + ' %1',
+				args0: [
+					{
+						type: 'input_value',
+						name: 'VALUE'
+					}
+				],
+				colour: ExpressionColor,
+				inputsInline: true,
+				output: returnType
+			})
+		}
+	};
+}
 
-Blockly.Blocks.PuedeMover = {
-	init: function () {
-		this.jsonInit({
-			message0: 'PuedeMover %1',
-			args0: [
-				{
-					type: 'input_value',
-					name: 'COLOR'
-				}
-			],
-			colour: ExpressionColor,
-			inputsInline: true,
-			output: 'Bool'
-		});
-	}
-};
-
-Blockly.Blocks.NroBolitas = {
-	init: function () {
-		this.jsonInit({
-			message0: 'Nro bolitas %1',
-			args0: [
-				{
-					type: 'input_value',
-					name: 'COLOR'
-				}
-			],
-			colour: ExpressionColor,
-			inputsInline: true,
-			output: 'Bool'
-		});
-	}
-};
+Blockly.Blocks.HayBolitas = createSingleParameterExpressionBlock('hay bolitas','Bool');
+Blockly.Blocks.PuedeMover = createSingleParameterExpressionBlock('puede mover','Bool');
+Blockly.Blocks.NroBolitas = createSingleParameterExpressionBlock('numero de bolitas','Number');
 
 // ------------------------------------------------------
 // Operaciones:
@@ -348,25 +320,6 @@ Blockly.Blocks.OpBoolBinary = {
 		});
 	}
 };
-
-function createSingleParameterExpressionBlock(name,type){
-	return {
-		init: function () {
-			this.jsonInit({
-				message0: name + ' %1',
-				args0: [
-					{
-						type: 'input_value',
-						name: 'VALUE'
-					}
-				],
-				colour: ExpressionColor,
-				inputsInline: true,
-				output: type
-			})
-		}
-	};
-}
 
 Blockly.Blocks.not = createSingleParameterExpressionBlock('not','Bool');
 Blockly.Blocks.siguiente = createSingleParameterExpressionBlock('siguiente','*');
