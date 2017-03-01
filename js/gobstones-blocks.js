@@ -184,7 +184,7 @@ Blockly.Blocks.BOOM = {
 // ------------------------------------------------------
 // Expresiones:
 // ------------------------------------------------------
-function createExpressionBlock(name, type) {
+function createLiteralBlock(name, type) {
 	return {
 		init: function () {
 			this.jsonInit({
@@ -197,15 +197,15 @@ function createExpressionBlock(name, type) {
 }
 
 function createColorBlock(name) {
-	return createExpressionBlock(name, 'Color');
+	return createLiteralBlock(name, 'Color');
 }
 
 function createDireccionBlock(name) {
-	return createExpressionBlock(name, 'Direccion');
+	return createLiteralBlock(name, 'Direccion');
 }
 
-Blockly.Blocks.True = createExpressionBlock('True', 'Boolean');
-Blockly.Blocks.False = createExpressionBlock('False', 'Boolean');
+Blockly.Blocks.True = createLiteralBlock('True', 'Boolean');
+Blockly.Blocks.False = createLiteralBlock('False', 'Boolean');
 
 Blockly.Blocks.Rojo = createColorBlock('Rojo');
 Blockly.Blocks.Verde = createColorBlock('Verde');
