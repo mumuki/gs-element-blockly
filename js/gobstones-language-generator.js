@@ -85,6 +85,12 @@ function literalBlockCodeGenerator(value) {
 	};
 }
 
+function literalSelectorBlockCodeGenerator(type) {
+	return function(block) {
+		return [block.getFieldValue(type + 'Dropdown'), Blockly.GobstonesLanguage.ORDER_ATOMIC];
+	};
+}
+
 /**
  * Prepend the generated code with the variable definitions.
  * @param {string} code Generated code.
@@ -271,10 +277,7 @@ Blockly.GobstonesLanguage.BOOM = procBlockCodeGenerator('BOOM');
 Blockly.GobstonesLanguage.True = literalBlockCodeGenerator('True');
 Blockly.GobstonesLanguage.False = literalBlockCodeGenerator('False');
 
-Blockly.GobstonesLanguage.Rojo = literalBlockCodeGenerator('Rojo');
-Blockly.GobstonesLanguage.Verde = literalBlockCodeGenerator('Verde');
-Blockly.GobstonesLanguage.Negro = literalBlockCodeGenerator('Negro');
-Blockly.GobstonesLanguage.Azul = literalBlockCodeGenerator('Azul');
+Blockly.GobstonesLanguage.ColorSelector = literalSelectorBlockCodeGenerator('Color');
 
 Blockly.GobstonesLanguage.Este = literalBlockCodeGenerator('Este');
 Blockly.GobstonesLanguage.Oeste = literalBlockCodeGenerator('Oeste');

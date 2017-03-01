@@ -204,13 +204,29 @@ function createDireccionBlock(name) {
 	return createLiteralBlock(name, 'Direccion');
 }
 
+function createLiteralSelectorBlock(type,values){
+	return {
+		init: function () {
+			this.jsonInit({
+				type: type,
+				message0: "%1",
+				args0: [{
+					type: "field_dropdown",
+					name: type + "Dropdown",
+					options: values.map(value => [value,value]),
+				}],
+				output: type,
+				colour: ExpressionColor,
+				tooltip: "Escoger " + type,
+			});
+		}
+	};
+}
+
 Blockly.Blocks.True = createLiteralBlock('True', 'Boolean');
 Blockly.Blocks.False = createLiteralBlock('False', 'Boolean');
 
-Blockly.Blocks.Rojo = createColorBlock('Rojo');
-Blockly.Blocks.Verde = createColorBlock('Verde');
-Blockly.Blocks.Negro = createColorBlock('Negro');
-Blockly.Blocks.Azul = createColorBlock('Azul');
+Blockly.Blocks.ColorSelector = createLiteralSelectorBlock('Color',['Rojo','Verde','Negro','Azul']);
 
 Blockly.Blocks.Este = createDireccionBlock('Este');
 Blockly.Blocks.Oeste = createDireccionBlock('Oeste');
