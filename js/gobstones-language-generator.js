@@ -292,14 +292,30 @@ Blockly.GobstonesLanguage.OpNum = function (block) {
 	return [code, Blockly.GobstonesLanguage.ORDER_ATOMIC];
 };
 
-Blockly.GobstonesLanguage.OpBoolBinary = function (block) {
-	var code = (Blockly.GobstonesLanguage.valueToCode(block, 'arg1',
-		Blockly.GobstonesLanguage.ORDER_ATOMIC) || '\'\'') +
-		' ' + block.getFieldValue('OPERATOR') + ' ' +
-		(Blockly.GobstonesLanguage.valueToCode(block, 'arg2',
-			Blockly.GobstonesLanguage.ORDER_ATOMIC) || '\'\'')
-		;
-	return [code, Blockly.GobstonesLanguage.ORDER_ATOMIC];
+Blockly.GobstonesLanguage.OpBoolBinary = function(block) {
+  // Operations 'and', 'or'.
+	var operator = block.getFieldValue('OPERATOR');
+	var order = (operator == '&&') ? Blockly.GobstonesLanguage.ORDER_LOGICAL_AND : Blockly.GobstonesLanguage.ORDER_LOGICAL_OR;
+	var argument0 = Blockly.GobstonesLanguage.valueToCode(block, 'arg1', order);
+	var argument1 = Blockly.GobstonesLanguage.valueToCode(block, 'arg2', order);
+/* Este código lo comento porque creo que prefiero que estalle gobstones web
+	if (!argument0 && !argument1) {
+		// If there are no arguments, then the return value is false.
+		argument0 = 'False';
+		argument1 = 'False';
+	} else {
+		// Single missing arguments have no effect on the return value.
+		var defaultArgument = (operator == '&&') ? 'True' : 'False';
+		if (!argument0) {
+			argument0 = defaultArgument;
+		}
+		if (!argument1) {
+			argument1 = defaultArgument;
+		}
+	}
+*/
+	var code = argument0 + ' ' + operator + ' ' + argument1;
+	return [code, order];
 };
 
 Blockly.GobstonesLanguage.not = exprParamsBlockCodeGenerator('not',['VALUE']);
