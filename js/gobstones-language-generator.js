@@ -112,7 +112,7 @@ Blockly.GobstonesLanguage.finish = function (code) {
  * @return {string} Legal line of code.
  */
 Blockly.GobstonesLanguage.scrubNakedValue = function (line) {
-	return line + ';\n';
+	return line;
 };
 
 /**
