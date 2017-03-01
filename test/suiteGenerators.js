@@ -1,15 +1,4 @@
-suite('gs-element-blockly_generator', function() {
-  var element;
-
-  setup(function() {
-    element = document.getElementById("gseb");
-    element.cleanup();
-  });
-
-  teardown(function() {
-    element.cleanup();
-  });
-
+gsSuite('Generators', function() {
   gsTestCode('Programa vacío',
     '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" deletable="false" movable="false" editable="false" x="30" y="30"><statement name="program"></statement></block></xml>',
     'program {\n}');

@@ -8,3 +8,20 @@
      assert.equal(element.generateCode(), code);
    });
  }
+
+ function gsSuite(name,func) {
+	 suite(name,function(){
+		 var element;
+
+		 setup(function() {
+			 element = document.getElementById("gseb");
+			 element.cleanup();
+		 });
+
+		 teardown(function() {
+			 element.cleanup();
+		 });
+
+		 func();
+	 });
+ }
