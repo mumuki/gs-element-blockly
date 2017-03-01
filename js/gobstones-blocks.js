@@ -349,19 +349,26 @@ Blockly.Blocks.OpBoolBinary = {
 	}
 };
 
-Blockly.Blocks.Not = {
-	init: function () {
-		this.jsonInit({
-			message0: 'Not %1',
-			args0: [
-				{
-					type: 'input_value',
-					name: 'VALUE'
-				}
-			],
-			colour: ExpressionColor,
-			inputsInline: true,
-			output: 'Bool'
-		});
-	}
-};
+function createSingleParameterExpressionBlock(name,type){
+	return {
+		init: function () {
+			this.jsonInit({
+				message0: name + ' %1',
+				args0: [
+					{
+						type: 'input_value',
+						name: 'VALUE'
+					}
+				],
+				colour: ExpressionColor,
+				inputsInline: true,
+				output: type
+			})
+		}
+	};
+}
+
+Blockly.Blocks.not = createSingleParameterExpressionBlock('not','Bool');
+Blockly.Blocks.siguiente = createSingleParameterExpressionBlock('siguiente','*');
+Blockly.Blocks.previo = createSingleParameterExpressionBlock('previo','*');
+Blockly.Blocks.opuesto = createSingleParameterExpressionBlock('opuesto','*');

@@ -302,11 +302,18 @@ Blockly.GobstonesLanguage.OpBoolBinary = function (block) {
 	return [code, Blockly.GobstonesLanguage.ORDER_ATOMIC];
 };
 
-Blockly.GobstonesLanguage.Not = function (block) {
-	var code = 'not ' + Blockly.GobstonesLanguage.valueToCode(block, 'VALUE',
-		Blockly.GobstonesLanguage.ORDER_NONE) || '';
-	return [code, Blockly.GobstonesLanguage.ORDER_ATOMIC];
+function singleParameterExpressionGenerator(name){
+	return function(block){
+		var code = name + '(' + Blockly.GobstonesLanguage.valueToCode(block, 'VALUE',
+			Blockly.GobstonesLanguage.ORDER_ATOMIC) + ')';
+		return [code, Blockly.GobstonesLanguage.ORDER_ATOMIC];
+	};
 };
+
+Blockly.GobstonesLanguage.not = singleParameterExpressionGenerator('not');
+Blockly.GobstonesLanguage.siguiente = singleParameterExpressionGenerator('siguiente');
+Blockly.GobstonesLanguage.previo = singleParameterExpressionGenerator('previo');
+Blockly.GobstonesLanguage.opuesto = singleParameterExpressionGenerator('opuesto');
 
 Blockly.GobstonesLanguage.math_number = function (block) {
 	// Numeric value.
