@@ -40,7 +40,7 @@ Blockly.Blocks.RepetirHasta = {
 	init: function () {
 		this.setColour(ControlColor);
 		this.appendValueInput('condicion')
-			.setCheck('Boolean')
+			.setCheck('Bool')
 			.appendField('Repetir Hasta');
 		this.appendStatementInput('block');
 		this.setPreviousStatement(true);
@@ -219,7 +219,7 @@ Blockly.Blocks.HayBolitas = {
 			],
 			colour: ExpressionColor,
 			inputsInline: true,
-			output: 'Boolean'
+			output: 'Bool'
 		});
 	}
 };
@@ -236,7 +236,7 @@ Blockly.Blocks.PuedeMover = {
 			],
 			colour: ExpressionColor,
 			inputsInline: true,
-			output: 'Boolean'
+			output: 'Bool'
 		});
 	}
 };
@@ -253,7 +253,7 @@ Blockly.Blocks.NroBolitas = {
 			],
 			colour: ExpressionColor,
 			inputsInline: true,
-			output: 'Boolean'
+			output: 'Bool'
 		});
 	}
 };
@@ -286,7 +286,7 @@ Blockly.Blocks.Relation = {
 			],
 			colour: ExpressionColor,
 			inputsInline: false,
-			output: 'Boolean'
+			output: 'Bool'
 		});
 	}
 };
@@ -344,7 +344,7 @@ Blockly.Blocks.OpBoolBinary = {
 			],
 			colour: ExpressionColor,
 			inputsInline: false,
-			output: 'Boolean'
+			output: 'Bool'
 		});
 	}
 };
@@ -361,7 +361,7 @@ Blockly.Blocks.Not = {
 			],
 			colour: ExpressionColor,
 			inputsInline: true,
-			output: 'Boolean'
+			output: 'Bool'
 		});
 	}
 };
