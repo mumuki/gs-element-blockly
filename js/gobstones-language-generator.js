@@ -54,7 +54,7 @@ function callGenerator(name, args = [], newLine, order) {
 		var sep = '';
 		args.forEach(function (arg) {
 			code += sep + Blockly.GobstonesLanguage.valueToCode(block, arg,
-				Blockly.GobstonesLanguage.ORDER_NONE) || '\'\'';
+				Blockly.GobstonesLanguage.ORDER_NONE);
 			sep = ', ';
 		});
 		code += newLine ? ')\n' : ')';
