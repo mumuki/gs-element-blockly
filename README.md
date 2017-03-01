@@ -44,3 +44,15 @@ $ polymer test
 ```
 
 Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
+
+## Deploy Demo to Program-AR.github.io/gs-element-blockly
+
+Just create a folder and run gp.sh with parameters:
+
+```bash
+mkdir temp
+cd temp
+../gp.sh Program-AR gs-element-blockly dev
+cd ..
+rm -rf temp
+```
