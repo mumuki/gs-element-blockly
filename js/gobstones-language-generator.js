@@ -77,14 +77,8 @@ function exprParamsBlockCodeGenerator(expr, args) {
 }
 
 /**
- * Retorna la funcion que genera el codigo para un bloque tipo literal
+ * Retorna la funcion que genera el codigo para un bloque tipo selector de literales
  */
-function literalBlockCodeGenerator(value) {
-	return function () {
-		return [value, Blockly.GobstonesLanguage.ORDER_ATOMIC];
-	};
-}
-
 function literalSelectorBlockCodeGenerator(type) {
 	return function(block) {
 		return [block.getFieldValue(type + 'Dropdown'), Blockly.GobstonesLanguage.ORDER_ATOMIC];
@@ -274,15 +268,9 @@ Blockly.GobstonesLanguage.IrAlBorde = procBlockCodeGenerator('IrAlBorde', ['DIRE
 Blockly.GobstonesLanguage.VaciarTablero = procBlockCodeGenerator('VaciarTablero');
 Blockly.GobstonesLanguage.BOOM = procBlockCodeGenerator('BOOM');
 
-Blockly.GobstonesLanguage.True = literalBlockCodeGenerator('True');
-Blockly.GobstonesLanguage.False = literalBlockCodeGenerator('False');
-
 Blockly.GobstonesLanguage.ColorSelector = literalSelectorBlockCodeGenerator('Color');
-
-Blockly.GobstonesLanguage.Este = literalBlockCodeGenerator('Este');
-Blockly.GobstonesLanguage.Oeste = literalBlockCodeGenerator('Oeste');
-Blockly.GobstonesLanguage.Norte = literalBlockCodeGenerator('Norte');
-Blockly.GobstonesLanguage.Sur = literalBlockCodeGenerator('Sur');
+Blockly.GobstonesLanguage.DireccionSelector = literalSelectorBlockCodeGenerator('Direccion');
+Blockly.GobstonesLanguage.BoolSelector = literalSelectorBlockCodeGenerator('Bool');
 
 Blockly.GobstonesLanguage.Relation = function (block) {
 	var code =

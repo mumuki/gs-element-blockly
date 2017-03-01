@@ -184,26 +184,6 @@ Blockly.Blocks.BOOM = {
 // ------------------------------------------------------
 // Expresiones:
 // ------------------------------------------------------
-function createLiteralBlock(name, type) {
-	return {
-		init: function () {
-			this.jsonInit({
-				message0: name,
-				output: type,
-				colour: ExpressionColor
-			});
-		}
-	};
-}
-
-function createColorBlock(name) {
-	return createLiteralBlock(name, 'Color');
-}
-
-function createDireccionBlock(name) {
-	return createLiteralBlock(name, 'Direccion');
-}
-
 function createLiteralSelectorBlock(type,values){
 	return {
 		init: function () {
@@ -223,15 +203,9 @@ function createLiteralSelectorBlock(type,values){
 	};
 }
 
-Blockly.Blocks.True = createLiteralBlock('True', 'Boolean');
-Blockly.Blocks.False = createLiteralBlock('False', 'Boolean');
-
 Blockly.Blocks.ColorSelector = createLiteralSelectorBlock('Color',['Rojo','Verde','Negro','Azul']);
-
-Blockly.Blocks.Este = createDireccionBlock('Este');
-Blockly.Blocks.Oeste = createDireccionBlock('Oeste');
-Blockly.Blocks.Norte = createDireccionBlock('Norte');
-Blockly.Blocks.Sur =	createDireccionBlock('Sur');
+Blockly.Blocks.DireccionSelector = createLiteralSelectorBlock('Direccion',['Este','Oeste','Norte','Sur']);
+Blockly.Blocks.BoolSelector = createLiteralSelectorBlock('Bool',['True','False']);
 
 Blockly.Blocks.HayBolitas = {
 	init: function () {
