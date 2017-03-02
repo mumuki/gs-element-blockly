@@ -22,5 +22,13 @@
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
     "web-component-tester": "^4.0.0",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
-  }
+  },
+	"ignore": [
+		"demo",
+		"screenshots",
+		"test",
+		".git*",
+		"gp.sh",
+		"deploy-gh-pages.sh"
+	]
 }
