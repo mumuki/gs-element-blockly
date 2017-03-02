@@ -56,3 +56,5 @@ cd temp
 cd ..
 rm -rf temp
 ```
+
+or simply execute ./deploy-gh-pages.sh
