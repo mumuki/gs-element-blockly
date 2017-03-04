@@ -172,12 +172,23 @@ Blockly.Blocks.VaciarTablero = {
 Blockly.Blocks.BOOM = {
 	init: function () {
 		this.jsonInit({
-			message0: 'BOOM',
-			previousStatement: true,
-			nextStatement: true,
-			colour: CommandColor,
-			tooltip: 'boom!',
-			inputsInline: true
+  		"lastDummyAlign0": "RIGHT",
+  		"message0": "Hacer ¡BOOM! porque:  %1 %2",
+		  "args0": [
+		    {
+		      "type": "input_dummy"
+		    },
+		    {
+		      "type": "field_input",
+		      "name": "boomDescription",
+		      "text": "Ingresar motivo..."
+		    }
+		  ],
+		  "inputsInline": false,
+		  "previousStatement": true,
+		  "nextStatement": true,
+		  "colour": CommandColor,
+		  "tooltip": "Este comando hace que estalle todo."
 		});
 	}
 };

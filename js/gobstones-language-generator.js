@@ -47,6 +47,7 @@ Blockly.GobstonesLanguage.ORDER_NONE = 99;						// (...)
 
 /**
  * Retorna la función que representa la llamada a un procedimiento o funcion F(arg1, arg2, ...)
+ * Importante: los arg son input values, no fields.
  */
 function callGenerator(name, args = [], newLine, order) {
 	return function (block) {
@@ -266,8 +267,9 @@ Blockly.GobstonesLanguage.Sacar = procBlockCodeGenerator('Sacar', ['COLOR']);
 Blockly.GobstonesLanguage.Mover = procBlockCodeGenerator('Mover', ['DIRECCION']);
 Blockly.GobstonesLanguage.IrAlBorde = procBlockCodeGenerator('IrAlBorde', ['DIRECCION']);
 Blockly.GobstonesLanguage.VaciarTablero = procBlockCodeGenerator('VaciarTablero');
-Blockly.GobstonesLanguage.BOOM = procBlockCodeGenerator('BOOM');
-
+Blockly.GobstonesLanguage.BOOM = function(block) {
+  return 'BOOM("' + block.getFieldValue('boomDescription') + '")\n';
+};
 Blockly.GobstonesLanguage.ColorSelector = literalSelectorBlockCodeGenerator('Color');
 Blockly.GobstonesLanguage.DireccionSelector = literalSelectorBlockCodeGenerator('Direccion');
 Blockly.GobstonesLanguage.BoolSelector = literalSelectorBlockCodeGenerator('Bool');
