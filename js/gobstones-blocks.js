@@ -140,7 +140,7 @@ Blockly.Blocks.Mover = {
 Blockly.Blocks.IrAlBorde = {
 	init: function () {
 		this.jsonInit({
-			message0: 'IrAlBorde %1',
+			message0: 'Ir al borde %1',
 			args0: [
 				{
 					type: 'input_value',
@@ -159,7 +159,7 @@ Blockly.Blocks.IrAlBorde = {
 Blockly.Blocks.VaciarTablero = {
 	init: function () {
 		this.jsonInit({
-			message0: 'VaciarTablero',
+			message0: 'Vaciar tablero',
 			previousStatement: true,
 			nextStatement: true,
 			colour: CommandColor,
