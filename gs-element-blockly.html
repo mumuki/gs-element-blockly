@@ -44,6 +44,8 @@ Example:
           <block type="VaciarTablero"></block>
           <block type="BOOM"></block>
         </category>
+        <category name="Procedimientos Primitivos">
+        </category>
         <category name="Procedimientos" custom="PROCEDURE">
         </category>
         <category name="Alternativas">
@@ -66,6 +68,8 @@ Example:
           <block type="hayBolitas"></block>
           <block type="puedeMover"></block>
           <block type="nroBolitas"></block>
+        </category>
+        <category name="Funciones Primitivas">
         </category>
         <category name="Operaciones">
           <block type="Relation"></block>
@@ -93,6 +97,16 @@ Example:
         primitiveProcedures:  {
           type: Array,
           observer: '_onPrimitiveProceduresChange'
+        },
+
+        /*
+         * `primitiveFunctions` lista de definiciones de funciones primitivas.
+         * Ej: ["cantidadDeFlores_en_"] Se transormara en un bloque con dos inputs inline, cuyo
+         * codigo sera cantidadDeFlores_en_(arg1, arg2).
+         */
+        primitiveFunctions:  {
+          type: Array,
+          observer: '_onPrimitiveFunctionsChange'
         },
 
         /*
@@ -137,9 +151,23 @@ Example:
         this._onUpdateToolbox();
       },
 
+      _onPrimitiveFunctionsChange: function() {
+        if(typeof this.primitiveFunctions == 'string') {
+          this.primitiveFunctions = JSON.parse(this.primitiveFunctions);
+          return;
+        }
+        this._definePrimitiveFunctions();
+        this._onUpdateToolbox();
+      },
+
       _onUpdateToolbox: function() {
         if(typeof this.toolbox == 'string') {
-          this.toolbox = JSON.parse(this.toolbox);
+          if(this.toolbox == '') {
+            this.toolbox = undefined;
+          }
+          else {
+            this.toolbox = JSON.parse(this.toolbox);
+          }
           return;
         }
         let toolbox = this._createToolbox();
@@ -153,7 +181,7 @@ Example:
         let tree = []
         let toolboxDefault = this.$$('#toolbox');
         let toolboxDefaultLines = toolboxDefault.innerHTML.split("\n");
-
+        let ignore_last = false;
         let parent = tree;
         let stack = [];
         for(var i in toolboxDefaultLines) {
@@ -169,7 +197,10 @@ Example:
           }
           else if(line.indexOf('<category') >= 0) {
             let m = line.match('name="([^"]*)"')
-            if(m.length == 2) {
+            if(m.length == 2 && (
+              (m[1] == 'Procedimientos Primitivos' && this.primitiveProcedures && this.primitiveProcedures.length > 0) ||
+              (m[1] == 'Funciones Primitivas' && this.primitiveFunctions && this.primitiveFunctions.length > 0) ||
+              (m[1] != 'Procedimientos Primitivos' && m[1] != 'Funciones Primitivas'))) {
               parent.push({
                 type: 'category',
                 name: m[1],
@@ -178,14 +209,40 @@ Example:
               });
               stack.push(parent);
               parent = parent[parent.length - 1].child;
+              if(m[1] == 'Procedimientos Primitivos')
+              {
+                for(var i in this.primitiveProcedures) {
+                  parent.push({
+                    type: 'block',
+                    name: this.primitiveProcedures[i],
+                  });
+                }
+              }
+              if(m[1] == 'Funciones Primitivas')
+              {
+                for(var i in this.primitiveFunctions) {
+                  parent.push({
+                    type: 'block',
+                    name: this.primitiveFunctions[i],
+                  });
+                }
+              }
+            }
+            else {
+              ignore_last = true;
             }
           }
           else if(line.indexOf('</category') >= 0) {
-            parent = stack.pop();
+            if(ignore_last) {
+              ignore_last = false;
+            }
+            else {
+              parent = stack.pop();
+            }
           }
         }
 
-        if(this.primitiveProcedures && this.primitiveProcedures.length > 0) {
+      /*  if(this.primitiveProcedures && this.primitiveProcedures.length > 0) {
           tree.push({
             type: 'category',
             name: 'Procedimientos Primitivos',
@@ -199,7 +256,23 @@ Example:
               name: this.primitiveProcedures[i],
             });
           }
-        }
+        }*/
+/*
+        if(this.primitiveFunctions && this.primitiveFunctions.length > 0) {
+          tree.push({
+            type: 'category',
+            name: 'Funciones Primitivas',
+            child: [],
+            xml: '<category name="Funciones Primitivas">'
+          });
+          parent = tree[tree.length-1].child;
+          for(var i in this.primitiveFunctions) {
+            parent.push({
+              type: 'block',
+              name: this.primitiveFunctions[i],
+            });
+          }
+        }*/
 
         return tree;
       },
@@ -220,6 +293,9 @@ Example:
             visibles = visibles.concat(disabled);
             if(this.primitiveProcedures) {
               visibles = visibles.concat(this.primitiveProcedures);
+            }
+            if(this.primitiveFunctions) {
+              visibles = visibles.concat(this.primitiveFunctions);
             }
           }
 
@@ -336,6 +412,54 @@ Example:
         }
       },
 
+
+      /**
+       * Define un bloque a partir de una definicion de funcion primitiva tipo hayFlores_en_
+       */
+      _definePrimitiveFunction: function(def) {
+        let parts = def.replace(/([A-Z])/g, " $1").toLowerCase();
+        //let parts = def;
+        //parts = parts[1].toUpperCase() + parts.substring(2);
+        parts = parts.split("_");
+
+        // Bloque
+        Blockly.Blocks[def] = {
+          init: function () {
+            let argsIndex = 1;
+            this.setColour(CommandColor);
+            for(var i in parts) {
+              if(i == (parts.length - 1)) {
+                this.appendDummyInput().appendField(parts[i]);
+              }
+              else {
+                this.appendValueInput('arg' + argsIndex).appendField(parts[i]);
+                argsIndex++;
+              }
+            }
+            this.setPreviousStatement(false);
+            this.setNextStatement(false);
+            this.setInputsInline(true);
+            this.setOutput('var');
+          }
+        };
+        let argsList = [];
+        for(var i=1;i<parts.length;i++) {
+          argsList.push('arg' + i);
+        }
+        // Generator
+        Blockly.GobstonesLanguage[def] = functionBlockCodeGenerator(def, argsList);
+      },
+
+      _definePrimitiveFunctions: function () {
+        if(!this.primitiveFunctions) {
+          return;
+        }
+
+        for(var i in this.primitiveFunctions) {
+          this._definePrimitiveFunction(this.primitiveFunctions[i]);
+        }
+      },
+
       _onBlocklyWorkspaceUpdate: function () {
         let xml = Blockly.Xml.workspaceToDom(this.workspace);
         this._blocklyWorkspaceXML = Blockly.Xml.domToText(xml);
@@ -363,8 +487,9 @@ Example:
        */
       cleanup: function() {
         this.primitiveProcedures = [];
+        this.primitiveFunctions = [];
         this.toolbox = {};
-        this.resetWorkspace;
+        this.resetWorkspace();
       },
 
       // Element Lifecycle
@@ -373,6 +498,7 @@ Example:
 
       attached: function() {
         this._definePrimitiveProcedures();
+        this._definePrimitiveFunctions();
         	// create workspace
         var blocklyDiv = this.$$('#blocklyDiv');
 				this.workspace = Blockly.inject(blocklyDiv, {
