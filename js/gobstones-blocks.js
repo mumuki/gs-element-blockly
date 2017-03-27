@@ -436,7 +436,16 @@ Blockly.Blocks.variables_get = {
         "helpUrl": "",
       }
     );
-	}
+	},
+  mutationToDom: function() {
+    var container = document.createElement('mutation');
+    container.setAttribute('var', this.getFieldValue('VAR'));
+    return container;
+  },
+  domToMutation: function(xmlElement) {
+    var var_name = xmlElement.getAttribute('var');
+    this.setFieldValue(var_name, 'VAR');
+  },
 };
 
 Blockly.Blocks.not = createSingleParameterExpressionBlock('not','Bool');
