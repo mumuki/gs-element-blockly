@@ -115,5 +115,12 @@ program {
 }`);
 });
 
+    gsTestCode('Asignar variable',
+      '<xml><block type="Program"><statement name="program"><block type="Asignar"><field name="varName">x</field><value name="varValue"><block type="DireccionSelector"><field name="DireccionDropdown">Este</field></block></value><next><block type="Mover"><value name="DIRECCION"><block type="variables_get"><field name="VAR">x</field></block></value></block></next></block></statement></block></xml>',
+      `program {
+  x := Este
+  Mover(x)
+}`);
+
 
 });

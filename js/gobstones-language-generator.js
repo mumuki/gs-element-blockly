@@ -429,3 +429,10 @@ Blockly.GobstonesLanguage.variables_get = function (block) {
 			Blockly.Variables.NAME_TYPE);
 	return [code, Blockly.GobstonesLanguage.ORDER_ATOMIC];
 };
+
+Blockly.GobstonesLanguage.Asignar = function(block) {
+  var varValue = Blockly.GobstonesLanguage.valueToCode(block, 'varValue', Blockly.GobstonesLanguage.ORDER_ATOMIC);
+  var code = Blockly.GobstonesLanguage.variableDB_.getName(block.getFieldValue('varName'),
+			Blockly.Variables.NAME_TYPE)  + ' := ' + varValue + '\n';
+  return code;
+};

@@ -9,6 +9,38 @@ delete Blockly.Blocks.procedures_defreturn;
 delete Blockly.Blocks.procedures_ifreturn;
 Blockly.Msg.PROCEDURES_DEFNORETURN_COMMENT = 'Describe el procedimiento...';
 
+/**
+ * Get the svg representation of a block
+ * @name {!string} name of the parameter.
+ * @this Blockly.Block
+ */
+Blockly.getBlockSvg = function(workspace, name, f) {
+  var newBlock = workspace.newBlock(name); // new Blockly.Block.obtain(workspace, name);
+  //newBlock.setEditable(false);
+  f(newBlock);
+  newBlock.initSvg();
+  newBlock.render();
+
+  // SVG that contains the svg paramater block
+  var svg = Blockly.createSvgElement('svg', {
+    'width': newBlock.width+10,
+    'height': newBlock.height+5
+  });
+
+  var blockSvg = newBlock.getSvgRoot();
+
+  svg.appendChild(blockSvg);
+
+  // to remove all the listeners
+  var clonedBlockSvg = blockSvg.cloneNode(true);
+  blockSvg.parentNode.replaceChild(clonedBlockSvg, blockSvg);
+
+  // remove the block from top blocks
+  workspace.removeTopBlock(newBlock);
+
+  return svg;
+};
+
 Blockly.Blocks.Program = {
 	init: function () {
 		this.setColour(100);
@@ -329,6 +361,81 @@ Blockly.Blocks.OpBoolBinary = {
 			inputsInline: false,
 			output: 'Bool'
 		});
+	}
+};
+
+Blockly.Blocks.Asignar = {
+	init: function () {
+		this.jsonInit(
+      {
+        "type": "asignacion",
+        "message0": "%1 %2 := %3 %4",
+        "args0": [
+          {
+            "type": "field_input",
+            "name": "varName",
+            "text": "nombre de variable"
+          },
+          {
+            "type": "input_dummy"
+          },
+          {
+            "type": "input_dummy"
+          },
+          {
+            "type": "input_value",
+            "name": "varValue"
+          }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 230,
+        "tooltip": "",
+        "helpUrl": "",
+      }
+    );
+	},
+  customContextMenu: function(options) {
+    var option = {enabled: true};
+    var name = this.getFieldValue('varName');
+    option.text = this.getVariableSvg(name);
+    var xmlField = goog.dom.createDom('field', null, name);
+    xmlField.setAttribute('name', 'VAR');
+    var xmlBlock = goog.dom.createDom('block', null, xmlField);
+    xmlBlock.setAttribute('type', 'variables_get');
+    option.callback = Blockly.ContextMenu.callbackFactory(this, xmlBlock);
+    options.push(option);
+  },
+
+  getVariableSvg: function(name) {
+    return Blockly.getBlockSvg(this.workspace, 'variables_get', function(b) {
+      b.setFieldValue(name, 'VAR');
+      b.moveBy(10,5);
+    });
+  }
+};
+
+
+Blockly.Blocks.variables_get = {
+	init: function () {
+		this.jsonInit(
+      {
+        "type": "variables_get",
+        "message0": "%1",
+        "args0": [
+          {
+            "type": "field_label",
+            "name": "VAR",
+            "text": "nombre de variable"
+          }
+        ],
+        "output": null,
+        "colour": 230,
+        "tooltip": "",
+        "helpUrl": "",
+      }
+    );
 	}
 };
 
