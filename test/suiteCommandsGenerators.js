@@ -27,6 +27,14 @@ gsSuite('Generadores de Comandos', function() {
     '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="BOOM"></block></xml>',
     `BOOM("Ingresar motivo...")\n`);
 
+  gsTestCode('BOOM sanitiza comillas',
+    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="BOOM"><field name="boomDescription">Chor"lito</field></block></xml>',
+    `BOOM("Chor\\"lito")\n`);
+
+  gsTestCode('BOOM omite comillas iniciales y finales',
+    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="BOOM"><field name="boomDescription">""Chor"lito"</field></block></xml>',
+    `BOOM("\\"Chor\\"lito")\n`);
+
   gsTestCode('Procedimiento',
   '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="procedures_defnoreturn"><mutation><arg name="valor1"></arg><arg name="otroValor"></arg></mutation><field name="NAME">hacer algo con parametros</field><comment pinned="false" h="80" w="160">Un comentario para el procedimiento</comment></block></xml>',
   `//

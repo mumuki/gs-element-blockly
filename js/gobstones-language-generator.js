@@ -275,7 +275,13 @@ Blockly.GobstonesLanguage.Mover = procBlockCodeGenerator('Mover', ['DIRECCION'])
 Blockly.GobstonesLanguage.IrAlBorde = procBlockCodeGenerator('IrAlBorde', ['DIRECCION']);
 Blockly.GobstonesLanguage.VaciarTablero = procBlockCodeGenerator('VaciarTablero');
 Blockly.GobstonesLanguage.BOOM = function(block) {
-  return 'BOOM("' + block.getFieldValue('boomDescription') + '")\n';
+	var desc = block.getFieldValue('boomDescription');
+	var sinComillasEnvolventes = desc;
+	if(desc[0] === "\"" && desc[desc.length-1] === "\""){
+		sinComillasEnvolventes = desc.substring(1,desc.length-1);
+	}
+
+  return 'BOOM("' + sinComillasEnvolventes.replace(/"/g, '\\"') + '")\n';
 };
 Blockly.GobstonesLanguage.ColorSelector = literalSelectorBlockCodeGenerator('Color');
 Blockly.GobstonesLanguage.DireccionSelector = literalSelectorBlockCodeGenerator('Direccion');
