@@ -44,7 +44,7 @@ Example:
           <block type="VaciarTablero"></block>
           <block type="BOOM"></block>
         </category>
-        <category name="Procedimientos Primitivos">
+        <category name="Procedimientos primitivos">
         </category>
         <category name="Procedimientos" custom="PROCEDURE">
         </category>
@@ -72,7 +72,7 @@ Example:
           <block type="puedeMover"></block>
           <block type="nroBolitas"></block>
         </category>
-        <category name="Funciones Primitivas">
+        <category name="Funciones primitivas">
         </category>
         <category name="Operaciones">
           <block type="Relation"></block>
@@ -201,9 +201,9 @@ Example:
           else if(line.indexOf('<category') >= 0) {
             let m = line.match('name="([^"]*)"')
             if(m.length == 2 && (
-              (m[1] == 'Procedimientos Primitivos' && this.primitiveProcedures && this.primitiveProcedures.length > 0) ||
-              (m[1] == 'Funciones Primitivas' && this.primitiveFunctions && this.primitiveFunctions.length > 0) ||
-              (m[1] != 'Procedimientos Primitivos' && m[1] != 'Funciones Primitivas'))) {
+              (m[1] == 'Procedimientos primitivos' && this.primitiveProcedures && this.primitiveProcedures.length > 0) ||
+              (m[1] == 'Funciones primitivas' && this.primitiveFunctions && this.primitiveFunctions.length > 0) ||
+              (m[1] != 'Procedimientos primitivos' && m[1] != 'Funciones primitivas'))) {
               parent.push({
                 type: 'category',
                 name: m[1],
@@ -212,7 +212,7 @@ Example:
               });
               stack.push(parent);
               parent = parent[parent.length - 1].child;
-              if(m[1] == 'Procedimientos Primitivos')
+              if(m[1] == 'Procedimientos primitivos')
               {
                 for(var i in this.primitiveProcedures) {
                   parent.push({
@@ -221,7 +221,7 @@ Example:
                   });
                 }
               }
-              if(m[1] == 'Funciones Primitivas')
+              if(m[1] == 'Funciones primitivas')
               {
                 for(var i in this.primitiveFunctions) {
                   parent.push({
@@ -281,6 +281,16 @@ Example:
       },
 
       /**
+       * Sirve para manejar los alias de los ID que vengan por la interfaz.
+       * Recibe una lista que puede ser de IDs de bloques ó de categorías.
+       * Devuelve una lista similar, intercambiando los alias por los ids "oficiales".
+       * Mi idea acá también es que a futuro se haga la internacionalización de ids.
+      */
+      _homogenizeIDs: function(ids){
+        return ids ? ids.map(id => Blockly.GobstonesLanguage.aliasForBlockID(id)) : [];
+      },
+
+      /**
        * Crea el toolbox a partir de la propiedad blocks, bloques visibles, y
        * customblocks.
        *
@@ -290,8 +300,8 @@ Example:
         let tree = this._defaultToolboxTree();
         let toolbox = [];
         if(this.toolbox) {
-          let visibles = this.toolbox.visible || [];
-          let disabled = this.toolbox.disabled || [];
+          let visibles = this._homogenizeIDs(this.toolbox.visible);
+          let disabled = this._homogenizeIDs(this.toolbox.disabled);
           if(visibles.length > 0) {
             visibles = visibles.concat(disabled);
             if(this.primitiveProcedures) {
@@ -556,4 +566,5 @@ Example:
   <script src="../blockly-package/es.js"></script>
   <script src="js/gobstones-blocks.js"></script>
   <script src="js/gobstones-language-generator.js"></script>
+  <script src="js/block-aliases.js"></script>
 </dom-module>
