@@ -318,10 +318,16 @@ Example:
             }
           }
           marcarDisabled(toolbox);
+
+          //Habilito las funciones si son necesarias ¡TODO: FEO! ¡PARCHE!
+          Blockly.Blocks.procedures_defreturn =
+          visibles.indexOf("Funciones") >= 0 ? Blockly.Blocks.procedures_defreturn_bkp : undefined;
+          //TODO: falta resolver el disabled de las funciones
         }
         else {
           toolbox = tree;
         }
+
         return this._toolboxTreeToXML(toolbox);
       },
 

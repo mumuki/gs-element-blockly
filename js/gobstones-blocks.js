@@ -5,7 +5,8 @@ var CommandColor = 200;
 var ExpressionColor = 180;
 
 // Guardo un par de bloques utiles el resto los elimino
-delete Blockly.Blocks.procedures_defreturn;
+Blockly.Blocks.procedures_defreturn_bkp = Blockly.Blocks.procedures_defreturn;
+Blockly.Blocks.procedures_defreturn = undefined;
 delete Blockly.Blocks.procedures_ifreturn;
 Blockly.Msg.PROCEDURES_DEFNORETURN_COMMENT = 'Describe el procedimiento...';
 
