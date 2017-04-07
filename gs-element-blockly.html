@@ -49,15 +49,15 @@ Example:
         <category name="Procedimientos" custom="PROCEDURE">
         </category>
         <category name="Alternativas">
-          <block type="SiEntonces"></block>
-          <block type="SiEntoncesSiNo"></block>
+          <block type="AlternativaSimple"></block>
+          <block type="AlternativaCompleta"></block>
         </category>
         <category name="Repeticiones">
-          <block type="Repetir"></block>
-          <block type="RepetirHasta"></block>
+          <block type="RepeticionSimple"></block>
+          <block type="RepeticionCondicional"></block>
         </category>
-        <category name="Asignacion">
-          <block type="Asignar"></block>
+        <category name="Asignación">
+          <block type="Asignacion"></block>
         </category>
       </category>
       <category name="Expresiones">
@@ -75,9 +75,9 @@ Example:
         <category name="Funciones primitivas">
         </category>
         <category name="Operaciones">
-          <block type="Relation"></block>
-          <block type="OpBoolBinary"></block>
-          <block type="OpNum"></block>
+          <block type="OperadorNumerico"></block>
+          <block type="OperadorDeComparacion"></block>
+          <block type="OperadorLogico"></block>
           <block type="not"></block>
 					<block type="siguiente"></block>
 					<block type="previo"></block>
@@ -115,11 +115,18 @@ Example:
         /*
          * `toolbox` Definicion de visibilidad y habilitación de los bloques en el toolbox.
          * Pueden nombrarse bloques individuales o categorias.
+         *
          * Ej:
-         *  {
-         *    "visible": ["Comandos primitivos", "Literales", "Expresiones"],
-         *    "disabled": ["Poner", "hayBolitas", "Literales"]
-         *  }
+         *
+         * ```json
+         * {
+         *  "visible": ["Comandos primitivos", "Literales", "Expresiones"],
+         *  "disabled": ["Poner", "hayBolitas", "Literales"]
+         * }
+         * ```
+         *
+         * Los IDs de los bloques a utilizar pueden consultarse [en la wiki](https://github.com/Program-AR/gs-element-blockly/wiki/Block-IDs-for-toolbox)
+         *
          * Nota: Los bloques de primitiveProcedures siempre aparecen en el toolbox, aunque no figuren
          * en esta propiedad.
          */

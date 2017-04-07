@@ -287,7 +287,7 @@ Blockly.GobstonesLanguage.ColorSelector = literalSelectorBlockCodeGenerator('Col
 Blockly.GobstonesLanguage.DireccionSelector = literalSelectorBlockCodeGenerator('Direccion');
 Blockly.GobstonesLanguage.BoolSelector = literalSelectorBlockCodeGenerator('Bool');
 
-Blockly.GobstonesLanguage.Relation = function (block) {
+Blockly.GobstonesLanguage.OperadorDeComparacion = function (block) {
 	var code =
 		(Blockly.GobstonesLanguage.valueToCode(block, 'arg1', Blockly.GobstonesLanguage.ORDER_RELATIONAL) || '\'\'') +
 ' ' +
@@ -297,7 +297,7 @@ Blockly.GobstonesLanguage.Relation = function (block) {
 	return [code, Blockly.GobstonesLanguage.ORDER_RELATIONAL];
 };
 
-Blockly.GobstonesLanguage.OpNum = function (block) {
+Blockly.GobstonesLanguage.OperadorNumerico = function (block) {
 	var code = (Blockly.GobstonesLanguage.valueToCode(block, 'arg1',
 		Blockly.GobstonesLanguage.ORDER_ATOMIC) || '\'\'') +
 		' ' + block.getFieldValue('OPERATOR') + ' ' +
@@ -307,7 +307,7 @@ Blockly.GobstonesLanguage.OpNum = function (block) {
 	return [code, Blockly.GobstonesLanguage.ORDER_ATOMIC];
 };
 
-Blockly.GobstonesLanguage.OpBoolBinary = function(block) {
+Blockly.GobstonesLanguage.OperadorLogico = function(block) {
   // Operations 'and', 'or'.
 	var operator = block.getFieldValue('OPERATOR');
 	var order = (operator == '&&') ? Blockly.GobstonesLanguage.ORDER_LOGICAL_AND : Blockly.GobstonesLanguage.ORDER_LOGICAL_OR;
@@ -350,7 +350,7 @@ Blockly.GobstonesLanguage.Program = function (block) {
 	return codigo;
 };
 
-Blockly.GobstonesLanguage.Repetir = function (block) {
+Blockly.GobstonesLanguage.RepeticionSimple = function (block) {
 	let body = Blockly.GobstonesLanguage.statementToCode(block, 'block');
 	var count = Blockly.GobstonesLanguage.valueToCode(block, 'count',
 	Blockly.GobstonesLanguage.ORDER_NONE) || '\'\'';
@@ -359,7 +359,7 @@ Blockly.GobstonesLanguage.Repetir = function (block) {
 	return codigo;
 };
 
-Blockly.GobstonesLanguage.RepetirHasta = function (block) {
+Blockly.GobstonesLanguage.RepeticionCondicional = function (block) {
 	let body = Blockly.GobstonesLanguage.statementToCode(block, 'block');
 	var condicion = Blockly.GobstonesLanguage.valueToCode(block, 'condicion',
 	Blockly.GobstonesLanguage.ORDER_NONE) || '\'\'';
@@ -368,7 +368,7 @@ Blockly.GobstonesLanguage.RepetirHasta = function (block) {
 	return codigo;
 };
 
-Blockly.GobstonesLanguage.SiEntonces = function (block) {
+Blockly.GobstonesLanguage.AlternativaSimple = function (block) {
 	let body = Blockly.GobstonesLanguage.statementToCode(block, 'block');
 	var condicion = Blockly.GobstonesLanguage.valueToCode(block, 'condicion',
 	Blockly.GobstonesLanguage.ORDER_NONE) || '\'\'';
@@ -377,7 +377,7 @@ Blockly.GobstonesLanguage.SiEntonces = function (block) {
 	return codigo;
 };
 
-Blockly.GobstonesLanguage.SiEntoncesSiNo = function (block) {
+Blockly.GobstonesLanguage.AlternativaCompleta = function (block) {
 	let body1 = Blockly.GobstonesLanguage.statementToCode(block, 'block1');
 	let body2 = Blockly.GobstonesLanguage.statementToCode(block, 'block2');
 	var condicion = Blockly.GobstonesLanguage.valueToCode(block, 'condicion',
@@ -436,7 +436,7 @@ Blockly.GobstonesLanguage.variables_get = function (block) {
 	return [code, Blockly.GobstonesLanguage.ORDER_ATOMIC];
 };
 
-Blockly.GobstonesLanguage.Asignar = function(block) {
+Blockly.GobstonesLanguage.Asignacion = function(block) {
   var varValue = Blockly.GobstonesLanguage.valueToCode(block, 'varValue', Blockly.GobstonesLanguage.ORDER_ATOMIC);
   var code = Blockly.GobstonesLanguage.variableDB_.getName(block.getFieldValue('varName'),
 			Blockly.Variables.NAME_TYPE)  + ' := ' + varValue + '\n';

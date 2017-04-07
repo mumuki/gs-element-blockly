@@ -56,7 +56,7 @@ Blockly.Blocks.Program = {
 // Control de flujo de ejecucion:
 // ------------------------------------------------------
 
-Blockly.Blocks.Repetir = {
+Blockly.Blocks.RepeticionSimple = {
 	init: function () {
 		this.setColour(ControlColor);
 		this.appendValueInput('count')
@@ -68,12 +68,12 @@ Blockly.Blocks.Repetir = {
 	}
 };
 
-Blockly.Blocks.RepetirHasta = {
+Blockly.Blocks.RepeticionCondicional = {
 	init: function () {
 		this.setColour(ControlColor);
 		this.appendValueInput('condicion')
 			.setCheck('Bool')
-			.appendField('Repetir Hasta');
+			.appendField('Repetir hasta que');
 		this.appendStatementInput('block');
 		this.setPreviousStatement(true);
 		this.setNextStatement(true);
@@ -81,7 +81,7 @@ Blockly.Blocks.RepetirHasta = {
 	}
 };
 
-Blockly.Blocks.SiEntonces = {
+Blockly.Blocks.AlternativaSimple = {
 	init: function () {
 		this.setColour(ControlColor);
 		this.appendValueInput('condicion')
@@ -93,14 +93,14 @@ Blockly.Blocks.SiEntonces = {
 	}
 };
 
-Blockly.Blocks.SiEntoncesSiNo = {
+Blockly.Blocks.AlternativaCompleta = {
 	init: function () {
 		this.setColour(ControlColor);
 		this.appendValueInput('condicion')
 			.appendField('Si');
 		this.appendStatementInput('block1');
 		this.appendDummyInput()
-				.appendField('si no');
+				.appendField('si no:');
 		this.appendStatementInput('block2');
 		this.setPreviousStatement(true);
 		this.setNextStatement(true);
@@ -277,7 +277,7 @@ Blockly.Blocks.nroBolitas = createSingleParameterExpressionBlock('numero de boli
 // Operaciones:
 // ------------------------------------------------------
 
-Blockly.Blocks.Relation = {
+Blockly.Blocks.OperadorDeComparacion = {
 	init: function () {
 		this.jsonInit({
 			message0: '%1 %2 %3 %4',
@@ -306,7 +306,7 @@ Blockly.Blocks.Relation = {
 	}
 };
 
-Blockly.Blocks.OpNum = {
+Blockly.Blocks.OperadorNumerico = {
 	init: function () {
 		this.jsonInit({
 			message0: '%1 %2 %3 %4',
@@ -335,7 +335,7 @@ Blockly.Blocks.OpNum = {
 	}
 };
 
-Blockly.Blocks.OpBoolBinary = {
+Blockly.Blocks.OperadorLogico = {
 	init: function () {
 		this.jsonInit({
 			message0: '%1 %2 %3 %4',
@@ -364,7 +364,7 @@ Blockly.Blocks.OpBoolBinary = {
 	}
 };
 
-Blockly.Blocks.Asignar = {
+Blockly.Blocks.Asignacion = {
 	init: function () {
 		this.jsonInit(
       {
