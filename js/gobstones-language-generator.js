@@ -299,12 +299,12 @@ Blockly.GobstonesLanguage.OperadorDeComparacion = function (block) {
 
 Blockly.GobstonesLanguage.OperadorNumerico = function (block) {
 	var code = (Blockly.GobstonesLanguage.valueToCode(block, 'arg1',
-		Blockly.GobstonesLanguage.ORDER_ATOMIC) || '\'\'') +
+		Blockly.GobstonesLanguage.ORDER_MODULUS) || '\'\'') +
 		' ' + block.getFieldValue('OPERATOR') + ' ' +
 		(Blockly.GobstonesLanguage.valueToCode(block, 'arg2',
-			Blockly.GobstonesLanguage.ORDER_ATOMIC) || '\'\'')
+			Blockly.GobstonesLanguage.ORDER_MODULUS) || '\'\'')
 		;
-	return [code, Blockly.GobstonesLanguage.ORDER_ATOMIC];
+	return [code, Blockly.GobstonesLanguage.ORDER_MODULUS];
 };
 
 Blockly.GobstonesLanguage.OperadorLogico = function(block) {
@@ -437,7 +437,7 @@ Blockly.GobstonesLanguage.variables_get = function (block) {
 };
 
 Blockly.GobstonesLanguage.Asignacion = function(block) {
-  var varValue = Blockly.GobstonesLanguage.valueToCode(block, 'varValue', Blockly.GobstonesLanguage.ORDER_ATOMIC);
+  var varValue = Blockly.GobstonesLanguage.valueToCode(block, 'varValue', Blockly.GobstonesLanguage.ORDER_ASSIGNMENT);
   var code = Blockly.GobstonesLanguage.variableDB_.getName(block.getFieldValue('varName'),
 			Blockly.Variables.NAME_TYPE)  + ' := ' + varValue + '\n';
   return code;
