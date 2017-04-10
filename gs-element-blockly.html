@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../polymer/polymer.html">
+
 <!--
 An element providing a solution to no problem in particular.
 
@@ -508,6 +509,15 @@ Example:
         var _this = this;
         this.workspace.addChangeListener(function () { _this._onBlocklyWorkspaceUpdate(); });
         this.resetWorkspace()
+        if(window.jQuery !== undefined) {
+          $(window).resize(() => {
+            this._onresize();
+          });
+        }
+      },
+
+      _onresize() {
+        Blockly.svgResize(this.workspace);
       },
 
       detached: function() {
