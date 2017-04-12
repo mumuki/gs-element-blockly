@@ -490,6 +490,62 @@ Example:
       },
 
       /**
+      * Retorna una lista de objetos, uno por cada categoría y bloque.
+      * Representa la jerarquía del toolbox.
+      *
+      * Para los bloques se indica:
+      *
+      * * `blockXMLID`: El ID del bloque que estará en el XML exportado por el método
+      * `generateCode`.
+      * * `blockAliases`: La lista de aliases que refieren a ese bloque, y que pueden
+      * ser usados para definir el toolbox mediante la propiedad `toolbox`.
+      *
+      * Para las categorías se indica:
+      *
+      * * `categoryName`: El nombre de la categoría que es visible en el toolbox.
+      * * `categoryAliases`: La lista de aliases que refieren a esa categoría, y que pueden
+      * ser usados para definir el toolbox mediante la propiedad `toolbox`.
+      * * `categoryContents`: La lista de objetos categoría/bloque dentro de esta categoría.
+      *
+      * @return {Array} Los objetos.
+      */
+      validToolboxIDs: function(){
+        return this._validToolboxIDsFrom(this._defaultToolboxTree());
+      },
+
+      /**
+       * Recursively defined. Gets a list of user-readable objects describing the
+       * toolboxTree hierarchy and aliases.
+       */
+      _validToolboxIDsFrom: function(toolboxTree) {
+        var myThis = this;
+        return this._mapToolboxTree(toolboxTree, function(toolboxElement){
+          if(toolboxElement.type === "category"){
+            return {
+              categoryName: toolboxElement.name,
+              categoryAliases: Blockly.GobstonesLanguage.aliasesFor(toolboxElement.name),
+              categoryContents: myThis._validToolboxIDsFrom(toolboxElement.child)
+            };
+          } else if(toolboxElement.type === "block") {
+            return {
+              blockXMLID: toolboxElement.name,
+              blockAliases: Blockly.GobstonesLanguage.aliasesFor(toolboxElement.name),
+            };
+          } else {
+            /*Do nothing for other types*/
+          }
+        });
+      },
+
+      _mapToolboxTree: function(toolboxTree, f){
+        var resultingList = [];
+        for (var i in toolboxTree){
+          resultingList.push(f(toolboxTree[i]));
+        }
+        return resultingList;
+      },
+
+      /**
        * Reinicializa el estado del componente,
        */
       cleanup: function() {
