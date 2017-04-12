@@ -74,7 +74,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
 
       window.addEventListener('WebComponentsReady', function(e) {
-        document.querySelector('#divValidIds').innerHTML = JSON.stringify(blocklyElement.validToolboxIDs(), undefined, 2);
+
+        function printObject(o){
+          if(o.blockXMLID){ //es bloque
+            return o.blockXMLID + '(' + o.blockAliases + ')';
+          } else {
+            return '\n\t' + o.categoryName + ':(' + o.categoryAliases + '):\n\t\t' + o.categoryContents.map(printObject);
+          }
+        }
+        document.querySelector('#divValidIds').innerHTML = blocklyElement.validToolboxIDs().map(printObject);
       });
 
     </script>
