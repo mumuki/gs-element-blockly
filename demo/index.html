@@ -37,6 +37,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <textarea id="code" rows="20" cols="80"></textarea>
 
     <p>IDs válidos para poner en el toolbox:</p>
+    <p>(Entre paréntesis los ids válidos para ese bloque/categoría)</p>
     <pre id="divValidIds"></pre>
     <script>
       var blocklyElement = document.querySelector('gs-element-blockly');
@@ -79,7 +80,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           if(o.blockXMLID){ //es bloque
             return o.blockXMLID + '(' + o.blockAliases + ')';
           } else {
-            return '\n\t' + o.categoryName + ':(' + o.categoryAliases + '):\n\t\t' + o.categoryContents.map(printObject);
+            return '\n\t' + o.categoryName + '(' + o.categoryAliases + '):\n\t\t' + o.categoryContents.map(printObject);
           }
         }
         document.querySelector('#divValidIds').innerHTML = blocklyElement.validToolboxIDs().map(printObject);
