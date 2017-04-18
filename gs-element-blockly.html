@@ -275,6 +275,12 @@ Example:
       _createToolbox: function() {
         let tree = this._defaultToolboxTree();
         let toolbox = [];
+
+        //Habilito las funciones si son necesarias ¡TODO: FEO! ¡PARCHE!
+        Blockly.Blocks.procedures_defreturn =
+         !this.toolbox || this.toolbox.visible.indexOf("Funciones") >= 0 ? Blockly.Blocks.procedures_defreturn_bkp : undefined;
+        //TODO: falta resolver el disabled de las funciones
+
         if(this.toolbox) {
           let visibles = this._homogenizeIDs(this.toolbox.visible);
           let disabled = this._homogenizeIDs(this.toolbox.disabled);
@@ -320,10 +326,6 @@ Example:
           }
           marcarDisabled(toolbox);
 
-          //Habilito las funciones si son necesarias ¡TODO: FEO! ¡PARCHE!
-          Blockly.Blocks.procedures_defreturn =
-          visibles.indexOf("Funciones") >= 0 ? Blockly.Blocks.procedures_defreturn_bkp : undefined;
-          //TODO: falta resolver el disabled de las funciones
         }
         else {
           toolbox = tree;
