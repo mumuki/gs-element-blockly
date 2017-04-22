@@ -151,6 +151,22 @@ Example:
         workspaceCanEdit: {
           type: Boolean,
         },
+
+        /*
+         * `width` Ancho del elemento.
+         */
+        width: {
+          type: Number,
+          observer: '_fixSize'
+        },
+
+        /*
+         * `height` Alto del elemento.
+         */
+        height: {
+          type: Number,
+          observer: '_fixSize'
+        },
       },
 
       _onPrimitiveProceduresChange: function() {
@@ -496,6 +512,8 @@ Example:
         this._definePrimitiveFunctions();
         	// create workspace
         var blocklyDiv = this.$$('#blocklyDiv');
+        this.blocklyDiv = blocklyDiv;
+        this._fixSize();
 				this.workspace = Blockly.inject(blocklyDiv, {
           toolbox: this._createToolbox(),
           media: '../bower_components/blockly-package/media/',
@@ -505,10 +523,10 @@ Example:
           collapse: false,
           css: true,
 				});
-        Blockly.svgResize(this.workspace);
         var _this = this;
         this.workspace.addChangeListener(function () { _this._onBlocklyWorkspaceUpdate(); });
         this.resetWorkspace()
+        this._onresize();
         if(window.jQuery !== undefined) {
           $(window).resize(() => {
             this._onresize();
@@ -518,6 +536,16 @@ Example:
 
       _onresize() {
         Blockly.svgResize(this.workspace);
+      },
+
+      _fixSize() {
+        let style = "";
+        if(this.width && this.height) {
+          style += "width:"+ this.width + "px;";
+          style += "height:"+ this.height + "px;";
+          this.blocklyDiv.style = style;
+          this._onresize();
+        }
       },
 
       detached: function() {

@@ -29,6 +29,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <input type="text" id="primitive_procedurestxt" value='["Poner_FloresAl_", "Podar"]'></input><br />
       <button id="set_primitive_functionsbtn">Set functions</button>
       <input type="text" id="primitive_functionstxt" value='["hayFlores_en_", "cuantasHay_en_"]'></input>
+      <br/>
+      <button id="modificar_dimensionesbtn">Modificar dimensiones</button>
     </p>
     <gs-element-blockly>
     </gs-element-blockly>
@@ -69,6 +71,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       document.querySelector('#set_xmlbtn').addEventListener('click', function() {
         blocklyElement.set('workspaceXml',prompt("Paste xml here:", ""));
+      });
+
+      document.querySelector('#modificar_dimensionesbtn').addEventListener('click', function() {
+        blocklyElement.set('width', 300);
+        blocklyElement.set('height', 200);
       });
     </script>
 
