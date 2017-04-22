@@ -75,7 +75,7 @@ Example:
         </category>
         <category name="Funciones primitivas">
         </category>
-        <category name="Operaciones">
+        <category name="Operadores">
           <block type="OperadorNumerico"></block>
           <block type="OperadorDeComparacion"></block>
           <block type="OperadorLogico"></block>
@@ -291,6 +291,12 @@ Example:
       _createToolbox: function() {
         let tree = this._defaultToolboxTree();
         let toolbox = [];
+
+        //Habilito las funciones si son necesarias ¡TODO: FEO! ¡PARCHE!
+        Blockly.Blocks.procedures_defreturn =
+         !this.toolbox || this.toolbox.visible.indexOf("Funciones") >= 0 ? Blockly.Blocks.procedures_defreturn_bkp : undefined;
+        //TODO: falta resolver el disabled de las funciones
+
         if(this.toolbox) {
           let visibles = this._homogenizeIDs(this.toolbox.visible);
           let disabled = this._homogenizeIDs(this.toolbox.disabled);
@@ -336,10 +342,6 @@ Example:
           }
           marcarDisabled(toolbox);
 
-          //Habilito las funciones si son necesarias ¡TODO: FEO! ¡PARCHE!
-          Blockly.Blocks.procedures_defreturn =
-          visibles.indexOf("Funciones") >= 0 ? Blockly.Blocks.procedures_defreturn_bkp : undefined;
-          //TODO: falta resolver el disabled de las funciones
         }
         else {
           toolbox = tree;
@@ -481,7 +483,19 @@ Example:
         if(this.workspaceXml != this._blocklyWorkspaceXML) {
           this.workspace.clear();
           let dom = Blockly.Xml.textToDom(this.workspaceXml);
-          Blockly.Xml.domToWorkspace(dom, this.workspace);
+          try {
+            Blockly.Xml.domToWorkspace(dom, this.workspace);
+          } catch (e) {
+            if(e.message.includes("nextConnection is null")){
+              throw {
+                name: "BlockTypeError",
+                message: "There is at least one block type declared in the 'type' property of the block tag of the xml, which is incorrect or belongs to a block that is not in the Gobstones Language. Maybe you have forgotten any primitiveProcedure?",
+                toString: function(){ return this.name + ': ' + this.message; }
+              };
+            } else {
+              throw e;
+            }
+          }
         }
       },
 
@@ -491,6 +505,62 @@ Example:
       resetWorkspace: function() {
         let xmlInicial = '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" x="30" y="30"></block></xml>';
         this.workspaceXml = xmlInicial;
+      },
+
+      /**
+      * Retorna una lista de objetos, uno por cada categoría y bloque.
+      * Representa la jerarquía del toolbox.
+      *
+      * Para los bloques se indica:
+      *
+      * * `blockXMLID`: El ID del bloque que estará en el XML exportado por el método
+      * `generateCode`.
+      * * `blockAliases`: La lista de aliases que refieren a ese bloque, y que pueden
+      * ser usados para definir el toolbox mediante la propiedad `toolbox`.
+      *
+      * Para las categorías se indica:
+      *
+      * * `categoryName`: El nombre de la categoría que es visible en el toolbox.
+      * * `categoryAliases`: La lista de aliases que refieren a esa categoría, y que pueden
+      * ser usados para definir el toolbox mediante la propiedad `toolbox`.
+      * * `categoryContents`: La lista de objetos categoría/bloque dentro de esta categoría.
+      *
+      * @return {Array} Los objetos.
+      */
+      validToolboxIDs: function(){
+        return this._validToolboxIDsFrom(this._defaultToolboxTree());
+      },
+
+      /**
+       * Recursively defined. Gets a list of user-readable objects describing the
+       * toolboxTree hierarchy and aliases.
+       */
+      _validToolboxIDsFrom: function(toolboxTree) {
+        var myThis = this;
+        return this._mapToolboxTree(toolboxTree, function(toolboxElement){
+          if(toolboxElement.type === "category"){
+            return {
+              categoryName: toolboxElement.name,
+              categoryAliases: Blockly.GobstonesLanguage.aliasesFor(toolboxElement.name),
+              categoryContents: myThis._validToolboxIDsFrom(toolboxElement.child)
+            };
+          } else if(toolboxElement.type === "block") {
+            return {
+              blockXMLID: toolboxElement.name,
+              blockAliases: Blockly.GobstonesLanguage.aliasesFor(toolboxElement.name),
+            };
+          } else {
+            /*Do nothing for other types*/
+          }
+        });
+      },
+
+      _mapToolboxTree: function(toolboxTree, f){
+        var resultingList = [];
+        for (var i in toolboxTree){
+          resultingList.push(f(toolboxTree[i]));
+        }
+        return resultingList;
       },
 
       /**
