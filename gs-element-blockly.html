@@ -167,6 +167,14 @@ Example:
           type: Number,
           observer: '_fixSize'
         },
+
+        /*
+         * `media` path a media de blockly.
+         */
+        media: {
+          type: String,
+          value: "../bower_components/blockly-package/media/"
+        },
       },
 
       _onPrimitiveProceduresChange: function() {
@@ -586,7 +594,7 @@ Example:
         this._fixSize();
 				this.workspace = Blockly.inject(blocklyDiv, {
           toolbox: this._createToolbox(),
-          media: '../bower_components/blockly-package/media/',
+          media: this.get("media"),
           toolboxPosition: "start",
           scrollbars: true,
           horizontalLayout: false,
