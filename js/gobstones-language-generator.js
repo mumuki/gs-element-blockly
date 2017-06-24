@@ -281,7 +281,7 @@ Blockly.GobstonesLanguage.BOOM = function(block) {
 		sinComillasEnvolventes = desc.substring(1,desc.length-1);
 	}
 
-  return 'BOOM("' + sinComillasEnvolventes.replace(/"/g, '\\"') + '")\n';
+  return 'BOOM("' + sinComillasEnvolventes.replace(/"/g, "'") + '")\n';
 };
 Blockly.GobstonesLanguage.ColorSelector = literalSelectorBlockCodeGenerator('Color');
 Blockly.GobstonesLanguage.DireccionSelector = literalSelectorBlockCodeGenerator('Direccion');
