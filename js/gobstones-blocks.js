@@ -8,7 +8,8 @@ var ExpressionColor = 180;
 Blockly.Blocks.procedures_defreturn_bkp = Blockly.Blocks.procedures_defreturn;
 Blockly.Blocks.procedures_defreturn = undefined;
 delete Blockly.Blocks.procedures_ifreturn;
-Blockly.Msg.PROCEDURES_DEFNORETURN_COMMENT = 'Describe el procedimiento...';
+Blockly.Msg.PROCEDURES_DEFNORETURN_COMMENT = 'Describe este procedimiento...';
+Blockly.Msg.PROCEDURES_DEFRETURN_COMMENT = 'Describe esta función...';
 
 /**
  * Get the svg representation of a block

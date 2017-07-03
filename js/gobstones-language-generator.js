@@ -399,25 +399,6 @@ Blockly.GobstonesLanguage.formatProcName = function (name) {
 	return pname;
 };
 
-Blockly.GobstonesLanguage.procedures_defnoreturn = function (block) {
-	var name = Blockly.GobstonesLanguage.formatProcName(block.getFieldValue('NAME'));
-
-	var body = Blockly.GobstonesLanguage.statementToCode(block, 'STACK');
-
-	var args = [];
-	for (var x = 0; x < block.arguments_.length; x++) {
-		args[x] = Blockly.GobstonesLanguage.variableDB_.getName(block.arguments_[x],
-			Blockly.Variables.NAME_TYPE);
-	}
-	// var args_string = args.map(function (i) { return '"' + i + '"'; }).join(', ');
-	var code = 'procedure ' + name + '(' + args.join(', ') + ') {\n' +
-		body + '}';
-
-	code = Blockly.GobstonesLanguage.scrub_(block, code);
-	Blockly.GobstonesLanguage.definitions_[name] = code;
-
-	return null;
-};
 
 Blockly.GobstonesLanguage.procedures_callnoreturn = function (block) {
 	var procName = Blockly.GobstonesLanguage.formatProcName(block.getFieldValue('NAME'));
@@ -429,6 +410,38 @@ Blockly.GobstonesLanguage.procedures_callnoreturn = function (block) {
 	var code = procName + '(' + args.join(', ') + ')\n';
 	return code;
 };
+
+
+Blockly.GobstonesLanguage.procedures_def = function(hasReturn){
+	return function (block) {
+		var name = Blockly.GobstonesLanguage.formatProcName(block.getFieldValue('NAME'));
+		var body = Blockly.GobstonesLanguage.statementToCode(block, 'STACK');
+
+		var args = [];
+		for (var x = 0; x < block.arguments_.length; x++) {
+			args[x] = Blockly.GobstonesLanguage.variableDB_.getName(block.arguments_[x],
+				Blockly.Variables.NAME_TYPE);
+		}
+
+		var value = hasReturn ? Blockly.GobstonesLanguage.valueToCode(block, 'RETURN') : '';
+		var returnExpression = hasReturn ? '\n  return (' + value + ')' : '';
+
+		var declaration = hasReturn ? 'function' : 'procedure'
+		var code = '${declaration} ${name}(' + args.join(', ') + ') {\n' +
+			body + returnExpression + '\n}';
+
+
+		code = Blockly.GobstonesLanguage.scrub_(block, code);
+		Blockly.GobstonesLanguage.definitions_[name] = code;
+
+		return null;
+	};
+};
+
+Blockly.GobstonesLanguage.procedures_defreturn = Blockly.GobstonesLanguage.procedures_def(true);
+Blockly.GobstonesLanguage.procedures_defnoreturn = Blockly.GobstonesLanguage.procedures_def(false);
+
+Blockly.GobstonesLanguage.procedures_callreturn = Blockly.GobstonesLanguage.procedures_callnoreturn;
 
 Blockly.GobstonesLanguage.variables_get = function (block) {
 	var code = Blockly.GobstonesLanguage.variableDB_.getName(block.getFieldValue('VAR'),
