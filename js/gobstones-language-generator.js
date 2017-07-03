@@ -391,12 +391,12 @@ Blockly.GobstonesLanguage.hayBolitas = exprParamsBlockCodeGenerator('hayBolitas'
 Blockly.GobstonesLanguage.nroBolitas = exprParamsBlockCodeGenerator('nroBolitas', ['VALUE']);
 Blockly.GobstonesLanguage.puedeMover = exprParamsBlockCodeGenerator('puedeMover', ['VALUE']);
 
-Blockly.GobstonesLanguage.formatProcName = function (name) {
+Blockly.GobstonesLanguage.formatProcName = function (hasReturn, name) {
 	var pname = Blockly.GobstonesLanguage.variableDB_.getName(
 		name, Blockly.Procedures.NAME_TYPE);
 
 	pname = pname.split('_').map(function(x) { return x[0].toUpperCase() + x.slice(1) }).join('');
-	return pname;
+	return hasReturn ? pname[0].toLowerCase() + pname.slice(1) : pname;
 };
 
 
@@ -414,7 +414,7 @@ Blockly.GobstonesLanguage.procedures_callnoreturn = function (block) {
 
 Blockly.GobstonesLanguage.procedures_def = function(hasReturn){
 	return function (block) {
-		var name = Blockly.GobstonesLanguage.formatProcName(block.getFieldValue('NAME'));
+		var name = Blockly.GobstonesLanguage.formatProcName(hasReturn, block.getFieldValue('NAME'));
 		var body = Blockly.GobstonesLanguage.statementToCode(block, 'STACK');
 
 		var args = [];
@@ -424,10 +424,10 @@ Blockly.GobstonesLanguage.procedures_def = function(hasReturn){
 		}
 
 		var value = hasReturn ? Blockly.GobstonesLanguage.valueToCode(block, 'RETURN') : '';
-		var returnExpression = hasReturn ? '\n  return (' + value + ')' : '';
+		var returnExpression = hasReturn ? '  return (' + value + ')' : '';
 
 		var declaration = hasReturn ? 'function' : 'procedure'
-		var code = '${declaration} ${name}(' + args.join(', ') + ') {\n' +
+		var code = `${declaration} ${name}(` + args.join(', ') + ') {\n' +
 			body + returnExpression + '\n}';
 
 
