@@ -1,3 +1,4 @@
+Blockly.Msg.PROCEDURES_DEFNORETURN_COMMENT = 'Describe el procedimiento...';
 Blockly.Msg.PROCEDURES_DEFNORETURN_PROCEDURE = "Hacer algo";
 Blockly.Msg.PROCEDURES_DEFRETURN_PROCEDURE = "devolver algo";
 Blockly.Msg.PROCEDURES_DEFNORETURN_TITLE = "Definición de procedimiento";
