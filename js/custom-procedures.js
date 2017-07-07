@@ -126,5 +126,19 @@ Blockly.Blocks['procedures_defnoreturnnoparams'] = {
   getVars: Blockly.Blocks['procedures_defnoreturn'].getVars,
   renameVar: Blockly.Blocks['procedures_defnoreturn'].renameVar,
   customContextMenu: Blockly.Blocks['procedures_defnoreturn'].customContextMenu,
-  callType_: Blockly.Blocks['procedures_defnoreturn'].callType_
+  callType_: 'procedures_callnoreturnnoparams'
+};
+
+Blockly.Blocks['procedures_callnoreturnnoparams'] = {
+  init: Blockly.Blocks['procedures_callnoreturn'].init,
+  getProcedureCall: Blockly.Blocks['procedures_callnoreturn'].getProcedureCall,
+  renameProcedure: Blockly.Blocks['procedures_callnoreturn'].renameProcedure,
+  setProcedureParameters_: Blockly.Blocks['procedures_callnoreturn'].setProcedureParameters_,
+  updateShape_: Blockly.Blocks['procedures_callnoreturn'].updateShape_,
+  mutationToDom: Blockly.Blocks['procedures_callnoreturn'].mutationToDom,
+  domToMutation: Blockly.Blocks['procedures_callnoreturn'].domToMutation,
+  renameVar: Blockly.Blocks['procedures_callnoreturn'].renameVar,
+  onchange: Blockly.Blocks['procedures_callnoreturn'].onchange,
+  customContextMenu: Blockly.Blocks['procedures_callnoreturn'].customContextMenu,
+  defType_: 'procedures_defnoreturnnoparams'
 };

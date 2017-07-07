@@ -461,6 +461,7 @@ var procedureCall = function(block) {
 }
 
 Blockly.GobstonesLanguage.procedures_callnoreturn = procedureCall;
+Blockly.GobstonesLanguage.procedures_callnoreturnnoparams = procedureCall;
 Blockly.GobstonesLanguage.procedures_callreturn = procedureCall;
 
 Blockly.GobstonesLanguage.variables_get = function (block) {
