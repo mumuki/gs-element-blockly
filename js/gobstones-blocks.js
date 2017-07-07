@@ -11,35 +11,16 @@ delete Blockly.Blocks.procedures_ifreturn;
 Blockly.Msg.PROCEDURES_DEFNORETURN_COMMENT = 'Describe el procedimiento...';
 
 /**
- * Get the svg representation of a block
+ * Create the svg representation of a block and render
  * @name {!string} name of the parameter.
  * @this Blockly.Block
  */
-Blockly.getBlockSvg = function(workspace, name, f) {
-  var newBlock = workspace.newBlock(name); // new Blockly.Block.obtain(workspace, name);
+Blockly.createBlockSvg = function(workspace, name, f) {
+  var newBlock = workspace.newBlock(name);
   //newBlock.setEditable(false);
   f(newBlock);
   newBlock.initSvg();
   newBlock.render();
-
-  // SVG that contains the svg paramater block
-  var svg = Blockly.createSvgElement('svg', {
-    'width': newBlock.width+10,
-    'height': newBlock.height+5
-  });
-
-  var blockSvg = newBlock.getSvgRoot();
-
-  svg.appendChild(blockSvg);
-
-  // to remove all the listeners
-  var clonedBlockSvg = blockSvg.cloneNode(true);
-  blockSvg.parentNode.replaceChild(clonedBlockSvg, blockSvg);
-
-  // remove the block from top blocks
-  workspace.removeTopBlock(newBlock);
-
-  return svg;
 };
 
 Blockly.Blocks.Program = {
@@ -398,19 +379,15 @@ Blockly.Blocks.Asignacion = {
     );
 	},
   customContextMenu: function(options) {
-    var option = {enabled: true};
     var name = this.getFieldValue('varName');
-    option.text = this.getVariableSvg(name);
-    var xmlField = goog.dom.createDom('field', null, name);
-    xmlField.setAttribute('name', 'VAR');
-    var xmlBlock = goog.dom.createDom('block', null, xmlField);
-    xmlBlock.setAttribute('type', 'variables_get');
-    option.callback = Blockly.ContextMenu.callbackFactory(this, xmlBlock);
-    options.push(option);
+
+    options.unshift({ text: `Crear ${name}`, enabled: true, callback: () => {
+      this.createVariableBlock(name);
+    }});
   },
 
-  getVariableSvg: function(name) {
-    return Blockly.getBlockSvg(this.workspace, 'variables_get', function(b) {
+  createVariableBlock: function(name) {
+    return Blockly.createBlockSvg(this.workspace, 'variables_get', function(b) {
       b.setFieldValue(name, 'VAR');
       b.moveBy(10,5);
     });
