@@ -100,7 +100,7 @@ Blockly.Blocks['procedures_defreturn'].init = makeProcedureInit(
 );
 Blockly.Blocks['procedures_defreturn'].customContextMenu = makeProcedureCustomMenu();
 
-Blockly.Blocks['definition_simple_procedure'] = {
+Blockly.Blocks['procedures_defnoreturnnoparams'] = {
   init: makeProcedureInit(
     false, false,
     Blockly.Msg.PROCEDURES_DEFNORETURN_PROCEDURE,
