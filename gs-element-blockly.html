@@ -47,8 +47,6 @@ Example:
         </category>
         <category name="Procedimientos primitivos">
         </category>
-        <category name="Procedimientos" custom="PROCEDURE">
-        </category>
         <category name="Alternativas">
           <block type="AlternativaSimple"></block>
           <block type="AlternativaCompleta"></block>
@@ -59,6 +57,15 @@ Example:
         </category>
         <category name="Asignación">
           <block type="Asignacion"></block>
+        </category>
+      </category>
+      <category name="Definiciones">
+        <category name="Procedimientos">
+          <block type="definition_simple_procedure"></block>
+          <block type="procedures_defnoreturn"></block>
+        </category>
+        <category name="Funciones">
+          <block type="procedures_defreturn"></block>
         </category>
       </category>
       <category name="Expresiones">
@@ -660,6 +667,7 @@ Example:
   <script src="../blockly-package/blockly_compressed.js"></script>
   <script src="../blockly-package/blocks_compressed.js"></script>
   <script src="../blockly-package/es.js"></script>
+  <script src="js/custom-procedures.js"></script>
   <script src="js/gobstones-blocks.js"></script>
   <script src="js/gobstones-language-generator.js"></script>
   <script src="js/block-aliases.js"></script>
