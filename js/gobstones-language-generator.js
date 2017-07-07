@@ -391,12 +391,31 @@ Blockly.GobstonesLanguage.hayBolitas = exprParamsBlockCodeGenerator('hayBolitas'
 Blockly.GobstonesLanguage.nroBolitas = exprParamsBlockCodeGenerator('nroBolitas', ['VALUE']);
 Blockly.GobstonesLanguage.puedeMover = exprParamsBlockCodeGenerator('puedeMover', ['VALUE']);
 
-Blockly.GobstonesLanguage.formatProcName = function (name) {
+var formatCallName = function (name, capitalizeFirst) {
 	var pname = Blockly.GobstonesLanguage.variableDB_.getName(
 		name, Blockly.Procedures.NAME_TYPE);
 
-	pname = pname.split('_').map(function(x) { return x[0].toUpperCase() + x.slice(1) }).join('');
-	return pname;
+	return pname.split('_').map(function(x, i) {
+		return ((capitalizeFirst || i != 0) ? x[0].toUpperCase() : x[0].toLowerCase()) + x.slice(1)
+	}).join('');
+};
+
+Blockly.GobstonesLanguage.formatProcName = function (name) {
+	return formatCallName(name, true);
+};
+
+Blockly.GobstonesLanguage.formatFuncName = function (name) {
+	return formatCallName(name, false);
+};
+
+var makeParameterList = function (block) {
+	var args = [];
+	for (var x = 0; x < block.arguments_.length; x++) {
+		args[x] = Blockly.GobstonesLanguage.variableDB_.getName(block.arguments_[x],
+			Blockly.Variables.NAME_TYPE);
+	}
+
+	return args.join(', ');	
 };
 
 Blockly.GobstonesLanguage.procedures_defnoreturn = function (block) {
@@ -404,13 +423,8 @@ Blockly.GobstonesLanguage.procedures_defnoreturn = function (block) {
 
 	var body = Blockly.GobstonesLanguage.statementToCode(block, 'STACK');
 
-	var args = [];
-	for (var x = 0; x < block.arguments_.length; x++) {
-		args[x] = Blockly.GobstonesLanguage.variableDB_.getName(block.arguments_[x],
-			Blockly.Variables.NAME_TYPE);
-	}
 	// var args_string = args.map(function (i) { return '"' + i + '"'; }).join(', ');
-	var code = 'procedure ' + name + '(' + args.join(', ') + ') {\n' +
+	var code = 'procedure ' + name + '(' + makeParameterList(block) + ') {\n' +
 		body + '}';
 
 	code = Blockly.GobstonesLanguage.scrub_(block, code);
@@ -419,7 +433,23 @@ Blockly.GobstonesLanguage.procedures_defnoreturn = function (block) {
 	return null;
 };
 
-Blockly.GobstonesLanguage.procedures_callnoreturn = function (block) {
+Blockly.GobstonesLanguage.procedures_defreturn = function (block) {
+	var name = Blockly.GobstonesLanguage.formatFuncName(block.getFieldValue('NAME'));
+	var body = Blockly.GobstonesLanguage.statementToCode(block, 'STACK');
+	var returnValue = Blockly.GobstonesLanguage.valueToCode(block, 'RETURN');
+
+	var code = 'function ' + name + '(' + makeParameterList(block) + ') {\n' +
+		body + '\n  return (' + returnValue + ')\n}';
+
+	code = Blockly.GobstonesLanguage.scrub_(block, code);
+	Blockly.GobstonesLanguage.definitions_[name] = code;
+
+	return null;
+};
+
+Blockly.GobstonesLanguage.procedures_defnoreturnnoparams = Blockly.GobstonesLanguage.procedures_defnoreturn;
+
+var procedureCall = function(block) {
 	var procName = Blockly.GobstonesLanguage.formatProcName(block.getFieldValue('NAME'));
 	var args = [];
 	for (var i = 0; i < block.arguments_.length; i++) {
@@ -428,7 +458,10 @@ Blockly.GobstonesLanguage.procedures_callnoreturn = function (block) {
 	}
 	var code = procName + '(' + args.join(', ') + ')\n';
 	return code;
-};
+}
+
+Blockly.GobstonesLanguage.procedures_callnoreturn = procedureCall;
+Blockly.GobstonesLanguage.procedures_callreturn = procedureCall;
 
 Blockly.GobstonesLanguage.variables_get = function (block) {
 	var code = Blockly.GobstonesLanguage.variableDB_.getName(block.getFieldValue('VAR'),
