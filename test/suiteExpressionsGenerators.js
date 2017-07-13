@@ -63,7 +63,7 @@ function devolverAlgunValor() {
 
 
 program {
-  Poner(D)
+  Poner(devolverAlgunValor())
 }`);
 
   test('Funciones primitivas', function() {

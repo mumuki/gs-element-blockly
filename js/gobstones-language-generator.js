@@ -277,11 +277,10 @@ Blockly.GobstonesLanguage.VaciarTablero = procBlockCodeGenerator('VaciarTablero'
 Blockly.GobstonesLanguage.BOOM = function(block) {
 	var desc = block.getFieldValue('boomDescription');
 	var sinComillasEnvolventes = desc;
-	if(desc[0] === "\"" && desc[desc.length-1] === "\""){
-		sinComillasEnvolventes = desc.substring(1,desc.length-1);
-	}
-
-  return 'BOOM("' + sinComillasEnvolventes.replace(/"/g, "'") + '")\n';
+	if (desc[0] === "\"" && desc[desc.length-1] === "\"") {
+		sinComillasEnvolventes = desc.substring(1, desc.length-1);
+ 	}
+	return 'BOOM("' + sinComillasEnvolventes.replace(/"/g, "'") + '")\n';
 };
 Blockly.GobstonesLanguage.ColorSelector = literalSelectorBlockCodeGenerator('Color');
 Blockly.GobstonesLanguage.DireccionSelector = literalSelectorBlockCodeGenerator('Direccion');
@@ -465,7 +464,7 @@ Blockly.GobstonesLanguage.procedures_callnoreturn = function (block) {
 };
 Blockly.GobstonesLanguage.procedures_callnoreturnnoparams = Blockly.GobstonesLanguage.procedures_callnoreturn;
 Blockly.GobstonesLanguage.procedures_callreturn = function (block) {
-	return procedureCall(block, "formatFuncName");
+	return [procedureCall(block, "formatFuncName"), Blockly.GobstonesLanguage.ORDER_FUNCTION_CALL];
 };
 
 Blockly.GobstonesLanguage.variables_get = function (block) {
