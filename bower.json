@@ -1,21 +1,23 @@
 {
   "name": "gs-element-blockly",
-	"version": "0.3.3",
-	"authors": [
-		"miguelgarcia", "asanzo"
-	],
+  "version": "0.3.3",
+  "authors": [
+    "miguelgarcia",
+    "asanzo"
+  ],
   "description": "Element providing Blockly interface for Gobstones Web",
-	"keywords": [
-		"web-component",
-		"polymer",
-		"gobstones"
-	],
+  "keywords": [
+    "web-component",
+    "polymer",
+    "gobstones"
+  ],
   "main": "gs-element-blockly.html",
-	"license": "http://polymer.github.io/LICENSE.txt",
-	"homepage": "https://github.com/Program-AR/gs-element-blockly",
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/Program-AR/gs-element-blockly",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
-		"blockly-package": "0.0.14"
+    "blockly-package": "0.0.14",
+    "proceds-blockly": "program-ar/proceds-blockly#^0.0.1"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
@@ -23,12 +25,12 @@
     "web-component-tester": "^4.0.0",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
   },
-	"ignore": [
-		"demo",
-		"screenshots",
-		"test",
-		".git*",
-		"gp.sh",
-		"deploy-gh-pages.sh"
-	]
+  "ignore": [
+    "demo",
+    "screenshots",
+    "test",
+    ".git*",
+    "gp.sh",
+    "deploy-gh-pages.sh"
+  ]
 }

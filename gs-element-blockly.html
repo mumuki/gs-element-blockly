@@ -47,6 +47,8 @@ Example:
         </category>
         <category name="Procedimientos primitivos">
         </category>
+        <category name="Mis procedimientos" custom="PROCEDURE_CALLS">
+        </category>
         <category name="Alternativas">
           <block type="AlternativaSimple"></block>
           <block type="AlternativaCompleta"></block>
@@ -57,15 +59,6 @@ Example:
         </category>
         <category name="Asignación">
           <block type="Asignacion"></block>
-        </category>
-      </category>
-      <category name="Definiciones">
-        <category name="Procedimientos">
-          <block type="procedures_defnoreturnnoparams"></block>
-          <block type="procedures_defnoreturn"></block>
-        </category>
-        <category name="Funciones">
-          <block type="procedures_defreturn"></block>
         </category>
       </category>
       <category name="Expresiones">
@@ -82,6 +75,8 @@ Example:
         </category>
         <category name="Funciones primitivas">
         </category>
+        <category name="Mis funciones" custom="FUNCTION_CALLS">
+        </category>
         <category name="Operadores">
           <block type="OperadorNumerico"></block>
           <block type="OperadorDeComparacion"></block>
@@ -90,6 +85,15 @@ Example:
 					<block type="siguiente"></block>
 					<block type="previo"></block>
 					<block type="opuesto"></block>
+        </category>
+      </category>
+      <category name="Definiciones">
+        <category name="Procedimientos">
+          <block type="procedures_defnoreturnnoparams"></block>
+          <block type="procedures_defnoreturn"></block>
+        </category>
+        <category name="Funciones">
+          <block type="procedures_defreturn"></block>
         </category>
       </category>
     </xml>
@@ -662,7 +666,8 @@ Example:
   <script src="../blockly-package/blockly_compressed.js"></script>
   <script src="../blockly-package/blocks_compressed.js"></script>
   <script src="../blockly-package/es.js"></script>
-  <script src="js/custom-procedures.js"></script>
+  <script src="../proceds-blockly/proceds-blockly-original.js"></script>
+  <script src="../proceds-blockly/proceds-blockly.js"></script>
   <script src="js/gobstones-blocks.js"></script>
   <script src="js/gobstones-language-generator.js"></script>
   <script src="js/block-aliases.js"></script>
