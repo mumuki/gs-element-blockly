@@ -613,8 +613,10 @@ Example:
           css: true,
 				});
         var _this = this;
-        this.workspace.addChangeListener(function () { _this._onBlocklyWorkspaceUpdate(); });
-        this.workspace.addChangeListener(Blockly.Events.disableOrphans);
+        this.workspace.addChangeListener(function () {
+          Blockly.Events.disableOrphans();
+          _this._onBlocklyWorkspaceUpdate();
+        });
         this.resetWorkspace()
         this._onresize();
         if(window.jQuery !== undefined) {
