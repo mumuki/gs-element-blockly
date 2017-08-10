@@ -144,5 +144,34 @@ program {
   Poner(x)
 }`);
 
+  gsTestCode('Programa interactivo simple',
+    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="InteractiveProgram" id="4M8QSQ}k!3e]JWdrU!J%" x="42" y="37"><statement name="interactiveprogram"><block type="InteractiveBinding" id="V2p}yq.1ApujDb38?$C$"><field name="InteractiveBindingDropdownKey">ARROW_LEFT</field><field name="InteractiveBindingDropdownModifier">(sin modificador)</field><statement name="block"><block type="Poner" id="Cmx}EXsR;fNBT!.(q0[U"><value name="COLOR"><block type="ColorSelector" id=";aUbR_i?0U7:z9fGAb6F"><field name="ColorDropdown">Rojo</field></block></value></block></statement><next><block type="InteractiveBinding" id="LIT7kl{;AY:]%avnN-V6"><field name="InteractiveBindingDropdownKey">ARROW_LEFT</field><field name="InteractiveBindingDropdownModifier">CTRL_SHIFT</field><statement name="block"><block type="Mover" id="k`zKm;3(AirF13vK.nED"><value name="DIRECCION"><block type="DireccionSelector" id="S}0zF?tRx)_`6bfUWD;e"><field name="DireccionDropdown">Sur</field></block></value></block></statement></block></next></block></statement></block></xml>',
+    `interactive program {
+  K_ARROW_LEFT -> {
+    Poner(Rojo)
+
+  }
+  K_CTRL_SHIFT_ARROW_LEFT -> {
+    Mover(Sur)
+
+  }
+}`);
+
+  gsTestCode('Programa interactivo con init y timeout',
+    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="InteractiveProgram" id="OJ0_`^C^A2dR{:JQA{k!" x="115" y="36"><statement name="interactiveprogram"><block type="InteractiveBinding" id="!fi;cRmzIk[G*1}3l2vi"><field name="InteractiveBindingDropdownKey">ARROW_DOWN</field><field name="InteractiveBindingDropdownModifier">(sin modificador)</field><statement name="block"><block type="VaciarTablero" id=".`.`U/7?xijxFz2H;BF:"></block></statement></block></statement><statement name="init"><block type="Poner" id=";oM;GUh#O1eSs{`TmCPK"><value name="COLOR"><block type="ColorSelector" id="a7*`o8;QYRAgfZT(7mMT"><field name="ColorDropdown">Rojo</field></block></value></block></statement><statement name="timeout"><block type="BOOM" id="qm~y9c3/LjKX!}eYYsm{"><field name="boomDescription">Colgaste</field></block></statement></block></xml>',
+    `interactive program {
+INIT -> {
+  Poner(Rojo)
+
+}
+  K_ARROW_DOWN -> {
+    VaciarTablero()
+
+  }
+TIMEOUT(9982) -> {
+  BOOM("Colgaste")
+
+}
+}`);
 
 });

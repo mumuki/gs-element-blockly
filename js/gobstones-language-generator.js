@@ -360,7 +360,7 @@ Blockly.GobstonesLanguage.InteractiveProgram = function (block) {
 	if (block.$timeout)
 		timeout = `TIMEOUT(${block.$timeout}) -> {\n${Blockly.GobstonesLanguage.statementToCode(block, 'timeout')}\n}\n`;
 
-	let codigo = `interactive program {\n${init}${timeout}${program}}`;
+	let codigo = `interactive program {\n${init}${program}${timeout}}`;
 	return codigo;
 };
 
