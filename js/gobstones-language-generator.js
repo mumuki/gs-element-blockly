@@ -350,8 +350,17 @@ Blockly.GobstonesLanguage.Program = function (block) {
 };
 
 Blockly.GobstonesLanguage.InteractiveProgram = function (block) {
-	let program = Blockly.GobstonesLanguage.statementToCode(block, 'program');
-	let codigo = `interactive program {\n${program}}`;
+	let program = Blockly.GobstonesLanguage.statementToCode(block, 'interactiveprogram');
+	
+	let init = '';
+	if (block.$init)
+		init = `INIT -> {\n${Blockly.GobstonesLanguage.statementToCode(block, 'init')}\n}\n`;
+
+	let timeout = '';
+	if (block.$timeout)
+		timeout = `TIMEOUT(${block.$timeout}) -> {\n${Blockly.GobstonesLanguage.statementToCode(block, 'timeout')}\n}\n`;
+
+	let codigo = `interactive program {\n${init}${timeout}${program}}`;
 	return codigo;
 };
 

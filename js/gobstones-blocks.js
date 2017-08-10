@@ -44,7 +44,7 @@ Blockly.Blocks.InteractiveProgram = {
 				},
 				{
 					"type": "input_statement",
-					"name": "program",
+					"name": "interactiveprogram",
 					"check": ["InteractiveBinding"]
 				}
 			]
@@ -53,7 +53,26 @@ Blockly.Blocks.InteractiveProgram = {
 		this.setDeletable(true);
 		this.setEditable(true);
 		this.setMovable(true);
-	}
+	},
+
+	customContextMenu: function(options) {
+		options.unshift({ text: `Agregar timeout`, enabled: !this.$timeout, callback: () => {
+			let x = '';
+			while (isNaN(parseInt(x)))
+				x = prompt("Ingrese un número en milisegundos");
+			x = parseInt(x);
+			this.$timeout = x;
+
+			this.appendDummyInput().appendField(`Al estar inactivo ${x} milisegundos:`);
+			this.appendStatementInput('timeout');
+		}});
+
+		options.unshift({ text: `Agregar inicialización`, enabled: !this.$init, callback: () => {
+			this.$init = true;
+			this.appendDummyInput().appendField('Al inicializar:');
+			this.appendStatementInput('init');
+		}});
+	},
 };
 
 // -------------------------------------
