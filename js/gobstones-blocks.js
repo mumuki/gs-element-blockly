@@ -3,6 +3,7 @@
 var ControlColor = 60;
 var CommandColor = 200;
 var ExpressionColor = 180;
+var BindingColor = 30;
 
 /**
  * Create the svg representation of a block and render
@@ -10,11 +11,11 @@ var ExpressionColor = 180;
  * @this Blockly.Block
  */
 Blockly.createBlockSvg = function(workspace, name, f) {
-  var newBlock = workspace.newBlock(name);
-  //newBlock.setEditable(false);
-  f(newBlock);
-  newBlock.initSvg();
-  newBlock.render();
+	var newBlock = workspace.newBlock(name);
+	//newBlock.setEditable(false);
+	f(newBlock);
+	newBlock.initSvg();
+	newBlock.render();
 };
 
 Blockly.Blocks.Program = {
@@ -22,11 +23,86 @@ Blockly.Blocks.Program = {
 		this.setColour(100);
 		this.appendDummyInput().appendField('programa');
 		this.appendStatementInput('program');
-		this.setDeletable(false);
-		this.setEditable(false);
-		this.setMovable(false);
+		this.setDeletable(true);
+		this.setEditable(true);
+		this.setMovable(true);
 	}
 };
+
+Blockly.Blocks.InteractiveProgram = {
+	init: function () {
+		this.jsonInit({
+			"type": "InteractiveProgram",
+			"message0": "%1 %2 %3",
+			"args0": [
+				{
+					"type": "field_label",
+					"text": "programa interactivo"
+				},
+				{
+					"type": "input_dummy"
+				},
+				{
+					"type": "input_statement",
+					"name": "program",
+					"check": ["InteractiveBinding"]
+				}
+			]
+		});
+		this.setColour(BindingColor);
+		this.setDeletable(true);
+		this.setEditable(true);
+		this.setMovable(true);
+	}
+};
+
+// -------------------------------------
+// Programa interactivo
+// -------------------------------------
+createInteractiveBinding = (modifiers, keys) => {
+	return {
+		init: function () {
+			this.jsonInit({
+				message0: "%1 %2 %3 %4",
+				type: "InteractiveBinding",
+				previousStatement: "InteractiveBinding",
+				nextStatement: "InteractiveBinding",
+				args0: [
+					{
+						"type": "field_label",
+						"text": "Vincular"
+					},
+					{
+						type: "field_dropdown",
+						name: "InteractiveBindingDropdownKey",
+						options: keys.map(value => [value,value]),
+					},
+					{
+						type: "field_dropdown",
+						name: "InteractiveBindingDropdownModifier",
+						options: modifiers.map(value => [value,value]),
+					},
+					{
+						"type": "field_label",
+						"text": "a:"
+					},
+				],
+				colour: BindingColor,
+				tooltip: "Escoger una entrada",
+			});
+
+			this.appendStatementInput('block');
+		}
+	}
+};
+
+Blockly.Blocks.InteractiveBinding = createInteractiveBinding([
+	'(sin modificador)', 'CTRL_ALT_SHIFT', 'ALT_SHIFT', 'CTRL_ALT', 'CTRL_SHIFT', 'CTRL', 'ALT', 'SHIFT'
+], [
+	'ARROW_LEFT', 'ARROW_RIGHT', 'ARROW_UP', 'ARROW_DOWN',
+	'SPACE', 'ENTER', 'TAB', 'BACKSPACE', 'DELETE', 'ESCAPE',
+	'PLUS', 'MINUS', 'ASTERISK', 'SLASH', 'EQUALS', 'L_PARENT', 'R_PARENT', 'L_BRACKET', 'R_BRACKET', 'L_ANGLEBR', 'R_ANGLEBR'
+]);
 
 // ------------------------------------------------------
 // Control de flujo de ejecucion:
@@ -180,23 +256,23 @@ Blockly.Blocks.VaciarTablero = {
 Blockly.Blocks.BOOM = {
 	init: function () {
 		this.jsonInit({
-  		"lastDummyAlign0": "RIGHT",
-  		"message0": "Hacer ¡BOOM! porque:  %1 %2",
-		  "args0": [
-		    {
-		      "type": "input_dummy"
-		    },
-		    {
-		      "type": "field_input",
-		      "name": "boomDescription",
-		      "text": "Ingresar motivo..."
-		    }
-		  ],
-		  "inputsInline": false,
-		  "previousStatement": true,
-		  "nextStatement": true,
-		  "colour": CommandColor,
-		  "tooltip": "Este comando hace que estalle todo."
+		"lastDummyAlign0": "RIGHT",
+		"message0": "Hacer ¡BOOM! porque:  %1 %2",
+			"args0": [
+			{
+				"type": "input_dummy"
+			},
+			{
+				"type": "field_input",
+				"name": "boomDescription",
+				"text": "Ingresar motivo..."
+			}
+			],
+			"inputsInline": false,
+			"previousStatement": true,
+			"nextStatement": true,
+			"colour": CommandColor,
+			"tooltip": "Este comando hace que estalle todo."
 		});
 	}
 };
@@ -343,81 +419,81 @@ Blockly.Blocks.OperadorLogico = {
 Blockly.Blocks.Asignacion = {
 	init: function () {
 		this.jsonInit(
-      {
-        "type": "asignacion",
-        "message0": "%1 %2 := %3 %4",
-        "args0": [
-          {
-            "type": "field_input",
-            "name": "varName",
-            "text": "nombre de variable"
-          },
-          {
-            "type": "input_dummy"
-          },
-          {
-            "type": "input_dummy"
-          },
-          {
-            "type": "input_value",
-            "name": "varValue"
-          }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": 230,
-        "tooltip": "",
-        "helpUrl": "",
-      }
-    );
+		{
+		"type": "asignacion",
+		"message0": "%1 %2 := %3 %4",
+		"args0": [
+			{
+			"type": "field_input",
+			"name": "varName",
+			"text": "nombre de variable"
+			},
+			{
+			"type": "input_dummy"
+			},
+			{
+			"type": "input_dummy"
+			},
+			{
+			"type": "input_value",
+			"name": "varValue"
+			}
+		],
+		"inputsInline": true,
+		"previousStatement": null,
+		"nextStatement": null,
+		"colour": 230,
+		"tooltip": "",
+		"helpUrl": "",
+		}
+	);
 	},
-  customContextMenu: function(options) {
-    var name = this.getFieldValue('varName');
+	customContextMenu: function(options) {
+	var name = this.getFieldValue('varName');
 
-    options.unshift({ text: `Crear ${name}`, enabled: true, callback: () => {
-      this.createVariableBlock(name);
-    }});
-  },
+	options.unshift({ text: `Crear ${name}`, enabled: true, callback: () => {
+		this.createVariableBlock(name);
+	}});
+	},
 
-  createVariableBlock: function(name) {
-    return Blockly.createBlockSvg(this.workspace, 'variables_get', function(b) {
-      b.setFieldValue(name, 'VAR');
-      b.moveBy(10,5);
-    });
-  }
+	createVariableBlock: function(name) {
+	return Blockly.createBlockSvg(this.workspace, 'variables_get', function(b) {
+		b.setFieldValue(name, 'VAR');
+		b.moveBy(10,5);
+	});
+	}
 };
 
 
 Blockly.Blocks.variables_get = {
 	init: function () {
 		this.jsonInit(
-      {
-        "type": "variables_get",
-        "message0": "%1",
-        "args0": [
-          {
-            "type": "field_label",
-            "name": "VAR",
-            "text": "nombre de variable"
-          }
-        ],
-        "output": null,
-        "colour": 230,
-        "tooltip": "",
-        "helpUrl": "",
-      }
-    );
+		{
+		"type": "variables_get",
+		"message0": "%1",
+		"args0": [
+			{
+			"type": "field_label",
+			"name": "VAR",
+			"text": "nombre de variable"
+			}
+		],
+		"output": null,
+		"colour": 230,
+		"tooltip": "",
+		"helpUrl": "",
+		}
+	);
 	},
-  mutationToDom: function() {
-    var container = document.createElement('mutation');
-    container.setAttribute('var', this.getFieldValue('VAR'));
-    return container;
-  },
-  domToMutation: function(xmlElement) {
-    var var_name = xmlElement.getAttribute('var');
-    this.setFieldValue(var_name, 'VAR');
-  },
+	mutationToDom: function() {
+	var container = document.createElement('mutation');
+	container.setAttribute('var', this.getFieldValue('VAR'));
+	return container;
+	},
+	domToMutation: function(xmlElement) {
+	var var_name = xmlElement.getAttribute('var');
+	this.setFieldValue(var_name, 'VAR');
+	},
 };
 
 Blockly.Blocks.not = createSingleParameterExpressionBlock('not','Bool');
