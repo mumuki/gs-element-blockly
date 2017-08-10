@@ -349,6 +349,22 @@ Blockly.GobstonesLanguage.Program = function (block) {
 	return codigo;
 };
 
+Blockly.GobstonesLanguage.InteractiveProgram = function (block) {
+	let program = Blockly.GobstonesLanguage.statementToCode(block, 'program');
+	let codigo = `interactive program {\n${program}}`;
+	return codigo;
+};
+
+Blockly.GobstonesLanguage.InteractiveBinding = function (block) {
+	let key = block.getFieldValue('InteractiveBindingDropdownKey');
+	const modifier = block.getFieldValue('InteractiveBindingDropdownModifier');
+	if (!modifier.includes("("))
+		key = modifier + "_" + key;
+	const code = Blockly.GobstonesLanguage.statementToCode(block, 'block');
+
+	return `K_${key} -> {\n${code}\n}\n`;
+};
+
 Blockly.GobstonesLanguage.RepeticionSimple = function (block) {
 	let body = Blockly.GobstonesLanguage.statementToCode(block, 'block');
 	var count = Blockly.GobstonesLanguage.valueToCode(block, 'count',
