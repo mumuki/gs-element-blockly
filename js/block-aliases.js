@@ -1,13 +1,30 @@
 Blockly.GobstonesLanguage.blockIDAliases = {
   "ComandosPrimitivos": "Comandos primitivos",
   "ProcedimientosPrimitivos": "Procedimientos primitivos",
+  "MisProcedimientos": "Mis procedimientos",
   "ExpresionesPrimitivas": "Expresiones primitivas",
   "FuncionesPrimitivas": "Funciones primitivas",
+  "CategoriaAsignacion":"Asignación",
   "Color":"ColorSelector",
   "Direccion":"DireccionSelector",
   "Numero":"math_number",
   "Booleano":"BoolSelector",
-  "CategoriaAsignacion":"Asignación"
+  "ExpresionesPrimitivas": "Expresiones primitivas",
+  "FuncionesPrimitivas": "Funciones primitivas",
+  "MisFunciones": "Mis funciones",
+  "OperadorDeNegacion": "not",
+  "OperadorSiguiente": "siguiente",
+  "OperadorPrevio": "previo",
+  "OperadorOpuesto": "opuesto",
+  "DefinicionesDeProgramas": "Programas",
+  "DefinicionDeProgramaComun": "Program",
+  "DefinicionDeProgramaInteractivo": "InteractiveProgram",
+  "DefinicionDeAsociacionDeTecla": "InteractiveBinding",
+  "DefinicionesDeProcedimientos": "Procedimientos",
+  "DefinicionDeProcedimientoSimple": "procedures_defnoreturnnoparams",
+  "DefinicionDeProcedimientoParametrizado": "procedures_defnoreturn",
+  "DefinicionesDeFunciones": "Funciones",
+  "DefinicionDeFuncionParametrizada": "procedures_defreturn"
 };
 
 Blockly.GobstonesLanguage.aliasForBlockID = function(id){
