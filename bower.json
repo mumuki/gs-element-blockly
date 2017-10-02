@@ -16,8 +16,8 @@
   "homepage": "https://github.com/Program-AR/gs-element-blockly",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
-    "blockly-package": "0.0.14",
-    "proceds-blockly": "program-ar/proceds-blockly#^0.0.15"
+    "blockly-package": "0.0.15",
+    "proceds-blockly": "program-ar/proceds-blockly#^0.0.17"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
