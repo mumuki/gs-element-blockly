@@ -158,18 +158,18 @@ program {
 }`);
 
   gsTestCode('Programa interactivo con init y timeout',
-    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="InteractiveProgram" id="OJ0_`^C^A2dR{:JQA{k!" x="115" y="36"><statement name="interactiveprogram"><block type="InteractiveBinding" id="!fi;cRmzIk[G*1}3l2vi"><field name="InteractiveBindingDropdownKey">ARROW_DOWN</field><field name="InteractiveBindingDropdownModifier">(sin modificador)</field><statement name="block"><block type="VaciarTablero" id=".`.`U/7?xijxFz2H;BF:"></block></statement></block></statement><statement name="init"><block type="Poner" id=";oM;GUh#O1eSs{`TmCPK"><value name="COLOR"><block type="ColorSelector" id="a7*`o8;QYRAgfZT(7mMT"><field name="ColorDropdown">Rojo</field></block></value></block></statement><statement name="timeout"><block type="BOOM" id="qm~y9c3/LjKX!}eYYsm{"><field name="boomDescription">Colgaste</field></block></statement></block></xml>',
+    '<xml xmlns="http://www.w3.org/1999/xhtml"><variables></variables><block type="InteractiveProgram" id="EI_R8tY,#qS-kV,s+zpP" x="64" y="30"><mutation init="true" timeout="500"></mutation><statement name="interactiveprogram"><block type="InteractiveBinding" id="j]E20un9Swek}+VSQ4no"><field name="InteractiveBindingDropdownKey">TAB</field><field name="InteractiveBindingDropdownModifier">(sin modificador)</field><statement name="block"><block type="Poner" id="Z..F}DGh2x^JF$u7`UC("><value name="COLOR"><block type="ColorSelector" id="5_8sOjINDQ{r=9y08T!2"><field name="ColorDropdown">Negro</field></block></value></block></statement></block></statement><statement name="init"><block type="Poner" id="l6PLBq_Qi.~I{!`hjMv@"><value name="COLOR"><block type="ColorSelector" id="pw$$k971;q]peG!m/YmM"><field name="ColorDropdown">Rojo</field></block></value></block></statement><statement name="timeout"><block type="Poner" id="e$@GO[LiAS]jrj3Y0RMS"><value name="COLOR"><block type="ColorSelector" id="gN-ztP3b7]5(9TNL0SSt"><field name="ColorDropdown">Verde</field></block></value></block></statement></block></xml>',
     `interactive program {
 INIT -> {
   Poner(Rojo)
 
 }
-  K_ARROW_DOWN -> {
-    VaciarTablero()
+  K_TAB -> {
+    Poner(Negro)
 
   }
-TIMEOUT(9982) -> {
-  BOOM("Colgaste")
+TIMEOUT(500) -> {
+  Poner(Verde)
 
 }
 }`);

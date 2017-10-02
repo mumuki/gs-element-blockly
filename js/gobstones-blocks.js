@@ -61,18 +61,42 @@ Blockly.Blocks.InteractiveProgram = {
 			while (isNaN(parseInt(x)))
 				x = prompt("Ingrese un número en milisegundos");
 			x = parseInt(x);
-			this.$timeout = x;
 
-			this.appendDummyInput().appendField(`Al estar inactivo ${x} milisegundos:`);
-			this.appendStatementInput('timeout');
+			this._addTimeout(x);
 		}});
 
 		options.unshift({ text: `Agregar inicialización`, enabled: !this.$init, callback: () => {
-			this.$init = true;
-			this.appendDummyInput().appendField('Al inicializar:');
-			this.appendStatementInput('init');
+			this._addInit();
 		}});
 	},
+
+	mutationToDom: function() {
+      var container = document.createElement("mutation");
+      if (this.$init) container.setAttribute("init", this.$init);
+      if (this.$timeout) container.setAttribute("timeout", this.$timeout);
+      return container;
+	},
+
+	domToMutation: function(xmlElement) {
+      const init = xmlElement.getAttribute("init");
+      const timeout = xmlElement.getAttribute("timeout");
+      
+      if (init) this._addInit()
+      if (timeout) this._addTimeout(parseInt(timeout));
+	},
+
+	_addInit() {
+		this.$init = true;
+		this.appendDummyInput().appendField('Al inicializar:');
+		this.appendStatementInput('init');
+	},
+
+	_addTimeout(timeout) {
+		this.$timeout = timeout;
+
+		this.appendDummyInput().appendField(`Al estar inactivo ${timeout} milisegundos:`);
+		this.appendStatementInput('timeout');
+	}
 };
 
 // -------------------------------------
