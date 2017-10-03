@@ -442,7 +442,7 @@ Blockly.Blocks.OperadorLogico = {
 				{
 					type: 'field_dropdown',
 					name: 'OPERATOR',
-					options: [['o bien', '||'], ['y también', '&&']]
+					options: [['y también', '&&'], ['o bien', '||']]
 				},
 				{
 					type: 'input_dummy'
