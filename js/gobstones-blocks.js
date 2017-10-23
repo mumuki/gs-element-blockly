@@ -20,9 +20,25 @@ Blockly.createBlockSvg = function(workspace, name, f) {
 
 Blockly.Blocks.Program = {
 	init: function () {
+		this.jsonInit({
+			"type": "Program",
+			"message0": "%1 %2 %3",
+			"args0": [
+				{
+					"type": "field_label",
+					"text": "programa"
+				},
+				{
+					"type": "input_dummy"
+				},
+				{
+					"type": "input_statement",
+					"name": "program",
+					"check": ["Statement"]
+				}
+			]
+		})
 		this.setColour(100);
-		this.appendDummyInput().appendField('programa');
-		this.appendStatementInput('program');
 		this.setDeletable(true);
 		this.setEditable(true);
 		this.setMovable(true);
@@ -254,14 +270,15 @@ Blockly.Blocks.Poner = {
 	init: function () {
 		this.jsonInit({
 			message0: 'Poner %1',
+			type: "Statement",
+			previousStatement: "Statement",
+			nextStatement: "Statement",
 			args0: [
 				{
 					type: 'input_value',
 					name: 'COLOR'
 				}
 			],
-			previousStatement: true,
-			nextStatement: true,
 			colour: CommandColor,
 			tooltip: 'Poner color en casillero.',
 			inputsInline: true
@@ -272,6 +289,9 @@ Blockly.Blocks.Poner = {
 Blockly.Blocks.Sacar = {
 	init: function () {
 		this.jsonInit({
+			type: "Statement",
+			previousStatement: "Statement",
+			nextStatement: "Statement",
 			message0: 'Sacar %1',
 			args0: [
 				{
@@ -279,8 +299,6 @@ Blockly.Blocks.Sacar = {
 					name: 'COLOR'
 				}
 			],
-			previousStatement: true,
-			nextStatement: true,
 			colour: CommandColor,
 			tooltip: 'Sacar color de casillero.',
 			inputsInline: true
@@ -291,6 +309,9 @@ Blockly.Blocks.Sacar = {
 Blockly.Blocks.Mover = {
 	init: function () {
 		this.jsonInit({
+			type: "Statement",
+			previousStatement: "Statement",
+			nextStatement: "Statement",
 			message0: 'Mover %1',
 			args0: [
 				{
@@ -298,8 +319,6 @@ Blockly.Blocks.Mover = {
 					name: 'DIRECCION'
 				}
 			],
-			previousStatement: true,
-			nextStatement: true,
 			colour: CommandColor,
 			tooltip: 'Mover en una dirección.',
 			inputsInline: true
@@ -310,6 +329,9 @@ Blockly.Blocks.Mover = {
 Blockly.Blocks.IrAlBorde = {
 	init: function () {
 		this.jsonInit({
+			type: "Statement",
+			previousStatement: "Statement",
+			nextStatement: "Statement",
 			message0: 'Ir al borde %1',
 			args0: [
 				{
@@ -317,8 +339,6 @@ Blockly.Blocks.IrAlBorde = {
 					name: 'DIRECCION'
 				}
 			],
-			previousStatement: true,
-			nextStatement: true,
 			colour: CommandColor,
 			tooltip: 'Ir al borde del tablero.',
 			inputsInline: true
@@ -329,9 +349,10 @@ Blockly.Blocks.IrAlBorde = {
 Blockly.Blocks.VaciarTablero = {
 	init: function () {
 		this.jsonInit({
+			type: "Statement",
+			previousStatement: "Statement",
+			nextStatement: "Statement",
 			message0: 'Vaciar tablero',
-			previousStatement: true,
-			nextStatement: true,
 			colour: CommandColor,
 			tooltip: 'Vaciar el tablero.',
 			inputsInline: true
@@ -342,21 +363,22 @@ Blockly.Blocks.VaciarTablero = {
 Blockly.Blocks.BOOM = {
 	init: function () {
 		this.jsonInit({
-		"lastDummyAlign0": "RIGHT",
-		"message0": "Hacer ¡BOOM! porque:  %1 %2",
+			"type": "Statement",
+			"previousStatement": "Statement",
+			"nextStatement": "Statement",
+			"lastDummyAlign0": "RIGHT",
+			"message0": "Hacer ¡BOOM! porque:  %1 %2",
 			"args0": [
-			{
-				"type": "input_dummy"
-			},
-			{
-				"type": "field_input",
-				"name": "boomDescription",
-				"text": "Ingresar motivo..."
-			}
+				{
+					"type": "input_dummy"
+				},
+				{
+					"type": "field_input",
+					"name": "boomDescription",
+					"text": "Ingresar motivo..."
+				}
 			],
 			"inputsInline": false,
-			"previousStatement": true,
-			"nextStatement": true,
 			"colour": CommandColor,
 			"tooltip": "Este comando hace que estalle todo."
 		});

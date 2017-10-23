@@ -17,7 +17,7 @@
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
     "blockly-package": "0.0.15",
-    "proceds-blockly": "program-ar/proceds-blockly#^0.0.19"
+    "proceds-blockly": "program-ar/proceds-blockly#^0.0.21"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
