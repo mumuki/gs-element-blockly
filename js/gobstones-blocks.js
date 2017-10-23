@@ -71,18 +71,18 @@ Blockly.Blocks.InteractiveProgram = {
 	},
 
 	mutationToDom: function() {
-      var container = document.createElement("mutation");
-      if (this.$init) container.setAttribute("init", this.$init);
-      if (this.$timeout) container.setAttribute("timeout", this.$timeout);
-      return container;
+		var container = document.createElement("mutation");
+		if (this.$init) container.setAttribute("init", this.$init);
+		if (this.$timeout) container.setAttribute("timeout", this.$timeout);
+		return container;
 	},
 
 	domToMutation: function(xmlElement) {
-      const init = xmlElement.getAttribute("init");
-      const timeout = xmlElement.getAttribute("timeout");
-      
-      if (init) this._addInit()
-      if (timeout) this._addTimeout(parseInt(timeout));
+		const init = xmlElement.getAttribute("init");
+		const timeout = xmlElement.getAttribute("timeout");
+
+		if (init) this._addInit()
+		if (timeout) this._addTimeout(parseInt(timeout));
 	},
 
 	_addInit() {
@@ -185,7 +185,50 @@ Blockly.Blocks.AlternativaSimple = {
 		this.setPreviousStatement(true);
 		this.setNextStatement(true);
 		this.setInputsInline(true);
-	}
+
+		// TODO: Terminar issue https://github.com/gobstones/gobstones-web/issues/211
+		//this.$elseIfCount = 0;
+	},
+/*	customContextMenu: function(options) {
+		var name = this.getFieldValue('varName');
+
+		options.unshift({ text: `Agregar 'si no'`, enabled: !this.$else, callback: () => {
+			this._addElse();
+		}});
+
+		options.unshift({ text: `Agregar 'si no, si'`, enabled: true, callback: () => {
+			this._addElseIf();
+		}});
+	},
+	mutationToDom: function() {
+		var container = document.createElement("mutation");
+		if (this.$elseIfCount) container.setAttribute("elseIfCount", this.$elseIfCount);
+		if (this.$else) container.setAttribute("else", this.$else);
+		return container;
+	},
+
+	domToMutation: function(xmlElement) {
+		const $elseIfCount = parseInt(xmlElement.getAttribute("elseIfcount"));
+		const $else = xmlElement.getAttribute("else");
+
+		if ($else) this._addElse();
+		if ($elseIfCount > 0)
+			for (var i = 0; i < $elseIfCount; i++)
+				this._addElseIf();
+	},
+
+	_addElseIf() {
+		this.$elseIfCount++;
+		this.appendValueInput("condicion" + this.$elseIfCount).appendField("si no, si:");
+		this.appendStatementInput('block' + this.$elseIfCount);
+	},
+
+	_addElse() {
+		this.$else = true;
+
+		this.appendDummyInput().appendField('si no:');
+		this.appendStatementInput('elseBlock');
+	}*/
 };
 
 Blockly.Blocks.AlternativaCompleta = {
@@ -195,7 +238,7 @@ Blockly.Blocks.AlternativaCompleta = {
 			.appendField('Si');
 		this.appendStatementInput('block1');
 		this.appendDummyInput()
-				.appendField('si no:');
+			.appendField('si no:');
 		this.appendStatementInput('block2');
 		this.setPreviousStatement(true);
 		this.setNextStatement(true);
@@ -492,18 +535,18 @@ Blockly.Blocks.Asignacion = {
 	);
 	},
 	customContextMenu: function(options) {
-	var name = this.getFieldValue('varName');
+		var name = this.getFieldValue('varName');
 
-	options.unshift({ text: `Crear ${name}`, enabled: true, callback: () => {
-		this.createVariableBlock(name);
-	}});
+		options.unshift({ text: `Crear ${name}`, enabled: true, callback: () => {
+			this.createVariableBlock(name);
+		}});
 	},
 
 	createVariableBlock: function(name) {
-	return Blockly.createBlockSvg(this.workspace, 'variables_get', function(b) {
-		b.setFieldValue(name, 'VAR');
-		b.moveBy(10,5);
-	});
+		return Blockly.createBlockSvg(this.workspace, 'variables_get', function(b) {
+			b.setFieldValue(name, 'VAR');
+			b.moveBy(10,5);
+		});
 	}
 };
 
@@ -529,13 +572,13 @@ Blockly.Blocks.variables_get = {
 	);
 	},
 	mutationToDom: function() {
-	var container = document.createElement('mutation');
-	container.setAttribute('var', this.getFieldValue('VAR'));
-	return container;
+		var container = document.createElement('mutation');
+		container.setAttribute('var', this.getFieldValue('VAR'));
+		return container;
 	},
 	domToMutation: function(xmlElement) {
-	var var_name = xmlElement.getAttribute('var');
-	this.setFieldValue(var_name, 'VAR');
+		var var_name = xmlElement.getAttribute('var');
+		this.setFieldValue(var_name, 'VAR');
 	},
 };
 
