@@ -1,6 +1,6 @@
 {
   "name": "gs-element-blockly",
-  "version": "0.4.4",
+  "version": "0.5.0",
   "authors": [
     "miguelgarcia",
     "asanzo"
@@ -17,7 +17,7 @@
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
     "blockly-package": "0.0.15",
-    "proceds-blockly": "program-ar/proceds-blockly#^0.0.17"
+    "proceds-blockly": "program-ar/proceds-blockly#^0.0.19"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

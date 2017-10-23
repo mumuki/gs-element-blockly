@@ -57,6 +57,30 @@ program {
   HacerAlgo()
 }`);
 
+  gsTestCode('Función pura',
+  '<xml xmlns="http://www.w3.org/1999/xhtml"><variables></variables><block type="Program" id="MT6=3~!F@#2M!|~{}J[_" x="30" y="30"><statement name="program"><block type="Poner" id="^pe-vNTX(`E3_WS*i)C("><value name="COLOR"><block type="procedures_callreturnsimple" id="?cZ6M@Tb[z=sfj)pVtRV"><mutation name="devolver algo"></mutation></block></value></block></statement></block><block type="procedures_defreturnsimple" id="(0xJ:(i7EX]6`l[#!pb," x="29" y="153"><mutation statements="false"></mutation><field name="NAME">devolver algo</field><value name="RETURN"><block type="ColorSelector" id="zy0ET}dx{(l_/@ysONL("><field name="ColorDropdown">Rojo</field></block></value></block></xml>',
+    `function devolverAlgo() {
+
+  return (Rojo)
+}
+
+
+program {
+  Poner(devolverAlgo())
+}`);
+
+  gsTestCode('Función sin parámetros',
+  '<xml xmlns="http://www.w3.org/1999/xhtml"><variables></variables><block type="Program" id="MT6=3~!F@#2M!|~{}J[_" x="30" y="30"><statement name="program"><block type="Poner" id="^pe-vNTX(`E3_WS*i)C("><value name="COLOR"><block type="procedures_callreturnnoparams" id="W?7wUysIc}AnRm+=I(AV"><mutation name="devolver algo"></mutation></block></value></block></statement></block><block type="procedures_defreturnnoparams" id="++|H|_7sY_@$a!_3R`Go" x="29" y="145"><field name="NAME">devolver algo</field><value name="RETURN"><block type="ColorSelector" id=";K{}Qv00rYv=g!4H}TLM"><field name="ColorDropdown">Rojo</field></block></value></block></xml>',
+    `function devolverAlgo() {
+
+  return (Rojo)
+}
+
+
+program {
+  Poner(devolverAlgo())
+}`);
+
   gsTestCode('AlternativaSimple',
     '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" deletable="false" movable="false" editable="false" x="30" y="30"><statement name="program"><block type="AlternativaSimple"><value name="condicion"><block type="BoolSelector"><field name="BoolDropdown">True</field></block></value><statement name="block"><block type="Poner"><value name="COLOR"><block type="ColorSelector"><field name="ColorDropdown">Rojo</field></block></value></block></statement></block></statement></block></xml>',
     `program {

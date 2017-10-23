@@ -24,6 +24,8 @@ Blockly.GobstonesLanguage.blockIDAliases = {
   "DefinicionDeProcedimientoSimple": "procedures_defnoreturnnoparams",
   "DefinicionDeProcedimientoParametrizado": "procedures_defnoreturn",
   "DefinicionesDeFunciones": "Funciones",
+  "DefinicionDeFuncionPura": "procedures_defreturnsimple",
+  "DefinicionDeFuncionSimple": "procedures_defreturnnoparams",
   "DefinicionDeFuncionParametrizada": "procedures_defreturn"
 };
 
