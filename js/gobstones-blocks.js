@@ -104,14 +104,14 @@ Blockly.Blocks.InteractiveProgram = {
 	_addInit() {
 		this.$init = true;
 		this.appendDummyInput().appendField('Al inicializar:');
-		this.appendStatementInput('init');
+		this.appendStatementInput('init').setCheck(["Statement"]);
 	},
 
 	_addTimeout(timeout) {
 		this.$timeout = timeout;
 
 		this.appendDummyInput().appendField(`Al estar inactivo ${timeout} milisegundos:`);
-		this.appendStatementInput('timeout');
+		this.appendStatementInput('timeout').setCheck(["Statement"]);
 	}
 };
 
@@ -150,7 +150,7 @@ createInteractiveBinding = (modifiers, keys) => {
 				tooltip: "Escoger una entrada",
 			});
 
-			this.appendStatementInput('block');
+			this.appendStatementInput('block').setCheck(["Statement"]);
 		}
 	}
 };
@@ -172,7 +172,7 @@ Blockly.Blocks.RepeticionSimple = {
 		this.setColour(ControlColor);
 		this.appendValueInput('count')
 			.appendField('Repetir');
-		this.appendStatementInput('block');
+		this.appendStatementInput('block').setCheck(["Statement"]);
 		this.setPreviousStatement(true);
 		this.setNextStatement(true);
 		this.setInputsInline(true);
@@ -185,7 +185,7 @@ Blockly.Blocks.RepeticionCondicional = {
 		this.appendValueInput('condicion')
 			.setCheck('Bool')
 			.appendField('Repetir hasta que');
-		this.appendStatementInput('block');
+		this.appendStatementInput('block').setCheck(["Statement"]);
 		this.setPreviousStatement(true);
 		this.setNextStatement(true);
 		this.setInputsInline(true);
@@ -197,7 +197,7 @@ Blockly.Blocks.AlternativaSimple = {
 		this.setColour(ControlColor);
 		this.appendValueInput('condicion')
 			.appendField('Si');
-		this.appendStatementInput('block');
+		this.appendStatementInput('block').setCheck(["Statement"]);
 		this.setPreviousStatement(true);
 		this.setNextStatement(true);
 		this.setInputsInline(true);
@@ -236,14 +236,14 @@ Blockly.Blocks.AlternativaSimple = {
 	_addElseIf() {
 		this.$elseIfCount++;
 		this.appendValueInput("condicion" + this.$elseIfCount).appendField("si no, si:");
-		this.appendStatementInput('block' + this.$elseIfCount);
+		this.appendStatementInput('block' + this.$elseIfCount).setCheck(["Statement"]);
 	},
 
 	_addElse() {
 		this.$else = true;
 
 		this.appendDummyInput().appendField('si no:');
-		this.appendStatementInput('elseBlock');
+		this.appendStatementInput('elseBlock').setCheck(["Statement"]);
 	}*/
 };
 
@@ -252,10 +252,10 @@ Blockly.Blocks.AlternativaCompleta = {
 		this.setColour(ControlColor);
 		this.appendValueInput('condicion')
 			.appendField('Si');
-		this.appendStatementInput('block1');
+		this.appendStatementInput('block1').setCheck(["Statement"]);
 		this.appendDummyInput()
 			.appendField('si no:');
-		this.appendStatementInput('block2');
+		this.appendStatementInput('block2').setCheck(["Statement"]);
 		this.setPreviousStatement(true);
 		this.setNextStatement(true);
 		this.setInputsInline(true);
