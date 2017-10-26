@@ -498,6 +498,69 @@ Example:
         let xml = Blockly.Xml.workspaceToDom(this.workspace);
         this._blocklyWorkspaceXML = Blockly.Xml.domToText(xml);
         this.workspaceXml = this._blocklyWorkspaceXML;
+        this._keepOnlyAProgram(xml);
+      },
+
+      _keepOnlyAProgram(xml) {
+        const findProgram = (programType) => {
+          const children = xml.children;
+          const items = [];
+          for (var i=0; i < children.length; i++)
+            if (children[i].getAttribute("type") === programType)
+              items.push(children[i]);
+          return items;
+        };
+
+        const block = (blockXml) => this.workspace.getBlockById(blockXml.getAttribute("id"));
+
+        const programXmls = findProgram("Program");
+        const interactiveProgramXmls = findProgram("InteractiveProgram");
+
+        // repeated blocks
+        if (programXmls.length > 1) {
+          if (block(programXmls[0]).$timestamp > block(programXmls[1]).$timestamp) {
+            // delete programXmls[0]
+            this.workspace.undo();
+            programXmls.shift();
+          } else {
+            // delete programXmls[1]
+            this.workspace.undo();
+            programXmls.pop();
+          }
+        }
+        if (interactiveProgramXmls.length > 1) {
+          if (block(interactiveProgramXmls[0]).$timestamp > block(interactiveProgramXmls[1]).$timestamp) {
+            // delete interactiveProgramXmls[0]
+            this.workspace.undo();
+            interactiveProgramXmls.shift();
+          } else {
+            // delete interactiveProgramXmls[1]
+            this.workspace.undo();
+            interactiveProgramXmls.pop();
+          }
+        }
+
+        const program = programXmls[0] && block(programXmls[0]);
+        const interactiveProgram = interactiveProgramXmls[0] && block(interactiveProgramXmls[0]);
+
+        if (program && interactiveProgram) {
+          const important = program.$timestamp > interactiveProgram.$timestamp ? program : interactiveProgram;
+          const unimportant = program.$timestamp > interactiveProgram.$timestamp ? interactiveProgram : program;
+
+          const twoActivePrograms = !program.disabled && !interactiveProgram.disabled;
+          const twoDisabledPrograms = program.disabled && interactiveProgram.disabled;
+
+          if (twoActivePrograms || twoDisabledPrograms) {
+            important.setDisabledAndUpdateTimestamp(false);
+            unimportant.setDisabledAndUpdateTimestamp(true);
+          }
+        } else if (program && !interactiveProgram) {
+          program.setDisabledAndUpdateTimestamp(false);
+        } else if (interactiveProgram && !program) {
+          interactiveProgram.setDisabledAndUpdateTimestamp(false);
+        } else if (!program && !interactiveProgram) {
+          this.fire("no-entry-point");
+        }
       },
 
       _onWorkspaceUpdate: function () {

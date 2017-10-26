@@ -42,7 +42,24 @@ Blockly.Blocks.Program = {
 		this.setDeletable(true);
 		this.setEditable(true);
 		this.setMovable(true);
-	}
+	},
+
+	setDisabledAndUpdateTimestamp: function(disabled) {
+		this.setDisabled(disabled);
+		if (!disabled) this.$timestamp = Date.now();
+	},
+
+	mutationToDom: function() {
+		var container = document.createElement("mutation");
+		container.setAttribute("timestamp", this.$timestamp || Date.now());
+		return container;
+	},
+
+	domToMutation: function(xmlElement) {
+		const timestamp = xmlElement.getAttribute("timestamp");
+		this.$timestamp = timestamp || Date.now();
+	},
+
 };
 
 Blockly.Blocks.InteractiveProgram = {
@@ -86,19 +103,27 @@ Blockly.Blocks.InteractiveProgram = {
 		}});
 	},
 
+	setDisabledAndUpdateTimestamp: function(disabled) {
+		this.setDisabled(disabled);
+		if (!disabled) this.$timestamp = Date.now();
+	},
+
 	mutationToDom: function() {
 		var container = document.createElement("mutation");
 		if (this.$init) container.setAttribute("init", this.$init);
 		if (this.$timeout) container.setAttribute("timeout", this.$timeout);
+		container.setAttribute("timestamp", this.$timestamp || Date.now());
 		return container;
 	},
 
 	domToMutation: function(xmlElement) {
 		const init = xmlElement.getAttribute("init");
 		const timeout = xmlElement.getAttribute("timeout");
+		const timestamp = xmlElement.getAttribute("timestamp");
 
 		if (init) this._addInit()
 		if (timeout) this._addTimeout(parseInt(timeout));
+		this.$timestamp = timestamp || Date.now();
 	},
 
 	_addInit() {
