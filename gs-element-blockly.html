@@ -544,6 +544,9 @@ Example:
         const interactiveProgram = interactiveProgramXmls[0] && block(interactiveProgramXmls[0]);
 
         if (program && interactiveProgram) {
+          program.setDeletable(true);
+          interactiveProgram.setDeletable(true);
+          
           const important = program.$timestamp > interactiveProgram.$timestamp ? program : interactiveProgram;
           const unimportant = program.$timestamp > interactiveProgram.$timestamp ? interactiveProgram : program;
 
@@ -556,10 +559,10 @@ Example:
           }
         } else if (program && !interactiveProgram) {
           program.setDisabledAndUpdateTimestamp(false);
+          program.setDeletable(false);
         } else if (interactiveProgram && !program) {
           interactiveProgram.setDisabledAndUpdateTimestamp(false);
-        } else if (!program && !interactiveProgram) {
-          this.fire("no-entry-point");
+          interactiveProgram.setDeletable(false);
         }
       },
 
