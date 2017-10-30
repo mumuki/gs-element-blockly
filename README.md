@@ -2,9 +2,16 @@
 
 Element providing Blockly interface for Gobstones Web
 
-## Install the Polymer-CLI
+## Install Development Environment
 
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your application locally.
+First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) and Bower installed. 
+
+```Bash
+$ npm install -g bower
+$ npm install -g polymer-cli
+```
+
+Then, run `bower install`
 
 ## Viewing Your Application
 
