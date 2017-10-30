@@ -677,8 +677,12 @@ Example:
           toolboxPosition: "start",
           scrollbars: true,
           horizontalLayout: false,
-          collapse: false,
+          collapse: true,
           css: true,
+          zoom: {
+            controls: true,
+            wheel: true
+          }
 				});
         var _this = this;
         this.workspace.addChangeListener(function (a, b, c) {
