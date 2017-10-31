@@ -31,6 +31,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <input type="text" id="primitive_functionstxt" value='["hayFlores_en_", "cuantasHay_en_"]'></input>
       <br/>
       <button id="modificar_dimensionesbtn">Modificar dimensiones</button>
+      <br/>
+      <button id="highlightbtn">Highlight del siguiente bloque:</button>
+      <input type="text" id="highlighttxt" value='Id del bloque (ver xml)'></input><br />
     </p>
     <gs-element-blockly media="../../blockly-package/media/">
     </gs-element-blockly>
@@ -66,6 +69,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       document.querySelector('#set_primitive_functionsbtn').addEventListener('click', function() {
         blocklyElement.set('primitiveFunctions', document.getElementById("primitive_functionstxt").value);
+      });
+
+      document.querySelector('#highlightbtn').addEventListener('click', function() {
+        blocklyElement.highlightBlock(document.getElementById("highlighttxt").value);
       });
 
       document.querySelector('#print_xmlbtn').addEventListener('click', function() {
