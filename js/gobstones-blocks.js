@@ -198,6 +198,8 @@ Blockly.Blocks.RepeticionSimple = {
 		this.setColour(ControlColor);
 		this.appendValueInput('count')
 			.appendField('Repetir');
+		this.appendDummyInput()
+			.appendField('veces');
 		this.appendStatementInput('block').setCheck(["Statement"]);
 		this.setPreviousStatement(true);
 		this.setNextStatement(true);
@@ -669,7 +671,7 @@ Blockly.Blocks.variables_get = {
 	},
 };
 
-Blockly.Blocks.not = createSingleParameterExpressionBlock('not','Bool');
+Blockly.Blocks.not = createSingleParameterExpressionBlock('no','Bool');
 Blockly.Blocks.siguiente = createSingleParameterExpressionBlock('siguiente','*');
 Blockly.Blocks.previo = createSingleParameterExpressionBlock('previo','*');
 Blockly.Blocks.opuesto = createSingleParameterExpressionBlock('opuesto','*');
