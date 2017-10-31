@@ -411,6 +411,12 @@ Blockly.Blocks.BOOM = {
 	}
 };
 
+Blockly.Blocks.makeShadowEventListener = function(event){
+	if(event.blockId == this.id && event.newParentId){
+    	this.setShadow(true);
+	}
+};
+
 Blockly.Blocks.ComandoCompletar = {
 	init: function () {
 		this.jsonInit({
@@ -422,7 +428,9 @@ Blockly.Blocks.ComandoCompletar = {
 			"colour": CompletarColor,
 			"tooltip": "Tenés que reemplazar este bloque por tu solución"
 		});
-	}
+	},
+
+	onchange: Blockly.Blocks.makeShadowEventListener
 };
 
 
@@ -439,7 +447,9 @@ Blockly.Blocks.ExpresionCompletar = {
 			"colour": CompletarColor,
 			"tooltip": "Tenés que reemplazar este bloque por tu solución"
 		});
-	}
+	},
+
+	onchange: Blockly.Blocks.makeShadowEventListener
 };
 
 function createLiteralSelectorBlock(type,values){
