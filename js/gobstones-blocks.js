@@ -4,6 +4,7 @@ var ControlColor = 60;
 var CommandColor = 200;
 var ExpressionColor = 180;
 var BindingColor = 30;
+var CompletarColor = 0;
 
 /**
  * Create the svg representation of a block and render
@@ -409,9 +410,38 @@ Blockly.Blocks.BOOM = {
 		});
 	}
 };
+
+Blockly.Blocks.ComandoCompletar = {
+	init: function () {
+		this.jsonInit({
+			"type": "Statement",
+			"previousStatement": "Statement",
+			"nextStatement": "Statement",
+			"lastDummyAlign0": "RIGHT",
+			"message0": "COMPLETAR",
+			"colour": CompletarColor,
+			"tooltip": "Tenés que reemplazar este bloque por tu solución"
+		});
+	}
+};
+
+
 // ------------------------------------------------------
 // Expresiones:
 // ------------------------------------------------------
+
+Blockly.Blocks.ExpresionCompletar = {
+	init: function () {
+		this.jsonInit({
+			"type": "completar_expression",
+			"message0": "COMPLETAR",
+			"output": "any",
+			"colour": CompletarColor,
+			"tooltip": "Tenés que reemplazar este bloque por tu solución"
+		});
+	}
+};
+
 function createLiteralSelectorBlock(type,values){
 	return {
 		init: function () {

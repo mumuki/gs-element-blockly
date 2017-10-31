@@ -198,4 +198,11 @@ TIMEOUT(500) -> {
 }
 }`);
 
+  gsTestCode('Comando Completar',
+      '<xml><block type="Program"><statement name="program"><block type="ComandoCompletar"><next><block type="Poner"><value name="COLOR"><block type="ColorSelector"><field name="ColorDropdown">Rojo</field></block></value></block></next></block></statement></block></xml>',
+      `program {
+  BOOM("El programa todavía no está completo")
+  Poner(Rojo)
+}`);
+
 });

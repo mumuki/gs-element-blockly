@@ -106,4 +106,9 @@ program {
   }
 }`);
   });
+
+  gsTestCode('Expresión Completar',
+    '<xml><block type="ExpresionCompletar"></block></xml>',
+    'boom("El programa todavía no está completo")'
+  );
 });

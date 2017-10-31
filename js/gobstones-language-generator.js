@@ -282,6 +282,12 @@ Blockly.GobstonesLanguage.BOOM = function(block) {
  	}
 	return 'BOOM("' + sinComillasEnvolventes.replace(/"/g, "'") + '")\n';
 };
+
+
+Blockly.GobstonesLanguage.ComandoCompletar = b => 'BOOM("El programa todavía no está completo")\n';
+Blockly.GobstonesLanguage.ExpresionCompletar = b => ['boom("El programa todavía no está completo")',Blockly.GobstonesLanguage.ORDER_FUNCTION_CALL];
+
+
 Blockly.GobstonesLanguage.ColorSelector = literalSelectorBlockCodeGenerator('Color');
 Blockly.GobstonesLanguage.DireccionSelector = literalSelectorBlockCodeGenerator('Direccion');
 Blockly.GobstonesLanguage.BoolSelector = literalSelectorBlockCodeGenerator('Bool');
