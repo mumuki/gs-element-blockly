@@ -369,7 +369,7 @@ Blockly.Blocks.AlternativaCompleta = {
 		this.appendStatementInput("elseifblock"+id).setCheck(["Statement"]);
 
 		//elseFields.forEach(it => this.inputList.push(it));
-	},
+	}
 };
 
 // ------------------------------------------------------
