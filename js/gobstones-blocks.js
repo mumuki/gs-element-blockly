@@ -92,7 +92,7 @@ Blockly.Blocks.InteractiveProgram = {
 	customContextMenu: function(options) {
 		options.unshift({ text: `Agregar timeout`, enabled: !this.$timeout, callback: () => {
 			let x = '';
-			while (isNaN(parseInt(x)))
+			while (isNaN(parseInt(x)) || parseInt(x) <= 0)
 				x = prompt("Ingrese un número en milisegundos");
 			x = parseInt(x);
 
