@@ -337,22 +337,7 @@ Blockly.Blocks.AlternativaCompleta = {
 		this.setPreviousStatement(true);
 		this.setNextStatement(true);
 		this.setInputsInline(true);
-	},
-
-	// TODO: CUSTOM IF
-	// customContextMenu: function(options) {
-	// 	options.unshift({ text: `Agregar 'si no, si'`, enabled: true, callback: () => {
-	// 		this._addElseIf();
-	// 	}});
-	// },
-
-	// _addElseIf() {
-	// 	const id = Math.random().toString();
-	// 	this.appendValueInput("elseif"+id).appendField("si no, si:");
-	// 	this.appendStatementInput("elseifblock"+id).setCheck(["Statement"]);
-
-	// 	debugger
-	// },
+	}
 };
 
 // ------------------------------------------------------
