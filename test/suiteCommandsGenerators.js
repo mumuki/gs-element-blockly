@@ -69,16 +69,18 @@ program {
   Poner(devolverAlgo())
 }`);
 
-  gsTestCode('Función sin parámetros',
-  '<xml xmlns="http://www.w3.org/1999/xhtml"><variables></variables><block type="Program" id="MT6=3~!F@#2M!|~{}J[_" x="30" y="30"><statement name="program"><block type="Poner" id="^pe-vNTX(`E3_WS*i)C("><value name="COLOR"><block type="procedures_callreturnnoparams" id="W?7wUysIc}AnRm+=I(AV"><mutation name="devolver algo"></mutation></block></value></block></statement></block><block type="procedures_defreturnnoparams" id="++|H|_7sY_@$a!_3R`Go" x="29" y="145"><field name="NAME">devolver algo</field><value name="RETURN"><block type="ColorSelector" id=";K{}Qv00rYv=g!4H}TLM"><field name="ColorDropdown">Rojo</field></block></value></block></xml>',
-    `function devolverAlgo() {
+  gsTestCode('Función pura parametrizada',
+  '<xml xmlns="http://www.w3.org/1999/xhtml"><variables></variables><block type="procedures_defreturnsimplewithparams" id="OMx*|y/u93_;{)/:ccu#" x="75" y="25"><mutation statements="false"><arg name="x"></arg></mutation><field name="NAME">doble</field><value name="RETURN"><block type="OperadorNumerico" id="A?32z4OOoj7fhG$ZcR5F"><field name="OPERATOR">+</field><value name="arg1"><block type="variables_get" id=":,nnUDn1M#f3Z`U9BX,K"><mutation var="x"></mutation></block></value><value name="arg2"><block type="variables_get" id="yXc3JLm.]viK4$~+Xw]r"><mutation var="x"></mutation></block></value></block></value></block><block type="Program" id="GA843XT.)sE1~C[Non9w" deletable="false" x="44" y="155"><mutation timestamp="1509516775623"></mutation><statement name="program"><block type="RepeticionSimple" id="h_+ZaI_b2XipY3U,nDX("><value name="count"><block type="procedures_callreturnsimplewithparams" id="r93jBy6n6qGV_u1{8h1B"><mutation name="doble"><arg name="x"></arg></mutation><value name="ARG0"><block type="math_number" id="wu!JBccEoGwX)=+QNa@5"><field name="NUM">2</field></block></value></block></value><statement name="block"><block type="Poner" id="fX2WzGga]gNg!#0ImYE^"><value name="COLOR"><block type="ColorSelector" id="G5=n=ZS|%Z=nl7:,6s_="><field name="ColorDropdown">Rojo</field></block></value></block></statement></block></statement></block></xml>',
+    `function doble(x) {
 
-  return (Rojo)
+  return (x + x)
 }
 
 
 program {
-  Poner(devolverAlgo())
+  repeat(doble(2)) {
+    Poner(Rojo)
+  }
 }`);
 
   gsTestCode('AlternativaSimple',

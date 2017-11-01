@@ -491,7 +491,7 @@ Blockly.GobstonesLanguage.procedures_defreturn = function (block) {
 };
 
 Blockly.GobstonesLanguage.procedures_defnoreturnnoparams = Blockly.GobstonesLanguage.procedures_defnoreturn;
-Blockly.GobstonesLanguage.procedures_defreturnnoparams = Blockly.GobstonesLanguage.procedures_defreturn;
+Blockly.GobstonesLanguage.procedures_defreturnsimplewithparams = Blockly.GobstonesLanguage.procedures_defreturn;
 Blockly.GobstonesLanguage.procedures_defreturnsimple = Blockly.GobstonesLanguage.procedures_defreturn;
 
 var procedureCall = function(block, formatterName, newLine) {
@@ -513,7 +513,7 @@ Blockly.GobstonesLanguage.procedures_callreturn = function (block) {
 };
 
 Blockly.GobstonesLanguage.procedures_callnoreturnnoparams = Blockly.GobstonesLanguage.procedures_callnoreturn;
-Blockly.GobstonesLanguage.procedures_callreturnnoparams = Blockly.GobstonesLanguage.procedures_callreturn;
+Blockly.GobstonesLanguage.procedures_callreturnsimplewithparams = Blockly.GobstonesLanguage.procedures_callreturn;
 Blockly.GobstonesLanguage.procedures_callreturnsimple = Blockly.GobstonesLanguage.procedures_callreturn;
 
 Blockly.GobstonesLanguage.variables_get = function (block) {
