@@ -331,7 +331,7 @@ Blockly.Blocks.AlternativaCompleta = {
 		this.appendValueInput('condicion')
 			.appendField('Si');
 		this.appendStatementInput('block1').setCheck(["Statement"]);
-		this.appendDummyInput()
+		this.appendDummyInput("else")
 			.appendField('si no:');
 		this.appendStatementInput('block2').setCheck(["Statement"]);
 		this.setPreviousStatement(true);
@@ -339,20 +339,37 @@ Blockly.Blocks.AlternativaCompleta = {
 		this.setInputsInline(true);
 	},
 
-	// TODO: CUSTOM IF
-	// customContextMenu: function(options) {
-	// 	options.unshift({ text: `Agregar 'si no, si'`, enabled: true, callback: () => {
-	// 		this._addElseIf();
-	// 	}});
-	// },
+	customContextMenu: function(options) {
+		options.unshift({ text: `Agregar 'si no, si'`, enabled: true, callback: () => {
+			this._addElseIf();
+		}});
+	},
 
-	// _addElseIf() {
-	// 	const id = Math.random().toString();
-	// 	this.appendValueInput("elseif"+id).appendField("si no, si:");
-	// 	this.appendStatementInput("elseifblock"+id).setCheck(["Statement"]);
+	mutationToDom: function() {
+		var container = document.createElement("mutation");
+		container.setAttribute('elseifcount', this.$elseIfCount || 0);
+		return container;
+	},
 
-	// 	debugger
-	// },
+	domToMutation: function(xmlElement) {
+		this.$elseIfCount = 0;
+
+		var $elseIfCount = xmlElement.getAttribute("elseifcount") || 0;
+		for (var i = 0; i < $elseIfCount; i++)
+			this._addElseIf();
+	},
+
+	_addElseIf() {
+		const id = ++this.$elseIfCount;
+
+		// const elseFields = this.inputList.slice(-2);
+		// elseFields.forEach(it => this.removeInput(it.name));
+
+		this.appendValueInput("elseif"+id).appendField("si no, si:");
+		this.appendStatementInput("elseifblock"+id).setCheck(["Statement"]);
+
+		//elseFields.forEach(it => this.inputList.push(it));
+	},
 };
 
 // ------------------------------------------------------
