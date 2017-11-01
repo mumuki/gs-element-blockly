@@ -144,49 +144,122 @@ Blockly.Blocks.InteractiveProgram = {
 // -------------------------------------
 // Programa interactivo
 // -------------------------------------
-createInteractiveBinding = (modifiers, keys) => {
+const modifiers = [
+	[ 'Control', 'CTRL' ],
+	[ 'Alt', 'ALT' ],
+	[ 'Shift', 'SHIFT' ]
+];
+
+const getModifiersInput = (block) => block.inputList[0];
+const getModifierFields = (block) => getModifiersInput(block).fieldRow.slice(2);
+const getModifierDropdownFields = (block) => getModifierFields(block).filter(it => it.constructor === Blockly.FieldDropdown);
+const getModifierValues = (block) => getModifierDropdownFields(block).map(it => it.getValue());
+const getAvailableModifiers = (block) => {
+	const currentModifiers = getModifierValues(block);
+
+	return modifiers.filter(it =>
+		currentModifiers.indexOf(it[1]) === -1
+	);
+};
+const updateModifierMenuGenerators = (block, nameToIgnore) => {
+	const availableModifiers = getAvailableModifiers(block);
+	const dropdowns = getModifierDropdownFields(block);
+
+	for (var dropdown of dropdowns) {
+		if (dropdown.name !== nameToIgnore)
+			dropdown.menuGenerator_ = modifiers.filter(it => {
+				return it[1] === dropdown.getValue() || availableModifiers.some(availableModifier => availableModifier[1] === it[1])
+			});
+
+	}
+}
+
+createInteractiveBinding = (name, keys) => {
 	return {
 		init: function () {
 			this.jsonInit({
-				message0: "%1 %2 %3 %4",
+				message0: "%1 %2",
 				type: "InteractiveBinding",
 				previousStatement: "InteractiveBinding",
 				nextStatement: "InteractiveBinding",
 				args0: [
 					{
 						"type": "field_label",
-						"text": "Vincular"
+						"text": "Al apretar " + name
 					},
 					{
 						type: "field_dropdown",
 						name: "InteractiveBindingDropdownKey",
-						options: keys.map(value => [value,value]),
-					},
-					{
-						type: "field_dropdown",
-						name: "InteractiveBindingDropdownModifier",
-						options: modifiers.map(value => [value,value]),
-					},
-					{
-						"type": "field_label",
-						"text": "a:"
-					},
+						options: keys.map(it => [it.name, it.code]),
+					}
 				],
 				colour: BindingColor,
 				tooltip: "Escoger una entrada",
 			});
 
 			this.appendStatementInput('block').setCheck(["Statement"]);
+		},
+
+		customContextMenu: function(options) {
+			const modifiersCount = getModifierFields(this).length / 2;
+
+			options.unshift({ text: `Limpiar modificadores`, enabled: modifiersCount > 0, callback: () => {
+				this._cleanModifiers();
+			}});
+			options.unshift({ text: `Agregar modificador`, enabled: modifiersCount < modifiers.length, callback: () => {
+				this._addModifier();
+			}});
+		},
+
+		_addModifier() {
+			const availableModifiers = getAvailableModifiers(this);
+
+			const self = this;
+			const labelName = Math.random().toString();
+			const dropdownName = Math.random().toString();
+
+			getModifiersInput(this).appendField("+").appendField(new Blockly.FieldDropdown(availableModifiers, (newValue) => {
+				setTimeout(() => {
+					updateModifierMenuGenerators(self, dropdownName)
+				}, 0);
+			}));
+
+			const addedFields = getModifierFields(this).slice(-2);
+			addedFields[0].name = labelName;
+			addedFields[1].name = dropdownName;
+
+			updateModifierMenuGenerators(this, dropdownName);
+		},
+
+		_cleanModifiers() {
+			const fieldsToRemove = getModifierFields(this);
+
+			for (var field of fieldsToRemove)
+				getModifiersInput(this).removeField(field.name);
 		}
 	}
 };
 
-Blockly.Blocks.InteractiveBinding = createInteractiveBinding([
-	'(sin modificador)', 'CTRL_ALT_SHIFT', 'ALT_SHIFT', 'CTRL_ALT', 'CTRL_SHIFT', 'CTRL', 'ALT', 'SHIFT'
-], [
-	'ARROW_LEFT', 'ARROW_RIGHT', 'ARROW_UP', 'ARROW_DOWN',
-	'SPACE', 'ENTER', 'TAB', 'BACKSPACE', 'DELETE', 'ESCAPE',
-	'PLUS', 'MINUS', 'ASTERISK', 'SLASH', 'EQUALS', 'L_PARENT', 'R_PARENT', 'L_BRACKET', 'R_BRACKET', 'L_ANGLEBR', 'R_ANGLEBR'
+Blockly.Blocks.InteractiveLetterBinding = createInteractiveBinding("letra", [
+	'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+].map(it => ({ code: it, name: it })));
+
+Blockly.Blocks.InteractiveNumberBinding = createInteractiveBinding("número", [
+	'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'
+].map(it => ({ code: it, name: it })));
+
+Blockly.Blocks.InteractiveKeyBinding = createInteractiveBinding("tecla", [
+	{ code: 'ARROW_LEFT', name: '←' },
+	{ code: 'ARROW_RIGHT', name: '→' },
+	{ code: 'ARROW_UP', name: '↑' },
+	{ code: 'ARROW_DOWN', name: '↓' },
+	{ code: 'MINUS', name: '-' },
+	{ code: 'SPACE', name: 'Espacio' },
+	{ code: 'ENTER', name: 'Enter' },
+	{ code: 'TAB', name: 'Tab' },
+	{ code: 'BACKSPACE', name: 'Borrar' },
+	{ code: 'DELETE', name: 'Suprimir' },
+	{ code: 'ESCAPE', name: 'Escape' }
 ]);
 
 // ------------------------------------------------------
@@ -234,8 +307,6 @@ Blockly.Blocks.AlternativaSimple = {
 		//this.$elseIfCount = 0;
 	},
 /*	customContextMenu: function(options) {
-		var name = this.getFieldValue('varName');
-
 		options.unshift({ text: `Agregar 'si no'`, enabled: !this.$else, callback: () => {
 			this._addElse();
 		}});

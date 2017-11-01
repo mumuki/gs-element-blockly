@@ -169,20 +169,24 @@ program {
 }`);
 
   gsTestCode('Programa interactivo simple',
-    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="InteractiveProgram" id="4M8QSQ}k!3e]JWdrU!J%" x="42" y="37"><statement name="interactiveprogram"><block type="InteractiveBinding" id="V2p}yq.1ApujDb38?$C$"><field name="InteractiveBindingDropdownKey">ARROW_LEFT</field><field name="InteractiveBindingDropdownModifier">(sin modificador)</field><statement name="block"><block type="Poner" id="Cmx}EXsR;fNBT!.(q0[U"><value name="COLOR"><block type="ColorSelector" id=";aUbR_i?0U7:z9fGAb6F"><field name="ColorDropdown">Rojo</field></block></value></block></statement><next><block type="InteractiveBinding" id="LIT7kl{;AY:]%avnN-V6"><field name="InteractiveBindingDropdownKey">ARROW_LEFT</field><field name="InteractiveBindingDropdownModifier">CTRL_SHIFT</field><statement name="block"><block type="Mover" id="k`zKm;3(AirF13vK.nED"><value name="DIRECCION"><block type="DireccionSelector" id="S}0zF?tRx)_`6bfUWD;e"><field name="DireccionDropdown">Sur</field></block></value></block></statement></block></next></block></statement></block></xml>',
+    '<xml xmlns="http://www.w3.org/1999/xhtml"><variables></variables><block type="InteractiveProgram" id="0P/t9LJ-{hrL3nIE8/ef" deletable="false" x="-31" y="-87"><mutation timestamp="1509514104728"></mutation><statement name="interactiveprogram"><block type="InteractiveKeyBinding" id="Vq?+q.uHxq1$6n?Nr%DG"><field name="InteractiveBindingDropdownKey">ARROW_LEFT</field><statement name="block"><block type="Poner" id="R3_+wFKx9%p6o|zOfB7y"><value name="COLOR"><block type="ColorSelector" id="-SHUty}miguROhlDCLdq"><field name="ColorDropdown">Rojo</field></block></value></block></statement><next><block type="InteractiveLetterBinding" id=":ML(q,f:[2RjJPDtKNo9"><field name="InteractiveBindingDropdownKey">A</field><field name="0.0640255051000338">CTRL</field><field name="0.6413408636159283">ALT</field><field name="0.9521788763744488">SHIFT</field><statement name="block"><block type="Poner" id="f=zEWL@AUX]F8gy/06/n"><value name="COLOR"><block type="ColorSelector" id="]0iL{JH^@y]Qb|$w_V9a"><field name="ColorDropdown">Verde</field></block></value></block></statement><next><block type="InteractiveNumberBinding" id="lyvppVO9|(Ltl1*-#fbn"><field name="InteractiveBindingDropdownKey">1</field><field name="0.3063027854522147">SHIFT</field><field name="0.4160989981122878">CTRL</field><statement name="block"><block type="Poner" id="`Ye+S31)c1g@YlW_uq2`"><value name="COLOR"><block type="ColorSelector" id="+TMPfhMjIPw9#)~JE~%t"><field name="ColorDropdown">Azul</field></block></value></block></statement></block></next></block></next></block></statement></block></xml>',
     `interactive program {
   K_ARROW_LEFT -> {
     Poner(Rojo)
 
   }
-  K_CTRL_SHIFT_ARROW_LEFT -> {
-    Mover(Sur)
+  K_CTRL_ALT_SHIFT_A -> {
+    Poner(Verde)
+
+  }
+  K_CTRL_SHIFT_1 -> {
+    Poner(Azul)
 
   }
 }`);
 
   gsTestCode('Programa interactivo con init y timeout',
-    '<xml xmlns="http://www.w3.org/1999/xhtml"><variables></variables><block type="InteractiveProgram" id="EI_R8tY,#qS-kV,s+zpP" x="64" y="30"><mutation init="true" timeout="500"></mutation><statement name="interactiveprogram"><block type="InteractiveBinding" id="j]E20un9Swek}+VSQ4no"><field name="InteractiveBindingDropdownKey">TAB</field><field name="InteractiveBindingDropdownModifier">(sin modificador)</field><statement name="block"><block type="Poner" id="Z..F}DGh2x^JF$u7`UC("><value name="COLOR"><block type="ColorSelector" id="5_8sOjINDQ{r=9y08T!2"><field name="ColorDropdown">Negro</field></block></value></block></statement></block></statement><statement name="init"><block type="Poner" id="l6PLBq_Qi.~I{!`hjMv@"><value name="COLOR"><block type="ColorSelector" id="pw$$k971;q]peG!m/YmM"><field name="ColorDropdown">Rojo</field></block></value></block></statement><statement name="timeout"><block type="Poner" id="e$@GO[LiAS]jrj3Y0RMS"><value name="COLOR"><block type="ColorSelector" id="gN-ztP3b7]5(9TNL0SSt"><field name="ColorDropdown">Verde</field></block></value></block></statement></block></xml>',
+    '<xml xmlns="http://www.w3.org/1999/xhtml"><variables></variables><block type="InteractiveProgram" id="[g}rCy}`;jMPDBhA(UiR" deletable="false" x="60" y="26"><mutation init="true" timeout="500" timestamp="1509514202959"></mutation><statement name="interactiveprogram"><block type="InteractiveKeyBinding" id="hYT~0Z(8j:R;U@t:Igz!"><field name="InteractiveBindingDropdownKey">TAB</field><statement name="block"><block type="Poner" id="L.+[1^,qtM1yfU7]9t,="><value name="COLOR"><block type="ColorSelector" id="uc!Ha|iAc#z2LkpS{nl{"><field name="ColorDropdown">Negro</field></block></value></block></statement></block></statement><statement name="init"><block type="Poner" id="GD55n5h-bX-?0z!e5J^6"><value name="COLOR"><block type="ColorSelector" id="dMht`BxxpOWM3Sq-4pdh"><field name="ColorDropdown">Rojo</field></block></value></block></statement><statement name="timeout"><block type="Poner" id="hK=}v[0H{UzZ68nb)2aQ"><value name="COLOR"><block type="ColorSelector" id="lwnL_Ra7@D#)%,0Q@0I;"><field name="ColorDropdown">Verde</field></block></value></block></statement></block></xml>',
     `interactive program {
 INIT -> {
   Poner(Rojo)
