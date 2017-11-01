@@ -145,9 +145,9 @@ Blockly.Blocks.InteractiveProgram = {
 // Programa interactivo
 // -------------------------------------
 const modifiers = [
-	[ 'Control', 'CTRL' ],
-	[ 'Alt', 'ALT' ],
-	[ 'Shift', 'SHIFT' ]
+	[ 'CTRL', 'CTRL' ],
+	[ 'ALT', 'ALT' ],
+	[ 'SHIFT', 'SHIFT' ]
 ];
 
 const getModifiersInput = (block) => block.inputList[0];
@@ -211,12 +211,32 @@ createInteractiveBinding = (name, keys) => {
 			}});
 		},
 
+		mutationToDom: function() {
+			var container = document.createElement("mutation");
+			container.setAttribute("modifierscount", getModifierValues(this).length.toString());
+			return container;
+		},
+
+		domToMutation: function(xmlElement) {
+			const $modifiersCount = xmlElement.getAttribute("modifierscount");
+			if ($modifiersCount) {
+				const count = parseInt($modifiersCount);
+				for (var i = 0; i < count; i++)
+					this._addModifier();
+			}
+
+			setTimeout(() => {
+				updateModifierMenuGenerators(this);
+			}, 0);
+		},
+
 		_addModifier() {
 			const availableModifiers = getAvailableModifiers(this);
 
 			const self = this;
-			const labelName = Math.random().toString();
-			const dropdownName = Math.random().toString();
+			const id = getModifierValues(this).length + 1;
+			const labelName = "l" + id;
+			const dropdownName = "d" + id;
 
 			getModifiersInput(this).appendField("+").appendField(new Blockly.FieldDropdown(availableModifiers, (newValue) => {
 				setTimeout(() => {
@@ -302,48 +322,7 @@ Blockly.Blocks.AlternativaSimple = {
 		this.setPreviousStatement(true);
 		this.setNextStatement(true);
 		this.setInputsInline(true);
-
-		// TODO: Terminar issue https://github.com/gobstones/gobstones-web/issues/211
-		//this.$elseIfCount = 0;
-	},
-/*	customContextMenu: function(options) {
-		options.unshift({ text: `Agregar 'si no'`, enabled: !this.$else, callback: () => {
-			this._addElse();
-		}});
-
-		options.unshift({ text: `Agregar 'si no, si'`, enabled: true, callback: () => {
-			this._addElseIf();
-		}});
-	},
-	mutationToDom: function() {
-		var container = document.createElement("mutation");
-		if (this.$elseIfCount) container.setAttribute("elseIfCount", this.$elseIfCount);
-		if (this.$else) container.setAttribute("else", this.$else);
-		return container;
-	},
-
-	domToMutation: function(xmlElement) {
-		const $elseIfCount = parseInt(xmlElement.getAttribute("elseIfcount"));
-		const $else = xmlElement.getAttribute("else");
-
-		if ($else) this._addElse();
-		if ($elseIfCount > 0)
-			for (var i = 0; i < $elseIfCount; i++)
-				this._addElseIf();
-	},
-
-	_addElseIf() {
-		this.$elseIfCount++;
-		this.appendValueInput("condicion" + this.$elseIfCount).appendField("si no, si:");
-		this.appendStatementInput('block' + this.$elseIfCount).setCheck(["Statement"]);
-	},
-
-	_addElse() {
-		this.$else = true;
-
-		this.appendDummyInput().appendField('si no:');
-		this.appendStatementInput('elseBlock').setCheck(["Statement"]);
-	}*/
+	}
 };
 
 Blockly.Blocks.AlternativaCompleta = {
@@ -358,7 +337,22 @@ Blockly.Blocks.AlternativaCompleta = {
 		this.setPreviousStatement(true);
 		this.setNextStatement(true);
 		this.setInputsInline(true);
-	}
+	},
+
+	// TODO: CUSTOM IF
+	// customContextMenu: function(options) {
+	// 	options.unshift({ text: `Agregar 'si no, si'`, enabled: true, callback: () => {
+	// 		this._addElseIf();
+	// 	}});
+	// },
+
+	// _addElseIf() {
+	// 	const id = Math.random().toString();
+	// 	this.appendValueInput("elseif"+id).appendField("si no, si:");
+	// 	this.appendStatementInput("elseifblock"+id).setCheck(["Statement"]);
+
+	// 	debugger
+	// },
 };
 
 // ------------------------------------------------------
