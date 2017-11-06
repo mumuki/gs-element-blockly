@@ -725,3 +725,12 @@ Blockly.Blocks.not = createSingleParameterExpressionBlock('no','Bool');
 Blockly.Blocks.siguiente = createSingleParameterExpressionBlock('siguiente','*');
 Blockly.Blocks.previo = createSingleParameterExpressionBlock('previo','*');
 Blockly.Blocks.opuesto = createSingleParameterExpressionBlock('opuesto','*');
+
+
+// Necesario para sanitizar nombres de procedimientos.
+// En la interfaz de bloques de gobstones por ahora vamos a dejar pasar sólo espacios y letras con tilde
+Blockly.Procedures.OldRename = Blockly.Procedures.rename;
+Blockly.Procedures.rename = function(name){
+	name = name.replace(/[^A-Za-z0-9áéíóúñ ]/g,'');
+	return Blockly.Procedures.OldRename.call(this,name);
+};
