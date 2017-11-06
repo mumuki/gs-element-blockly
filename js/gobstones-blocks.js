@@ -643,36 +643,37 @@ Blockly.Blocks.OperadorLogico = {
 
 Blockly.Blocks.Asignacion = {
 	init: function () {
-		this.jsonInit(
-		{
-		"type": "asignacion",
-		"message0": "%1 %2 := %3 %4",
-		"args0": [
-			{
-			"type": "field_input",
-			"name": "varName",
-			"text": "nombre de variable"
-			},
-			{
-			"type": "input_dummy"
-			},
-			{
-			"type": "input_dummy"
-			},
-			{
-			"type": "input_value",
-			"name": "varValue"
-			}
-		],
-		"inputsInline": true,
-		"previousStatement": null,
-		"nextStatement": null,
-		"colour": 230,
-		"tooltip": "",
-		"helpUrl": "",
-		}
-	);
+		this.jsonInit({
+			"type": "asignacion",
+			"message0": "%1 %2 := %3 %4",
+			"args0": [
+				{
+				"type": "field_input",
+				"name": "varName",
+				"text": "nombre de variable",
+				"class": Blockly.Procedures.rename
+				},
+				{
+				"type": "input_dummy"
+				},
+				{
+				"type": "input_dummy"
+				},
+				{
+				"type": "input_value",
+				"name": "varValue"
+				}
+			],
+			"inputsInline": true,
+			"previousStatement": null,
+			"nextStatement": null,
+			"colour": 230,
+			"tooltip": "",
+			"helpUrl": ""
+		});
+		this.getters = [];
 	},
+
 	customContextMenu: function(options) {
 		var name = this.getFieldValue('varName');
 
@@ -682,10 +683,24 @@ Blockly.Blocks.Asignacion = {
 	},
 
 	createVariableBlock: function(name) {
-		return Blockly.createBlockSvg(this.workspace, 'variables_get', function(b) {
+		return Blockly.createBlockSvg(this.workspace, 'variables_get', b => {
 			b.setFieldValue(name, 'VAR');
 			b.moveBy(10,5);
+			b.parentAssignmentBlock = this;
+			this.getters.push(b);
 		});
+	},
+
+	removeGetter: function(block){
+		this.getters.splice(this.getters.indexOf(block),1);
+	},
+
+	onchange: function(event){
+		if(event.blockId == this.id && event.type == Blockly.Events.BLOCK_CHANGE &&
+			event.element == 'field'){
+			console.log(event);
+    		this.getters.forEach(block => block.setFieldValue(event.newValue,'VAR'));
+		};
 	}
 };
 
@@ -719,6 +734,12 @@ Blockly.Blocks.variables_get = {
 		var var_name = xmlElement.getAttribute('var');
 		this.setFieldValue(var_name, 'VAR');
 	},
+
+	onchange: function(event){
+		if(event.blockId == this.id && event.type == Blockly.Events.BLOCK_DELETE){
+    		this.parentAssignmentBlock.removeGetter(this);
+		}
+	}
 };
 
 Blockly.Blocks.not = createSingleParameterExpressionBlock('no','Bool');

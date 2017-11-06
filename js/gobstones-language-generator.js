@@ -533,8 +533,7 @@ Blockly.GobstonesLanguage.Asignacion = function(block) {
 
 
 
-// Necesario para permitir acentuadas en los nombres de procedimiento y variables.
-// TODO: para backwards compatibility, el nombre con mierdas hay que hacerle el mismo replace que Blockly.Procedures.rename
+// Necesario para permitir acentuadas y eñes en los nombres de procedimiento y variables.
 Blockly.Names.prototype.safeName_ = function(name) {
   if (!name) {
     name = 'unnamed';
