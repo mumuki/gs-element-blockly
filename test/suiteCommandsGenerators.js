@@ -120,6 +120,24 @@ program {
   HacerAlgoCon(Rojo, Verde)
 }`);
 
+  gsTestCode('Nombre de procedimiento acepta eñes y tildes', 
+    `<xml xmlns="http://www.w3.org/1999/xhtml"><variables></variables><block type="Program" id=")/i9X3Dkcy@_$dH-T^zG" deletable="false" x="30" y="30"><mutation timestamp="1509993436591"></mutation><statement name="program"><block type="procedures_callnoreturnnoparams" id="D|9vDEzTXWyhJZ7y(DAh"><mutation name="Ñáñaras en el occipucioÁáÉéÍíÓóÚú"></mutation></block></statement></block><block type="procedures_defnoreturnnoparams" id="P7)*c#QiF%zUE13b}+(1" x="37" y="115"><field name="NAME">Ñáñaras en el occipucioÁáÉéÍíÓóÚú</field></block></xml>`,
+    `procedure ÑáñarasEnElOccipucioÁáÉéÍíÓóÚú() {
+}
+
+
+program {
+  ÑáñarasEnElOccipucioÁáÉéÍíÓóÚú()
+}`);
+
+  test('Sanitiza bien nombre de procedimiento al cambiarlo', function() {
+    let element = document.getElementById("gseb");
+    let workspaceXml = `<xml><variables></variables><block type="Program" id=")/i9X3Dkcy@_$dH-T^zG" deletable="false" x="30" y="30"><mutation timestamp="1509990567335"></mutation><statement name="program"><block type="procedures_callnoreturnnoparams" id="D|9vDEzTXWyhJZ7y(DAh"><mutation name="Ñáñaras en el occipucio"></mutation></block></statement></block><block type="procedures_defnoreturnnoparams" id="P7)*c#QiF%zUE13b}+(1" x="37" y="115"><field name="NAME">Ñáñaras en el occipucio</field></block></xml>`;
+    element.workspaceXml = workspaceXml;
+    element.workspace.getBlockById('P7)*c#QiF%zUE13b}+(1').setFieldValue('Ñ!á"ñ#a$r%a&s/E(n)E=l?O¡c]c}i´p+u*c¨i{o-[','NAME');
+    assert.equal(workspaceXml,element.workspaceXml);    
+  });
+
   test('Procedimiento primitivo', function() {
     let element = document.getElementById("gseb");
     element.primitiveProcedures = ['Poner_FloresAl_'];

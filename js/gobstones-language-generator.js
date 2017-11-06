@@ -435,6 +435,8 @@ Blockly.GobstonesLanguage.nroBolitas = exprParamsBlockCodeGenerator('nroBolitas'
 Blockly.GobstonesLanguage.puedeMover = exprParamsBlockCodeGenerator('puedeMover', ['VALUE']);
 
 var formatCallName = function (name, capitalizeFirst) {
+	if(!name) throw new Error("Func/Proc name is empty");
+
 	var pname = Blockly.GobstonesLanguage.variableDB_.getName(
 		name, Blockly.Procedures.NAME_TYPE);
 
@@ -527,4 +529,22 @@ Blockly.GobstonesLanguage.Asignacion = function(block) {
   var code = Blockly.GobstonesLanguage.variableDB_.getName(block.getFieldValue('varName'),
 			Blockly.Variables.NAME_TYPE)  + ' := ' + varValue + '\n';
   return code;
+};
+
+
+
+// Necesario para permitir acentuadas en los nombres de procedimiento y variables.
+// TODO: para backwards compatibility, el nombre con mierdas hay que hacerle el mismo replace que Blockly.Procedures.rename
+Blockly.Names.prototype.safeName_ = function(name) {
+  if (!name) {
+    name = 'unnamed';
+  } else {
+    name = name.replace(/ /g, '_');
+    // Most languages don't allow names with leading numbers.
+    console.log("name: " + name);
+    if ('0123456789'.indexOf(name[0]) != -1) {
+      name = 'my_' + name;
+    }
+  }
+  return name;
 };
