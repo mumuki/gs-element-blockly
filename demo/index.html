@@ -34,6 +34,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <br/>
       <button id="highlightbtn">Highlight del siguiente bloque:</button>
       <input type="text" id="highlighttxt" value='Id del bloque (ver xml)'></input><br />
+      <button id="errorbtn">Error del bloque anterior</button>
     </p>
     <gs-element-blockly media="../../blockly-package/media/">
     </gs-element-blockly>
@@ -73,6 +74,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       document.querySelector('#highlightbtn').addEventListener('click', function() {
         blocklyElement.highlightBlock(document.getElementById("highlighttxt").value);
+      });
+      document.querySelector('#errorbtn').addEventListener('click', function() {
+        blocklyElement.highlightBlockError(document.getElementById("highlighttxt").value, "Este bloque tiene error");
       });
 
       document.querySelector('#print_xmlbtn').addEventListener('click', function() {

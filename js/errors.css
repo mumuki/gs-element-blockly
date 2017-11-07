@@ -1,0 +1,4 @@
+  .blocklyErrorBlock>.blocklyPath {
+    stroke: #f00;
+    stroke-width: 5px;
+  }

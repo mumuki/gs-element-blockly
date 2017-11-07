@@ -9,7 +9,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../polymer/polymer.html">
-
 <!--
 An element providing a solution to no problem in particular.
 
@@ -29,6 +28,7 @@ Example:
 
 <dom-module id="gs-element-blockly">
   <template>
+    <link rel="stylesheet" type="text/css" href="js/errors.css">
     <style>
     </style>
 
@@ -753,6 +753,17 @@ Example:
        */
       highlightBlock: function(blockId) {
         this.workspace.highlightBlock(blockId)
+      },
+
+      /**
+       * Highlight a given block, telling the user it has an error
+       *
+       */
+      showBlockError: function(blockId, description) {
+        let block = this.workspace.getBlockById(blockId);
+        Blockly.utils.addClass(block.getSvgRoot(),'blocklyErrorBlock');
+        block.setWarningText(description);
+        block.warning.setVisible(true);
       },
     });
   </script>
