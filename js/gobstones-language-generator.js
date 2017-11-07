@@ -434,11 +434,10 @@ Blockly.GobstonesLanguage.hayBolitas = exprParamsBlockCodeGenerator('hayBolitas'
 Blockly.GobstonesLanguage.nroBolitas = exprParamsBlockCodeGenerator('nroBolitas', ['VALUE']);
 Blockly.GobstonesLanguage.puedeMover = exprParamsBlockCodeGenerator('puedeMover', ['VALUE']);
 
-var formatCallName = function (name, capitalizeFirst) {
-	if(!name) throw new Error("Func/Proc name is empty");
+var formatCallName = function (name, capitalizeFirst, type = Blockly.PROCEDURE_CATEGORY_NAME) {
+	if(!name) throw new Error(type + " name is empty");
 
-	var pname = Blockly.GobstonesLanguage.variableDB_.getName(
-		name, Blockly.Procedures.NAME_TYPE);
+	var pname = Blockly.GobstonesLanguage.variableDB_.getName(name, type);
 
 	return pname.split('_').map(function(x, i) {
 		return ((capitalizeFirst || i != 0) ? x[0].toUpperCase() : x[0].toLowerCase()) + x.slice(1)
@@ -519,15 +518,14 @@ Blockly.GobstonesLanguage.procedures_callreturnsimplewithparams = Blockly.Gobsto
 Blockly.GobstonesLanguage.procedures_callreturnsimple = Blockly.GobstonesLanguage.procedures_callreturn;
 
 Blockly.GobstonesLanguage.variables_get = function (block) {
-	var code = Blockly.GobstonesLanguage.variableDB_.getName(block.getFieldValue('VAR'),
-			Blockly.Variables.NAME_TYPE);
+	var code = formatCallName(block.getFieldValue('VAR'),false,Blockly.VARIABLE_CATEGORY_NAME);
 	return [code, Blockly.GobstonesLanguage.ORDER_ATOMIC];
 };
 
 Blockly.GobstonesLanguage.Asignacion = function(block) {
   var varValue = Blockly.GobstonesLanguage.valueToCode(block, 'varValue', Blockly.GobstonesLanguage.ORDER_ASSIGNMENT);
-  var code = Blockly.GobstonesLanguage.variableDB_.getName(block.getFieldValue('varName'),
-			Blockly.Variables.NAME_TYPE)  + ' := ' + varValue + '\n';
+  var code = formatCallName(block.getFieldValue('varName'),false,Blockly.VARIABLE_CATEGORY_NAME)  + 
+  	' := ' + varValue + '\n';
   return code;
 };
 
