@@ -96,9 +96,21 @@ program {
     `program {
   if (True) {
     Poner(Rojo)
-  }
-  else {
+  } else {
     Sacar(Verde)
+  }
+}`);
+
+  gsTestCode('AlternativaCompletaConElseIf',
+    '<xml xmlns="http://www.w3.org/1999/xhtml"><variables></variables><block type="Program" id="y8K3OFY%JsjCm*Uq#Dpv" deletable="false" x="30" y="30"><mutation timestamp="1510202309441"></mutation><statement name="program"><block type="AlternativaCompleta" id="MNWz6E`^5ngI]7.%$IUb"><mutation elseif="2" else="1"></mutation><value name="IF0"><block type="puedeMover" id="fe`{wjLfdqTen-noo6c#"><value name="VALUE"><block type="DireccionSelector" id="+UF:VdCz;*AmRK_N75:e"><field name="DireccionDropdown">Este</field></block></value></block></value><statement name="DO0"><block type="Poner" id="`F=BEfI=j]PBZOHRfzNF"><value name="COLOR"><block type="ColorSelector" id="SHzOCNnimV7p(z3p[;^Y"><field name="ColorDropdown">Rojo</field></block></value></block></statement><value name="IF1"><block type="puedeMover" id="(.qrOTHG#!n_(nkLSQIa"><value name="VALUE"><block type="DireccionSelector" id="y(GmjFvgNX=*I/KqH+]h"><field name="DireccionDropdown">Oeste</field></block></value></block></value><statement name="DO1"><block type="Sacar" id="P?[YJ0ODfr,P;gZE(+qk"><value name="COLOR"><block type="ColorSelector" id="i5l)K1SmEIRjr9^kQznG"><field name="ColorDropdown">Rojo</field></block></value></block></statement><value name="IF2"><block type="puedeMover" id="YqAavI[#eOn*!|0$(^C@"><value name="VALUE"><block type="DireccionSelector" id="#{,JB!j%U{R35s$7?G[b"><field name="DireccionDropdown">Sur</field></block></value></block></value><statement name="ELSE"><block type="Mover" id="fs,N4-6ghnxOu!U@(prl"><value name="DIRECCION"><block type="DireccionSelector" id="YIkD:CzF0hlJd3v1q^[_"><field name="DireccionDropdown">Este</field></block></value></block></statement></block></statement></block></xml>',
+    `program {
+  if (puedeMover(Este)) {
+    Poner(Rojo)
+  } else if (puedeMover(Oeste)) {
+    Sacar(Rojo)
+  } else if (puedeMover(Sur)) {
+  } else {
+    Mover(Este)
   }
 }`);
 

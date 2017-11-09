@@ -421,12 +421,26 @@ Blockly.GobstonesLanguage.AlternativaSimple = function (block) {
 };
 
 Blockly.GobstonesLanguage.AlternativaCompleta = function (block) {
-	let body1 = Blockly.GobstonesLanguage.statementToCode(block, 'block1');
-	let body2 = Blockly.GobstonesLanguage.statementToCode(block, 'block2');
-	var condicion = Blockly.GobstonesLanguage.valueToCode(block, 'condicion',
+	const elseIfCount = block.elseifCount_;
+	let body1 = Blockly.GobstonesLanguage.statementToCode(block, 'DO0');
+	let body2 = Blockly.GobstonesLanguage.statementToCode(block, 'ELSE');
+
+	const elseIfBodies = Array.apply(null, Array(elseIfCount))
+		.map(function (_, i) {
+			const id = i + 1;
+			return {
+				condition: Blockly.GobstonesLanguage.valueToCode(block, "IF" + id,
+	Blockly.GobstonesLanguage.ORDER_NONE),
+				body: Blockly.GobstonesLanguage.statementToCode(block, "DO" + id)
+			};
+		}).map(function({ condition, body }) {
+			return ` else if (${condition}) {\n${body}}`;
+		}).join("");
+
+	var condicion = Blockly.GobstonesLanguage.valueToCode(block, 'IF0',
 	Blockly.GobstonesLanguage.ORDER_NONE) || '\'\'';
 
-	let codigo = `if (${condicion}) {\n${body1}}\nelse {\n${body2}}\n`;
+	let codigo = `if (${condicion}) {\n${body1}}${elseIfBodies} else {\n${body2}}\n`;
 	return codigo;
 };
 
