@@ -345,8 +345,8 @@ delete Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN.compose;
 delete Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN.decompose;
 Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN.updateShape_ = function() {
 	// Delete everything.
-	if (this.getInput('ELSE')) {
-		this.removeInput('ELSE');
+	if (this.getInput('block2')) {
+		this.removeInput('block2');
 	}
 	var i = 1;
 	while (this.getInput('IF' + i)) {
@@ -362,7 +362,7 @@ Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN.updateShape_ = function() {
 				.setCheck(["Statement"])
 	}
 	if (this.elseCount_) {
-		this.appendStatementInput('ELSE')
+		this.appendStatementInput('block2')
 			.setCheck(["Statement"])
 			.appendField(Blockly.Msg.CONTROLS_IF_MSG_ELSE);
 	}
@@ -384,14 +384,14 @@ Blockly.Blocks.AlternativaCompleta = {
 			"args0": [
 				{
 					"type": "input_value",
-					"name": "IF0"
+					"name": "condicion"
 				}
 			],
 			"message1": "%{BKY_CONTROLS_IF_MSG_THEN} %1",
 			"args1": [
 				{
 					"type": "input_statement",
-					"name": "DO0",
+					"name": "block1",
 					"check": ["Statement"]
 				}
 			],
@@ -411,19 +411,19 @@ Blockly.Blocks.AlternativaCompleta = {
 		options.unshift({ text: `Agregar 'si no, si'`, enabled: true, callback: () => {
 			this.elseifCount_++;
 
-			const valueConnections = [];
-			const statementConnections = [];
-			const elseStatementConnection = this.getInput("ELSE").connection.targetConnection;
+			const valueConnections = [null];
+			const statementConnections = [null];
+			const elseStatementConnection = this.getInput("block2").connection.targetConnection;
 			let k;
 			let input;
 
-			k = 0;
+			k = 1;
 			while (input = this.getInput("IF" + k)) {
 				valueConnections.push(input.connection.targetConnection);
 				k++;
 			}
 
-			k = 0;
+			k = 1;
 			while (input = this.getInput("DO" + k)) {
 				statementConnections.push(input.connection.targetConnection);
 				k++;
@@ -436,7 +436,7 @@ Blockly.Blocks.AlternativaCompleta = {
 				Blockly.Mutator.reconnect(valueConnections[i], this, 'IF' + i);
 				Blockly.Mutator.reconnect(statementConnections[i], this, 'DO' + i);
 			}
-			Blockly.Mutator.reconnect(elseStatementConnection, this, 'ELSE');
+			Blockly.Mutator.reconnect(elseStatementConnection, this, 'block2');
 		}});
 	}
 };

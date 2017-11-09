@@ -422,8 +422,8 @@ Blockly.GobstonesLanguage.AlternativaSimple = function (block) {
 
 Blockly.GobstonesLanguage.AlternativaCompleta = function (block) {
 	const elseIfCount = block.elseifCount_;
-	let body1 = Blockly.GobstonesLanguage.statementToCode(block, 'DO0');
-	let body2 = Blockly.GobstonesLanguage.statementToCode(block, 'ELSE');
+	let body1 = Blockly.GobstonesLanguage.statementToCode(block, 'block1');
+	let body2 = Blockly.GobstonesLanguage.statementToCode(block, 'block2');
 
 	const elseIfBodies = Array.apply(null, Array(elseIfCount))
 		.map(function (_, i) {
@@ -437,7 +437,7 @@ Blockly.GobstonesLanguage.AlternativaCompleta = function (block) {
 			return ` else if (${condition}) {\n${body}}`;
 		}).join("");
 
-	var condicion = Blockly.GobstonesLanguage.valueToCode(block, 'IF0',
+	var condicion = Blockly.GobstonesLanguage.valueToCode(block, 'condicion',
 	Blockly.GobstonesLanguage.ORDER_NONE) || '\'\'';
 
 	let codigo = `if (${condicion}) {\n${body1}}${elseIfBodies} else {\n${body2}}\n`;
