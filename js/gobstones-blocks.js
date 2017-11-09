@@ -410,7 +410,33 @@ Blockly.Blocks.AlternativaCompleta = {
 	customContextMenu: function(options) {
 		options.unshift({ text: `Agregar 'si no, si'`, enabled: true, callback: () => {
 			this.elseifCount_++;
+
+			const valueConnections = [];
+			const statementConnections = [];
+			const elseStatementConnection = this.getInput("ELSE").connection.targetConnection;
+			let k;
+			let input;
+
+			k = 0;
+			while (input = this.getInput("IF" + k)) {
+				valueConnections.push(input.connection.targetConnection);
+				k++;
+			}
+
+			k = 0;
+			while (input = this.getInput("DO" + k)) {
+				statementConnections.push(input.connection.targetConnection);
+				k++;
+			}
+
 			this.updateShape_();
+
+			// Reconnect any child blocks.
+			for (var i = 1; i <= this.elseifCount_; i++) {
+				Blockly.Mutator.reconnect(valueConnections[i], this, 'IF' + i);
+				Blockly.Mutator.reconnect(statementConnections[i], this, 'DO' + i);
+			}
+			Blockly.Mutator.reconnect(elseStatementConnection, this, 'ELSE');
 		}});
 	}
 };
