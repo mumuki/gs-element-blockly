@@ -92,7 +92,7 @@ program {
 }`);
 
   gsTestCode('AlternativaCompleta',
-    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" deletable="false" movable="false" editable="false" x="30" y="30"><statement name="program"><block type="AlternativaCompleta"><value name="IF0"><block type="BoolSelector"><field name="BoolDropdown">True</field></block></value><statement name="DO0"><block type="Poner"><value name="COLOR"><block type="ColorSelector"><field name="ColorDropdown">Rojo</field></block></value></block></statement><statement name="ELSE"><block type="Sacar"><value name="COLOR"><block type="ColorSelector"><field name="ColorDropdown">Verde</field></block></value></block></statement></block></statement></block></xml>',
+    '<xml xmlns="http://www.w3.org/1999/xhtml"><variables></variables><block type="Program" id=".)lJS!4;?t(uzqy3pPHG" deletable="false" movable="false" editable="false" x="30" y="30"><mutation timestamp="1510689378113"></mutation><statement name="program"><block type="AlternativaCompleta" id="`g!0-)%FA;`PH3_x=?!A"><mutation else="1"></mutation><value name="condicion"><block type="BoolSelector" id="-*w`VB](Kef(=k%f!nar"><field name="BoolDropdown">True</field></block></value><statement name="block1"><block type="Poner" id="gK{ipr6+XOqbEq_Xg1J9"><value name="COLOR"><block type="ColorSelector" id="hV%u1T/Mu?;9wL#eB_^Z"><field name="ColorDropdown">Rojo</field></block></value></block></statement><statement name="block2"><block type="Sacar" id="~B};/=rl_?UGOC)h+`M`"><value name="COLOR"><block type="ColorSelector" id="/]eSqaffOw8P%z|wD2^I"><field name="ColorDropdown">Verde</field></block></value></block></statement></block></statement></block></xml>',
     `program {
   if (True) {
     Poner(Rojo)
