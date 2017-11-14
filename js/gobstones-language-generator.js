@@ -294,20 +294,20 @@ Blockly.GobstonesLanguage.BoolSelector = literalSelectorBlockCodeGenerator('Bool
 
 Blockly.GobstonesLanguage.OperadorDeComparacion = function (block) {
 	var code =
-		(Blockly.GobstonesLanguage.valueToCode(block, 'arg1', Blockly.GobstonesLanguage.ORDER_RELATIONAL) || '\'\'') +
+		(Blockly.GobstonesLanguage.valueToCode(block, 'arg1', Blockly.GobstonesLanguage.ORDER_RELATIONAL) || '()') +
 ' ' +
 		block.getFieldValue('RELATION') +
 		' ' +
-		(Blockly.GobstonesLanguage.valueToCode(block, 'arg2', Blockly.GobstonesLanguage.ORDER_RELATIONAL) || '\'\'');
+		(Blockly.GobstonesLanguage.valueToCode(block, 'arg2', Blockly.GobstonesLanguage.ORDER_RELATIONAL) || '()');
 	return [code, Blockly.GobstonesLanguage.ORDER_RELATIONAL];
 };
 
 Blockly.GobstonesLanguage.OperadorNumerico = function (block) {
 	var code = (Blockly.GobstonesLanguage.valueToCode(block, 'arg1',
-		Blockly.GobstonesLanguage.ORDER_MODULUS) || '\'\'') +
+		Blockly.GobstonesLanguage.ORDER_MODULUS) || '()') +
 		' ' + block.getFieldValue('OPERATOR') + ' ' +
 		(Blockly.GobstonesLanguage.valueToCode(block, 'arg2',
-			Blockly.GobstonesLanguage.ORDER_MODULUS) || '\'\'')
+			Blockly.GobstonesLanguage.ORDER_MODULUS) || '()')
 		;
 	return [code, Blockly.GobstonesLanguage.ORDER_MODULUS];
 };
@@ -316,8 +316,8 @@ Blockly.GobstonesLanguage.OperadorLogico = function(block) {
   // Operations 'and', 'or'.
 	var operator = block.getFieldValue('OPERATOR');
 	var order = (operator == '&&') ? Blockly.GobstonesLanguage.ORDER_LOGICAL_AND : Blockly.GobstonesLanguage.ORDER_LOGICAL_OR;
-	var argument0 = Blockly.GobstonesLanguage.valueToCode(block, 'arg1', order);
-	var argument1 = Blockly.GobstonesLanguage.valueToCode(block, 'arg2', order);
+	var argument0 = Blockly.GobstonesLanguage.valueToCode(block, 'arg1', order) || '()';
+	var argument1 = Blockly.GobstonesLanguage.valueToCode(block, 'arg2', order) || '()';
 /* Este código lo comento porque creo que prefiero que estalle gobstones web
 	if (!argument0 && !argument1) {
 		// If there are no arguments, then the return value is false.
@@ -396,7 +396,7 @@ Blockly.GobstonesLanguage.InteractiveKeyBinding = Blockly.GobstonesLanguage.Inte
 Blockly.GobstonesLanguage.RepeticionSimple = function (block) {
 	let body = Blockly.GobstonesLanguage.statementToCode(block, 'block');
 	var count = Blockly.GobstonesLanguage.valueToCode(block, 'count',
-	Blockly.GobstonesLanguage.ORDER_NONE) || '\'\'';
+	Blockly.GobstonesLanguage.ORDER_NONE) || '';
 
 	let codigo = `repeat(${count}) {\n${body}}\n`;
 	return codigo;
@@ -405,7 +405,7 @@ Blockly.GobstonesLanguage.RepeticionSimple = function (block) {
 Blockly.GobstonesLanguage.RepeticionCondicional = function (block) {
 	let body = Blockly.GobstonesLanguage.statementToCode(block, 'block');
 	var condicion = Blockly.GobstonesLanguage.valueToCode(block, 'condicion',
-	Blockly.GobstonesLanguage.ORDER_NONE) || '\'\'';
+	Blockly.GobstonesLanguage.ORDER_NONE) || '';
 
 	let codigo = `while (not (${condicion})) {\n${body}}\n`;
 	return codigo;
@@ -414,7 +414,7 @@ Blockly.GobstonesLanguage.RepeticionCondicional = function (block) {
 Blockly.GobstonesLanguage.AlternativaSimple = function (block) {
 	let body = Blockly.GobstonesLanguage.statementToCode(block, 'block');
 	var condicion = Blockly.GobstonesLanguage.valueToCode(block, 'condicion',
-	Blockly.GobstonesLanguage.ORDER_NONE) || '\'\'';
+	Blockly.GobstonesLanguage.ORDER_NONE) || '';
 
 	let codigo = `if (${condicion}) {\n${body}}\n`;
 	return codigo;
@@ -438,7 +438,7 @@ Blockly.GobstonesLanguage.AlternativaCompleta = function (block) {
 		}).join("");
 
 	var condicion = Blockly.GobstonesLanguage.valueToCode(block, 'condicion',
-	Blockly.GobstonesLanguage.ORDER_NONE) || '\'\'';
+	Blockly.GobstonesLanguage.ORDER_NONE) || '';
 
 	let codigo = `if (${condicion}) {\n${body1}}${elseIfBodies} else {\n${body2}}\n`;
 	return codigo;
@@ -514,7 +514,7 @@ var procedureCall = function(block, formatterName, newLine) {
 	var args = [];
 	for (var i = 0; i < block.arguments_.length; i++) {
 		args[i] = Blockly.GobstonesLanguage.valueToCode(block, 'ARG' + i,
-			Blockly.GobstonesLanguage.ORDER_COMMA) || 'null';
+			Blockly.GobstonesLanguage.ORDER_COMMA) || '';
 	}
 	var code = procName + '(' + args.join(', ') + ')' + (newLine ? '\n' : '');
 	return code;

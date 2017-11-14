@@ -248,4 +248,38 @@ TIMEOUT(500) -> {
   Poner(Rojo)
 }`);
 
+  gsTestCode('Comandos y expresiones con parámetros sin rellenar deben devolver código en blanco',
+      '<xml xmlns="http://www.w3.org/1999/xhtml"><variables></variables><block type="Program" id="!sG7LchMD3N[60^Mz#2^" deletable="false" x="30" y="30"><mutation timestamp="1510072375269"></mutation><statement name="program"><block type="Poner" id="Y7GT)6A;*h[v@[_32-_-"><next><block type="Sacar" id="/MWG]aNn#0Asxc`l%j*E"><next><block type="Mover" id="G#i.xQ?JC#!DL[??S%##"><next><block type="IrAlBorde" id="fkUTa_B3tRz9Ez^?*0+9"><next><block type="BOOM" id="8z_(nzT%OIxrQ5b^Y9)q"><field name="boomDescription">Ingresar motivo...</field><next><block type="procedures_callnoreturn" id="::nFHVcC)nG#jAZ*Q+`?"><mutation name="Hacer algo"><arg name="asdf"></arg></mutation><next><block type="AlternativaSimple" id="ipHIXS=a-rG8cU@6a]ug"><next><block type="AlternativaCompleta" id="*O*Ee`VLoQGfcI6WKJL2"><next><block type="RepeticionSimple" id="P8m250kum!I3K64H.c*q"><next><block type="RepeticionCondicional" id="4[228L5NIsjd9+!px1sx"><next><block type="Asignacion" id="VTzYFzn(]bALkWhc8Z$_"><field name="varName">nombre de variable</field><value name="varValue"><block type="hayBolitas" id="?HHLu?2kGS0W^0drCL.T"></block></value><next><block type="Asignacion" id="Hc]*JK9U)E7]H8!C:iQR"><field name="varName">nombre de variable</field><value name="varValue"><block type="puedeMover" id="z[Wl{qWNz=4!]8L,yf0;"></block></value><next><block type="Asignacion" id="X.@8HDfu*]3`I[Nt!6Ri"><field name="varName">nombre de variable</field><value name="varValue"><block type="nroBolitas" id="zfLRecgF8degn7c|uIN^"></block></value><next><block type="Asignacion" id="Vl#cFK!5AX``#`DX$H1-"><field name="varName">nombre de variable</field><value name="varValue"><block type="OperadorNumerico" id="C@(@bp{Vrv}Tm[NHJCE$"><field name="OPERATOR">+</field></block></value><next><block type="Asignacion" id="Jykp+X_!k=/fbS_@0QfW"><field name="varName">nombre de variable</field><value name="varValue"><block type="OperadorDeComparacion" id="CQ9rs;hW77XR+:JWe.,J"><field name="RELATION">==</field></block></value><next><block type="Asignacion" id="s|H;4).^THhxp]b+JJku"><field name="varName">nombre de variable</field><value name="varValue"><block type="OperadorLogico" id="YG]0KQ@y[X4+!sa|!l}_"><field name="OPERATOR">&amp;&amp;</field></block></value><next><block type="Asignacion" id="t2ilzMHdanhC(WJb~++V"><field name="varName">nombre de variable</field><value name="varValue"><block type="not" id="h07SqD_{9zF4Jy*Jo4=W"></block></value><next><block type="Asignacion" id="5h)|u,,vM}opx60u?2%X"><field name="varName">nombre de variable</field><value name="varValue"><block type="siguiente" id="1$;XX-Xn|QrUAsOWM$)!"></block></value><next><block type="Asignacion" id="Kp=Ga0Nk(!shr:y}My0y"><field name="varName">nombre de variable</field><value name="varValue"><block type="previo" id="4!KOQ]?QJOr5B_FX*z8C"></block></value><next><block type="Asignacion" id="gV_a!5.YB.fZF%+%!ieg"><field name="varName">nombre de variable</field><value name="varValue"><block type="opuesto" id="a)4dC./3HZC*K!!WC27?"></block></value></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></statement></block><block type="procedures_defnoreturn" id="H+mCH!$B@eUpijw#xe:0" x="271" y="32"><mutation><arg name="asdf"></arg></mutation><field name="NAME">Hacer algo</field></block></xml>',
+      `procedure HacerAlgo(asdf) {
+}
+
+
+program {
+  Poner()
+  Sacar()
+  Mover()
+  IrAlBorde()
+  BOOM("Ingresar motivo...")
+  HacerAlgo()
+  if () {
+  }
+  if () {
+  } else {
+  }
+  repeat() {
+  }
+  while (not ()) {
+  }
+  nombreDeVariable := hayBolitas()
+  nombreDeVariable := puedeMover()
+  nombreDeVariable := nroBolitas()
+  nombreDeVariable := () + ()
+  nombreDeVariable := () == ()
+  nombreDeVariable := () && ()
+  nombreDeVariable := not()
+  nombreDeVariable := siguiente()
+  nombreDeVariable := previo()
+  nombreDeVariable := opuesto()
+}`);
+
 });
