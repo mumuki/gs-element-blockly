@@ -799,8 +799,7 @@ Blockly.Blocks.Asignacion = {
 	onchange: function(event){
 		if(event.blockId == this.id && event.type == Blockly.Events.BLOCK_CHANGE &&
 			event.element == 'field'){
-			console.log(event);
-				this.getters.forEach(block => block.setFieldValue(event.newValue,'VAR'));
+    		this.getters.forEach(block => block.setFieldValue(event.newValue,'VAR'));
 		};
 	}
 };
