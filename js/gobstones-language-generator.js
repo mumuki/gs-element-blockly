@@ -552,7 +552,6 @@ Blockly.Names.prototype.safeName_ = function(name) {
   } else {
     name = name.replace(/ /g, '_');
     // Most languages don't allow names with leading numbers.
-    console.log("name: " + name);
     if ('0123456789'.indexOf(name[0]) != -1) {
       name = 'my_' + name;
     }
