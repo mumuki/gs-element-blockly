@@ -297,7 +297,7 @@ Blockly.Blocks.RepeticionSimple = {
 
 		this.setColour(ControlColor);
 		this.appendValueInput('count')
-			.appendField('Repetir');
+			.appendField('repetir');
 		this.appendDummyInput()
 			.appendField('veces');
 		this.appendStatementInput('block').setCheck(["Statement"]);
@@ -316,7 +316,7 @@ Blockly.Blocks.RepeticionCondicional = {
 		this.setColour(ControlColor);
 		this.appendValueInput('condicion')
 			.setCheck('Bool')
-			.appendField('Repetir hasta que');
+			.appendField('repetir hasta que');
 		this.appendStatementInput('block').setCheck(["Statement"]);
 		this.setInputsInline(true);
 	}
@@ -332,15 +332,15 @@ Blockly.Blocks.AlternativaSimple = {
 
 		this.setColour(ControlColor);
 		this.appendValueInput('condicion')
-			.appendField('Si');
+			.appendField(Blockly.Msg["CONTROLS_IF_MSG_IF"]);
 		this.appendStatementInput('block').setCheck(["Statement"]);
 		this.setInputsInline(true);
 	}
 };
 
-Blockly.Msg["CONTROLS_IF_MSG_ELSE"] = "Si no";
-Blockly.Msg["CONTROLS_IF_MSG_ELSEIF"] = "Si no, si";
-Blockly.Msg["CONTROLS_IF_MSG_IF"] = "Si";
+Blockly.Msg["CONTROLS_IF_MSG_ELSE"] = "si no";
+Blockly.Msg["CONTROLS_IF_MSG_ELSEIF"] = "si no, si";
+Blockly.Msg["CONTROLS_IF_MSG_IF"] = "si";
 Blockly.Msg["CONTROLS_IF_MSG_THEN"] = "";
 delete Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN.compose;
 delete Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN.decompose;
