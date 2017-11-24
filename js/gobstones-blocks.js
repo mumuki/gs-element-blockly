@@ -145,9 +145,9 @@ Blockly.Blocks.InteractiveProgram = {
 // Programa interactivo
 // -------------------------------------
 const modifiers = [
+	[ 'SHIFT', 'SHIFT' ],
 	[ 'CTRL', 'CTRL' ],
-	[ 'ALT', 'ALT' ],
-	[ 'SHIFT', 'SHIFT' ]
+	[ 'ALT', 'ALT' ]
 ];
 
 const getModifiersInput = (block) => block.inputList[0];
