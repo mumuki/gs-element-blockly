@@ -144,6 +144,7 @@ Blockly.Blocks.InteractiveProgram = {
 // -------------------------------------
 // Programa interactivo
 // -------------------------------------
+
 const modifiers = [
 	[ 'SHIFT', 'SHIFT' ],
 	[ 'CTRL', 'CTRL' ],
@@ -586,6 +587,21 @@ Blockly.Blocks.ComandoCompletar = {
 	onchange: Blockly.Blocks.makeShadowEventListener
 };
 
+Blockly.Blocks.AsociacionDeTeclaCompletar = {
+	init: function () {
+		this.jsonInit({
+			"type": "InteractiveBinding",
+			"previousStatement": "InteractiveBinding",
+			"nextStatement": "InteractiveBinding",
+			"lastDummyAlign0": "RIGHT",
+			"message0": "COMPLETAR",
+			"colour": CompletarColor,
+			"tooltip": "Tenés que reemplazar este bloque por tu solución"
+		});
+	},
+
+	onchange: Blockly.Blocks.makeShadowEventListener
+};
 
 // ------------------------------------------------------
 // Expresiones:
