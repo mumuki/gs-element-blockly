@@ -266,6 +266,26 @@ Blockly.GobstonesLanguage.init = function () {
 	} else {
 		Blockly.GobstonesLanguage.variableDB_ =
 				new Blockly.Names(Blockly.GobstonesLanguage.RESERVED_WORDS_);
+		
+		// Gobstones lets ñáéíóú, so Blockly's safeName should be rewritten.
+		// In the process, makes everything CamelCase which is Gobstones' default.
+		Blockly.GobstonesLanguage.variableDB_.safeName_ = function(name) {
+		  if (!name) return 'unnamed';
+		  
+		  //Get rid of unwanted chars
+		  var safe = name.replace(/[^\wáéíóúÁÉÍÓÚñÑ ]/g, '')
+
+		  //Escape initial numbers
+		  if ('0123456789'.indexOf(safe[0]) != -1) safe = 'my ' + safe;
+
+		  // Join spaces capitalizing in the process: ¡Gobstones is CamelCase!
+		  // Leave first char as user wanted, for now...
+		  var safe = safe.split(' ').map((x, i) =>
+				i == 0 ? x : x[0].toUpperCase() + x.slice(1)
+		  	).join('');
+		  
+		  return safe;
+		};
 	}
 };
 
@@ -450,38 +470,20 @@ Blockly.GobstonesLanguage.puedeMover = exprParamsBlockCodeGenerator('puedeMover'
 
 var formatCallName = function (name, capitalizeFirst, type = Blockly.PROCEDURE_CATEGORY_NAME) {
 	if(!name) throw new Error(type + " name is empty");
-
-	var pname = Blockly.GobstonesLanguage.variableDB_.getName(name, type);
-
-	return pname.split('_').map(function(x, i) {
-		return ((capitalizeFirst || i != 0) ? x[0].toUpperCase() : x[0].toLowerCase()) + x.slice(1)
-	}).join('');
-};
-
-Blockly.GobstonesLanguage.formatProcName = function (name) {
-	return formatCallName(name, true);
-};
-
-Blockly.GobstonesLanguage.formatFuncName = function (name) {
-	return formatCallName(name, false);
+	var safe = Blockly.GobstonesLanguage.variableDB_.getName(name, type);
+	return (capitalizeFirst ? safe[0].toUpperCase() : safe[0].toLowerCase()) + safe.slice(1);
 };
 
 var makeParameterList = function (block) {
-	var args = [];
-	for (var x = 0; x < block.arguments_.length; x++) {
-		args[x] = Blockly.GobstonesLanguage.variableDB_.getName(block.arguments_[x],
-			Blockly.Variables.NAME_TYPE);
-	}
-
-	return args.join(', ');	
+	return block.arguments_
+		.map(arg => formatCallName(arg, false, Blockly.VARIABLE_CATEGORY_NAME))
+		.join(', ');	
 };
 
 Blockly.GobstonesLanguage.procedures_defnoreturn = function (block) {
-	var name = Blockly.GobstonesLanguage.formatProcName(block.getFieldValue('NAME'));
-
+	var name = formatCallName(block.getFieldValue('NAME'),true);
 	var body = Blockly.GobstonesLanguage.statementToCode(block, 'STACK');
 
-	// var args_string = args.map(function (i) { return '"' + i + '"'; }).join(', ');
 	var code = 'procedure ' + name + '(' + makeParameterList(block) + ') {\n' +
 		body + '}';
 
@@ -492,7 +494,7 @@ Blockly.GobstonesLanguage.procedures_defnoreturn = function (block) {
 };
 
 Blockly.GobstonesLanguage.procedures_defreturn = function (block) {
-	var name = Blockly.GobstonesLanguage.formatFuncName(block.getFieldValue('NAME'));
+	var name = formatCallName(block.getFieldValue('NAME'),false);
 	var body = Blockly.GobstonesLanguage.statementToCode(block, 'STACK');
 	var returnValue = Blockly.GobstonesLanguage.valueToCode(block, 'RETURN');
 
@@ -509,8 +511,8 @@ Blockly.GobstonesLanguage.procedures_defnoreturnnoparams = Blockly.GobstonesLang
 Blockly.GobstonesLanguage.procedures_defreturnsimplewithparams = Blockly.GobstonesLanguage.procedures_defreturn;
 Blockly.GobstonesLanguage.procedures_defreturnsimple = Blockly.GobstonesLanguage.procedures_defreturn;
 
-var procedureCall = function(block, formatterName, newLine) {
-	var procName = Blockly.GobstonesLanguage[formatterName](block.getFieldValue('NAME'));
+var procedureCall = function(block, capitalizeFirst, newLine) {
+	var procName = formatCallName(block.getFieldValue('NAME'),capitalizeFirst);
 	var args = [];
 	for (var i = 0; i < block.arguments_.length; i++) {
 		args[i] = Blockly.GobstonesLanguage.valueToCode(block, 'ARG' + i,
@@ -521,10 +523,10 @@ var procedureCall = function(block, formatterName, newLine) {
 }
 
 Blockly.GobstonesLanguage.procedures_callnoreturn = function (block) {
-	return procedureCall(block, "formatProcName", true);
+	return procedureCall(block, true, true);
 };
 Blockly.GobstonesLanguage.procedures_callreturn = function (block) {
-	return [procedureCall(block, "formatFuncName"), Blockly.GobstonesLanguage.ORDER_FUNCTION_CALL];
+	return [procedureCall(block, false), Blockly.GobstonesLanguage.ORDER_FUNCTION_CALL];
 };
 
 Blockly.GobstonesLanguage.procedures_callnoreturnnoparams = Blockly.GobstonesLanguage.procedures_callnoreturn;
@@ -541,20 +543,4 @@ Blockly.GobstonesLanguage.Asignacion = function(block) {
   var code = formatCallName(block.getFieldValue('varName'),false,Blockly.VARIABLE_CATEGORY_NAME)  + 
   	' := ' + varValue + '\n';
   return code;
-};
-
-
-
-// Necesario para permitir acentuadas y eñes en los nombres de procedimiento y variables.
-Blockly.Names.prototype.safeName_ = function(name) {
-  if (!name) {
-    name = 'unnamed';
-  } else {
-    name = name.replace(/ /g, '_');
-    // Most languages don't allow names with leading numbers.
-    if ('0123456789'.indexOf(name[0]) != -1) {
-      name = 'my_' + name;
-    }
-  }
-  return name;
 };
