@@ -442,6 +442,12 @@ Blockly.Blocks.AlternativaCompleta = {
 		this.updateShape_();
 	},
 	customContextMenu: function(options) {
+		options.unshift({ text: `Limpiar ramas 'si no, si'`, enabled: true, callback: () => {
+			this.elseifCount_ = 0;
+
+			this.updateShape_();
+		}});
+
 		options.unshift({ text: `Agregar 'si no, si'`, enabled: true, callback: () => {
 			this.elseifCount_++;
 
