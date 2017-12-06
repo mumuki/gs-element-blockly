@@ -1,3 +1,5 @@
+var MINUS = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAQAAAD2e2DtAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAHdElNRQfhDAUCCi+xWH4JAAABcUlEQVR42u3c7ZGCMBSG0etuYcTKls7AyrSEVWd4+bjnUECMeSbhD6kCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIBzu4XHm2rUvPekD2yutR57/4itTLXU0/Pvs9SUW5TcDrDUyE3r9Na6ZwZKBWD5PxVKIBPAVGtknGsZibeBTADPyCjXE1idn8A0/gJjXFPgn0sEwIEljgAHwPc2Xx87QHMCaE4AzQmgOQE0J4DmBNCcAJoTQHMCaE4AzQmgOQE0J4DmBNCcAJoTQHMCaE4AzQmgOQE0J4DmBNDcb2SUsfc0T2re/utAO0BzPg49sot8HOoI+M5IDJIJ4OF+gI+F7gpyRcwxxa6Iyb0E3mvYB96y1kgtv2vijubS18QBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAWXq7xrTQhKAi3AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE3LTEyLTA1VDAyOjEwOjQ3LTA1OjAwdZLI/gAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNy0xMi0wNVQwMjoxMDo0Ny0wNTowMATPcEIAAAAASUVORK5CYII=";
+
 /* global Blockly */
 
 var ControlColor = 60;
@@ -113,6 +115,7 @@ Blockly.Blocks.InteractiveProgram = {
 		var container = document.createElement("mutation");
 		if (this.$init) container.setAttribute("init", this.$init);
 		if (this.$timeout) container.setAttribute("timeout", this.$timeout);
+
 		container.setAttribute("timestamp", this.$timestamp || Date.now());
 		return container;
 	},
@@ -129,14 +132,44 @@ Blockly.Blocks.InteractiveProgram = {
 
 	_addInit() {
 		this.$init = true;
-		this.appendDummyInput().appendField('Al inicializar:');
+
+		var removeButton = new Blockly.FieldImage(
+			MINUS,
+			16,
+			16,
+			"Eliminar",
+			function() {
+				this.$init = false;
+				this.removeInput("initlabel");
+				this.removeInput("init");
+				this.removeInput("statementsLabel");
+			}.bind(this)
+		);
+
+		this.appendDummyInput("initlabel").appendField('Al inicializar:').appendField(removeButton);
 		this.appendStatementInput('init').setCheck(["Statement"]);
+		this.appendDummyInput("statementsLabel").appendField('Al apretar...');
+		this.moveInputBefore("init", "interactiveprogram");
+		this.moveInputBefore("initlabel", "init");
+		this.moveInputBefore("statementsLabel", "interactiveprogram");
 	},
 
 	_addTimeout(timeout) {
 		this.$timeout = timeout;
 
-		this.appendDummyInput().appendField(`Al estar inactivo ${timeout} milisegundos:`);
+		var removeButton = new Blockly.FieldImage(
+			MINUS,
+			16,
+			16,
+			"Eliminar",
+			function() {
+				this.$timeout = undefined;
+				this.removeInput("timeoutlabel");
+				this.removeInput("timeout");
+			}.bind(this)
+		);
+
+		this.appendDummyInput("timeoutlabel").appendField(`Al estar inactivo ${timeout} milisegundos:`).appendField(removeButton);
 		this.appendStatementInput('timeout').setCheck(["Statement"]);
 	}
 };
@@ -828,7 +861,7 @@ Blockly.Blocks.Asignacion = {
 	onchange: function(event){
 		if(event.blockId == this.id && event.type == Blockly.Events.BLOCK_CHANGE &&
 			event.element == 'field'){
-    		this.getters.forEach(block => block.setFieldValue(event.newValue,'VAR'));
+			this.getters.forEach(block => block.setFieldValue(event.newValue,'VAR'));
 		};
 	}
 };
