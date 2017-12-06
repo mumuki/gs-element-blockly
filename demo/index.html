@@ -14,6 +14,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
     <title>gs-element-blockly Demo</title>
     <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+    <script src="formatXML.js"></script>
     <link rel="import" href="../gs-element-blockly.html">
   </head>
   <body unresolved>
@@ -23,7 +24,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <button id="default_toolboxbtn">Default toolbox</button>
       <button id="limited_toolboxbtn">Limited toolbox</button>
       <button id="limited_toolboxbtn2">Limited toolbox 2</button>
-      <button id="print_xmlbtn">Print xml</button>
       <button id="set_xmlbtn">Set xml</button>
       <button id="set_primitive_proceduresbtn">Set customblocks</button>
       <input type="text" id="primitive_procedurestxt" value='["Poner_FloresAl_", "Podar"]'></input><br />
@@ -41,6 +41,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 		<p><button id="generatebtn">Generar Código</button></p>
     <textarea id="code" rows="20" cols="80"></textarea>
+    <textarea id="xml" rows="20" cols="80"></textarea>
 
     <p>IDs válidos para poner en el toolbox:</p>
     <p>(Entre paréntesis los ids válidos para ese bloque/categoría)</p>
@@ -50,6 +51,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       document.querySelector('#generatebtn').addEventListener('click', function() {
         document.getElementById("code").innerHTML = blocklyElement.generateCode();
+        document.getElementById("xml").innerHTML = /*formatXml(*/blocklyElement.get('workspaceXml');
       });
 
       document.querySelector('#default_toolboxbtn').addEventListener('click', function() {
@@ -76,11 +78,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         blocklyElement.highlightBlock(document.getElementById("highlighttxt").value);
       });
       document.querySelector('#errorbtn').addEventListener('click', function() {
-        blocklyElement.highlightBlockError(document.getElementById("highlighttxt").value, "Este bloque tiene error");
-      });
-
-      document.querySelector('#print_xmlbtn').addEventListener('click', function() {
-        console.log(blocklyElement.get('workspaceXml'));
+        blocklyElement.showBlockError(document.getElementById("highlighttxt").value, "Este bloque tiene error");
       });
 
       document.querySelector('#set_xmlbtn').addEventListener('click', function() {
