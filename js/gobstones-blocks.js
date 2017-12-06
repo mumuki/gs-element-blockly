@@ -823,32 +823,32 @@ Blockly.Blocks.Asignacion = {
 
 Blockly.Blocks.variables_get = {
 	init: function () {
-		this.jsonInit(
-		{
-		"type": "variables_get",
-		"message0": "%1",
-		"args0": [
-			{
-			"type": "field_label",
-			"name": "VAR",
-			"text": "nombre de variable"
-			}
-		],
-		"output": null,
-		"colour": 230,
-		"tooltip": "",
-		"helpUrl": "",
-		}
-	);
+		this.jsonInit({
+			"type": "variables_get",
+			"message0": "%1",
+			"args0": [
+				{
+				"type": "field_label",
+				"name": "VAR",
+				"text": "nombre de variable"
+				}
+			],
+			"output": null,
+			"colour": 230,
+			"tooltip": "",
+			"helpUrl": "",
+		});
 	},
 	mutationToDom: function() {
 		var container = document.createElement('mutation');
 		container.setAttribute('var', this.getFieldValue('VAR'));
+		container.setAttribute("parent", this.$parent || null)
 		return container;
 	},
 	domToMutation: function(xmlElement) {
 		var var_name = xmlElement.getAttribute('var');
 		this.setFieldValue(var_name, 'VAR');
+		this.$parent = xmlElement.getAttribute("parent") || null;
 	},
 
 	onchange: function(event){
