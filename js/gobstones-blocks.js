@@ -800,7 +800,10 @@ Blockly.Blocks.Asignacion = {
 	},
 
 	createVariableBlock: function(name) {
+		const id = this.id;
+
 		return Blockly.createBlockSvg(this.workspace, 'variables_get', b => {
+			b.$parent = id;
 			b.setFieldValue(name, 'VAR');
 			b.moveBy(10,5);
 			b.parentAssignmentBlock = this;
