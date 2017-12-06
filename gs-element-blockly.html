@@ -580,7 +580,7 @@ Example:
           if (block.type === "variables_get" && block.$parent !== null) {
             var parent = block;
             while ((parent = parent.getSurroundParent()) !== null) {
-              if (parent.$timestamp === block.$parent) break;
+              if (parent.id === block.$parent) break;
             }
 
             block.setDisabled(parent === null);
