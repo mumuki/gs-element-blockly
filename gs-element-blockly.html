@@ -526,6 +526,8 @@ Example:
 
         // repeated blocks
         if (programXmls.length > 1) {
+          // (en vez de .undo() se podría hacerle .dispose() al bloque)
+
           if (block(programXmls[0]).$timestamp > block(programXmls[1]).$timestamp) {
             // delete programXmls[0]
             this.workspace.undo();
@@ -578,12 +580,17 @@ Example:
         const blocks = this.workspace.getAllBlocks();
         for (block of blocks) {
           if (block.type === "variables_get" && block.$parent !== null) {
-            var parent = block;
-            while ((parent = parent.getSurroundParent()) !== null) {
-              if (parent.id === block.$parent) break;
-            }
+            const parentBlock = this.workspace.getBlockById(block.$parent);
+            if (parentBlock) {
+              var parent = block;
+              while ((parent = parent.getSurroundParent()) !== null) {
+                if (parent.id === block.$parent) break;
+              }
 
-            block.setDisabled(parent === null);
+              block.setDisabled(parent === null);
+            } else {
+              block.dispose();
+            }
           }
         }
       },
