@@ -581,7 +581,15 @@ Example:
         for (block of blocks) {
           if (block.type === "variables_get" && block.$parent !== null) {
             const parentBlock = this.workspace.getBlockById(block.$parent);
-            if (parentBlock) {
+            const varField = block.getField("VAR");
+            
+            if (
+              parentBlock &&
+              (
+                !parentBlock.type.startsWith("procedures") ||
+                parentBlock.arguments_.some(it => it === varField.getValue())
+              )
+            ) {
               var parent = block;
               while ((parent = parent.getSurroundParent()) !== null) {
                 if (parent.id === block.$parent) break;
