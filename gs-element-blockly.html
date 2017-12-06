@@ -506,6 +506,7 @@ Example:
         this._blocklyWorkspaceXML = Blockly.Xml.domToText(xml);
         this.workspaceXml = this._blocklyWorkspaceXML;
         this._keepOnlyAProgram(xml);
+        this._checkParameterBounds(xml);
       },
 
       _keepOnlyAProgram(xml) {
@@ -570,6 +571,20 @@ Example:
         } else if (interactiveProgram && !program) {
           interactiveProgram.setDisabledAndUpdateTimestamp(false);
           interactiveProgram.setDeletable(false);
+        }
+      },
+
+      _checkParameterBounds(xml) {
+        const blocks = this.workspace.getAllBlocks();
+        for (block of blocks) {
+          if (block.type === "variables_get" && block.$parent !== null) {
+            var parent = block;
+            while ((parent = parent.getSurroundParent()) !== null) {
+              if (parent.$timestamp === block.$parent) break;
+            }
+
+            block.setDisabled(parent === null);
+          }
         }
       },
 
