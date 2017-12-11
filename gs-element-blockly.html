@@ -729,10 +729,22 @@ Example:
         this.resetWorkspace()
         this._onresize();
         if(window.jQuery !== undefined) {
-          $(window).resize(() => {
-            this._onresize();
+          $(window).resize(() => this._onresize());
+        };
+
+        this.workspace.showBlockError = (blockId, description) => {
+          let block = this.workspace.getBlockById(blockId);
+          Blockly.utils.addClass(block.getSvgRoot(),'blocklyErrorBlock');
+          block.setWarningText(description);
+          block.warning.setVisible(true);
+        };
+
+        this.workspace.removeBlockErrors = function(){
+          this.getAllBlocks().filter(block => block.warning).map(function(block){
+            Blockly.utils.removeClass(block.getSvgRoot(),'blocklyErrorBlock');
+            block.setWarningText(); // setting no warning makes it remove warning
           });
-        }
+        };
       },
 
       _onresize() {
@@ -760,14 +772,13 @@ Example:
 
       /**
        * Generate gobstones code from the blocks in the workspace.
-       *
+       * It removes all highlighting and errors if already present.
        * @return {string} The code.
        */
       generateCode: function() {
-        var lang = Blockly.GobstonesLanguage;
-        lang.addReservedWords('code');
-        var code = lang.workspaceToCode(this.workspace);
-        return code;
+        this.workspace.highlightBlock(); // No parameters means reset highlighting
+        this.workspace.removeBlockErrors();
+        return Blockly.GobstonesLanguage.workspaceToCode(this.workspace);
       },
 
       /**
@@ -791,10 +802,7 @@ Example:
        *
        */
       showBlockError: function(blockId, description) {
-        let block = this.workspace.getBlockById(blockId);
-        Blockly.utils.addClass(block.getSvgRoot(),'blocklyErrorBlock');
-        block.setWarningText(description);
-        block.warning.setVisible(true);
+        this.workspace.showBlockError(blockId, description);
       },
     });
   </script>
