@@ -280,8 +280,8 @@ Blockly.GobstonesLanguage.init = function () {
 
 		  // Join spaces capitalizing in the process: ¡Gobstones is CamelCase!
 		  // Leave first char as user wanted, for now...
-		  var safe = safe.split(' ').map((x, i) =>
-				i == 0 ? x : x[0].toUpperCase() + x.slice(1)
+		  safe = safe.split(' ').map((word, i) =>
+				!word | i == 0 ? word : word[0].toUpperCase() + word.slice(1)
 		  	).join('');
 		  
 		  return safe;
