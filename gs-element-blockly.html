@@ -786,10 +786,20 @@ Example:
 
       /**
        * Highlight a given block, telling the user it has an error
-       *
+       * 
+       * `blockId` is the block ID where the error should appear
+       * 
+       * `errorKind` is either a string with the description or an object with a kind of error.
+       * Next are examples with the existent error kinds.
+       * 
+       * Examples:
+       * * `element.showBlockError('a1s2', 'Hey, here is an error')`
+       * * `element.showBlockError('a1s2', { kind: 'INCOMPLETE_ERROR'} )`
+       * * `element.showBlockError('a1s2', { kind: 'TYPE_ERROR', expectedType:'string', actualType: 'boolean' })`
+       * * `element.showBlockError('a1s2', { kind: 'PRECONDITION_ERROR', description: "Susan can't move right" })`
        */
-      showBlockError: function(blockId, description) {
-        this.workspace.showBlockError(blockId, description);
+      showBlockError: function(blockId, errorKind) {
+        this.workspace.showBlockError(blockId, errorKind);
       },
     });
   </script>

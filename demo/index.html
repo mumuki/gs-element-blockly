@@ -86,9 +86,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
 
       document.querySelector('#modificar_dimensionesbtn').addEventListener('click', function() {
-        blocklyElement.set('width', 300);
-        blocklyElement.set('height', 200);
+        blocklyElement.set('width', 300 + Math.random() * 500);
+        blocklyElement.set('height', 200 + Math.random() * 500);
       });
+
       window.addEventListener('WebComponentsReady', function(e) {
 
         function printObject(o){
@@ -99,6 +100,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           }
         }
         document.querySelector('#divValidIds').innerHTML = blocklyElement.validToolboxIDs().map(printObject);
+        
+        //document.getElementById("highlighttxt").innerHTML = blocklyElement.get('workspaceXml').match(/id=".*"/).slice(4,24);
       });
 
     </script>
