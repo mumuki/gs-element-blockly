@@ -39,7 +39,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <gs-element-blockly media="../../blockly-package/media/">
     </gs-element-blockly>
 
-		<p><button id="generatebtn">Generar Código</button></p>
+    <p>
+      <button id="generatebtn">Generar Código</button>
+      <input id="withRegions" type="checkbox">With region pragmas</input>
+    </p>
     <textarea id="code" rows="20" cols="80"></textarea>
     <textarea id="xml" rows="20" cols="80"></textarea>
 
@@ -50,7 +53,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       var blocklyElement = document.querySelector('gs-element-blockly');
 
       document.querySelector('#generatebtn').addEventListener('click', function() {
-        document.getElementById("code").innerHTML = blocklyElement.generateCode();
+        document.getElementById("code").innerHTML = blocklyElement.generateCode({withRegions: document.getElementById("withRegions").checked});
         document.getElementById("xml").innerHTML = /*formatXml(*/blocklyElement.get('workspaceXml');
       });
 

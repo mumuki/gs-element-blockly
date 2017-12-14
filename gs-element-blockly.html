@@ -760,11 +760,16 @@ Example:
       /**
        * Generate gobstones code from the blocks in the workspace.
        * It removes all highlighting and errors if already present.
+       * 
+       * There is an additional option which if provided adds pragma BEGIN/END REGION
+       * to the output.
+       * * `element.generateCode( {withRegions: true} );`
        * @return {string} The code.
        */
-      generateCode: function() {
+      generateCode: function(options = {}) {
         this.workspace.highlightBlock(); // No parameters means reset highlighting
         this.workspace.removeBlockErrors();
+        Blockly.GobstonesLanguage.shouldAddRegionPragma = options.withRegions;
         return Blockly.GobstonesLanguage.workspaceToCode(this.workspace);
       },
 

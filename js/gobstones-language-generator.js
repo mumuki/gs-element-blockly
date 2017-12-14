@@ -46,6 +46,24 @@ Blockly.GobstonesLanguage.ORDER_COMMA = 17;					 // ,
 Blockly.GobstonesLanguage.ORDER_NONE = 99;						// (...)
 
 /**
+ * Decorates blockToCode method to add pragma BEGIN_REGION / END_REGION if asked.
+ */
+Blockly.GobstonesLanguage.oldBlockToCode = Blockly.GobstonesLanguage.blockToCode;
+Blockly.GobstonesLanguage.blockToCode = function(block) {
+	const code = Blockly.GobstonesLanguage.oldBlockToCode(block);
+	// If code doesn't exist, no decoration should be performed.
+	if(code && Blockly.GobstonesLanguage.shouldAddRegionPragma) {
+		// if it's a value, then code is a tuple, and we should return a tuple.
+		const str = `/@BEGIN_REGION@${block.id}@/` + (code[0] || code) + '/@END_REGION@/'
+		return code[0] ? [str,code[1]] : str;
+	} else {
+		return code;
+	}
+};
+// Gobstones pragma BEGIN_REGION should avoid char 'at' ( @ )
+Blockly.utils.genUid.soup_ = Blockly.utils.genUid.soup_.replace(/@/g,"a");
+
+/**
  * Retorna la función que representa la llamada a un procedimiento o funcion F(arg1, arg2, ...)
  * Importante: los arg son input values, no fields.
  */
