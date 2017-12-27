@@ -54,7 +54,7 @@ Blockly.GobstonesLanguage.blockToCode = function(block) {
 	// If code doesn't exist, no decoration should be performed.
 	if(code && Blockly.GobstonesLanguage.shouldAddRegionPragma) {
 		// if it's a value, then code is a tuple, and we should return a tuple.
-		const str = `/@BEGIN_REGION@${block.id}@/` + (code[0] || code) + '/@END_REGION@/'
+		const str = `/@BEGIN_REGION@${block.id}@/` + (code[0] || '\n'+code+'\n') + '/@END_REGION@/'
 		return code[0] ? [str,code[1]] : str;
 	} else {
 		return code;
