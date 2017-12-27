@@ -20,49 +20,49 @@ gsTestCode('|| se genera  con paréntesis',
   {withRegions: true}
 );
 gsTestCode('Anidación de || dentro de && provoca paréntesis',
-  '<xml><block type="OperadorLogico" id="or"><field name="OPERATOR">&amp;&amp;</field><value name="arg1"><block type="BoolSelector" id="true1"><field name="BoolDropdown">True</field></block></value><value name="arg2"><block type="OperadorLogico" id="or"><field name="OPERATOR">||</field><value name="arg1"><block type="BoolSelector" id="true2"><field name="BoolDropdown">True</field></block></value><value name="arg2"><block type="BoolSelector" id="true"><field name="BoolDropdown">True</field></block></value></block></value></block></xml>',
-  'True && (True || True)',
+  '<xml><block type="OperadorLogico" id="and"><field name="OPERATOR">&amp;&amp;</field><value name="arg1"><block type="BoolSelector" id="true1"><field name="BoolDropdown">True</field></block></value><value name="arg2"><block type="OperadorLogico" id="or"><field name="OPERATOR">||</field><value name="arg1"><block type="BoolSelector" id="true2"><field name="BoolDropdown">True</field></block></value><value name="arg2"><block type="BoolSelector" id="true3"><field name="BoolDropdown">True</field></block></value></block></value></block></xml>',
+  '/@BEGIN_REGION@and@//@BEGIN_REGION@true1@/True/@END_REGION@/ && (/@BEGIN_REGION@or@//@BEGIN_REGION@true2@/True/@END_REGION@/ || /@BEGIN_REGION@true3@/True/@END_REGION@//@END_REGION@/)/@END_REGION@/',
   {withRegions: true}
 );
 gsTestCode('Anidación de && dentro de || no provoca paréntesis',
-  '<xml><block type="OperadorLogico"><field name="OPERATOR">||</field><value name="arg1"><block type="OperadorLogico"><field name="OPERATOR">&amp;&amp;</field><value name="arg1"><block type="BoolSelector"><field name="BoolDropdown">True</field></block></value><value name="arg2"><block type="BoolSelector"><field name="BoolDropdown">True</field></block></value></block></value><value name="arg2"><block type="BoolSelector"><field name="BoolDropdown">True</field></block></value></block></xml>',
-  'True && True || True',
+  '<xml><block type="OperadorLogico" id="or"><field name="OPERATOR">||</field><value name="arg1"><block type="OperadorLogico" id="and"><field name="OPERATOR">&amp;&amp;</field><value name="arg1"><block type="BoolSelector" id="true1"><field name="BoolDropdown">True</field></block></value><value name="arg2"><block type="BoolSelector" id="true2"><field name="BoolDropdown">True</field></block></value></block></value><value name="arg2"><block type="BoolSelector" id="true3"><field name="BoolDropdown">True</field></block></value></block></xml>',
+  '/@BEGIN_REGION@or@//@BEGIN_REGION@and@//@BEGIN_REGION@true1@/True/@END_REGION@/ && /@BEGIN_REGION@true2@/True/@END_REGION@//@END_REGION@/ || /@BEGIN_REGION@true3@/True/@END_REGION@//@END_REGION@/',
   {withRegions: true}
 );
 
 gsTestCode('hayBolitas',
-  '<xml><block type="hayBolitas"><value name="VALUE"><block type="ColorSelector"><field name="ColorDropdown">Rojo</field></block></value></block></xml>',
-  'hayBolitas(Rojo)',
+  '<xml><block type="hayBolitas" id="hb"><value name="VALUE"><block type="ColorSelector" id="rojo"><field name="ColorDropdown">Rojo</field></block></value></block></xml>',
+  '/@BEGIN_REGION@hb@/hayBolitas(/@BEGIN_REGION@rojo@/Rojo/@END_REGION@/)/@END_REGION@/',
   {withRegions: true}
 );
 
 gsTestCode('nroBolitas',
-  '<xml><block type="nroBolitas"><value name="VALUE"><block type="ColorSelector"><field name="ColorDropdown">Rojo</field></block></value></block></xml>',
-  'nroBolitas(Rojo)',
+  '<xml><block type="nroBolitas" id="nb"><value name="VALUE"><block type="ColorSelector" id="rojo"><field name="ColorDropdown">Rojo</field></block></value></block></xml>',
+  '/@BEGIN_REGION@nb@/nroBolitas(/@BEGIN_REGION@rojo@/Rojo/@END_REGION@/)/@END_REGION@/',
   {withRegions: true}
 );
 
 gsTestCode('puedeMover',
-  '<xml><block type="puedeMover"><value name="VALUE"><block type="DireccionSelector"><field name="DireccionDropdown">Este</field></block></value></block></xml>',
-  'puedeMover(Este)',
+  '<xml><block type="puedeMover" id="pm"><value name="VALUE"><block type="DireccionSelector" id="este"><field name="DireccionDropdown">Este</field></block></value></block></xml>',
+  '/@BEGIN_REGION@pm@/puedeMover(/@BEGIN_REGION@este@/Este/@END_REGION@/)/@END_REGION@/',
   {withRegions: true}
 );
 
 gsTestCode('siguiente',
-  '<xml><block type="siguiente"><value name="VALUE"><block type="DireccionSelector"><field name="DireccionDropdown">Este</field></block></value></block></xml>',
-  'siguiente(Este)',
+  '<xml><block type="siguiente" id="sg"><value name="VALUE"><block type="DireccionSelector" id="este"><field name="DireccionDropdown">Este</field></block></value></block></xml>',
+  '/@BEGIN_REGION@sg@/siguiente(/@BEGIN_REGION@este@/Este/@END_REGION@/)/@END_REGION@/',
   {withRegions: true}
 );
 
 gsTestCode('previo',
-  '<xml><block type="previo"><value name="VALUE"><block type="DireccionSelector"><field name="DireccionDropdown">Este</field></block></value></block></xml>',
-  'previo(Este)',
+  '<xml><block type="previo" id="pr"><value name="VALUE"><block type="DireccionSelector" id="este"><field name="DireccionDropdown">Este</field></block></value></block></xml>',
+  '/@BEGIN_REGION@pr@/previo(/@BEGIN_REGION@este@/Este/@END_REGION@/)/@END_REGION@/',
   {withRegions: true}
 );
 
 gsTestCode('opuesto',
-  '<xml><block type="opuesto"><value name="VALUE"><block type="DireccionSelector"><field name="DireccionDropdown">Este</field></block></value></block></xml>',
-  'opuesto(Este)',
+  '<xml><block type="opuesto" id="op"><value name="VALUE"><block type="DireccionSelector" id="este"><field name="DireccionDropdown">Este</field></block></value></block></xml>',
+  '/@BEGIN_REGION@op@/opuesto(/@BEGIN_REGION@este@/Este/@END_REGION@/)/@END_REGION@/',
   {withRegions: true}
 );
 
