@@ -57,7 +57,6 @@ gsSuite('Generadores de Expresiones', function() {
 //
 function devolverAlgunValor() {
   Mover(Este)
-
   return (Rojo)
 }
 
@@ -69,7 +68,6 @@ program {
   gsTestCode('Sanitiza bien los parametros',
   '<xml><block type="procedures_defreturnsimplewithparams" id="wER^h(R3^R3dfWRXEQ?t" x="47" y="138"><mutation statements="false"><arg name="Ñáñaras en el Occipucio"></arg></mutation><field name="NAME">devolver algo</field><value name="RETURN"><block type="variables_get" id="w_#.et_BWPs__E]]Di+F"><mutation var="Ñáñaras en el Occipucio"></mutation></block></value></block></xml>',
     `function devolverAlgo(ñáñarasEnElOccipucio) {
-
   return (ñáñarasEnElOccipucio)
 }
 `);

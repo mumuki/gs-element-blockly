@@ -67,20 +67,25 @@ gsTestCode('opuesto',
 );
 
 gsTestCode('Funciones',
-'<xml xmlns="http://www.w3.org/1999/xhtml"><block type="procedures_defreturn" id="f1" x="18" y="-49"><field name="NAME">devolver algun valor</field><comment pinned="false" h="80" w="160">Comentario de lo que devuelve</comment><statement name="STACK"><block type="Mover" id="mover"><value name="DIRECCION"><block type="DireccionSelector" id="este"><field name="DireccionDropdown">Este</field></block></value></block></statement><value name="RETURN"><block type="ColorSelector" id="rojo"><field name="ColorDropdown">Rojo</field></block></value></block><block type="Program" id="program" deletable="false" movable="false" editable="false" x="30" y="30"><statement name="program"><block type="Poner" id="poner"><value name="COLOR"><block type="procedures_callreturn" id="f1"><mutation name="devolver algun valor"></mutation></block></value></block></statement></block></xml>',
-  `//
-// Comentario de lo que devuelve
-//
-function devolverAlgunValor() {
-Mover(Este)
-
-return (Rojo)
-}
-
-
-program {
-Poner(devolverAlgunValor())
-}`,
+'<xml xmlns="http://www.w3.org/1999/xhtml"><block type="procedures_defreturn" id="f1" x="18" y="-49"><field name="NAME">devolver algun valor</field><comment pinned="false" h="80" w="160">Comentario de lo que devuelve</comment><statement name="STACK"><block type="Mover" id="mover"><value name="DIRECCION"><block type="DireccionSelector" id="este"><field name="DireccionDropdown">Este</field></block></value></block></statement><value name="RETURN"><block type="ColorSelector" id="rojo"><field name="ColorDropdown">Rojo</field></block></value></block><block type="Program" id="program" deletable="false" movable="false" editable="false" x="30" y="30"><statement name="program"><block type="Poner" id="poner"><value name="COLOR"><block type="procedures_callreturn" id="cf1"><mutation name="devolver algun valor"></mutation></block></value></block></statement></block></xml>',
+  `/@BEGIN_REGION@f1@/
+  //
+  // Comentario de lo que devuelve
+  //
+  function devolverAlgunValor() {
+    /@BEGIN_REGION@mover@/
+    Mover(/@BEGIN_REGION@este@/Este/@END_REGION@/)
+    /@END_REGION@/
+    return (/@BEGIN_REGION@rojo@/Rojo/@END_REGION@/)
+  }
+  /@END_REGION@/  
+  
+  
+  /@BEGIN_REGION@program@/program {
+    /@BEGIN_REGION@poner@/
+    Poner(/@BEGIN_REGION@cf1@/devolverAlgunValor()/@END_REGION@/)
+    /@END_REGION@/
+  }/@END_REGION@/`,
 {withRegions: true});
 
 test('Funciones primitivas', function() {

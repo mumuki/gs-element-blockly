@@ -45,20 +45,12 @@ Blockly.GobstonesLanguage.ORDER_ASSIGNMENT = 16;			// = += -= *= /= %= <<= >>= .
 Blockly.GobstonesLanguage.ORDER_COMMA = 17;					 // ,
 Blockly.GobstonesLanguage.ORDER_NONE = 99;						// (...)
 
-/**
- * Decorates blockToCode method to add pragma BEGIN_REGION / END_REGION if asked.
- */
-Blockly.GobstonesLanguage.oldBlockToCode = Blockly.GobstonesLanguage.blockToCode;
-Blockly.GobstonesLanguage.blockToCode = function(block) {
-	const code = Blockly.GobstonesLanguage.oldBlockToCode(block);
-	// If code doesn't exist, no decoration should be performed.
-	if(code && Blockly.GobstonesLanguage.shouldAddRegionPragma) {
-		// if it's a value, then code is a tuple, and we should return a tuple.
-		const str = `/@BEGIN_REGION@${block.id}@/` + (code[0] || '\n'+code+'\n') + '/@END_REGION@/'
-		return code[0] ? [str,code[1]] : str;
-	} else {
-		return code;
-	}
+
+Blockly.GobstonesLanguage.addPragma = function(block, str){
+	if(!str || !Blockly.GobstonesLanguage.shouldAddRegionPragma) return str;
+	// add newLine if block is a command or definition
+	const newLine = str[str.length-1] === '\n' ? '\n' : '';
+	return `/@BEGIN_REGION@${block.id}@/${newLine}${str}/@END_REGION@/${newLine}`;
 };
 // Gobstones pragma BEGIN_REGION should avoid char 'at' ( @ )
 Blockly.utils.genUid.soup_ = Blockly.utils.genUid.soup_.replace(/@/g,"a");
@@ -128,7 +120,7 @@ Blockly.GobstonesLanguage.finish = function (code) {
 	delete Blockly.GobstonesLanguage.definitions_;
 	delete Blockly.GobstonesLanguage.functionNames_;
 	Blockly.GobstonesLanguage.variableDB_.reset();
-	return definitions.join('\n\n') + '\n\n\n' + code;
+	return definitions.join('\n') + '\n\n' + code;
 };
 
 /**
@@ -200,7 +192,7 @@ Blockly.GobstonesLanguage.scrub_ = function (block, code) {
 	}
 	var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
 	var nextCode = Blockly.GobstonesLanguage.blockToCode(nextBlock);
-	return commentCode + code + nextCode;
+	return Blockly.GobstonesLanguage.addPragma(block,commentCode + code + nextCode);
 };
 
 /**
@@ -503,7 +495,7 @@ Blockly.GobstonesLanguage.procedures_defnoreturn = function (block) {
 	var body = Blockly.GobstonesLanguage.statementToCode(block, 'STACK');
 
 	var code = 'procedure ' + name + '(' + makeParameterList(block) + ') {\n' +
-		body + '}';
+		body + '}\n';
 
 	code = Blockly.GobstonesLanguage.scrub_(block, code);
 	Blockly.GobstonesLanguage.definitions_[name] = code;
@@ -517,7 +509,7 @@ Blockly.GobstonesLanguage.procedures_defreturn = function (block) {
 	var returnValue = Blockly.GobstonesLanguage.valueToCode(block, 'RETURN');
 
 	var code = 'function ' + name + '(' + makeParameterList(block) + ') {\n' +
-		body + '\n  return (' + returnValue + ')\n}';
+		body + '  return (' + returnValue + ')\n}\n';
 
 	code = Blockly.GobstonesLanguage.scrub_(block, code);
 	Blockly.GobstonesLanguage.definitions_[name] = code;
