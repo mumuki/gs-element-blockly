@@ -381,7 +381,7 @@ Blockly.GobstonesLanguage.math_number = function (block) {
 
 Blockly.GobstonesLanguage.Program = function (block) {
 	let program = Blockly.GobstonesLanguage.statementToCode(block, 'program');
-	let codigo = `program {\n${program}}`;
+	let codigo = `program {\n${program}}\n`;
 	return codigo;
 };
 
@@ -390,13 +390,13 @@ Blockly.GobstonesLanguage.InteractiveProgram = function (block) {
 	
 	let init = '';
 	if (block.$init)
-		init = `INIT -> {\n${Blockly.GobstonesLanguage.statementToCode(block, 'init')}\n}\n`;
+		init = `INIT -> {\n${Blockly.GobstonesLanguage.statementToCode(block, 'init')}}\n`;
 
 	let timeout = '';
 	if (block.$timeout)
-		timeout = `TIMEOUT(${block.$timeout}) -> {\n${Blockly.GobstonesLanguage.statementToCode(block, 'timeout')}\n}\n`;
+		timeout = `TIMEOUT(${block.$timeout}) -> {\n${Blockly.GobstonesLanguage.statementToCode(block, 'timeout')}}\n`;
 
-	let codigo = `interactive program {\n${init}${program}${timeout}}`;
+	let codigo = `interactive program {\n${init}${program}${timeout}}\n`;
 	return codigo;
 };
 
@@ -418,7 +418,7 @@ Blockly.GobstonesLanguage.InteractiveLetterBinding = function (block) {
 
 	const code = Blockly.GobstonesLanguage.statementToCode(block, 'block');
 
-	return `K_${key} -> {\n${code}\n}\n`;
+	return `K_${key} -> {\n${code}}\n`;
 };
 Blockly.GobstonesLanguage.InteractiveNumberBinding = Blockly.GobstonesLanguage.InteractiveLetterBinding;
 Blockly.GobstonesLanguage.InteractiveKeyBinding = Blockly.GobstonesLanguage.InteractiveLetterBinding;

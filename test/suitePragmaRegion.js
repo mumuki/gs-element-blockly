@@ -81,11 +81,11 @@ function devolverAlgunValor() {
 /@END_REGION@/
 
 
-/@BEGIN_REGION@program@/program {
+/@BEGIN_REGION@program@/\nprogram {
   /@BEGIN_REGION@poner@/
   Poner(/@BEGIN_REGION@cf1@/devolverAlgunValor()/@END_REGION@/)
   /@END_REGION@/
-}/@END_REGION@/`,
+}\n/@END_REGION@/\n`,
 {withRegions: true});
 
 test('Funciones primitivas', function() {
