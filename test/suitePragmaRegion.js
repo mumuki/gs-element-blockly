@@ -92,7 +92,7 @@ test('Funciones primitivas', function() {
   this.element.primitiveFunctions = ['hayFlores_en_'];
   this.element.workspaceXml = `<xml><block type="hayFlores_en_" id="hayF"><value name="arg1"><block type="ColorSelector" id="rojo"><field name="ColorDropdown">Rojo</field></block></value><value name="arg2"><block type="DireccionSelector" id="este"><field name="DireccionDropdown">Este</field></block></value></block></xml>`;
   printPragmaRow(this.element,{withRegions: true});
-  assert.equal(this.element.generateCode({withRegions: true}), `hayFlores_en_(Rojo, Este)`);
+  assert.equal(this.element.generateCode({withRegions: true}), `/@BEGIN_REGION@hayF@/hayFlores_en_(/@BEGIN_REGION@rojo@/Rojo/@END_REGION@/, /@BEGIN_REGION@este@/Este/@END_REGION@/)/@END_REGION@/`);
 });
 
 
@@ -103,15 +103,15 @@ test('Genera correctamente usando funciones primitivas', function() {
     <block type="AlternativaSimple" id="if">
       <value name="condicion">
         <block type="hayFlores_en_" id="hayF">
-          <value name="arg1"><block type="ColorSelector" id="rojo"><field name="ColorDropdown">Rojo</field></block></value>
-          <value name="arg2"><block type="DireccionSelector" id="rojo"><field name="DireccionDropdown">Este</field></block></value>
+          <value name="arg1"><block type="ColorSelector" id="rojo1"><field name="ColorDropdown">Rojo</field></block></value>
+          <value name="arg2"><block type="DireccionSelector" id="este"><field name="DireccionDropdown">Este</field></block></value>
         </block>
       </value>
       <statement name="block">
         <block type="Mover" id="mover">
           <value name="DIRECCION">
             <block type="dondeEsta_" id="dndE">
-              <value name="arg1"><block type="ColorSelector" id="rojo"><field name="ColorDropdown">Rojo</field></block></value>
+              <value name="arg1"><block type="ColorSelector" id="rojo2"><field name="ColorDropdown">Rojo</field></block></value>
             </block>
           </value>
         </block>
@@ -121,16 +121,23 @@ test('Genera correctamente usando funciones primitivas', function() {
 </block>
 </xml>`;
   printPragmaRow(this.element,{withRegions: true});
-  assert.equal(this.element.generateCode({withRegions: true}), `program {
-if (hayFlores_en_(Rojo, Este)) {
-  Mover(dondeEsta_(Rojo))
+  assert.equal(this.element.generateCode({withRegions: true}), `/@BEGIN_REGION@program@/
+program {
+  /@BEGIN_REGION@if@/
+  if (/@BEGIN_REGION@hayF@/hayFlores_en_(/@BEGIN_REGION@rojo1@/Rojo/@END_REGION@/, /@BEGIN_REGION@este@/Este/@END_REGION@/)/@END_REGION@/) {
+    /@BEGIN_REGION@mover@/
+    Mover(/@BEGIN_REGION@dndE@/dondeEsta_(/@BEGIN_REGION@rojo2@/Rojo/@END_REGION@/)/@END_REGION@/)
+    /@END_REGION@/
+  }
+  /@END_REGION@/
 }
-}`);
+/@END_REGION@/
+`);
 });
 
 gsTestCode('Expresión Completar',
   '<xml><block type="ExpresionCompletar" id="completar"></block></xml>',
-  'boom("El programa todavía no está completo")',
+  '/@BEGIN_REGION@completar@/boom("El programa todavía no está completo")/@END_REGION@/',
   {withRegions: true}
 );
 
@@ -140,27 +147,35 @@ gsTestCode('Expresión Completar',
 
   gsTestCode('Programa vacío',
     '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" id="1" deletable="false" movable="false" editable="false" x="30" y="30"><statement name="program"></statement></block></xml>',
-    '/@BEGIN_REGION@1@/program {\n}/@END_REGION@/',
+    '/@BEGIN_REGION@1@/\nprogram {\n}\n/@END_REGION@/\n',
     {withRegions: true});
 
   gsTestCode('Poner',
     '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Poner" id="poner"><value name="COLOR"><block type="ColorSelector" id="rojo"><field name="ColorDropdown">Rojo</field></block></value></block></xml>',
-    `Poner(Rojo)\n`,
+    `/@BEGIN_REGION@poner@/
+Poner(/@BEGIN_REGION@rojo@/Rojo/@END_REGION@/)
+/@END_REGION@/\n`,
     {withRegions: true});
 
   gsTestCode('Sacar',
     '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Sacar" id="sacar"><value name="COLOR"><block type="ColorSelector" id="verde"><field name="ColorDropdown">Verde</field></block></value></block></xml>',
-    `Sacar(Verde)\n`,
+    `/@BEGIN_REGION@sacar@/
+Sacar(/@BEGIN_REGION@verde@/Verde/@END_REGION@/)
+/@END_REGION@/\n`,
     {withRegions: true});
 
   gsTestCode('Mover',
     '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Mover" id="mover"><value name="DIRECCION"><block type="DireccionSelector" id="oeste"><field name="DireccionDropdown">Oeste</field></block></value></block></xml>',
-    `Mover(Oeste)\n`,
+    `/@BEGIN_REGION@mover@/
+Mover(/@BEGIN_REGION@oeste@/Oeste/@END_REGION@/)
+/@END_REGION@/\n`,
     {withRegions: true});
 
   gsTestCode('IrAlBorde',
     '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="IrAlBorde" id="irBorde"><value name="DIRECCION"><block type="DireccionSelector" id="norte"><field name="DireccionDropdown">Norte</field></block></value></block></xml>',
-    `IrAlBorde(Norte)\n`,
+    `/@BEGIN_REGION@irBorde@/
+IrAlBorde(/@BEGIN_REGION@norte@/Norte/@END_REGION@/)
+/@END_REGION@/\n`,
     {withRegions: true});
 
   gsTestCode('VaciarTablero',
