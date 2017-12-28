@@ -91,6 +91,7 @@ function devolverAlgunValor() {
 test('Funciones primitivas', function() {
   this.element.primitiveFunctions = ['hayFlores_en_'];
   this.element.workspaceXml = `<xml><block type="hayFlores_en_" id="hayF"><value name="arg1"><block type="ColorSelector" id="rojo"><field name="ColorDropdown">Rojo</field></block></value><value name="arg2"><block type="DireccionSelector" id="este"><field name="DireccionDropdown">Este</field></block></value></block></xml>`;
+  printPragmaRow(this.element,{withRegions: true});
   assert.equal(this.element.generateCode({withRegions: true}), `hayFlores_en_(Rojo, Este)`);
 });
 
@@ -119,7 +120,7 @@ test('Genera correctamente usando funciones primitivas', function() {
   </statement>
 </block>
 </xml>`;
-
+  printPragmaRow(this.element,{withRegions: true});
   assert.equal(this.element.generateCode({withRegions: true}), `program {
 if (hayFlores_en_(Rojo, Este)) {
   Mover(dondeEsta_(Rojo))
@@ -290,6 +291,7 @@ program {
   test('Procedimiento primitivo', function() {
     this.element.primitiveProcedures = ['Poner_FloresAl_'];
     this.element.workspaceXml = `<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" deletable="false" movable="false" editable="false" x="30" y="30" id="prog"><statement name="program"><block type="Poner_FloresAl_" id="pf"><value name="arg1"><block type="math_number" id="4"><field name="NUM">4</field></block></value><value name="arg2"><block type="DireccionSelector" id="este"><field name="DireccionDropdown">Este</field></block></value></block></statement></block></xml>`;
+    printPragmaRow(this.element,{withRegions: true});
     assert.equal(this.element.generateCode({withRegions: true}), `program {
   Poner_FloresAl_(4, Este)
 }`);
