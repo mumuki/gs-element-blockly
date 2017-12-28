@@ -73,17 +73,15 @@ program {
 `);
 
   test('Funciones primitivas', function() {
-    let element = document.getElementById("gseb");
-    element.primitiveFunctions = ['hayFlores_en_'];
-    element.workspaceXml = `<xml><block type="hayFlores_en_"><value name="arg1"><block type="ColorSelector"><field name="ColorDropdown">Rojo</field></block></value><value name="arg2"><block type="DireccionSelector"><field name="DireccionDropdown">Este</field></block></value></block></xml>`;
-    assert.equal(element.generateCode(), `hayFlores_en_(Rojo, Este)`);
+    this.element.primitiveFunctions = ['hayFlores_en_'];
+    this.element.workspaceXml = `<xml><block type="hayFlores_en_"><value name="arg1"><block type="ColorSelector"><field name="ColorDropdown">Rojo</field></block></value><value name="arg2"><block type="DireccionSelector"><field name="DireccionDropdown">Este</field></block></value></block></xml>`;
+    assert.equal(this.element.generateCode(), `hayFlores_en_(Rojo, Este)`);
   });
 
 
   test('Genera correctamente usando funciones primitivas', function() {
-    let element = document.getElementById("gseb");
-    element.primitiveFunctions = ['hayFlores_en_', 'dondeEsta_'];
-    element.workspaceXml = `<xml>
+    this.element.primitiveFunctions = ['hayFlores_en_', 'dondeEsta_'];
+    this.element.workspaceXml = `<xml>
     <block type="Program"><statement name="program">
       <block type="AlternativaSimple">
         <value name="condicion">
@@ -106,7 +104,7 @@ program {
   </block>
 </xml>`;
 
-    assert.equal(element.generateCode(), `program {
+    assert.equal(this.element.generateCode(), `program {
   if (hayFlores_en_(Rojo, Este)) {
     Mover(dondeEsta_(Rojo))
   }

@@ -89,30 +89,28 @@ function devolverAlgunValor() {
 {withRegions: true});
 
 test('Funciones primitivas', function() {
-  let element = document.getElementById("gseb");
-  element.primitiveFunctions = ['hayFlores_en_'];
-  element.workspaceXml = `<xml><block type="hayFlores_en_"><value name="arg1"><block type="ColorSelector"><field name="ColorDropdown">Rojo</field></block></value><value name="arg2"><block type="DireccionSelector"><field name="DireccionDropdown">Este</field></block></value></block></xml>`;
-  assert.equal(element.generateCode({withRegions: true}), `hayFlores_en_(Rojo, Este)`);
+  this.element.primitiveFunctions = ['hayFlores_en_'];
+  this.element.workspaceXml = `<xml><block type="hayFlores_en_" id="hayF"><value name="arg1"><block type="ColorSelector" id="rojo"><field name="ColorDropdown">Rojo</field></block></value><value name="arg2"><block type="DireccionSelector" id="este"><field name="DireccionDropdown">Este</field></block></value></block></xml>`;
+  assert.equal(this.element.generateCode({withRegions: true}), `hayFlores_en_(Rojo, Este)`);
 });
 
 
 test('Genera correctamente usando funciones primitivas', function() {
-  let element = document.getElementById("gseb");
-  element.primitiveFunctions = ['hayFlores_en_', 'dondeEsta_'];
-  element.workspaceXml = `<xml>
-  <block type="Program"><statement name="program">
-    <block type="AlternativaSimple">
+  this.element.primitiveFunctions = ['hayFlores_en_', 'dondeEsta_'];
+  this.element.workspaceXml = `<xml>
+  <block type="Program" id="program"><statement name="program">
+    <block type="AlternativaSimple" id="if">
       <value name="condicion">
-        <block type="hayFlores_en_">
-          <value name="arg1"><block type="ColorSelector"><field name="ColorDropdown">Rojo</field></block></value>
-          <value name="arg2"><block type="DireccionSelector"><field name="DireccionDropdown">Este</field></block></value>
+        <block type="hayFlores_en_" id="hayF">
+          <value name="arg1"><block type="ColorSelector" id="rojo"><field name="ColorDropdown">Rojo</field></block></value>
+          <value name="arg2"><block type="DireccionSelector" id="rojo"><field name="DireccionDropdown">Este</field></block></value>
         </block>
       </value>
       <statement name="block">
-        <block type="Mover">
+        <block type="Mover" id="mover">
           <value name="DIRECCION">
-            <block type="dondeEsta_">
-              <value name="arg1"><block type="ColorSelector"><field name="ColorDropdown">Rojo</field></block></value>
+            <block type="dondeEsta_" id="dndE">
+              <value name="arg1"><block type="ColorSelector" id="rojo"><field name="ColorDropdown">Rojo</field></block></value>
             </block>
           </value>
         </block>
@@ -122,7 +120,7 @@ test('Genera correctamente usando funciones primitivas', function() {
 </block>
 </xml>`;
 
-  assert.equal(element.generateCode({withRegions: true}), `program {
+  assert.equal(this.element.generateCode({withRegions: true}), `program {
 if (hayFlores_en_(Rojo, Este)) {
   Mover(dondeEsta_(Rojo))
 }
@@ -130,7 +128,7 @@ if (hayFlores_en_(Rojo, Este)) {
 });
 
 gsTestCode('Expresión Completar',
-  '<xml><block type="ExpresionCompletar"></block></xml>',
+  '<xml><block type="ExpresionCompletar" id="completar"></block></xml>',
   'boom("El programa todavía no está completo")',
   {withRegions: true}
 );
@@ -145,47 +143,47 @@ gsTestCode('Expresión Completar',
     {withRegions: true});
 
   gsTestCode('Poner',
-    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Poner"><value name="COLOR"><block type="ColorSelector"><field name="ColorDropdown">Rojo</field></block></value></block></xml>',
+    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Poner" id="poner"><value name="COLOR"><block type="ColorSelector" id="rojo"><field name="ColorDropdown">Rojo</field></block></value></block></xml>',
     `Poner(Rojo)\n`,
     {withRegions: true});
 
   gsTestCode('Sacar',
-    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Sacar"><value name="COLOR"><block type="ColorSelector"><field name="ColorDropdown">Verde</field></block></value></block></xml>',
+    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Sacar" id="sacar"><value name="COLOR"><block type="ColorSelector" id="verde"><field name="ColorDropdown">Verde</field></block></value></block></xml>',
     `Sacar(Verde)\n`,
     {withRegions: true});
 
   gsTestCode('Mover',
-    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Mover"><value name="DIRECCION"><block type="DireccionSelector"><field name="DireccionDropdown">Oeste</field></block></value></block></xml>',
+    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Mover" id="mover"><value name="DIRECCION"><block type="DireccionSelector" id="oeste"><field name="DireccionDropdown">Oeste</field></block></value></block></xml>',
     `Mover(Oeste)\n`,
     {withRegions: true});
 
   gsTestCode('IrAlBorde',
-    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="IrAlBorde"><value name="DIRECCION"><block type="DireccionSelector"><field name="DireccionDropdown">Norte</field></block></value></block></xml>',
+    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="IrAlBorde" id="irBorde"><value name="DIRECCION"><block type="DireccionSelector" id="norte"><field name="DireccionDropdown">Norte</field></block></value></block></xml>',
     `IrAlBorde(Norte)\n`,
     {withRegions: true});
 
   gsTestCode('VaciarTablero',
-    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="VaciarTablero"></block></xml>',
+    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="VaciarTablero" id="vaciar"></block></xml>',
     `VaciarTablero()\n`,
     {withRegions: true});
 
   gsTestCode('BOOM',
-    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="BOOM"></block></xml>',
+    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="BOOM" id="boom"></block></xml>',
     `BOOM("Ingresar motivo...")\n`,
     {withRegions: true});
 
   gsTestCode('BOOM sanitiza comillas',
-    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="BOOM"><field name="boomDescription">Chor"lito</field></block></xml>',
+    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="BOOM" id="boom"><field name="boomDescription">Chor"lito</field></block></xml>',
     `BOOM("Chor'lito")\n`,
     {withRegions: true});
 
   gsTestCode('BOOM omite comillas finales e iniciales',
-    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="BOOM"><field name="boomDescription">""Chor"lito"</field></block></xml>',
+    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="BOOM" id="boom"><field name="boomDescription">""Chor"lito"</field></block></xml>',
     `BOOM("'Chor'lito")\n`,
     {withRegions: true});
 
   gsTestCode('Procedimiento',
-  '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="procedures_defnoreturn"><mutation><arg name="valor1"></arg><arg name="otroValor"></arg></mutation><field name="NAME">hacer algo con parametros</field><comment pinned="false" h="80" w="160">Un comentario para el procedimiento</comment></block></xml>',
+  '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="procedures_defnoreturn" id="defP"><mutation><arg name="valor1"></arg><arg name="otroValor"></arg></mutation><field name="NAME">hacer algo con parametros</field><comment pinned="false" h="80" w="160">Un comentario para el procedimiento</comment></block></xml>',
   `//
 // Un comentario para el procedimiento
 //
@@ -236,7 +234,7 @@ program {
 {withRegions: true});
 
   gsTestCode('AlternativaSimple',
-    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" deletable="false" movable="false" editable="false" x="30" y="30"><statement name="program"><block type="AlternativaSimple"><value name="condicion"><block type="BoolSelector"><field name="BoolDropdown">True</field></block></value><statement name="block"><block type="Poner"><value name="COLOR"><block type="ColorSelector"><field name="ColorDropdown">Rojo</field></block></value></block></statement></block></statement></block></xml>',
+    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" deletable="false" movable="false" editable="false" x="30" y="30" id="prog"><statement name="program"><block type="AlternativaSimple" id="if"><value name="condicion"><block type="BoolSelector" id="true"><field name="BoolDropdown">True</field></block></value><statement name="block"><block type="Poner" id="poner"><value name="COLOR"><block type="ColorSelector" id="rojo"><field name="ColorDropdown">Rojo</field></block></value></block></statement></block></statement></block></xml>',
     `program {
   if (True) {
     Poner(Rojo)
@@ -270,7 +268,7 @@ program {
 {withRegions: true});
 
   gsTestCode('Repetición Simple',
-    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" deletable="false" movable="false" editable="false" x="30" y="30"><statement name="program"><block type="RepeticionSimple"><value name="count"><block type="math_number"><field name="NUM">5</field></block></value><statement name="block"><block type="Mover"><value name="DIRECCION"><block type="DireccionSelector"><field name="DireccionDropdown">Este</field></block></value></block></statement></block></statement></block></xml>',
+    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" deletable="false" movable="false" editable="false" x="30" y="30" id="prog"><statement name="program"><block type="RepeticionSimple" id="repeat"><value name="count"><block type="math_number" id="5"><field name="NUM">5</field></block></value><statement name="block"><block type="Mover" id="mover"><value name="DIRECCION"><block type="DireccionSelector" id="este"><field name="DireccionDropdown">Este</field></block></value></block></statement></block></statement></block></xml>',
     `program {
   repeat(5) {
     Mover(Este)
@@ -279,7 +277,7 @@ program {
 {withRegions: true});
 
   gsTestCode('Llamada a procedimiento',
-    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" deletable="false" movable="false" editable="false"><statement name="program"><block type="procedures_callnoreturn"><mutation name="hacer algo con"><arg name="x"></arg><arg name="y"></arg></mutation><value name="ARG0"><block type="ColorSelector"><field name="ColorDropdown">Rojo</field></block></value><value name="ARG1"><block type="ColorSelector"><field name="ColorDropdown">Verde</field></block></value></block></statement></block><block type="procedures_defnoreturn"><mutation><arg name="x"></arg><arg name="y"></arg></mutation><field name="NAME">hacer algo con</field><comment></comment></block></xml>',
+    '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" deletable="false" movable="false" editable="false" id="prog"><statement name="program"><block type="procedures_callnoreturn" id="f1call"><mutation name="hacer algo con"><arg name="x"></arg><arg name="y"></arg></mutation><value name="ARG0"><block type="ColorSelector" id="rojo"><field name="ColorDropdown">Rojo</field></block></value><value name="ARG1"><block type="ColorSelector" id="verde"><field name="ColorDropdown">Verde</field></block></value></block></statement></block><block type="procedures_defnoreturn" id="f1def"><mutation><arg name="x"></arg><arg name="y"></arg></mutation><field name="NAME">hacer algo con</field><comment></comment></block></xml>',
     `procedure HacerAlgoCon(x, y) {
 }
 
@@ -290,16 +288,15 @@ program {
 {withRegions: true});
 
   test('Procedimiento primitivo', function() {
-    let element = document.getElementById("gseb");
-    element.primitiveProcedures = ['Poner_FloresAl_'];
-    element.workspaceXml = `<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" deletable="false" movable="false" editable="false" x="30" y="30"><statement name="program"><block type="Poner_FloresAl_"><value name="arg1"><block type="math_number"><field name="NUM">4</field></block></value><value name="arg2"><block type="DireccionSelector"><field name="DireccionDropdown">Este</field></block></value></block></statement></block></xml>`;
-    assert.equal(element.generateCode({withRegions: true}), `program {
+    this.element.primitiveProcedures = ['Poner_FloresAl_'];
+    this.element.workspaceXml = `<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" deletable="false" movable="false" editable="false" x="30" y="30" id="prog"><statement name="program"><block type="Poner_FloresAl_" id="pf"><value name="arg1"><block type="math_number" id="4"><field name="NUM">4</field></block></value><value name="arg2"><block type="DireccionSelector" id="este"><field name="DireccionDropdown">Este</field></block></value></block></statement></block></xml>`;
+    assert.equal(this.element.generateCode({withRegions: true}), `program {
   Poner_FloresAl_(4, Este)
 }`);
 });
 
     gsTestCode('Asignacion variable',
-      '<xml><block type="Program"><statement name="program"><block type="Asignacion"><field name="varName">x</field><value name="varValue"><block type="ColorSelector"><field name="ColorDropdown">Rojo</field></block></value><next><block type="Poner"><value name="COLOR"><block type="variables_get"><mutation var="x"></mutation></block></value></block></next></block></statement></block></xml>',
+      '<xml><block type="Program" id="prog"><statement name="program"><block type="Asignacion" id="asig"><field name="varName">x</field><value name="varValue"><block type="ColorSelector" id="rojo"><field name="ColorDropdown">Rojo</field></block></value><next><block type="Poner" id="poner"><value name="COLOR"><block type="variables_get" id="vget"><mutation var="x"></mutation></block></value></block></next></block></statement></block></xml>',
       `program {
   x := Rojo
   Poner(x)
@@ -343,7 +340,7 @@ TIMEOUT(500) -> {
 {withRegions: true});
 
   gsTestCode('Comando Completar',
-      '<xml><block type="Program"><statement name="program"><block type="ComandoCompletar"><next><block type="Poner"><value name="COLOR"><block type="ColorSelector"><field name="ColorDropdown">Rojo</field></block></value></block></next></block></statement></block></xml>',
+      '<xml><block type="Program" id="completar"><statement name="program"><block type="ComandoCompletar"><next><block type="Poner" id="poner"><value name="COLOR"><block type="ColorSelector" id="rojo"><field name="ColorDropdown">Rojo</field></block></value></block></next></block></statement></block></xml>',
       `program {
   BOOM("El programa todavía no está completo")
   Poner(Rojo)
