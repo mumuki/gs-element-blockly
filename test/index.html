@@ -6,7 +6,7 @@
     <script src="../../web-component-tester/browser.js"></script>
     <link rel="import" href="../gs-element-blockly.html">
     <style>
-      td {
+      td { /*This is only for testing code with pragmas, for the table below*/
         border: 1px solid black;
         font-family:courier;
         font-size: 12;
@@ -20,6 +20,6 @@
     <script>
 			WCT.loadSuites(['suiteGeneral.js','suiteCommandsGenerators.js', 'suiteExpressionsGenerators.js', 'suitePragmaRegion.js']);
     </script>
-    <table id="testOutput"></tr><td>Código limpio</td><td>Con pragmas</td></tr></table>
+    <!--<table id="testOutput"><tr><td>Nombre</td><td>Código limpio</td><td>Con pragmas</td></tr></table> Uncomment for printing pragmas of tests-->
   </body>
 </html>
