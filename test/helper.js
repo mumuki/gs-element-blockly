@@ -4,7 +4,7 @@
 function gsTestCode(name, xml, code, options) {
 	test(name, function() {
 		this.element.workspaceXml = xml;
-		printPragmaRow(this.element,options);
+		printPragmaRow(this.element,options,name);
 		assert.equal(this.element.generateCode(options), code);
 	});
 }
@@ -26,7 +26,7 @@ function gsSuite(name,func) {
 	});
 }
 
-function printPragmaRow(element,options){
+function printPragmaRow(element,options,name){
 	var out = document.getElementById("testOutput");
-	if(options) out.innerHTML = out.innerHTML + `<tr><td>${element.generateCode()}</td><td>${element.generateCode(options)}</td></tr>`.replace(/\n/g,"<br/>").replace(/  /g,"&nbsp;&nbsp;");
+	if(options) out.innerHTML = out.innerHTML + `<tr><td>${name}</td><td>${element.generateCode()}</td><td>${element.generateCode(options)}</td></tr>`.replace(/\n/g,"<br/>").replace(/  /g,"&nbsp;&nbsp;");
 }
