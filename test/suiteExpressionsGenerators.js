@@ -57,35 +57,31 @@ gsSuite('Generadores de Expresiones', function() {
 //
 function devolverAlgunValor() {
   Mover(Este)
-
   return (Rojo)
 }
 
 
 program {
   Poner(devolverAlgunValor())
-}`);
+}\n`);
 
   gsTestCode('Sanitiza bien los parametros',
   '<xml><block type="procedures_defreturnsimplewithparams" id="wER^h(R3^R3dfWRXEQ?t" x="47" y="138"><mutation statements="false"><arg name="Ñáñaras en el Occipucio"></arg></mutation><field name="NAME">devolver algo</field><value name="RETURN"><block type="variables_get" id="w_#.et_BWPs__E]]Di+F"><mutation var="Ñáñaras en el Occipucio"></mutation></block></value></block></xml>',
     `function devolverAlgo(ñáñarasEnElOccipucio) {
-
   return (ñáñarasEnElOccipucio)
 }
 `);
 
   test('Funciones primitivas', function() {
-    let element = document.getElementById("gseb");
-    element.primitiveFunctions = ['hayFlores_en_'];
-    element.workspaceXml = `<xml><block type="hayFlores_en_"><value name="arg1"><block type="ColorSelector"><field name="ColorDropdown">Rojo</field></block></value><value name="arg2"><block type="DireccionSelector"><field name="DireccionDropdown">Este</field></block></value></block></xml>`;
-    assert.equal(element.generateCode(), `hayFlores_en_(Rojo, Este)`);
+    this.element.primitiveFunctions = ['hayFlores_en_'];
+    this.element.workspaceXml = `<xml><block type="hayFlores_en_"><value name="arg1"><block type="ColorSelector"><field name="ColorDropdown">Rojo</field></block></value><value name="arg2"><block type="DireccionSelector"><field name="DireccionDropdown">Este</field></block></value></block></xml>`;
+    assert.equal(this.element.generateCode(), `hayFlores_en_(Rojo, Este)`);
   });
 
 
   test('Genera correctamente usando funciones primitivas', function() {
-    let element = document.getElementById("gseb");
-    element.primitiveFunctions = ['hayFlores_en_', 'dondeEsta_'];
-    element.workspaceXml = `<xml>
+    this.element.primitiveFunctions = ['hayFlores_en_', 'dondeEsta_'];
+    this.element.workspaceXml = `<xml>
     <block type="Program"><statement name="program">
       <block type="AlternativaSimple">
         <value name="condicion">
@@ -108,11 +104,11 @@ program {
   </block>
 </xml>`;
 
-    assert.equal(element.generateCode(), `program {
+    assert.equal(this.element.generateCode(), `program {
   if (hayFlores_en_(Rojo, Este)) {
     Mover(dondeEsta_(Rojo))
   }
-}`);
+}\n`);
   });
 
   gsTestCode('Expresión Completar',
