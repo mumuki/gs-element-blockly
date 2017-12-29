@@ -451,28 +451,41 @@ interactive program {
 
   gsTestCode('Programa interactivo con init y timeout',
     '<xml xmlns="http://www.w3.org/1999/xhtml"><variables></variables><block type="InteractiveProgram" id="iprogram" deletable="false" x="67" y="8"><mutation init="true" timeout="500" timestamp="1509521133888"></mutation><statement name="interactiveprogram"><block type="InteractiveKeyBinding" id="kb1"><mutation modifierscount="0"></mutation><field name="InteractiveBindingDropdownKey">TAB</field><statement name="block"><block type="Poner" id="poner1"><value name="COLOR"><block type="ColorSelector" id="negro1"><field name="ColorDropdown">Negro</field></block></value></block></statement></block></statement><statement name="init"><block type="Poner" id="poner2"><value name="COLOR"><block type="ColorSelector" id="rojo2"><field name="ColorDropdown">Rojo</field></block></value></block></statement><statement name="timeout"><block type="Poner" id="poner3"><value name="COLOR"><block type="ColorSelector" id="verde3"><field name="ColorDropdown">Verde</field></block></value></block></statement></block></xml>',
-    `interactive program {
-INIT -> {
-  Poner(Rojo)
-
-}
-  K_TAB -> {
-    Poner(Negro)
-
+    `/@BEGIN_REGION@iprogram@/
+interactive program {
+  INIT -> {
+  /@BEGIN_REGION@poner2@/
+  Poner(/@BEGIN_REGION@rojo2@/Rojo/@END_REGION@/)
+  /@END_REGION@/
   }
-TIMEOUT(500) -> {
-  Poner(Verde)
-
+  /@BEGIN_REGION@kb1@/
+  K_TAB -> {
+    /@BEGIN_REGION@poner1@/
+    Poner(/@BEGIN_REGION@negro1@/Negro/@END_REGION@/)
+    /@END_REGION@/
+  }
+  /@END_REGION@/
+  TIMEOUT(500) -> {
+  /@BEGIN_REGION@poner3@/
+  Poner(/@BEGIN_REGION@verde3@/Verde/@END_REGION@/)
+  /@END_REGION@/
+  }
 }
-}`,
+/@END_REGION@/\n`,
 {withRegions: true});
 
   gsTestCode('Comando Completar',
-      '<xml><block type="Program" id="completar"><statement name="program"><block type="ComandoCompletar"><next><block type="Poner" id="poner"><value name="COLOR"><block type="ColorSelector" id="rojo"><field name="ColorDropdown">Rojo</field></block></value></block></next></block></statement></block></xml>',
-      `program {
+      '<xml><block type="Program" id="completar"><statement name="program"><block type="ComandoCompletar" id="comp"><next><block type="Poner" id="poner"><value name="COLOR"><block type="ColorSelector" id="rojo"><field name="ColorDropdown">Rojo</field></block></value></block></next></block></statement></block></xml>',
+      `/@BEGIN_REGION@completar@/
+program {
+  /@BEGIN_REGION@comp@/
   BOOM("El programa todavía no está completo")
-  Poner(Rojo)
-}`,
+  /@END_REGION@/
+  /@BEGIN_REGION@poner@/
+  Poner(/@BEGIN_REGION@rojo@/Rojo/@END_REGION@/)
+  /@END_REGION@/
+}
+/@END_REGION@/\n`,
 {withRegions: true});
 
 });

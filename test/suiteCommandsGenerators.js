@@ -219,15 +219,15 @@ program {
   gsTestCode('Programa interactivo con init y timeout',
     '<xml xmlns="http://www.w3.org/1999/xhtml"><variables></variables><block type="InteractiveProgram" id="${CGuk~7{sSlYdtq}{?Y" deletable="false" x="67" y="8"><mutation init="true" timeout="500" timestamp="1509521133888"></mutation><statement name="interactiveprogram"><block type="InteractiveKeyBinding" id="4b4ScAr./*UfqTMf[tWd"><mutation modifierscount="0"></mutation><field name="InteractiveBindingDropdownKey">TAB</field><statement name="block"><block type="Poner" id="dzFh(}!u[Cjoc?L3B0e:"><value name="COLOR"><block type="ColorSelector" id="tu2[`y^6|#@tSuhX6@h9"><field name="ColorDropdown">Negro</field></block></value></block></statement></block></statement><statement name="init"><block type="Poner" id="rHVRgg_m#-%.vKT9^,9w"><value name="COLOR"><block type="ColorSelector" id="byWOHpg*;!wzY%?Q8EZO"><field name="ColorDropdown">Rojo</field></block></value></block></statement><statement name="timeout"><block type="Poner" id="a1=)WHQjAh8eTEEdDgEv"><value name="COLOR"><block type="ColorSelector" id="Gyy*W`^63WBtIq?}Q*w8"><field name="ColorDropdown">Verde</field></block></value></block></statement></block></xml>',
     `interactive program {
-INIT -> {
+  INIT -> {
   Poner(Rojo)
-}
+  }
   K_TAB -> {
     Poner(Negro)
   }
-TIMEOUT(500) -> {
+  TIMEOUT(500) -> {
   Poner(Verde)
-}
+  }
 }\n`);
 
   gsTestCode('Comando Completar',
