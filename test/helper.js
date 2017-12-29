@@ -18,10 +18,6 @@ function gsSuite(name,func) {
 			this.element.cleanup();
 		});
 
-		teardown(function() {
-			this.element.cleanup();
-		});
-
 		func.call(this);
 	});
 }
