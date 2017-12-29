@@ -192,7 +192,7 @@ Blockly.GobstonesLanguage.scrub_ = function (block, code) {
 	}
 	var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
 	var nextCode = Blockly.GobstonesLanguage.blockToCode(nextBlock);
-	return Blockly.GobstonesLanguage.addPragma(block,commentCode + code + nextCode);
+	return Blockly.GobstonesLanguage.addPragma(block,commentCode + code) + nextCode;
 };
 
 /**

@@ -393,15 +393,15 @@ program {
   `,
     `/@BEGIN_REGION@p1@/
 program {
-/@BEGIN_REGION@v1@/
-VaciarTablero()
-/@END_REGION@/
-/@BEGIN_REGION@v2@/
-VaciarTablero()
-/@END_REGION@/
-/@BEGIN_REGION@v3@/
-VaciarTablero()
-/@END_REGION@/
+  /@BEGIN_REGION@v1@/
+  VaciarTablero()
+  /@END_REGION@/
+  /@BEGIN_REGION@v2@/
+  VaciarTablero()
+  /@END_REGION@/
+  /@BEGIN_REGION@v3@/
+  VaciarTablero()
+  /@END_REGION@/
 }
 /@END_REGION@/\n`,
   {withRegions: true});
@@ -412,7 +412,7 @@ VaciarTablero()
 program {
   /@BEGIN_REGION@asig@/
   x := /@BEGIN_REGION@rojo@/Rojo/@END_REGION@/
-  /@END_REGION@/  
+  /@END_REGION@/
   /@BEGIN_REGION@poner@/
   Poner(/@BEGIN_REGION@vget@/x/@END_REGION@/)
   /@END_REGION@/
@@ -422,20 +422,31 @@ program {
 
   gsTestCode('Programa interactivo simple',
     '<xml xmlns="http://www.w3.org/1999/xhtml"><variables></variables><block type="InteractiveProgram" id="iprog" deletable="false" x="-7" y="25"><mutation timestamp="1509521036701"></mutation><statement name="interactiveprogram"><block type="InteractiveKeyBinding" id="kb1"><mutation modifierscount="0"></mutation><field name="InteractiveBindingDropdownKey">ARROW_LEFT</field><statement name="block"><block type="Poner" id="poner1"><value name="COLOR"><block type="ColorSelector" id="rojo1"><field name="ColorDropdown">Rojo</field></block></value></block></statement><next><block type="InteractiveLetterBinding" id="kb2"><mutation modifierscount="3"></mutation><field name="InteractiveBindingDropdownKey">A</field><field name="d1">SHIFT</field><field name="d2">CTRL</field><field name="d3">ALT</field><statement name="block"><block type="Poner" id="poner2"><value name="COLOR"><block type="ColorSelector" id="verde2"><field name="ColorDropdown">Verde</field></block></value></block></statement><next><block type="InteractiveNumberBinding" id="kb3"><mutation modifierscount="2"></mutation><field name="InteractiveBindingDropdownKey">1</field><field name="d1">CTRL</field><field name="d2">SHIFT</field><statement name="block"><block type="Poner" id="poner3"><value name="COLOR"><block type="ColorSelector" id="azul3"><field name="ColorDropdown">Azul</field></block></value></block></statement></block></next></block></next></block></statement></block></xml>',
-    `interactive program {
+    `/@BEGIN_REGION@iprog@/
+interactive program {
+  /@BEGIN_REGION@kb1@/
   K_ARROW_LEFT -> {
-    Poner(Rojo)
-
+    /@BEGIN_REGION@poner1@/
+    Poner(/@BEGIN_REGION@rojo1@/Rojo/@END_REGION@/)
+    /@END_REGION@/
   }
+  /@END_REGION@/
+  /@BEGIN_REGION@kb2@/
   K_CTRL_ALT_SHIFT_A -> {
-    Poner(Verde)
-
+    /@BEGIN_REGION@poner2@/
+    Poner(/@BEGIN_REGION@verde2@/Verde/@END_REGION@/)
+    /@END_REGION@/
   }
+  /@END_REGION@/
+  /@BEGIN_REGION@kb3@/
   K_CTRL_SHIFT_1 -> {
-    Poner(Azul)
-
+    /@BEGIN_REGION@poner3@/
+    Poner(/@BEGIN_REGION@azul3@/Azul/@END_REGION@/)
+    /@END_REGION@/
   }
-}`,
+  /@END_REGION@/
+}
+/@END_REGION@/\n`,
 {withRegions: true});
 
   gsTestCode('Programa interactivo con init y timeout',
