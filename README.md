@@ -65,3 +65,28 @@ rm -rf temp
 ```
 
 or simply execute ./deploy-gh-pages.sh
+
+## Gem wrapper
+
+This module can also be deployed a ruby gem. `gobstones-blockly` works with Ruby 2.3.1
+
+```bash
+cd gem
+rake wrapper:wrap
+bundle install
+bundle exec rspec
+```
+
+## Building
+
+This command will build a minified .html file with all included:
+
+```bash
+./build.sh
+```
+
+## Tagging and releasing
+
+```bash
+./tag.sh
+```

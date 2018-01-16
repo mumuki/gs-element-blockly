@@ -1,9 +1,30 @@
-TEMP_DIR="bower_components/.tmp" 
-mkdir -p "$TEMP_DIR"
-cp gs-element-blockly.html "$TEMP_DIR/gs-element-blockly.html.original"
-cp -r js "$TEMP_DIR"
+#!/bin/bash
 
-MAIN_FILE="$TEMP_DIR/gs-element-blockly.html"
+set -e
 
-vulcanize --inline-scripts --inline-css --strip-exclude=polymer.html "$MAIN_FILE.original" > "$MAIN_FILE"
-rm -rf "$MAIN_FILE.original" "$TEMP_DIR/js"
+NEW_VERSION=$1
+VERSION_REGEXP='[0-9]+\.[0-9]+\.[0-9]+'
+FULL_VERSION_REGEXP="^${VERSION_REGEXP}$"
+
+if [[ ! $NEW_VERSION =~ $FULL_VERSION_REGEXP ]]; then
+  echo "First param should be a version like X.X.X"
+  exit 1
+fi
+
+echo "[Gobstones::Blockly] Updating version..."
+sed -i -r "s/\"version\": \"${VERSION_REGEXP}/\"version\": \"${NEW_VERSION}/" bower.json
+sed -i -r "s/VERSION = \"${VERSION_REGEXP}/VERSION = \"${NEW_VERSION}/" gem/lib/gobstones/blockly/version.rb
+
+echo "[Gobstones::Blockly] Generating dist..."
+MAIN_FILE=$(./build.sh)
+
+echo "[Gobstones::Blockly] Commiting files..."
+git commit "$MAIN_FILE" bower.json gem/lib/gobstones/blockly/version.rb -m "Welcome ${NEW_VERSION}!"
+
+echo "[Gobstones::Blockly] Tagging $NEW_VERSION..."
+git tag "${NEW_VERSION}"
+
+echo "[Gobstones::Blockly] Pushing..."
+git push origin HEAD --tags
+
+echo "[Gobstones::Blockly] Pushed. Travis will do the rest"
