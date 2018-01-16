@@ -64,5 +64,8 @@ $RECYCLE.BIN/
 # IntelliJ
 /out/
 
+# Sublime Text
+*.sublime-workspace
+
 # mpeltonen/sbt-idea plugin
 .idea_modules/
