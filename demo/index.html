@@ -21,6 +21,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <p>An example of <code>&lt;gs-element-blockly&gt;</code>:</p>
     <p>
+      <strong>Colores:</strong><br>
+      Saturación: <input type="range" min="1" max="100" value="45" class="slider" id="hsvSaturation">
+      Valor HSV: <input type="range" min="1" max="100" value="65" class="slider" id="hsvValue">
+      <hr>
       <button id="default_toolboxbtn">Default toolbox</button>
       <button id="limited_toolboxbtn">Limited toolbox</button>
       <button id="limited_toolboxbtn2">Limited toolbox 2</button>
@@ -52,6 +56,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <pre id="divValidIds"></pre>
     <script>
       var blocklyElement = document.querySelector('gs-element-blockly');
+
+      const hsvSaturation = document.querySelector("#hsvSaturation");
+      const hsvValue = document.querySelector("#hsvValue");
+      const testColors = () => {
+        blocklyElement.testColors(Blockly.GOBSTONES_COLORS);
+      };
+
+      hsvSaturation.addEventListener("change", testColors);
+      hsvValue.addEventListener("change", testColors);
 
       document.querySelector('#generatebtn').addEventListener('click', function() {
         document.getElementById("code").innerHTML = blocklyElement.generateCode({withRegions: document.getElementById("withRegions").checked});
