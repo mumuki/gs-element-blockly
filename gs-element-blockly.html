@@ -763,12 +763,13 @@ Example:
        * 
        * There is an additional option which if provided adds pragma BEGIN/END REGION
        * to the output.
-       * * `element.generateCode( {withRegions: true} );`
+       * * `element.generateCode( {withRegions: true, clearErrors: false} );`
        * @return {string} The code.
        */
       generateCode: function(options = {}) {
         this.workspace.highlightBlock(); // No parameters means reset highlighting
-        if (this.workspace.removeBlockErrors) this.workspace.removeBlockErrors();
+        if (this.workspace.removeBlockErrors && !options.clearErrors)
+          this.workspace.removeBlockErrors();
         Blockly.GobstonesLanguage.shouldAddRegionPragma = options.withRegions;
         return Blockly.GobstonesLanguage.workspaceToCode(this.workspace);
       },
