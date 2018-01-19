@@ -839,20 +839,7 @@ Blockly.Blocks.Asignacion = {
 	},
 
 	createVariableBlock: function(name) {
-		var parent = this;
-
-		while (parent.getSurroundParent() !== null) {
-			if (parent.type.startsWith("Interactive") && parent.type.endsWith("Binding")) break;
-
-			const next = parent.getSurroundParent();
-			if (next === null) break;
-			parent = next;
-		}
-
-		var id = parent.id;
-
 		return Blockly.createBlockSvg(this.workspace, 'variables_get', b => {
-			b.$parent = id;
 			b.setFieldValue(name, 'VAR');
 			b.moveBy(10,5);
 			b.parentAssignmentBlock = this;

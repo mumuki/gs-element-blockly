@@ -578,7 +578,7 @@ Example:
       _checkParameterBounds(xml) {
         const blocks = this.workspace.getAllBlocks();
         for (block of blocks) {
-          if (block.type === "variables_get" && block.$parent !== null) {
+          if (block.type === "variables_get" && block.$parent) {
             const parentBlock = this.workspace.getBlockById(block.$parent);
             const varField = block.getField("VAR");
             
