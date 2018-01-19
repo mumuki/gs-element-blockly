@@ -837,10 +837,7 @@ Example:
         
         var xml = Blockly.Xml.workspaceToDom(this.workspace);
         this.resetWorkspace();
-
-        setTimeout(() => {
-          Blockly.Xml.domToWorkspace(xml, this.workspace);
-        }, 0);
+        Blockly.Xml.domToWorkspace(xml, this.workspace);
       }
     });
   </script>
