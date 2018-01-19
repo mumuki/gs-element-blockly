@@ -50,7 +50,7 @@ Blockly.GobstonesLanguage.addPragma = function(block, str){
 	if(!str || !Blockly.GobstonesLanguage.shouldAddRegionPragma) return str;
 	// add newLine if block is a command or definition
 	const newLine = str[str.length-1] === '\n' ? '\n' : '';
-	return `/@BEGIN_REGION@${block.id}@/${newLine}${str}/@END_REGION@/${newLine}`;
+	return `/*@BEGIN_REGION@${block.id}@*/${newLine}${str}/*@END_REGION@*/${newLine}`;
 };
 // Gobstones pragma BEGIN_REGION should avoid char 'at' ( @ )
 Blockly.utils.genUid.soup_ = Blockly.utils.genUid.soup_.replace(/@/g,"a");
