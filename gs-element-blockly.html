@@ -707,6 +707,7 @@ Example:
         var blocklyDiv = this.$$('#blocklyDiv');
         this.blocklyDiv = blocklyDiv;
         this._fixSize();
+        this._fixScroll();
 				this.workspace = Blockly.inject(blocklyDiv, {
           toolbox: this._createToolbox(),
           media: this.get("media"),
@@ -746,6 +747,24 @@ Example:
           this.blocklyDiv.style = style;
           this._onresize();
         }
+      },
+
+      _fixScroll() {
+        this.blocklyDiv.addEventListener("wheel", (event) => {
+          if (!event.ctrlKey) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const { deltaX, deltaY } = event;
+            const metrics = this.workspace.getMetrics();
+            const currentScrollX = (metrics.viewLeft - metrics.contentLeft);
+            const currentScrollY = (metrics.viewTop - metrics.contentTop);
+            const newScrollX = Math.min(currentScrollX + deltaX / 2, metrics.contentWidth - metrics.viewWidth);
+            const newScrollY = Math.min(currentScrollY + deltaY / 2, metrics.contentHeight - metrics.viewHeight);
+
+            this.workspace.scrollbar.set(Math.max(newScrollX, 0), Math.max(newScrollY, 0));
+          }
+        }, true);
       },
 
       detached: function() {
