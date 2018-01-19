@@ -22,8 +22,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <p>An example of <code>&lt;gs-element-blockly&gt;</code>:</p>
     <p>
       <strong>Colores:</strong><br>
-      Saturación: <input type="range" min="1" max="100" value="45" class="slider" id="hsvSaturation">
-      Valor HSV: <input type="range" min="1" max="100" value="65" class="slider" id="hsvValue">
+      Saturación: <input type="range" min="1" max="100" value="1" class="slider" id="globalHsvSaturation">
+      Valor HSV: <input type="range" min="1" max="100" value="1" class="slider" id="globalHsvValue">
+      Comandos primitivos: <input type="range" min="1" max="359" value="1" class="slider" id="primitiveCommand">
+      Asignación: <input type="range" min="1" max="359" value="1" class="slider" id="assignation">
+      Estructuras de control: <input type="range" min="1" max="359" value="1" class="slider" id="controlStructure">
+      Expresiones literales: <input type="range" min="1" max="359" value="1" class="slider" id="literalExpression">
+      Expresiones primitivas/Operadores: <input type="range" min="1" max="359" value="1" class="slider" id="expression">
+      Programa: <input type="range" min="1" max="359" value="1" class="slider" id="program">
+      Programa interactivo: <input type="range" min="1" max="359" value="1" class="slider" id="interactiveProgram">
+      Asociación interactiva: <input type="range" min="1" max="359" value="1" class="slider" id="interactiveBinding">
+      Procedimientos/Funciones: <input type="range" min="1" max="359" value="1" class="slider" id="procedure">
+      Completar: <input type="range" min="1" max="359" value="1" class="slider" id="complete">
+
       <hr>
       <button id="default_toolboxbtn">Default toolbox</button>
       <button id="limited_toolboxbtn">Limited toolbox</button>
@@ -57,14 +68,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script>
       var blocklyElement = document.querySelector('gs-element-blockly');
 
-      const hsvSaturation = document.querySelector("#hsvSaturation");
-      const hsvValue = document.querySelector("#hsvValue");
-      const testColors = () => {
-        blocklyElement.testColors(Blockly.GOBSTONES_COLORS);
-      };
+      Object.keys(Blockly.GOBSTONES_COLORS).forEach((k) => {
+        const slider = document.querySelector(`#${k}`);
+        const factor = k.startsWith("global") ? 100 : 1;
 
-      hsvSaturation.addEventListener("change", testColors);
-      hsvValue.addEventListener("change", testColors);
+        slider.value = Blockly.GOBSTONES_COLORS[k] * factor;
+        
+        slider.addEventListener("change", () => {
+          const newColors = Object.assign(Blockly.GOBSTONES_COLORS, {
+            [k]: slider.value / factor
+          });
+
+          blocklyElement.testColors(newColors);
+        });
+      });
 
       document.querySelector('#generatebtn').addEventListener('click', function() {
         document.getElementById("code").innerHTML = blocklyElement.generateCode({withRegions: document.getElementById("withRegions").checked});

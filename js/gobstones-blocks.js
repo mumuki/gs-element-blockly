@@ -5,11 +5,11 @@ var MINUS = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAQAAAD2e2DtA
 Blockly.GOBSTONES_COLORS = {
 	globalHsvSaturation: Blockly.HSV_SATURATION,
 	globalHsvValue: Blockly.HSV_VALUE,
-	primitiveCommand: 100,
+	primitiveCommand: 80,
 	assignation: 230,
 	controlStructure: 60,
 	literalExpression: 180,
-	expression: 80,
+	expression: 260,
 	program: 100,
 	interactiveProgram: 30,
 	interactiveBinding: 50,

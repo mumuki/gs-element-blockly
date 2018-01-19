@@ -831,16 +831,16 @@ Example:
         Blockly.GOBSTONES_COLORS = colors;
         Blockly.HSV_SATURATION = colors.globalHsvSaturation; 
         Blockly.HSV_VALUE = colors.globalHsvValue;
-
-        // TODO: No funciona!!!
-        Blockly.Constants.Math.HUE = colors.literal;
-        Blockly.Msg.MATH_HUE = colors.literal.toString();
-
+        Blockly.Constants.Math.HUE = colors.literalExpression;
+        Blockly.Msg.MATH_HUE = colors.literalExpression.toString();
         Blockly.Blocks.procedures.HUE = colors.procedure;
         
         var xml = Blockly.Xml.workspaceToDom(this.workspace);
         this.resetWorkspace();
-        Blockly.Xml.domToWorkspace(xml, this.workspace);
+
+        setTimeout(() => {
+          Blockly.Xml.domToWorkspace(xml, this.workspace);
+        }, 0);
       }
     });
   </script>
