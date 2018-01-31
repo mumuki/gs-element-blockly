@@ -1,5 +1,5 @@
 module Gobstones
-  module Board
+  module Blockly
     VERSION = "0.6.7"
   end
 end
