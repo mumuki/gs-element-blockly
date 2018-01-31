@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
 
   spec.name          = "gobstones-blockly"
   spec.require_paths = ["lib"]
-  spec.version       = Gobstones::Board::VERSION
+  spec.version       = Gobstones::Blockly::VERSION
 
   spec.add_development_dependency "bundler", "~> 1.16.a"
   spec.add_development_dependency "rake", "~> 10.0"
