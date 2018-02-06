@@ -316,7 +316,7 @@ Blockly.GobstonesLanguage.BOOM = function(block) {
 
 Blockly.GobstonesLanguage.ComandoCompletar = b => 'BOOM("El programa todavía no está completo")\n';
 Blockly.GobstonesLanguage.ExpresionCompletar = b => ['boom("El programa todavía no está completo")',Blockly.GobstonesLanguage.ORDER_FUNCTION_CALL];
-
+Blockly.GobstonesLanguage.AsociacionDeTeclaCompletar = b => ''
 
 Blockly.GobstonesLanguage.ColorSelector = literalSelectorBlockCodeGenerator('Color');
 Blockly.GobstonesLanguage.DireccionSelector = literalSelectorBlockCodeGenerator('Direccion');
