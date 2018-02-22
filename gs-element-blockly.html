@@ -234,9 +234,27 @@ Example:
       },
 
       /**
+       * Convierte primitiveProcedures y primitiveFunctions a array de strings para que sea retrocompatible con la versión original.
+       * La versión actual también acepta cosas como:
+       * { name: "unNombre", attributes: { block_icon: "base64..." } }
+       */
+      _getPrimitiveNames: function(primitiveActions) {
+        return Array.isArray(primitiveActions)
+          ? primitiveActions.map(this._getPrimitiveName)
+          : primitiveActions;
+      },
+
+      _getPrimitiveName(primitive) {
+        return primitive.name || primitive;
+      },
+
+      /**
        * Retorna el arbol por defecto de bloques y categorias
        */
       _defaultToolboxTree : function() {
+        const primitiveProcedures = this._getPrimitiveNames(this.primitiveProcedures);
+        const primitiveFunctions = this._getPrimitiveNames(this.primitiveFunctions);
+
         let tree = []
         let toolboxDefault = this.$$('#toolbox');
         let toolboxDefaultLines = toolboxDefault.innerHTML.split("\n");
@@ -257,8 +275,8 @@ Example:
           else if(line.indexOf('<category') >= 0) {
             let m = line.match('name="([^"]*)"')
             if(m.length == 2 && (
-              (m[1] == 'Procedimientos primitivos' && this.primitiveProcedures && this.primitiveProcedures.length > 0) ||
-              (m[1] == 'Funciones primitivas' && this.primitiveFunctions && this.primitiveFunctions.length > 0) ||
+              (m[1] == 'Procedimientos primitivos' && primitiveProcedures && primitiveProcedures.length > 0) ||
+              (m[1] == 'Funciones primitivas' && primitiveFunctions && primitiveFunctions.length > 0) ||
               (m[1] != 'Procedimientos primitivos' && m[1] != 'Funciones primitivas'))) {
               parent.push({
                 type: 'category',
@@ -270,19 +288,19 @@ Example:
               parent = parent[parent.length - 1].child;
               if(m[1] == 'Procedimientos primitivos')
               {
-                for(var i in this.primitiveProcedures) {
+                for(var i in primitiveProcedures) {
                   parent.push({
                     type: 'block',
-                    name: this.primitiveProcedures[i],
+                    name: primitiveProcedures[i],
                   });
                 }
               }
               if(m[1] == 'Funciones primitivas')
               {
-                for(var i in this.primitiveFunctions) {
+                for(var i in primitiveFunctions) {
                   parent.push({
                     type: 'block',
-                    name: this.primitiveFunctions[i],
+                    name: primitiveFunctions[i],
                   });
                 }
               }
@@ -321,6 +339,9 @@ Example:
        * Funciona podando el toolbox por defecto.
        */
       _createToolbox: function() {
+        const primitiveProcedures = this._getPrimitiveNames(this.primitiveProcedures);
+        const primitiveFunctions = this._getPrimitiveNames(this.primitiveFunctions);
+
         let tree = this._defaultToolboxTree();
         let toolbox = [];
 
@@ -329,11 +350,11 @@ Example:
           let disabled = this._homogenizeIDs(this.toolbox.disabled);
           if(visibles.length > 0) {
             visibles = visibles.concat(disabled);
-            if(this.primitiveProcedures) {
-              visibles = visibles.concat(this.primitiveProcedures);
+            if(primitiveProcedures) {
+              visibles = visibles.concat(primitiveProcedures);
             }
-            if(this.primitiveFunctions) {
-              visibles = visibles.concat(this.primitiveFunctions);
+            if(primitiveFunctions) {
+              visibles = visibles.concat(primitiveFunctions);
             }
           }
 
@@ -410,16 +431,29 @@ Example:
       /**
        * Define un bloque a partir de una definicion tipo Poner_En_
        */
-      _definePrimitiveProcedure: function(def) {
-        let parts = def.replace(/([A-Z])/g, " $1").toLowerCase();
+      _definePrimitiveProcedure: function(definition) {
+        const name = this._getPrimitiveName(definition);
+        const icon = definition.attributes && definition.attributes.block_icon;
+
+        let parts = name.replace(/([A-Z])/g, " $1").toLowerCase();
         parts = parts[1].toUpperCase() + parts.substring(2);
         parts = parts.split("_");
 
         // Bloque
-        Blockly.Blocks[def] = {
+        Blockly.Blocks[name] = {
         	init: function () {
             let argsIndex = 1;
         		this.setColour(Blockly.GOBSTONES_COLORS.primitiveCommand);
+            
+            if (icon) {
+              this.appendDummyInput().appendField(new Blockly.FieldImage(
+                icon,
+                16,
+                16,
+                name
+              ));
+            }
+
         		for(var i in parts) {
               if(i == (parts.length - 1)) {
     		        this.appendDummyInput().appendField(parts[i]);
@@ -439,7 +473,7 @@ Example:
           argsList.push('arg' + i);
         }
         // Generator
-        Blockly.GobstonesLanguage[def] = procBlockCodeGenerator(def, argsList);
+        Blockly.GobstonesLanguage[name] = procBlockCodeGenerator(name, argsList);
       },
 
       _definePrimitiveProcedures: function () {

@@ -13,4 +13,4 @@ deploy:
   gem: gobstones-blockly
   on:
     tags: true
-    repo: program-ar/gs-element-blockly
+    repo: Program-AR/gs-element-blockly
