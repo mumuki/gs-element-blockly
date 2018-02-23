@@ -428,16 +428,29 @@ Example:
         return xml.join('\n');
       },
 
+      _getPartsByConvention(name) {
+        let parts = name.replace(/([A-Z])/g, " $1").toLowerCase();
+        parts = parts[1].toUpperCase() + parts.substring(2);
+        parts = this._getParts(parts);
+
+        return parts;
+      },
+
+      _getParts(name) {
+        return name.split("_");
+      },
+
       /**
        * Define un bloque a partir de una definicion tipo Poner_En_
        */
       _definePrimitiveProcedure: function(definition) {
         const name = this._getPrimitiveName(definition);
+        const customName = definition.attributes && definition.attributes.block_name;
         const icon = definition.attributes && definition.attributes.block_icon;
 
-        let parts = name.replace(/([A-Z])/g, " $1").toLowerCase();
-        parts = parts[1].toUpperCase() + parts.substring(2);
-        parts = parts.split("_");
+        const finalName = customName || name;
+        const parts = (customName ? this._getParts : this._getPartsByConvention)
+          .bind(this)(finalName);
 
         // Bloque
         Blockly.Blocks[name] = {
@@ -450,7 +463,7 @@ Example:
                 icon,
                 16,
                 16,
-                name
+                finalName
               ));
             }
 
@@ -490,17 +503,30 @@ Example:
       /**
        * Define un bloque a partir de una definicion de funcion primitiva tipo hayFlores_en_
        */
-      _definePrimitiveFunction: function(def) {
-        let parts = def.replace(/([A-Z])/g, " $1").toLowerCase();
-        //let parts = def;
-        //parts = parts[1].toUpperCase() + parts.substring(2);
-        parts = parts.split("_");
+      _definePrimitiveFunction: function(definition) {
+        const name = this._getPrimitiveName(definition);
+        const customName = definition.attributes && definition.attributes.block_name;
+        const icon = definition.attributes && definition.attributes.block_icon;
+
+        const finalName = customName || name;
+        const parts = (customName ? this._getParts : this._getPartsByConvention)
+          .bind(this)(finalName);
 
         // Bloque
-        Blockly.Blocks[def] = {
+        Blockly.Blocks[name] = {
           init: function () {
             let argsIndex = 1;
             this.setColour(Blockly.GOBSTONES_COLORS.primitiveCommand);
+
+            if (icon) {
+              this.appendDummyInput().appendField(new Blockly.FieldImage(
+                icon,
+                16,
+                16,
+                finalName
+              ));
+            }
+
             for(var i in parts) {
               if(i == (parts.length - 1)) {
                 this.appendDummyInput().appendField(parts[i]);
@@ -521,7 +547,7 @@ Example:
           argsList.push('arg' + i);
         }
         // Generator
-        Blockly.GobstonesLanguage[def] = functionBlockCodeGenerator(def, argsList);
+        Blockly.GobstonesLanguage[name] = functionBlockCodeGenerator(name, argsList);
       },
 
       _definePrimitiveFunctions: function () {
