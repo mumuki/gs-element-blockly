@@ -50,6 +50,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <button id="default_toolboxbtn">Default toolbox</button>
       <button id="limited_toolboxbtn">Limited toolbox</button>
       <button id="limited_toolboxbtn2">Limited toolbox 2</button>
+      <button id="default_toolbox_set_btn">Set default toolbox</button>
       <button id="set_xmlbtn">Set xml</button>
       <br />
       <button id="set_primitive_proceduresbtn">Set procedures</button>
@@ -104,6 +105,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       document.querySelector('#default_toolboxbtn').addEventListener('click', function() {
         blocklyElement.set('toolbox', "");
+      });
+
+      document.querySelector('#default_toolbox_set_btn').addEventListener('click', function() {
+        blocklyElement.setDefaultToolbox(`
+          <category name="Cosas para hacer">
+            <block type="Poner"></block>
+            <block type="Sacar"></block>
+            <block type="Mover"></block>
+          </category>
+          <category name="Colores y direcciones">
+            <block type="ColorSelector"></block>
+            <block type="DireccionSelector"></block>
+          </category>
+          <category name="Mis procedimientos" custom="PROCEDURE_CALLS"></category>
+          <category name="Mis funciones" custom="FUNCTION_CALLS"></category>
+
+          <!-- Estas dos tienen que tener estos nombres :/ -->
+          <category name="Procedimientos primitivos"></category>
+          <category name="Funciones primitivas"></category>
+        `);
       });
 
       document.querySelector('#limited_toolboxbtn').addEventListener('click', function() {

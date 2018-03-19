@@ -104,11 +104,11 @@ Example:
           <block type="procedures_defreturn"></block>
         </category>
       </category>
-        <category name="Auxiliares Docente">
-          <block type="ComandoCompletar"></block>
-          <block type="ExpresionCompletar"></block>
-          <block type="AsociacionDeTeclaCompletar"></block>
-        </category>
+      <category name="Auxiliares Docente">
+        <block type="ComandoCompletar"></block>
+        <block type="ExpresionCompletar"></block>
+        <block type="AsociacionDeTeclaCompletar"></block>
+      </category>
     </xml>
   </template>
 
@@ -721,8 +721,15 @@ Example:
       *
       * @return {Array} Los objetos.
       */
-      validToolboxIDs: function(){
+      validToolboxIDs: function() {
         return this._validToolboxIDsFrom(this._defaultToolboxTree());
+      },
+
+      setDefaultToolbox: function(xml) {
+        this.$$('#toolbox').innerHTML = xml;
+
+        const toolboxXml = `<xml>${xml}</xml>`;
+        this.workspace.updateToolbox(toolboxXml);
       },
 
       /**
