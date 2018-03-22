@@ -890,7 +890,7 @@ Blockly.Blocks.variables_get = {
 	mutationToDom: function() {
 		var container = document.createElement('mutation');
 		container.setAttribute('var', this.getFieldValue('VAR'));
-		container.setAttribute("parent", this.$parent || null)
+		if (this.$parent) container.setAttribute("parent", this.$parent);
 		return container;
 	},
 	domToMutation: function(xmlElement) {
