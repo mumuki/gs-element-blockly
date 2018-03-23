@@ -915,7 +915,7 @@ Blockly.Blocks.opuesto = createSingleParameterExpressionBlock('opuesto','*');
 // Necesario para sanitizar nombres de procedimientos.
 // En la interfaz de bloques de gobstones por ahora vamos a dejar pasar sólo espacios y letras con tilde
 Blockly.Blocks.GobstonesSanitizer = function(name){
-	return name.replace(/[^A-Za-z0-9ÁÉÍÓÚÑáéíóúñ ]/g,'');
+	return name.replace(/[^A-Za-z0-9ÁÉÍÓÚÑáéíóúñ_ ]/g,'');
 };
 
 
