@@ -76,16 +76,18 @@ function callGenerator(name, args = [], newLine, order) {
 /**
  * Retorna la funcion que genera el codigo para un bloque tipo PROC(arg1, arg2, ...)
  */
-window.procBlockCodeGenerator = function(procName, args) {
+function procBlockCodeGenerator(procName, args) {
 	return callGenerator(procName, args, true);
 }
+window.procBlockCodeGenerator = procBlockCodeGenerator;
 
 /**
  * Retorna la funcion que genera el codigo para un bloque tipo function(arg1, arg2, ...)
  */
-window.functionBlockCodeGenerator = function(procName, args) {
+function functionBlockCodeGenerator(procName, args) {
 	return callGenerator(procName, args, false, Blockly.GobstonesLanguage.ORDER_FUNCTION_CALL);
 }
+window.functionBlockCodeGenerator = functionBlockCodeGenerator;
 
 /**
  * Retorna la funcion que genera el codigo para un bloque tipo Expr(arg1, arg2, ...)
