@@ -210,6 +210,14 @@ Example:
           type: String,
           value: "../bower_components/blockly-package/media/"
         },
+
+        /*
+         * `readOnly` Use blockly in readOnly mode.
+         */
+        readOnly: {
+            type: Boolean,
+            value: false
+        },
       },
 
       _onPrimitiveProceduresChange: function() {
@@ -794,6 +802,7 @@ Example:
           horizontalLayout: false,
           collapse: true,
           css: true,
+          readOnly: this.readOnly,
           zoom: {
             controls: true,
             wheel: true
