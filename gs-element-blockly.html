@@ -124,6 +124,9 @@ Example:
   <script src="js/errors.js"></script>
   
   <script>
+    const BLOCKLY_PRIMITIVE_PROCEDURES = "Procedimientos primitivos";
+    const BLOCKLY_PRIMITIVE_FUNCTIONS = "Funciones primitivas";
+
     Polymer({
       is: 'gs-element-blockly',
 
@@ -270,13 +273,12 @@ Example:
       /**
        * Retorna el arbol por defecto de bloques y categorias
        */
-      _defaultToolboxTree : function() {
+      _defaultToolboxTree : function(toolboxXML) {
         const primitiveProcedures = this._getPrimitiveNames(this.primitiveProcedures);
         const primitiveFunctions = this._getPrimitiveNames(this.primitiveFunctions);
 
         let tree = []
-        let toolboxDefault = this.$$('#toolbox');
-        let toolboxDefaultLines = toolboxDefault.innerHTML.split("\n");
+        let toolboxDefaultLines = (toolboxXML || this.$$('#toolbox').innerHTML).split("\n");
         let ignore_last = false;
         let parent = tree;
         let stack = [];
@@ -294,9 +296,9 @@ Example:
           else if(line.indexOf('<category') >= 0) {
             let m = line.match('name="([^"]*)"')
             if(m.length == 2 && (
-              (m[1] == 'Procedimientos primitivos' && primitiveProcedures && primitiveProcedures.length > 0) ||
-              (m[1] == 'Funciones primitivas' && primitiveFunctions && primitiveFunctions.length > 0) ||
-              (m[1] != 'Procedimientos primitivos' && m[1] != 'Funciones primitivas'))) {
+              (m[1] == BLOCKLY_PRIMITIVE_PROCEDURES && primitiveProcedures && primitiveProcedures.length > 0) ||
+              (m[1] == BLOCKLY_PRIMITIVE_FUNCTIONS && primitiveFunctions && primitiveFunctions.length > 0) ||
+              (m[1] != BLOCKLY_PRIMITIVE_PROCEDURES && m[1] != BLOCKLY_PRIMITIVE_FUNCTIONS))) {
               parent.push({
                 type: 'category',
                 name: m[1],
@@ -305,7 +307,7 @@ Example:
               });
               stack.push(parent);
               parent = parent[parent.length - 1].child;
-              if(m[1] == 'Procedimientos primitivos')
+              if(m[1] == BLOCKLY_PRIMITIVE_PROCEDURES)
               {
                 for(var i in primitiveProcedures) {
                   parent.push({
@@ -314,7 +316,7 @@ Example:
                   });
                 }
               }
-              if(m[1] == 'Funciones primitivas')
+              if(m[1] == BLOCKLY_PRIMITIVE_FUNCTIONS)
               {
                 for(var i in primitiveFunctions) {
                   parent.push({
@@ -364,7 +366,7 @@ Example:
         let tree = this._defaultToolboxTree();
         let toolbox = [];
 
-        if(this.toolbox) {
+        if (this.toolbox) {
           let visibles = this._homogenizeIDs(this.toolbox.visible);
           let disabled = this._homogenizeIDs(this.toolbox.disabled);
           if(visibles.length > 0) {
@@ -409,8 +411,28 @@ Example:
           }
           marcarDisabled(toolbox);
 
-        }
-        else {
+          const addCustomActions = (type, categoryName) => {
+            if (this.toolbox[type]) {
+              const customTree = this._defaultToolboxTree(this.toolbox[type]);
+
+              const addCustomActionsChilds = (ttree) => {
+                for (var item of ttree) {
+                  if (item.type !== "category") continue;
+
+                  if (item.name === BLOCKLY_PRIMITIVE_PROCEDURES)
+                    item.child = customTree;
+                  else
+                    addCustomActionsChilds(item.child);
+                }
+              };
+
+              addCustomActionsChilds(toolbox);
+            }
+          };
+
+          addCustomActions("primitiveProcedures", BLOCKLY_PRIMITIVE_PROCEDURES);
+          addCustomActions("primitiveFunctions", BLOCKLY_PRIMITIVE_FUNCTIONS);
+        } else {
           toolbox = tree;
         }
 

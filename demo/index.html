@@ -50,6 +50,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <button id="default_toolboxbtn">Default toolbox</button>
       <button id="limited_toolboxbtn">Limited toolbox</button>
       <button id="limited_toolboxbtn2">Limited toolbox 2</button>
+      <button id="limited_toolboxbtn3">Limited toolbox 3</button>
       <button id="default_toolbox_set_btn">Set default toolbox</button>
       <button id="set_xmlbtn">Set xml</button>
       <br />
@@ -133,6 +134,35 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       document.querySelector('#limited_toolboxbtn2').addEventListener('click', function() {
         blocklyElement.set('toolbox', '{ "visible": ["Poner","OperadorDeComparacion", "Procedimientos","Funciones","FuncionesPrimitivas"], "disabled": ["Sacar"]}');
+      });
+
+      document.querySelector('#limited_toolboxbtn3').addEventListener('click', function() {
+        blocklyElement.set('toolbox', `
+          {
+            "visible": [
+              "Poner","OperadorNumerico",
+              "CategoriaAsignacion", "DefinicionesDeFunciones",
+              "ProcedimientosPrimitivos"
+            ],
+            "disabled": ["Literales"],
+            "primitiveProcedures": "<category name=\\"Los primeros cinco\\">\\n<block type=\\"Uno\\"></block>\\n<block type=\\"Dos\\"></block>\\n<block type=\\"Tres (¡este no se puede usar!)\\" disabled=\\"true\\"></block>\\n<block type=\\"Cuatro\\"></block>\\n<block type=\\"Cinco\\"></block>\\n</category>\\n<category name=\\"El resto\\">\\n<block type=\\"Seis\\" ></block>\\n<block type=\\"Siete\\" ></block>\\n</category>"
+          }
+        `);
+        /* Versión legible por humanos: */
+        /* Probar con ["Uno", "Dos", "Tres (¡este no se puede usar!)", "Cuatro", "Cinco", "Seis", "Siete"] */
+        /*
+          <category name="Los primeros cinco">
+            <block type="Uno"></block>
+            <block type="Dos"></block>
+            <block type="Tres (¡este no se puede usar!)" disabled="true"></block>
+            <block type="Cuatro"></block>
+            <block type="Cinco"></block>
+          </category>
+          <category name="El resto">
+            <block type="Seis" ></block>
+            <block type="Siete" ></block>
+          </category>
+        */
       });
 
       document.querySelector('#set_primitive_proceduresbtn').addEventListener('click', function() {
