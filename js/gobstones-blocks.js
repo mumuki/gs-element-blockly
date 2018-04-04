@@ -5,16 +5,16 @@ var MINUS = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAQAAAD2e2DtA
 Blockly.GOBSTONES_COLORS = {
 	globalHsvSaturation: Blockly.HSV_SATURATION,
 	globalHsvValue: Blockly.HSV_VALUE,
-	primitiveCommand: 80,
-	assignation: 230,
-	controlStructure: 60,
-	literalExpression: 180,
-	expression: 260,
-	program: 100,
-	interactiveProgram: 30,
-	interactiveBinding: 50,
-	procedure: Blockly.Blocks.procedures.HUE,
-	complete: 0,
+	primitiveCommand: "#8DA65B",
+	assignation: "#5B68A6",
+	controlStructure: "#A6A65B",
+	literalExpression: "#5BA6A6",
+	expression: "#745BA6",
+	program: "#74A65B",
+	interactiveProgram: "#A6805B",
+	interactiveBinding: "#A6995B",
+	procedure: "#995BA6",
+	complete: "#A65C5B",
 };
 
 /**

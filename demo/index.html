@@ -32,18 +32,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <p>
       <div class="colors-panel">
         <strong>Colores:</strong><br>
-        Saturación: <input type="range" min="1" max="100" value="1" class="slider" id="globalHsvSaturation"><br>
-        Valor HSV: <input type="range" min="1" max="100" value="1" class="slider" id="globalHsvValue"><br>
-        Comandos primitivos: <input type="range" min="1" max="359" value="1" class="slider" id="primitiveCommand"><br>
-        Asignación: <input type="range" min="1" max="359" value="1" class="slider" id="assignation"><br>
-        Estructuras de control: <input type="range" min="1" max="359" value="1" class="slider" id="controlStructure"><br>
-        Expresiones literales: <input type="range" min="1" max="359" value="1" class="slider" id="literalExpression"><br>
-        Expresiones primitivas/Operadores: <input type="range" min="1" max="359" value="1" class="slider" id="expression"><br>
-        Programa: <input type="range" min="1" max="359" value="1" class="slider" id="program"><br>
-        Programa interactivo: <input type="range" min="1" max="359" value="1" class="slider" id="interactiveProgram"><br>
-        Asociación interactiva: <input type="range" min="1" max="359" value="1" class="slider" id="interactiveBinding"><br>
-        Procedimientos/Funciones: <input type="range" min="1" max="359" value="1" class="slider" id="procedure"><br>
-        Completar: <input type="range" min="1" max="359" value="1" class="slider" id="complete">
+        Comandos primitivos: <input type="color" value="#8DA65B" id="primitiveCommand"><br>
+        Asignación: <input type="color" value="#5B68A6" id="assignation"><br>
+        Estructuras de control: <input type="color" value="#A6A65B" id="controlStructure"><br>
+        Expresiones literales: <input type="color" value="#5BA6A6" id="literalExpression"><br>
+        Expresiones primitivas/Operadores: <input type="color" value="#745BA6" id="expression"><br>
+        Programa: <input type="color" value="#74A65B" id="program"><br>
+        Programa interactivo: <input type="color" value="#A6805B" id="interactiveProgram"><br>
+        Asociación interactiva: <input type="color" value="#A6995B" id="interactiveBinding"><br>
+        Procedimientos/Funciones: <input type="color" value="#995BA6" id="procedure"><br>
+        Completar: <input type="color" value="#A65C5B" id="complete">
       </div>
 
       <hr>
@@ -84,14 +82,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       var blocklyElement = document.querySelector('gs-element-blockly');
 
       Object.keys(Blockly.GOBSTONES_COLORS).forEach((k) => {
-        const slider = document.querySelector(`#${k}`);
-        const factor = k.startsWith("global") ? 100 : 1;
+        const input = document.querySelector(`#${k}`);
+        if (!input) return;
+        
+        input.value = Blockly.GOBSTONES_COLORS[k];
 
-        slider.value = Blockly.GOBSTONES_COLORS[k] * factor;
-
-        slider.addEventListener("change", () => {
+        input.addEventListener("change", () => {
           const newColors = Object.assign(Blockly.GOBSTONES_COLORS, {
-            [k]: slider.value / factor
+            [k]: input.value
           });
 
           console.info("NEW COLORS", newColors);
