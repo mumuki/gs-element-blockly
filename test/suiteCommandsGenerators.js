@@ -104,9 +104,9 @@ program {
     `program {
   if (puedeMover(Este)) {
     Poner(Rojo)
-  } else if (puedeMover(Oeste)) {
+  } elseif (puedeMover(Oeste)) {
     Sacar(Rojo)
-  } else if (puedeMover(Sur)) {
+  } elseif (puedeMover(Sur)) {
   } else {
     Mover(Este)
   }

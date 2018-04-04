@@ -466,7 +466,7 @@ Blockly.GobstonesLanguage.AlternativaCompleta = function (block) {
 				body: Blockly.GobstonesLanguage.statementToCode(block, "DO" + id)
 			};
 		}).map(function({ condition, body }) {
-			return ` else if (${condition}) {\n${body}}`;
+			return ` elseif (${condition}) {\n${body}}`;
 		}).join("");
 
 	var condicion = Blockly.GobstonesLanguage.valueToCode(block, 'condicion',
