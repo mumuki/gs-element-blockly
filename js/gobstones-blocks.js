@@ -1,4 +1,5 @@
 var MINUS = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAQAAAD2e2DtAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAHdElNRQfhDAUCCi+xWH4JAAABcUlEQVR42u3c7ZGCMBSG0etuYcTKls7AyrSEVWd4+bjnUECMeSbhD6kCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIBzu4XHm2rUvPekD2yutR57/4itTLXU0/Pvs9SUW5TcDrDUyE3r9Na6ZwZKBWD5PxVKIBPAVGtknGsZibeBTADPyCjXE1idn8A0/gJjXFPgn0sEwIEljgAHwPc2Xx87QHMCaE4AzQmgOQE0J4DmBNCcAJoTQHMCaE4AzQmgOQE0J4DmBNCcAJoTQHMCaE4AzQmgOQE0J4DmBNDcb2SUsfc0T2re/utAO0BzPg49sot8HOoI+M5IDJIJ4OF+gI+F7gpyRcwxxa6Iyb0E3mvYB96y1kgtv2vijubS18QBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAWXq7xrTQhKAi3AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE3LTEyLTA1VDAyOjEwOjQ3LTA1OjAwdZLI/gAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNy0xMi0wNVQwMjoxMDo0Ny0wNTowMATPcEIAAAAASUVORK5CYII=";
+var HAND = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfiBAUBKBeKSgeBAAABTElEQVQoz22QzyvDcRjHX5/vvrMyStI2uZgftdVCSpJCyW1y00oUF+Xg4OIkx5VyUyJOsgv/gnJw4YCSSFMyB5pGbLJ99/k8LltreB2f9+v50eOigoc5FvGTJF8pugCwaKaNaE98uf9zMBXwjtNpbvmuaH2B0+HXuuyMEbOlQ4U1M5ZVcYbowg02YfZW5cnE9JIROdI7jsiOacoMPLZdEYPR1ouQkxCRG+feESlIXkQOzLR+NhvCpc3UbPcHAoRsADcAQ0Twq0ZosQgEVY0SqvGpkAUCxkIUYRP4bZRRNi9pvaD+TwXyFseHuYzy/Kt8CWfQ5Ems6C/5y7uZyDEH0Nt8vq0dUx0XzaapPyIIoIi23+47+SrlTvrTjLhKy2wmO95OqiacS+QBH9gAFDlOZnYbrimWOixSZCwUlK+vZd7bXiPldyi0yqX1OtkfCBS/9XAtDKAAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTgtMDQtMDVUMDQ6NDQ6NDItMDM6MDD+uUN1AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE4LTA0LTA1VDA0OjQwOjIzLTAzOjAw5hdZgAAAAABJRU5ErkJggg==";
 
 /* global Blockly */
 
@@ -836,7 +837,20 @@ Blockly.Blocks.Asignacion = {
 			"tooltip": "",
 			"helpUrl": ""
 		});
-		this.getters = [];
+
+		var self = this;
+    var createGetterButton = new Blockly.FieldImage(
+      HAND,
+      16,
+      16,
+      "Obtener variable",
+      function() {
+      	var name = self.getFieldValue('varName');
+      	self.createVariableBlock(name);
+      }
+    );
+
+    this.appendDummyInput().appendField(createGetterButton);
 	},
 
 	customContextMenu: function(options) {
@@ -851,20 +865,7 @@ Blockly.Blocks.Asignacion = {
 		return Blockly.createBlockSvg(this.workspace, 'variables_get', b => {
 			b.setFieldValue(name, 'VAR');
 			b.moveBy(10,5);
-			b.parentAssignmentBlock = this;
-			this.getters.push(b);
 		});
-	},
-
-	removeGetter: function(block){
-		this.getters.splice(this.getters.indexOf(block),1);
-	},
-
-	onchange: function(event){
-		if(event.blockId == this.id && event.type == Blockly.Events.BLOCK_CHANGE &&
-			event.element == 'field'){
-			this.getters.forEach(block => block.setFieldValue(event.newValue,'VAR'));
-		};
 	}
 };
 
@@ -902,8 +903,8 @@ Blockly.Blocks.variables_get = {
 	onchange: function(event){
 		if (this.$parent) this.getField("VAR").EDITABLE = false;
 
-		if(event.blockId == this.id && event.type == Blockly.Events.BLOCK_DELETE){
-				this.parentAssignmentBlock.removeGetter(this);
+		if (event.blockId == this.id && event.type == Blockly.Events.BLOCK_DELETE) {
+			// do something with parent
 		}
 	}
 };
