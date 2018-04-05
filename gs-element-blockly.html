@@ -704,7 +704,10 @@ Example:
       },
 
       _onWorkspaceUpdate: function () {
-        if(this.workspaceXml != this._blocklyWorkspaceXML) {
+        const hasReloadedXml = this._runWorkspaceXmlRetrocompatibilityFixes();
+        if (hasReloadedXml) return;
+
+        if (this.workspaceXml != this._blocklyWorkspaceXML) {
           this.workspace.clear();
           let dom = Blockly.Xml.textToDom(this.workspaceXml);
           try {
@@ -720,6 +723,16 @@ Example:
               throw e;
             }
           }
+        }
+      },
+
+      _runWorkspaceXmlRetrocompatibilityFixes: function() {
+        const oldAndOperator = `<field name="OPERATOR">&&</field>`;
+        const newAndOperator = `<field name="OPERATOR">AND</field>`;
+
+        if (this.workspaceXml.includes(oldAndOperator)) {
+          this.workspaceXml = this.workspaceXml.replace(new RegExp(oldAndOperator, "g"), newAndOperator);
+          return true;
         }
       },
 

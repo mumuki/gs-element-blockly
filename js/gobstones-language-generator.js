@@ -347,6 +347,7 @@ Blockly.GobstonesLanguage.OperadorNumerico = function (block) {
 Blockly.GobstonesLanguage.OperadorLogico = function(block) {
   // Operations 'and', 'or'.
 	var operator = block.getFieldValue('OPERATOR');
+	if (operator === "AND") operator = "&&";
 	var order = (operator == '&&') ? Blockly.GobstonesLanguage.ORDER_LOGICAL_AND : Blockly.GobstonesLanguage.ORDER_LOGICAL_OR;
 	var argument0 = Blockly.GobstonesLanguage.valueToCode(block, 'arg1', order) || '()';
 	var argument1 = Blockly.GobstonesLanguage.valueToCode(block, 'arg2', order) || '()';

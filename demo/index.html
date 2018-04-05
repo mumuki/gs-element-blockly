@@ -227,7 +227,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           const oldCustomContextMenu = Blockly.Blocks[blockType].customContextMenu;
           Blockly.Blocks[blockType].customContextMenu = function(options) {
-            if (oldCustomContextMenu) oldCustomContextMenu(options);
+            if (oldCustomContextMenu) oldCustomContextMenu.call(this, options);
 
             const self = this;
             options.unshift({
