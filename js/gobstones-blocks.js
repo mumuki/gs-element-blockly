@@ -876,7 +876,7 @@ Blockly.Blocks.variables_get = {
 			"message0": "%1",
 			"args0": [
 				{
-				"type": "field_label",
+				"type": "field_input",
 				"name": "VAR",
 				"text": "nombre de variable"
 				}
@@ -900,6 +900,8 @@ Blockly.Blocks.variables_get = {
 	},
 
 	onchange: function(event){
+		if (this.$parent) this.getField("VAR").EDITABLE = false;
+
 		if(event.blockId == this.id && event.type == Blockly.Events.BLOCK_DELETE){
 				this.parentAssignmentBlock.removeGetter(this);
 		}
