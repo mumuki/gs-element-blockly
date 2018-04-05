@@ -810,12 +810,12 @@ Blockly.Blocks.Asignacion = {
 	init: function () {
 		this.jsonInit({
 			"type": "asignacion",
-			"message0": "%1 %2 := %3 %4",
+			"message0": "Recordar que %1 %2 vale %3 %4",
 			"args0": [
 				{
 				"type": "field_input",
 				"name": "varName",
-				"text": "nombre de variable",
+				"text": "una variable",
 				"class": Blockly.Procedures.rename
 				},
 				{
