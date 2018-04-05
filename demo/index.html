@@ -81,22 +81,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script>
       var blocklyElement = document.querySelector('gs-element-blockly');
 
-      Object.keys(Blockly.GOBSTONES_COLORS).forEach((k) => {
-        const input = document.querySelector(`#${k}`);
-        if (!input) return;
-        
-        input.value = Blockly.GOBSTONES_COLORS[k];
-
-        input.addEventListener("change", () => {
-          const newColors = Object.assign(Blockly.GOBSTONES_COLORS, {
-            [k]: input.value
-          });
-
-          console.info("NEW COLORS", newColors);
-          blocklyElement.testColors(newColors);
-        });
-      });
-
       document.querySelector('#generatebtn').addEventListener('click', function() {
         document.getElementById("code").innerHTML = blocklyElement.generateCode({withRegions: document.getElementById("withRegions").checked});
         document.getElementById("xml").innerHTML = document.getElementById("shouldFormat").checked ? formatXml(blocklyElement.get('workspaceXml')) : blocklyElement.get('workspaceXml');
@@ -211,6 +195,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         document.querySelector('#divValidIds').innerHTML = blocklyElement.validToolboxIDs().map(printObject);
         
         //document.getElementById("highlighttxt").innerHTML = blocklyElement.get('workspaceXml').match(/id=".*"/).slice(4,24);
+
+        // colors demo
+        Object.keys(Blockly.GOBSTONES_COLORS).forEach((k) => {
+          const input = document.querySelector(`#${k}`);
+          if (!input) return;
+          
+          input.value = Blockly.GOBSTONES_COLORS[k];
+
+          input.addEventListener("change", () => {
+            const newColors = Object.assign(Blockly.GOBSTONES_COLORS, {
+              [k]: input.value
+            });
+
+            console.info("NEW COLORS", newColors);
+            blocklyElement.testColors(newColors);
+          });
+          });
       });
 
     </script>
