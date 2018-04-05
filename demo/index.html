@@ -32,6 +32,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <p>
       <div class="colors-panel">
         <strong>Colores:</strong><br>
+        <input type="color" value="#000000" id="tmpColor" style="display: none">
         Comandos primitivos: <input type="color" value="#8DA65B" id="primitiveCommand"><br>
         Asignación: <input type="color" value="#5B68A6" id="assignation"><br>
         Estructuras de control: <input type="color" value="#A6A65B" id="controlStructure"><br>
@@ -196,7 +197,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         
         //document.getElementById("highlighttxt").innerHTML = blocklyElement.get('workspaceXml').match(/id=".*"/).slice(4,24);
 
+        // -----------
         // colors demo
+        // -----------
+
+        const addNewColor = (key, value) => {
+          const newColors = Object.assign(Blockly.GOBSTONES_COLORS, {
+            [key]: value
+          });
+
+          console.info("NEW COLORS", newColors);
+          blocklyElement.testColors(newColors);
+        };
+
         Object.keys(Blockly.GOBSTONES_COLORS).forEach((k) => {
           const input = document.querySelector(`#${k}`);
           if (!input) return;
@@ -204,14 +217,43 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           input.value = Blockly.GOBSTONES_COLORS[k];
 
           input.addEventListener("change", () => {
-            const newColors = Object.assign(Blockly.GOBSTONES_COLORS, {
-              [k]: input.value
-            });
+            addNewColor(k, input.value);
+          });
+        });
 
-            console.info("NEW COLORS", newColors);
-            blocklyElement.testColors(newColors);
-          });
-          });
+        // insert a context menu item to change colors on all blocks
+        for (let blockType in Blockly.Blocks) {
+          if (blockType === "Program" || blockType === "InteractiveProgram") continue;
+
+          const oldCustomContextMenu = Blockly.Blocks[blockType].customContextMenu;
+          Blockly.Blocks[blockType].customContextMenu = function(options) {
+            if (oldCustomContextMenu) oldCustomContextMenu(options);
+
+            const self = this;
+            options.unshift({
+              text: "Cambiar color",
+              enabled: true,
+              callback: function() {
+                const tmpColor = document.querySelector("#tmpColor");
+                tmpColor.value = self.getColour();
+                tmpColor.click();
+
+                if (window.TMPCOLOR_CURRENT_LISTENER) {
+                  tmpColor.removeEventListener(
+                    "change",
+                    window.TMPCOLOR_CURRENT_LISTENER
+                  );
+                }
+
+                window.TMPCOLOR_CURRENT_LISTENER = () => {
+                  addNewColor(blockType, tmpColor.value);
+                };
+
+                tmpColor.addEventListener("change", window.TMPCOLOR_CURRENT_LISTENER);
+              }
+            });
+          };
+        }
       });
 
     </script>

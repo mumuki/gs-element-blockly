@@ -50,7 +50,7 @@ Blockly.Blocks.Program = {
 				}
 			]
 		})
-		this.setColour(Blockly.GOBSTONES_COLORS.program);
+		this.setColour(Blockly.GOBSTONES_COLORS.Program || Blockly.GOBSTONES_COLORS.program);
 		this.setDeletable(true);
 		this.setEditable(true);
 		this.setMovable(true);
@@ -94,7 +94,7 @@ Blockly.Blocks.InteractiveProgram = {
 				}
 			]
 		});
-		this.setColour(Blockly.GOBSTONES_COLORS.interactiveProgram);
+		this.setColour(Blockly.GOBSTONES_COLORS.InteractiveProgram || Blockly.GOBSTONES_COLORS.interactiveProgram);
 		this.setDeletable(true);
 		this.setEditable(true);
 		this.setMovable(true);
@@ -236,7 +236,7 @@ createInteractiveBinding = (name, keys) => {
 						options: keys.map(it => [it.name, it.code]),
 					}
 				],
-				colour: Blockly.GOBSTONES_COLORS.interactiveBinding,
+				colour: Blockly.GOBSTONES_COLORS.InteractiveBinding || Blockly.GOBSTONES_COLORS.interactiveBinding,
 				tooltip: "Escoger una entrada",
 			});
 
@@ -337,7 +337,7 @@ Blockly.Blocks.RepeticionSimple = {
 			nextStatement: "Statement",
 		});
 
-		this.setColour(Blockly.GOBSTONES_COLORS.controlStructure);
+		this.setColour(Blockly.GOBSTONES_COLORS.RepeticionSimple || Blockly.GOBSTONES_COLORS.controlStructure);
 		this.appendValueInput('count')
 			.appendField('repetir');
 		this.appendDummyInput()
@@ -355,7 +355,7 @@ Blockly.Blocks.RepeticionCondicional = {
 			nextStatement: "Statement",
 		});
 
-		this.setColour(Blockly.GOBSTONES_COLORS.controlStructure);
+		this.setColour(Blockly.GOBSTONES_COLORS.RepeticionCondicional || Blockly.GOBSTONES_COLORS.controlStructure);
 		this.appendValueInput('condicion')
 			.setCheck('Bool')
 			.appendField('repetir hasta que');
@@ -372,7 +372,7 @@ Blockly.Blocks.AlternativaSimple = {
 			nextStatement: "Statement",
 		});
 
-		this.setColour(Blockly.GOBSTONES_COLORS.controlStructure);
+		this.setColour(Blockly.GOBSTONES_COLORS.AlternativaSimple || Blockly.GOBSTONES_COLORS.controlStructure);
 		this.appendValueInput('condicion')
 			.appendField(Blockly.Msg["CONTROLS_IF_MSG_IF"]);
 		this.appendStatementInput('block').setCheck(["Statement"]);
@@ -444,7 +444,7 @@ Blockly.Blocks.AlternativaCompleta = {
 			"extensions": ["controls_if_tooltip"]
 		});
 
-		this.setColour(Blockly.GOBSTONES_COLORS.controlStructure);
+		this.setColour(Blockly.GOBSTONES_COLORS.AlternativaCompleta || Blockly.GOBSTONES_COLORS.controlStructure);
 		this.setInputsInline(true);
 
 		this.elseCount_++;
@@ -507,7 +507,7 @@ Blockly.Blocks.Poner = {
 					name: 'COLOR'
 				}
 			],
-			colour: Blockly.GOBSTONES_COLORS.primitiveCommand,
+			colour: Blockly.GOBSTONES_COLORS.Poner || Blockly.GOBSTONES_COLORS.primitiveCommand,
 			tooltip: 'Poner color en casillero.',
 			inputsInline: true
 		});
@@ -527,7 +527,7 @@ Blockly.Blocks.Sacar = {
 					name: 'COLOR'
 				}
 			],
-			colour: Blockly.GOBSTONES_COLORS.primitiveCommand,
+			colour: Blockly.GOBSTONES_COLORS.Sacar || Blockly.GOBSTONES_COLORS.primitiveCommand,
 			tooltip: 'Sacar color de casillero.',
 			inputsInline: true
 		});
@@ -547,7 +547,7 @@ Blockly.Blocks.Mover = {
 					name: 'DIRECCION'
 				}
 			],
-			colour: Blockly.GOBSTONES_COLORS.primitiveCommand,
+			colour: Blockly.GOBSTONES_COLORS.Mover || Blockly.GOBSTONES_COLORS.primitiveCommand,
 			tooltip: 'Mover en una dirección.',
 			inputsInline: true
 		});
@@ -567,7 +567,7 @@ Blockly.Blocks.IrAlBorde = {
 					name: 'DIRECCION'
 				}
 			],
-			colour: Blockly.GOBSTONES_COLORS.primitiveCommand,
+			colour: Blockly.GOBSTONES_COLORS.IrAlBorde || Blockly.GOBSTONES_COLORS.primitiveCommand,
 			tooltip: 'Ir al borde del tablero.',
 			inputsInline: true
 		});
@@ -581,7 +581,7 @@ Blockly.Blocks.VaciarTablero = {
 			previousStatement: "Statement",
 			nextStatement: "Statement",
 			message0: 'Vaciar tablero',
-			colour: Blockly.GOBSTONES_COLORS.primitiveCommand,
+			colour: Blockly.GOBSTONES_COLORS.VaciarTablero || Blockly.GOBSTONES_COLORS.primitiveCommand,
 			tooltip: 'Vaciar el tablero.',
 			inputsInline: true
 		});
@@ -607,7 +607,7 @@ Blockly.Blocks.BOOM = {
 				}
 			],
 			"inputsInline": false,
-			"colour": Blockly.GOBSTONES_COLORS.primitiveCommand,
+			"colour": Blockly.GOBSTONES_COLORS.BOOM || Blockly.GOBSTONES_COLORS.primitiveCommand,
 			"tooltip": "Este comando hace que estalle todo."
 		});
 	}
@@ -627,7 +627,7 @@ Blockly.Blocks.ComandoCompletar = {
 			"nextStatement": "Statement",
 			"lastDummyAlign0": "RIGHT",
 			"message0": "COMPLETAR",
-			"colour": Blockly.GOBSTONES_COLORS.complete,
+			"colour": Blockly.GOBSTONES_COLORS.ComandoCompletar || Blockly.GOBSTONES_COLORS.complete,
 			"tooltip": "Tenés que reemplazar este bloque por tu solución"
 		});
 	},
@@ -643,7 +643,7 @@ Blockly.Blocks.AsociacionDeTeclaCompletar = {
 			"nextStatement": "InteractiveBinding",
 			"lastDummyAlign0": "RIGHT",
 			"message0": "COMPLETAR",
-			"colour": Blockly.GOBSTONES_COLORS.complete,
+			"colour": Blockly.GOBSTONES_COLORS.AsociacionDeTeclaCompletar || Blockly.GOBSTONES_COLORS.complete,
 			"tooltip": "Tenés que reemplazar este bloque por tu solución"
 		});
 	},
@@ -661,7 +661,7 @@ Blockly.Blocks.ExpresionCompletar = {
 			"type": "completar_expression",
 			"message0": "COMPLETAR",
 			"output": "any",
-			"colour": Blockly.GOBSTONES_COLORS.complete,
+			"colour": Blockly.GOBSTONES_COLORS.ExpresionCompletar || Blockly.GOBSTONES_COLORS.complete,
 			"tooltip": "Tenés que reemplazar este bloque por tu solución"
 		});
 	},
@@ -681,7 +681,7 @@ function createLiteralSelectorBlock(type,values){
 					options: values.map(value => [value,value]),
 				}],
 				output: type,
-				colour: Blockly.GOBSTONES_COLORS.literalExpression,
+				colour: Blockly.GOBSTONES_COLORS[`${type}Selector`] || Blockly.GOBSTONES_COLORS.literalExpression,
 				tooltip: "Escoger " + type,
 			});
 		}
@@ -692,7 +692,7 @@ Blockly.Blocks.ColorSelector = createLiteralSelectorBlock('Color',['Rojo','Verde
 Blockly.Blocks.DireccionSelector = createLiteralSelectorBlock('Direccion',['Este','Oeste','Norte','Sur']);
 Blockly.Blocks.BoolSelector = createLiteralSelectorBlock('Bool',['True','False']);
 
-function createSingleParameterExpressionBlock(blockText,returnType){
+function createSingleParameterExpressionBlock(blockText,returnType,type){
 	return {
 		init: function () {
 			this.jsonInit({
@@ -703,7 +703,7 @@ function createSingleParameterExpressionBlock(blockText,returnType){
 						name: 'VALUE'
 					}
 				],
-				colour: Blockly.GOBSTONES_COLORS.expression,
+				colour: Blockly.GOBSTONES_COLORS[type] || Blockly.GOBSTONES_COLORS.expression,
 				inputsInline: true,
 				output: returnType
 			})
@@ -711,9 +711,9 @@ function createSingleParameterExpressionBlock(blockText,returnType){
 	};
 }
 
-Blockly.Blocks.hayBolitas = createSingleParameterExpressionBlock('hay bolitas','Bool');
-Blockly.Blocks.puedeMover = createSingleParameterExpressionBlock('puede mover','Bool');
-Blockly.Blocks.nroBolitas = createSingleParameterExpressionBlock('numero de bolitas','Number');
+Blockly.Blocks.hayBolitas = createSingleParameterExpressionBlock('hay bolitas','Bool',"hayBolitas");
+Blockly.Blocks.puedeMover = createSingleParameterExpressionBlock('puede mover','Bool',"puedeMover");
+Blockly.Blocks.nroBolitas = createSingleParameterExpressionBlock('numero de bolitas','Number',"nroBolitas");
 
 // ------------------------------------------------------
 // Operaciones:
@@ -741,7 +741,7 @@ Blockly.Blocks.OperadorDeComparacion = {
 					name: 'arg2'
 				}
 			],
-			colour: Blockly.GOBSTONES_COLORS.expression,
+			colour: Blockly.GOBSTONES_COLORS.OperadorDeComparacion || Blockly.GOBSTONES_COLORS.expression,
 			inputsInline: false,
 			output: 'Bool'
 		});
@@ -770,7 +770,7 @@ Blockly.Blocks.OperadorNumerico = {
 					name: 'arg2'
 				}
 			],
-			colour: Blockly.GOBSTONES_COLORS.expression,
+			colour: Blockly.GOBSTONES_COLORS.OperadorNumerico || Blockly.GOBSTONES_COLORS.expression,
 			inputsInline: false,
 			output: 'Number'
 		});
@@ -799,7 +799,7 @@ Blockly.Blocks.OperadorLogico = {
 					name: 'arg2'
 				}
 			],
-			colour: Blockly.GOBSTONES_COLORS.expression,
+			colour: Blockly.GOBSTONES_COLORS.OperadorLogico || Blockly.GOBSTONES_COLORS.expression,
 			inputsInline: false,
 			output: 'Bool'
 		});
@@ -832,7 +832,7 @@ Blockly.Blocks.Asignacion = {
 			"inputsInline": true,
 			"previousStatement": null,
 			"nextStatement": null,
-			"colour": Blockly.GOBSTONES_COLORS.assignation,
+			"colour": Blockly.GOBSTONES_COLORS.Asignacion || Blockly.GOBSTONES_COLORS.assignation,
 			"tooltip": "",
 			"helpUrl": ""
 		});
