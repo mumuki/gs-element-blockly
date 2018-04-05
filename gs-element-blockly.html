@@ -469,9 +469,9 @@ Example:
         return xml.join('\n');
       },
 
-      _getPartsByConvention(name) {
+      _getPartsByConvention(isProcedure, name) {
         let parts = name.replace(/([A-Z])/g, " $1").toLowerCase();
-        parts = parts[1].toUpperCase() + parts.substring(2);
+        if (isProcedure) parts = parts[1].toUpperCase() + parts.substring(2);
         parts = this._getParts(parts);
 
         return parts;
@@ -490,7 +490,7 @@ Example:
         const icon = definition.attributes && definition.attributes.block_icon;
 
         const finalName = customName || name;
-        const parts = (customName ? this._getParts : this._getPartsByConvention)
+        const parts = (customName ? this._getParts : this._getPartsByConvention.bind(this, true))
           .bind(this)(finalName);
 
         // Bloque
@@ -550,7 +550,7 @@ Example:
         const icon = definition.attributes && definition.attributes.block_icon;
 
         const finalName = customName || name;
-        const parts = (customName ? this._getParts : this._getPartsByConvention)
+        const parts = (customName ? this._getParts : this._getPartsByConvention.bind(this, false))
           .bind(this)(finalName);
 
         // Bloque
