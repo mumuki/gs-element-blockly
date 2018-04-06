@@ -497,7 +497,7 @@ Example:
         Blockly.Blocks[name] = {
         	init: function () {
             let argsIndex = 1;
-        		this.setColour(Blockly.GOBSTONES_COLORS.primitiveCommand);
+        		this.setColour(Blockly.CUSTOM_COLORS.primitiveCommand);
             
             if (icon) {
               this.appendDummyInput().appendField(new Blockly.FieldImage(
@@ -557,7 +557,7 @@ Example:
         Blockly.Blocks[name] = {
           init: function () {
             let argsIndex = 1;
-            this.setColour(Blockly.GOBSTONES_COLORS.primitiveCommand);
+            this.setColour(Blockly.CUSTOM_COLORS.primitiveCommand);
 
             if (icon) {
               this.appendDummyInput().appendField(new Blockly.FieldImage(
@@ -950,16 +950,18 @@ Example:
       },
 
       testColors(colors) {
-        Blockly.GOBSTONES_COLORS = colors;
+        Blockly.CUSTOM_COLORS = colors;
         Blockly.HSV_SATURATION = colors.globalHsvSaturation; 
         Blockly.HSV_VALUE = colors.globalHsvValue;
-        Blockly.Constants.Math.HUE = colors.literalExpression;
-        Blockly.Msg.MATH_HUE = colors.literalExpression.toString();
         Blockly.Blocks.procedures.HUE = colors.procedure;
         
-        var xml = Blockly.Xml.workspaceToDom(this.workspace);
+        var xmlDom = Blockly.Xml.workspaceToDom(this.workspace);
+        const xml = Blockly.Xml.domToText(xmlDom);
         this.resetWorkspace();
-        Blockly.Xml.domToWorkspace(xml, this.workspace);
+
+        setTimeout(() => {
+          this.workspaceXml = xml;
+        }, 0);
       }
     });
   </script>

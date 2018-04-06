@@ -31,17 +31,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <p>An example of <code>&lt;gs-element-blockly&gt;</code>:</p>
     <p>
       <div class="colors-panel">
-        <strong>Colores:</strong><br>
+        <strong>Categorías:</strong><br>
         <input type="color" value="#000000" id="tmpColor" style="display: none">
         Comandos primitivos: <input type="color" value="#8DA65B" id="primitiveCommand"><br>
         Asignación: <input type="color" value="#5B68A6" id="assignation"><br>
         Estructuras de control: <input type="color" value="#A6A65B" id="controlStructure"><br>
         Expresiones literales: <input type="color" value="#5BA6A6" id="literalExpression"><br>
         Expresiones primitivas/Operadores: <input type="color" value="#745BA6" id="expression"><br>
+        Asociación interactiva: <input type="color" value="#A6995B" id="interactiveBinding"><br>
+        Procedimientos: <input type="color" value="#995BA6" id="procedure"><br>
+        Funciones: <input type="color" value="#774A77" id="function"><br>
+        Llamadas a procedimientos: <input type="color" value="#661CF6" id="procedure_call"><br>
+        Llamadas a funciones: <input type="color" value="#330610" id="function_call"><br>
+        <br>
+        <strong>Bloques únicos:</strong><br>
         Programa: <input type="color" value="#74A65B" id="program"><br>
         Programa interactivo: <input type="color" value="#A6805B" id="interactiveProgram"><br>
-        Asociación interactiva: <input type="color" value="#A6995B" id="interactiveBinding"><br>
-        Procedimientos/Funciones: <input type="color" value="#995BA6" id="procedure"><br>
         Completar: <input type="color" value="#A65C5B" id="complete">
       </div>
 
@@ -202,7 +207,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         // -----------
 
         const addNewColor = (key, value) => {
-          const newColors = Object.assign(Blockly.GOBSTONES_COLORS, {
+          const newColors = Object.assign(Blockly.CUSTOM_COLORS, {
             [key]: value
           });
 
@@ -210,11 +215,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           blocklyElement.testColors(newColors);
         };
 
-        Object.keys(Blockly.GOBSTONES_COLORS).forEach((k) => {
+        Object.keys(Blockly.CUSTOM_COLORS).forEach((k) => {
           const input = document.querySelector(`#${k}`);
           if (!input) return;
           
-          input.value = Blockly.GOBSTONES_COLORS[k];
+          input.value = Blockly.CUSTOM_COLORS[k];
 
           input.addEventListener("change", () => {
             addNewColor(k, input.value);
@@ -223,13 +228,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         // insert a context menu item to change colors on all blocks
         for (let blockType in Blockly.Blocks) {
-          if (blockType === "Program" || blockType === "InteractiveProgram") continue;
+          if (blockType === "Program" || blockType === "InteractiveProgram" || blockType.includes("Completar")) continue;
 
           const oldCustomContextMenu = Blockly.Blocks[blockType].customContextMenu;
           Blockly.Blocks[blockType].customContextMenu = function(options) {
             if (oldCustomContextMenu) oldCustomContextMenu.call(this, options);
 
             const self = this;
+
+            options.unshift({
+              text: "Reset color",
+              enabled: true,
+              callback: function() {
+                addNewColor(blockType, undefined);
+              }
+            });
+
             options.unshift({
               text: "Cambiar color",
               enabled: true,
