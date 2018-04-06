@@ -33,8 +33,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <div class="colors-panel">
         <strong>Categorías:</strong><br>
         <input type="color" value="#000000" id="tmpColor" style="display: none">
-        Comandos primitivos: <input type="color" value="#8DA65B" id="primitiveCommand"><br>
         Asignación: <input type="color" value="#5B68A6" id="assignation"><br>
+        Comandos primitivos: <input type="color" value="#8DA65B" id="primitiveCommand"><br>
         Estructuras de control: <input type="color" value="#A6A65B" id="controlStructure"><br>
         Expresiones literales: <input type="color" value="#5BA6A6" id="literalExpression"><br>
         Expresiones primitivas/Operadores: <input type="color" value="#745BA6" id="expression"><br>
@@ -44,10 +44,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         Llamadas a procedimientos: <input type="color" value="#661CF6" id="procedure_call"><br>
         Llamadas a funciones: <input type="color" value="#330610" id="function_call"><br>
         <br>
-        <strong>Bloques únicos:</strong><br>
+        <strong>Otros:</strong><br>
         Programa: <input type="color" value="#74A65B" id="program"><br>
         Programa interactivo: <input type="color" value="#A6805B" id="interactiveProgram"><br>
-        Completar: <input type="color" value="#A65C5B" id="complete">
+        Completar: <input type="color" value="#A65C5B" id="complete"><br>
+        Variables: <input type="color" value="#FF0000" id="variable"><br>
+        Parámetros: <input type="color" value="#0000FF" id="parameter"><br>
       </div>
 
       <hr>
@@ -228,7 +230,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         // insert a context menu item to change colors on all blocks
         for (let blockType in Blockly.Blocks) {
-          if (blockType === "Program" || blockType === "InteractiveProgram" || blockType.includes("Completar")) continue;
+          if (blockType === "Program" || blockType === "InteractiveProgram" || blockType.includes("Completar") || blockType === "variables_get") continue;
 
           const oldCustomContextMenu = Blockly.Blocks[blockType].customContextMenu;
           Blockly.Blocks[blockType].customContextMenu = function(options) {

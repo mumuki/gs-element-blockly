@@ -18,6 +18,8 @@ Blockly.CUSTOM_COLORS = {
 	function: "#774A77",
 	procedure_call: "#661CF6",
 	function_call: "#330610",
+	variable: "#FF0000",
+	parameter: "#0000FF",
 	complete: "#A65C5B",
 };
 
@@ -903,7 +905,7 @@ Blockly.Blocks.variables_get = {
 				}
 			],
 			"output": null,
-			"colour": 230,
+			"colour": Blockly.CUSTOM_COLORS.variable,
 			"tooltip": "",
 			"helpUrl": "",
 		});
@@ -921,7 +923,12 @@ Blockly.Blocks.variables_get = {
 	},
 
 	onchange: function(event){
-		if (this.$parent) this.getField("VAR").EDITABLE = false;
+		if (this.$parent) {
+			this.getField("VAR").EDITABLE = false;
+			this.setColour(Blockly.CUSTOM_COLORS.parameter);
+		} else {
+			this.setColour(Blockly.CUSTOM_COLORS.variable);
+		}
 
 		if (event.blockId == this.id && event.type == Blockly.Events.BLOCK_DELETE) {
 			// do something with parent
