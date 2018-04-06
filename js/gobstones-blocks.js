@@ -16,6 +16,8 @@ Blockly.CUSTOM_COLORS = {
 	interactiveBinding: "#A6995B",
 	procedure: "#995BA6",
 	function: "#774A77",
+	primitiveProcedure: "#CACACA",
+	primitiveFunction: "#BABABA",
 	procedure_call: "#661CF6",
 	function_call: "#330610",
 	variable: "#FF0000",
