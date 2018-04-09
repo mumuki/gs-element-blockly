@@ -419,7 +419,7 @@ Example:
                 for (var item of ttree) {
                   if (item.type !== "category") continue;
 
-                  if (item.name === BLOCKLY_PRIMITIVE_PROCEDURES)
+                  if (item.name === categoryName)
                     item.child = customTree;
                   else
                     addCustomActionsChilds(item.child);
