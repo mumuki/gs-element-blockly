@@ -90,6 +90,8 @@ Example:
         <category name="Programas">
           <block type="Program"></block>
           <block type="InteractiveProgram"></block>
+        </category>
+        <category name="Asociaciones">
           <block type="InteractiveLetterBinding"></block>
           <block type="InteractiveNumberBinding"></block>
           <block type="InteractiveKeyBinding"></block>
@@ -122,7 +124,7 @@ Example:
   <script src="js/gobstones-language-generator.js"></script>
   <script src="js/block-aliases.js"></script>
   <script src="js/errors.js"></script>
-  
+
   <script>
     const BLOCKLY_PRIMITIVE_PROCEDURES = "Procedimientos primitivos";
     const BLOCKLY_PRIMITIVE_FUNCTIONS = "Funciones primitivas";
@@ -498,7 +500,7 @@ Example:
         	init: function () {
             let argsIndex = 1;
         		this.setColour(Blockly.CUSTOM_COLORS.primitiveProcedure);
-            
+
             if (icon) {
               this.appendDummyInput().appendField(new Blockly.FieldImage(
                 icon,
@@ -656,7 +658,7 @@ Example:
         if (program && interactiveProgram) {
           program.setDeletable(true);
           interactiveProgram.setDeletable(true);
-          
+
           const important = program.$timestamp > interactiveProgram.$timestamp ? program : interactiveProgram;
           const unimportant = program.$timestamp > interactiveProgram.$timestamp ? interactiveProgram : program;
 
@@ -682,7 +684,7 @@ Example:
           if (block.type === "variables_get" && block.$parent) {
             const parentBlock = this.workspace.getBlockById(block.$parent);
             const varField = block.getField("VAR");
-            
+
             if (
               parentBlock &&
               (
@@ -901,7 +903,7 @@ Example:
       /**
        * Generate gobstones code from the blocks in the workspace.
        * It removes all highlighting and errors if already present.
-       * 
+       *
        * There is an additional option which if provided adds pragma BEGIN/END REGION
        * to the output.
        * * `element.generateCode( {withRegions: true, clearErrors: false} );`
@@ -933,12 +935,12 @@ Example:
 
       /**
        * Highlight a given block, telling the user it has an error
-       * 
+       *
        * `blockId` is the block ID where the error should appear
-       * 
+       *
        * `errorKind` is either a string with the description or an object with a kind of error.
        * Next are examples with the existent error kinds.
-       * 
+       *
        * Examples:
        * * `element.showBlockError('a1s2', 'Hey, here is an error')`
        * * `element.showBlockError('a1s2', { kind: 'INCOMPLETE_ERROR'} )`
@@ -951,10 +953,10 @@ Example:
 
       testColors(colors) {
         Blockly.CUSTOM_COLORS = colors;
-        Blockly.HSV_SATURATION = colors.globalHsvSaturation; 
+        Blockly.HSV_SATURATION = colors.globalHsvSaturation;
         Blockly.HSV_VALUE = colors.globalHsvValue;
         Blockly.Blocks.procedures.HUE = colors.procedure;
-        
+
         var xmlDom = Blockly.Xml.workspaceToDom(this.workspace);
         const xml = Blockly.Xml.domToText(xmlDom);
         this.resetWorkspace();

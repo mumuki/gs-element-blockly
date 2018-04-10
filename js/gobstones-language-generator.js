@@ -278,12 +278,12 @@ Blockly.GobstonesLanguage.init = function () {
 	} else {
 		Blockly.GobstonesLanguage.variableDB_ =
 				new Blockly.Names(Blockly.GobstonesLanguage.RESERVED_WORDS_);
-		
+
 		// Gobstones lets ñáéíóú, so Blockly's safeName should be rewritten.
 		// In the process, makes everything CamelCase which is Gobstones' default.
 		Blockly.GobstonesLanguage.variableDB_.safeName_ = function(name) {
 		  if (!name) return 'unnamed';
-		  
+
 		  //Get rid of unwanted chars
 		  var safe = name.replace(/[^\wáéíóúÁÉÍÓÚñÑ ]/g, '')
 
@@ -295,7 +295,7 @@ Blockly.GobstonesLanguage.init = function () {
 		  safe = safe.split(' ').map((word, i) =>
 				!word | i == 0 ? word : word[0].toUpperCase() + word.slice(1)
 		  	).join('');
-		  
+
 		  return safe;
 		};
 	}
@@ -390,7 +390,7 @@ Blockly.GobstonesLanguage.Program = function (block) {
 
 Blockly.GobstonesLanguage.InteractiveProgram = function (block) {
 	let program = Blockly.GobstonesLanguage.statementToCode(block, 'interactiveprogram');
-	
+
 	let init = '';
 	if (block.$init)
 		init = `  INIT -> {\n${Blockly.GobstonesLanguage.statementToCode(block, 'init')}  }\n`;
@@ -407,7 +407,7 @@ Blockly.GobstonesLanguage.InteractiveLetterBinding = function (block) {
 	let key = block.getFieldValue('InteractiveBindingDropdownKey');
 
 	const order = ["CTRL", "ALT", "SHIFT"];
-	const modifier = block.inputList[0]
+	const modifier = block.inputList[1]
 		.fieldRow
 		.slice(2)
 		.filter(it => it.constructor === Blockly.FieldDropdown)
@@ -490,7 +490,7 @@ var formatCallName = function (name, capitalizeFirst, type = Blockly.PROCEDURE_C
 var makeParameterList = function (block) {
 	return block.arguments_
 		.map(arg => formatCallName(arg, false, Blockly.VARIABLE_CATEGORY_NAME))
-		.join(', ');	
+		.join(', ');
 };
 
 Blockly.GobstonesLanguage.procedures_defnoreturn = function (block) {
@@ -553,7 +553,7 @@ Blockly.GobstonesLanguage.variables_get = function (block) {
 
 Blockly.GobstonesLanguage.Asignacion = function(block) {
   var varValue = Blockly.GobstonesLanguage.valueToCode(block, 'varValue', Blockly.GobstonesLanguage.ORDER_ASSIGNMENT);
-  var code = formatCallName(block.getFieldValue('varName'),false,Blockly.VARIABLE_CATEGORY_NAME)  + 
+  var code = formatCallName(block.getFieldValue('varName'),false,Blockly.VARIABLE_CATEGORY_NAME)  +
   	' := ' + varValue + '\n';
   return code;
 };
