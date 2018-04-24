@@ -14,6 +14,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
     <title>gs-element-blockly Demo</title>
     <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+
     <script src="formatXML.js"></script>
     <link rel="import" href="../gs-element-blockly.html">
   </head>
@@ -24,34 +25,44 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         z-index: 999;
         background-color: rgba(255, 0, 0, 0.5);
         top: 100px;
-        right: 50px;
+        right: 25px;
       }
     </style>
 
     <p>An example of <code>&lt;gs-element-blockly&gt;</code>:</p>
     <p>
       <div class="colors-panel">
-        <strong>Categorías:</strong><br>
-        <input type="color" value="#000000" id="tmpColor" style="display: none">
-        Asignación: <input type="color" value="#5B68A6" id="assignation"><br>
-        Comandos primitivos: <input type="color" value="#8DA65B" id="primitiveCommand"><br>
-        Estructuras de control: <input type="color" value="#A6A65B" id="controlStructure"><br>
-        Expresiones literales: <input type="color" value="#5BA6A6" id="literalExpression"><br>
-        Expresiones primitivas/Operadores: <input type="color" value="#745BA6" id="expression"><br>
-        Asociación interactiva: <input type="color" value="#A6995B" id="interactiveBinding"><br>
-        Procedimientos: <input type="color" value="#995BA6" id="procedure"><br>
-        Funciones: <input type="color" value="#774A77" id="function"><br>
-        Llamadas a procedimientos: <input type="color" value="#661CF6" id="procedure_call"><br>
-        Llamadas a funciones: <input type="color" value="#330610" id="function_call"><br>
-        Llamadas a procedimientos primitivos: <input type="color" value="#CACACA" id="primitiveProcedure"><br>
-        Llamadas a funciones primitivas: <input type="color" value="#BABABA" id="primitiveFunction"><br>
+        <button id="copy_colorsbtn">Guardar colores</button>
+        <button id="paste_colorsbtn">Restaurar colores</button>
+        <br />
+
         <br>
-        <strong>Otros:</strong><br>
-        Programa: <input type="color" value="#74A65B" id="program"><br>
-        Programa interactivo: <input type="color" value="#A6805B" id="interactiveProgram"><br>
-        Completar: <input type="color" value="#A65C5B" id="complete"><br>
-        Variables: <input type="color" value="#FF0000" id="variable"><br>
-        Parámetros: <input type="color" value="#0000FF" id="parameter"><br>
+        <strong>Comandos:</strong> H <input type="number" min="1" max="359" value="1" id="commandsH"><br>
+        <input type="color" value="#000000" id="tmpColor" style="display: none">
+        <input type="number" min="1" max="99" value="1" id="assignationO"> Asignación: <input type="color" value="#5B68A6" id="assignation"> S <input type="number" min="1" max="99" value="1" id="assignationS"> V <input type="number" min="1" max="99" value="1" id="assignationV"><br>
+        <input type="number" min="1" max="99" value="2" id="primitiveCommandO"> Comandos primitivos: <input type="color" value="#8DA65B" id="primitiveCommand"> S <input type="number" min="1" max="99" value="1" id="primitiveCommandS"> V <input type="number" min="1" max="99" value="1" id="primitiveCommandV"><br>
+        <input type="number" min="1" max="99" value="3" id="controlStructureO"> Estructuras de control: <input type="color" value="#A6A65B" id="controlStructure"> S <input type="number" min="1" max="99" value="1" id="controlStructureS"> V <input type="number" min="1" max="99" value="1" id="controlStructureV"><br>
+        <input type="number" min="1" max="99" value="4" id="procedure_callO"> Llamadas a procedimientos: <input type="color" value="#661CF6" id="procedure_call"> S <input type="number" min="1" max="99" value="1" id="procedure_callS"> V <input type="number" min="1" max="99" value="1" id="procedure_callV"><br>
+        <input type="number" min="1" max="99" value="5" id="primitiveProcedureO"> Llamadas a procedimientos primitivos: <input type="color" value="#CACACA" id="primitiveProcedure"> S <input type="number" min="1" max="99" value="1" id="primitiveProcedureS"> V <input type="number" min="1" max="99" value="1" id="primitiveProcedureV"><br>
+
+        <br>
+        <strong>Expresiones:</strong> H <input type="number" min="1" max="359" value="1" id="expressionsH"><br>
+        <input type="number" min="1" max="99" value="2" id="literalExpressionO"> Expresiones literales: <input type="color" value="#5BA6A6" id="literalExpression"> S <input type="number" min="1" max="99" value="1" id="literalExpressionS"> V <input type="number" min="1" max="99" value="1" id="literalExpressionV"><br>
+        <input type="number" min="1" max="99" value="2" id="primitiveExpressionO"> Expresiones primitivas: <input type="color" value="#745BA6" id="primitiveExpression"> S <input type="number" min="1" max="99" value="1" id="primitiveExpressionS"> V <input type="number" min="1" max="99" value="1" id="primitiveExpressionV"><br>
+        <input type="number" min="1" max="99" value="3" id="operatorO"> Operadores: <input type="color" value="#745BA6" id="operator"> S <input type="number" min="1" max="99" value="1" id="operatorS"> V <input type="number" min="1" max="99" value="1" id="operatorV"><br>
+        <input type="number" min="1" max="99" value="1" id="variableO"> Variables: <input type="color" value="#FF0000" id="variable"> S <input type="number" min="1" max="99" value="1" id="variableS"> V <input type="number" min="1" max="99" value="1" id="variableV"><br>
+        <input type="number" min="1" max="99" value="1" id="parameterO"> Parámetros: <input type="color" value="#0000FF" id="parameter"> S <input type="number" min="1" max="99" value="1" id="parameterS"> V <input type="number" min="1" max="99" value="1" id="parameterV"><br>
+        <input type="number" min="1" max="99" value="4" id="function_callO"> Llamadas a funciones: <input type="color" value="#330610" id="function_call"> S <input type="number" min="1" max="99" value="1" id="function_callS"> V <input type="number" min="1" max="99" value="1" id="function_callV"><br>
+        <input type="number" min="1" max="99" value="5" id="primitiveFunctionO"> Llamadas a funciones primitivas: <input type="color" value="#BABABA" id="primitiveFunction"> S <input type="number" min="1" max="99" value="1" id="primitiveFunctionS"> V <input type="number" min="1" max="99" value="1" id="primitiveFunctionV"><br>
+
+        <br>
+        <strong>Definiciones:</strong> H <input type="number" min="1" max="359" value="1" id="definitionsH"><br>
+        <input type="number" min="1" max="99" value="13" id="programO"> Programa: <input type="color" value="#74A65B" id="program"> S <input type="number" min="1" max="99" value="1" id="programS"> V <input type="number" min="1" max="99" value="1" id="programV"><br>
+        <input type="number" min="1" max="99" value="14" id="interactiveProgramO"> Programa interactivo: <input type="color" value="#A6805B" id="interactiveProgram"> S <input type="number" min="1" max="99" value="1" id="interactiveProgramS"> V <input type="number" min="1" max="99" value="1" id="interactiveProgramV"><br>
+        <input type="number" min="1" max="99" value="15" id="interactiveBindingO"> Asociación interactiva: <input type="color" value="#A6995B" id="interactiveBinding"> S <input type="number" min="1" max="99" value="1" id="interactiveBindingS"> V <input type="number" min="1" max="99" value="1" id="interactiveBindingV"><br>
+        <input type="number" min="1" max="99" value="16" id="procedureO"> Procedimientos: <input type="color" value="#995BA6" id="procedure"> S <input type="number" min="1" max="99" value="1" id="procedureS"> V <input type="number" min="1" max="99" value="1" id="procedureV"><br>
+        <input type="number" min="1" max="99" value="17" id="functionO"> Funciones: <input type="color" value="#774A77" id="function"> S <input type="number" min="1" max="99" value="1" id="functionS"> V <input type="number" min="1" max="99" value="1" id="functionV"><br>
+        <input type="number" min="1" max="99" value="18" id="completeO"> Completar: <input type="color" value="#A65C5B" id="complete"> S <input type="number" min="1" max="99" value="1" id="completeS"> V <input type="number" min="1" max="99" value="1" id="completeV"><br>
       </div>
 
       <hr>
@@ -203,31 +214,194 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           }
         }
         document.querySelector('#divValidIds').innerHTML = blocklyElement.validToolboxIDs().map(printObject);
-        
+
         //document.getElementById("highlighttxt").innerHTML = blocklyElement.get('workspaceXml').match(/id=".*"/).slice(4,24);
 
         // -----------
         // colors demo
         // -----------
 
+        const CATEGORIES = {
+          commands: [
+            "assignation",
+            "primitiveCommand",
+            "controlStructure",
+            "procedure_call",
+            "primitiveProcedure"
+          ],
+          expressions: [
+            "literalExpression",
+            "primitiveExpression",
+            "operator",
+            "variable",
+            "parameter",
+            "function_call",
+            "primitiveFunction"
+          ],
+          definitions: [
+            "program",
+            "interactiveProgram",
+            "interactiveBinding",
+            "procedure",
+            "function",
+            "complete"
+          ]
+        };
+
+        var hsv2rgb = function(h, s, v) {
+          var rgb, i, data = [];
+          if (s === 0) {
+            rgb = [v,v,v];
+          } else {
+            h = h / 60;
+            i = Math.floor(h);
+            data = [v*(1-s), v*(1-s*(h-i)), v*(1-s*(1-(h-i)))];
+            switch(i) {
+              case 0:
+                rgb = [v, data[2], data[0]];
+                break;
+              case 1:
+                rgb = [data[1], v, data[0]];
+                break;
+              case 2:
+                rgb = [data[0], v, data[2]];
+                break;
+              case 3:
+                rgb = [data[0], data[1], v];
+                break;
+              case 4:
+                rgb = [data[2], data[0], v];
+                break;
+              default:
+                rgb = [v, data[0], data[1]];
+                break;
+            }
+          }
+          return '#' + rgb.map(function(x){
+            return ("0" + Math.round(x*255).toString(16)).slice(-2);
+          }).join('');
+        };
+
+        const rebuildFromHsv = () => {
+          Object.keys(CATEGORIES).forEach((bigCategory) => {
+            const h = (Blockly.CUSTOM_COLORS.H[bigCategory] || 1);
+
+            CATEGORIES[bigCategory].forEach((category) => {
+              const s = (Blockly.CUSTOM_COLORS.S[category] || 1) / 100;
+              const v = (Blockly.CUSTOM_COLORS.V[category] || 1) / 100;
+
+              const rgb = hsv2rgb(h, s, v);
+              Blockly.CUSTOM_COLORS[category] = rgb;
+            });
+          });
+
+          blocklyElement.testColors(Blockly.CUSTOM_COLORS);
+          loadColors();
+        };
+
+        const changeSiblingsSV = (o, s, v) => {
+          for (let k in CATEGORIES) {
+            CATEGORIES[k].forEach((cat) => {
+              const inputO = document.querySelector(`#${cat}O`)
+
+              if (inputO.value === o) {
+                Object.assign(Blockly.CUSTOM_COLORS.S, {
+                  [cat]: s
+                });
+
+                Object.assign(Blockly.CUSTOM_COLORS.V, {
+                  [cat]: v
+                });
+              }
+            });
+          }
+        };
+
+        Object.keys(CATEGORIES).forEach((k) => {
+          const inputH = document.querySelector(`#${k}H`);
+          inputH.addEventListener("change", () => {
+            Object.assign(Blockly.CUSTOM_COLORS.H, {
+              [k]: parseInt(inputH.value)
+            });
+
+            rebuildFromHsv();
+          });
+
+          CATEGORIES[k].forEach((cat) => {
+            const inputO = document.querySelector(`#${cat}O`)
+
+            const inputS = document.querySelector(`#${cat}S`);
+            const inputV = document.querySelector(`#${cat}V`);
+
+            inputS.addEventListener("change", () => {
+              const s = parseInt(inputS.value);
+              const v = parseInt(inputV.value);
+
+              Object.assign(Blockly.CUSTOM_COLORS.S, {
+                [cat]: s
+              });
+
+              changeSiblingsSV(inputO.value, s, v);
+              rebuildFromHsv();
+            });
+
+            inputV.addEventListener("change", () => {
+              const s = parseInt(inputS.value);
+              const v = parseInt(inputV.value);
+
+              Object.assign(Blockly.CUSTOM_COLORS.V, {
+                [cat]: v
+              });
+
+              changeSiblingsSV(inputO.value, s, v);
+              rebuildFromHsv();
+            });
+          });
+        });
+
         const addNewColor = (key, value) => {
           const newColors = Object.assign(Blockly.CUSTOM_COLORS, {
             [key]: value
           });
 
-          console.info("NEW COLORS", newColors);
           blocklyElement.testColors(newColors);
         };
 
-        Object.keys(Blockly.CUSTOM_COLORS).forEach((k) => {
-          const input = document.querySelector(`#${k}`);
-          if (!input) return;
-          
-          input.value = Blockly.CUSTOM_COLORS[k];
+        const loadColors = (withListener = false) => {
+          Object.keys(Blockly.CUSTOM_COLORS).forEach((k) => {
+            const input = document.querySelector(`#${k}`);
+            if (!input) return;
 
-          input.addEventListener("change", () => {
-            addNewColor(k, input.value);
+            input.value = Blockly.CUSTOM_COLORS[k];
+
+            if (withListener)
+              input.addEventListener("change", () => {
+                addNewColor(k, input.value);
+              });
           });
+
+          ["H", "S", "V"].forEach((component) => {
+            Object.keys(Blockly.CUSTOM_COLORS[component]).forEach((k) => {
+              const input = document.querySelector(`#${k}${component}`);
+              input.value = Blockly.CUSTOM_COLORS[component][k];
+            });
+          });
+        };
+
+        loadColors(true);
+
+        document.querySelector("#copy_colorsbtn").addEventListener("click", function() {
+          prompt("Copiá el JSON con los colores", JSON.stringify(Blockly.CUSTOM_COLORS));
+        });
+
+        document.querySelector("#paste_colorsbtn").addEventListener("click", function() {
+          const json = prompt("Ingresá el JSON con los nuevos colores").replace(/(?:\r\n|\r|\n| )/g, "");
+          const newColors = JSON.parse(json);
+
+          Blockly.CUSTOM_COLORS = newColors;
+
+          blocklyElement.testColors(newColors);
+          loadColors();
         });
 
         // insert a context menu item to change colors on all blocks

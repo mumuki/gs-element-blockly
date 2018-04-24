@@ -12,7 +12,8 @@ Blockly.CUSTOM_COLORS = {
 	assignation: "#5B68A6",
 	controlStructure: "#A6A65B",
 	literalExpression: "#5BA6A6",
-	expression: "#745BA6",
+  primitiveExpression: "#745BA6",
+  operator: "#745BA6",
 	program: "#74A65B",
 	interactiveProgram: "#A6805B",
 	interactiveBinding: "#A6995B",
@@ -25,6 +26,10 @@ Blockly.CUSTOM_COLORS = {
 	variable: "#FF0000",
 	parameter: "#0000FF",
 	complete: "#A65C5B",
+
+  H: { },
+  S: { },
+  V: { }
 };
 
 /**
@@ -748,7 +753,7 @@ Blockly.Blocks.ColorSelector = createLiteralSelectorBlock('Color',['Rojo','Verde
 Blockly.Blocks.DireccionSelector = createLiteralSelectorBlock('Direccion',['Este','Oeste','Norte','Sur']);
 Blockly.Blocks.BoolSelector = createLiteralSelectorBlock('Bool',['True','False']);
 
-function createSingleParameterExpressionBlock(blockText,returnType){
+function createSingleParameterExpressionBlock(blockText,returnType, colorType = "operator"){
 	return {
 		init: function () {
 			this.jsonInit({
@@ -759,7 +764,7 @@ function createSingleParameterExpressionBlock(blockText,returnType){
 						name: 'VALUE'
 					}
 				],
-				colour: Blockly.CUSTOM_COLORS[this.type] || Blockly.CUSTOM_COLORS.expression,
+				colour: Blockly.CUSTOM_COLORS[this.type] || Blockly.CUSTOM_COLORS[colorType],
 				inputsInline: true,
 				output: returnType
 			})
@@ -767,9 +772,9 @@ function createSingleParameterExpressionBlock(blockText,returnType){
 	};
 }
 
-Blockly.Blocks.hayBolitas = createSingleParameterExpressionBlock('hay bolitas','Bool');
-Blockly.Blocks.puedeMover = createSingleParameterExpressionBlock('puede mover','Bool');
-Blockly.Blocks.nroBolitas = createSingleParameterExpressionBlock('numero de bolitas','Number');
+Blockly.Blocks.hayBolitas = createSingleParameterExpressionBlock('hay bolitas','Bool', "primitiveExpression");
+Blockly.Blocks.puedeMover = createSingleParameterExpressionBlock('puede mover','Bool', "primitiveExpression");
+Blockly.Blocks.nroBolitas = createSingleParameterExpressionBlock('numero de bolitas','Number', "primitiveExpression");
 
 // ------------------------------------------------------
 // Operaciones:
@@ -797,7 +802,7 @@ Blockly.Blocks.OperadorDeComparacion = {
 					name: 'arg2'
 				}
 			],
-			colour: Blockly.CUSTOM_COLORS.OperadorDeComparacion || Blockly.CUSTOM_COLORS.expression,
+			colour: Blockly.CUSTOM_COLORS.OperadorDeComparacion || Blockly.CUSTOM_COLORS.operator,
 			inputsInline: false,
 			output: 'Bool'
 		});
@@ -826,7 +831,7 @@ Blockly.Blocks.OperadorNumerico = {
 					name: 'arg2'
 				}
 			],
-			colour: Blockly.CUSTOM_COLORS.OperadorNumerico || Blockly.CUSTOM_COLORS.expression,
+			colour: Blockly.CUSTOM_COLORS.OperadorNumerico || Blockly.CUSTOM_COLORS.operator,
 			inputsInline: false,
 			output: 'Number'
 		});
@@ -855,7 +860,7 @@ Blockly.Blocks.OperadorLogico = {
 					name: 'arg2'
 				}
 			],
-			colour: Blockly.CUSTOM_COLORS.OperadorLogico || Blockly.CUSTOM_COLORS.expression,
+			colour: Blockly.CUSTOM_COLORS.OperadorLogico || Blockly.CUSTOM_COLORS.operator,
 			inputsInline: false,
 			output: 'Bool'
 		});
