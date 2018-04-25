@@ -1,0 +1,16 @@
+sudo: false
+language: node_js
+node_js:
+- 4.2.4
+script:
+- npm install -g bower && npm install -g vulcanize && bower install && ./build.sh
+- cd gem && ./bin/setup && bundle exec rake
+deploy:
+  provider: rubygems
+  skip_cleanup: true
+  api_key:
+    secure: IjFUskyKuIW518tClR80LdR939mBMh3ebwXD7S+W1K+ztIA39ULVADiP/12154+9edckHMQ+nAeMmhzma1xNgifWpN/M4Ywm+ycjxe794Fph/WL+A6yt9XTKmxdpBF9gtae9LAUKpzOIe3pmLDb9y4O5noKnoCdV0RBCHuUMq2dH5JqR6oBy5QcxzYDbzn0PmFxqkQq0OpvN/K89ViY4MKSwv4U7Lapc79FXAkEd+J4OT0UUadUTqd/5b3XiBtsAN0Rj7YwRKkvN+eLn+AwCUOXfQPHrvSxBQ1a/NGKwHSvaVQrobd2SgZ8krHXVlZG5sUrOaW6tdlCXgt2IlWlWeO8aivCx3A7W1CKHQ1gp4t/Fok9ccbMygDXCbcxwxyMZHN/7fDGNStW+PQjxtOWwo0UQ+PyTM2Cv0cuytPUgebdatxt42yDBCfV7OMI2dwkrNSxg0NpZGG5KStuGV9Ey41x5WUw5mW5NLSMDLITIunn+gzl09oE9LVakc3E7/hOWTAOLKq+5pEcPGCEFdlaxRxosE5lHSoKoFLUf4Sz538/PTW9harvHTwl2qOa9wE4m+r+mEqUA2xjhee1aAnUHAcSl3Fpxsela458VRrPTKh0HpiGTmjSbKWszTciFlSh2i27F0+5z/9z/WuEV3sip3PrJtHPoI9lljajd8YObzjM=
+  gem: gobstones-blockly
+  on:
+    tags: true
+    repo: Program-AR/gs-element-blockly

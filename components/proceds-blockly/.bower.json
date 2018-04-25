@@ -1,0 +1,41 @@
+{
+  "name": "proceds-blockly",
+  "version": "0.1.12",
+  "homepage": "https://github.com/Program-AR/proceds-blockly",
+  "authors": [
+    "Alf Sanzo <alfredo.sanzo@gmail.com>"
+  ],
+  "description": "Another procedure block for blockly",
+  "moduleType": [
+    "es6",
+    "globals"
+  ],
+  "keywords": [
+    "blockly",
+    "procedures",
+    "programar",
+    "programming",
+    "k12"
+  ],
+  "license": "LGPL",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "index.html"
+  ],
+  "dependencies": {
+    "blockly-package": "0.0.15"
+  },
+  "_release": "0.1.12",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.1.12",
+    "commit": "1a6b8391f236ec30f533a71740d5c66afe21dec5"
+  },
+  "_source": "https://github.com/Program-AR/proceds-blockly.git",
+  "_target": "^0.1.12",
+  "_originalSource": "Program-AR/proceds-blockly"
+}
