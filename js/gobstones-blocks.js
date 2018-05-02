@@ -5,32 +5,7 @@ var CLEAN = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYEAYAAACw5+G7A
 
 /* global Blockly */
 
-Blockly.CUSTOM_COLORS = {
-	globalHsvSaturation: Blockly.HSV_SATURATION,
-	globalHsvValue: Blockly.HSV_VALUE,
-	primitiveCommand: "#8DA65B",
-	assignation: "#5B68A6",
-	controlStructure: "#A6A65B",
-	literalExpression: "#5BA6A6",
-  primitiveExpression: "#745BA6",
-  operator: "#745BA6",
-	program: "#74A65B",
-	interactiveProgram: "#A6805B",
-	interactiveBinding: "#A6995B",
-	procedure: "#995BA6",
-	function: "#774A77",
-	primitiveProcedure: "#CACACA",
-	primitiveFunction: "#BABABA",
-	procedure_call: "#661CF6",
-	function_call: "#330610",
-	variable: "#FF0000",
-	parameter: "#0000FF",
-	complete: "#A65C5B",
-
-  H: { },
-  S: { },
-  V: { }
-};
+Blockly.CUSTOM_COLORS = {"globalHsvSaturation":0.45,"globalHsvValue":0.65,"primitiveCommand":"#1d48cc","assignation":"#14328c","controlStructure":"#193fb3","literalExpression":"#48cc1d","primitiveExpression":"#48cc1d","operator":"#3fb319","program":"#ae25db","interactiveProgram":"#731991","interactiveBinding":"#ae25db","procedure":"#915ba3","function":"#745380","primitiveProcedure":"#2351db","primitiveFunction":"#51db23","procedure_call":"#3163f7","function_call":"#63f731","variable":"#328c14","parameter":"#328c14","complete":"#fc0303","H":{"commands":225,"expressions":105,"definitions":285},"S":{"assignation":86,"variable":86,"parameter":86,"primitiveCommand":86,"literalExpression":86,"primitiveExpression":86,"controlStructure":86,"operator":86,"procedure_call":80,"function_call":80,"primitiveProcedure":84,"primitiveFunction":84,"program":83,"interactiveProgram":83,"interactiveBinding":83,"procedure":44,"function":35,"complete":99},"V":{"assignation":55,"variable":55,"parameter":55,"primitiveCommand":80,"literalExpression":80,"primitiveExpression":80,"controlStructure":70,"operator":70,"procedure_call":97,"function_call":97,"primitiveProcedure":86,"primitiveFunction":86,"program":86,"interactiveProgram":57,"interactiveBinding":86,"procedure":64,"function":50,"complete":99}};
 
 /**
  * Create the svg representation of a block and render
