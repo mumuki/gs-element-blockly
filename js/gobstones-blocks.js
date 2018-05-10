@@ -389,7 +389,7 @@ Blockly.Blocks.AlternativaSimple = {
 		this.jsonInit({
 			type: "Statement",
 			previousStatement: "Statement",
-			nextStatement: "Statement",
+			nextStatement: "Statement"
 		});
 
 		this.setColour(Blockly.CUSTOM_COLORS.AlternativaSimple || Blockly.CUSTOM_COLORS.controlStructure);
@@ -727,6 +727,13 @@ const oldMathNumber = Blockly.Blocks.math_number;
 Blockly.Blocks.math_number = deepCopyObj(Blockly.Blocks.math_number);
 Blockly.Blocks.math_number.init = function() {
 	oldMathNumber.init.call(this);
+
+  var icon = new Blockly.FieldImage(
+    getLocalMedia(this, "number.png"),
+    16,
+    16
+  );
+  this.inputList[0].insertFieldAt(0, icon);
 	this.setColour(Blockly.CUSTOM_COLORS.math_number || Blockly.CUSTOM_COLORS.literalExpression);
 }
 
@@ -749,12 +756,20 @@ function createLiteralSelectorBlock(type,values){
 		init: function () {
 			this.jsonInit({
 				type: type,
-				message0: "%1",
-				args0: [{
-					type: "field_dropdown",
-					name: type + "Dropdown",
-					options: values.map(value => [value,value]),
-				}],
+				message0: "%1 %2",
+				args0: [
+          {
+            "type": "field_image",
+            "src": getLocalMedia(this, `${type.toLowerCase()}.png`),
+            "width": 16,
+            "height": 16
+          },
+          {
+  					type: "field_dropdown",
+  					name: type + "Dropdown",
+  					options: values.map(value => [value,value])
+          }
+				],
 				output: type,
 				colour: Blockly.CUSTOM_COLORS[`${type}Selector`] || Blockly.CUSTOM_COLORS.literalExpression,
 				tooltip: "Escoger " + type,
@@ -885,8 +900,14 @@ Blockly.Blocks.Asignacion = {
 	init: function () {
 		this.jsonInit({
 			"type": "asignacion",
-			"message0": "Recordar que %1 %2 vale %3 %4",
+			"message0": "%1 Recordar que %2 %3 vale %4 %5",
 			"args0": [
+        {
+          "type": "field_image",
+          "src": getLocalMedia(this, "assignation.png"),
+          "width": 16,
+          "height": 16
+        },
 				{
 				"type": "field_input",
 				"name": "varName",
