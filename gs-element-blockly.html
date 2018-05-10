@@ -217,6 +217,14 @@ Example:
         },
 
         /*
+         * `media` path a media de gs-element-blockly.
+         */
+        localMedia: {
+          type: String,
+          value: "../media/"
+        },
+
+        /*
          * `readOnly` Use blockly in readOnly mode.
          */
         readOnly: {
@@ -826,14 +834,15 @@ Example:
       attached: function() {
         this._definePrimitiveProcedures();
         this._definePrimitiveFunctions();
-        	// create workspace
+
+        // create workspace
         var blocklyDiv = this.$$('#blocklyDiv');
         this.blocklyDiv = blocklyDiv;
         this._fixSize();
         this._fixScroll();
 				this.workspace = Blockly.inject(blocklyDiv, {
           toolbox: this._createToolbox(),
-          media: this.get("media"),
+          media: this.media,
           toolboxPosition: "start",
           scrollbars: true,
           horizontalLayout: false,
@@ -845,6 +854,8 @@ Example:
             wheel: true
           }
 				});
+        this.workspace.options.localMedia = this.localMedia;
+
         var _this = this;
         this.workspace.addChangeListener(function (a, b, c) {
           Blockly.Events.disableOrphans(a, b, c);
