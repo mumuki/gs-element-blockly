@@ -517,11 +517,17 @@ Blockly.Blocks.AlternativaCompleta = {
 Blockly.Blocks.Poner = {
 	init: function () {
 		this.jsonInit({
-			message0: 'Poner %1',
+			message0: '%1 Poner %2',
 			type: "Statement",
 			previousStatement: "Statement",
 			nextStatement: "Statement",
 			args0: [
+        {
+          "type": "field_image",
+          "src": getLocalMedia(this, "putStone.png"),
+          "width": 16,
+          "height": 16
+        },
 				{
 					type: 'input_value',
 					name: 'COLOR'
@@ -540,8 +546,14 @@ Blockly.Blocks.Sacar = {
 			type: "Statement",
 			previousStatement: "Statement",
 			nextStatement: "Statement",
-			message0: 'Sacar %1',
+			message0: '%1 Sacar %2',
 			args0: [
+        {
+          "type": "field_image",
+          "src": getLocalMedia(this, "removeStone.png"),
+          "width": 16,
+          "height": 16
+        },
 				{
 					type: 'input_value',
 					name: 'COLOR'
@@ -560,8 +572,14 @@ Blockly.Blocks.Mover = {
 			type: "Statement",
 			previousStatement: "Statement",
 			nextStatement: "Statement",
-			message0: 'Mover %1',
+			message0: '%1 Mover %2',
 			args0: [
+        {
+          "type": "field_image",
+          "src": getLocalMedia(this, "move.png"),
+          "width": 16,
+          "height": 16
+        },
 				{
 					type: 'input_value',
 					name: 'DIRECCION'
@@ -580,8 +598,14 @@ Blockly.Blocks.IrAlBorde = {
 			type: "Statement",
 			previousStatement: "Statement",
 			nextStatement: "Statement",
-			message0: 'Ir al borde %1',
+			message0: '%1 Ir al borde %2',
 			args0: [
+        {
+          "type": "field_image",
+          "src": getLocalMedia(this, "goToEdge.png"),
+          "width": 16,
+          "height": 16
+        },
 				{
 					type: 'input_value',
 					name: 'DIRECCION'
@@ -600,7 +624,15 @@ Blockly.Blocks.VaciarTablero = {
 			type: "Statement",
 			previousStatement: "Statement",
 			nextStatement: "Statement",
-			message0: 'Vaciar tablero',
+			message0: '%1 Vaciar tablero',
+      args0: [
+        {
+          "type": "field_image",
+          "src": getLocalMedia(this, "emptyBoard.png"),
+          "width": 16,
+          "height": 16
+        },
+      ],
 			colour: Blockly.CUSTOM_COLORS.VaciarTablero || Blockly.CUSTOM_COLORS.primitiveCommand,
 			tooltip: 'Vaciar el tablero.',
 			inputsInline: true
@@ -615,8 +647,14 @@ Blockly.Blocks.BOOM = {
 			"previousStatement": "Statement",
 			"nextStatement": "Statement",
 			"lastDummyAlign0": "RIGHT",
-			"message0": "Hacer ¡BOOM! porque:  %1 %2",
+			"message0": "%1 Hacer ¡BOOM! porque:  %2 %3",
 			"args0": [
+        {
+          "type": "field_image",
+          "src": getLocalMedia(this, "boom.png"),
+          "width": 16,
+          "height": 16
+        },
 				{
 					"type": "input_dummy"
 				},
