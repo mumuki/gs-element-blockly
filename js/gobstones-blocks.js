@@ -760,7 +760,7 @@ function createLiteralSelectorBlock(type,values){
 				args0: [
           {
             "type": "field_image",
-            "src": getLocalMedia(this, `${type.toLowerCase()}.png`),
+            "src": "",
             "width": 16,
             "height": 16
           },
@@ -774,7 +774,14 @@ function createLiteralSelectorBlock(type,values){
 				colour: Blockly.CUSTOM_COLORS[`${type}Selector`] || Blockly.CUSTOM_COLORS.literalExpression,
 				tooltip: "Escoger " + type,
 			});
-		}
+		},
+
+    onchange: function(event) {
+      const [image, dropdown] = this.inputList[0].fieldRow;
+      const value = dropdown.getValue();
+
+      image.setValue(getLocalMedia(this, `${type.toLowerCase()}-${value.toLowerCase()}.png`));
+    }
 	};
 }
 
