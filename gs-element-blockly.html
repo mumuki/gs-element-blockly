@@ -280,7 +280,12 @@ Example:
         const primitiveFunctions = this._getPrimitiveNames(this.primitiveFunctions);
 
         let tree = []
-        let toolboxDefaultLines = (toolboxXML || this.$$('#toolbox').innerHTML).split("\n");
+        let xml = toolboxXML || this.$$('#toolbox').innerHTML;
+
+        // TODO: Este parseo por strings es tremendo, y esa property `xml` de los nodos se usa en _toolboxBlockXML, _toolboxBlockXML, etc. Hay que hacer de vuelta todo lo de acciones primitivas.
+
+        xml = xml.replace(/> *<\/category>/g, ">\n</category>");
+        let toolboxDefaultLines = xml.split("\n");
         let ignore_last = false;
         let parent = tree;
         let stack = [];
