@@ -956,7 +956,7 @@ Example:
         this.workspace.showBlockError(blockId, errorKind);
       },
 
-      scrollToBlock: function(blockId) {
+      scrollToBlock: function(blockId, centered = false) {
         const block = blockId
           ? this.workspace.getBlockById(blockId)
           : this.workspace.getAllBlocks().find((it) => it.type === "Program");
@@ -965,9 +965,12 @@ Example:
         const position = block.getRelativeToSurfaceXY();
         const { viewLeft, contentLeft, viewTop, contentTop, viewWidth, viewHeight } = this.workspace.getMetrics();
 
+        const offsetX = centered ? viewWidth / 4 : 25;
+        const offsetY = centered ? viewHeight / 2 : 25;
+
         const finalPosition = {
-          x: position.x - viewWidth / 4 - contentLeft,
-          y: position.y - viewHeight / 2 - contentTop
+          x: position.x - offsetX - contentLeft,
+          y: position.y - offsetY - contentTop
         };
 
         this.workspace.scrollbar.set(finalPosition.x, finalPosition.y);
