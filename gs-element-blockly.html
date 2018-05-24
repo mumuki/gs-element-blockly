@@ -956,6 +956,23 @@ Example:
         this.workspace.showBlockError(blockId, errorKind);
       },
 
+      scrollToBlock: function(blockId) {
+        const block = blockId
+          ? this.workspace.getBlockById(blockId)
+          : this.workspace.getAllBlocks().find((it) => it.type === "Program");
+        if (!block) return;
+
+        const position = block.getRelativeToSurfaceXY();
+        const { viewLeft, contentLeft, viewTop, contentTop, viewWidth, viewHeight } = this.workspace.getMetrics();
+
+        const finalPosition = {
+          x: position.x - viewWidth / 4 - contentLeft,
+          y: position.y - viewHeight / 2 - contentTop
+        };
+
+        this.workspace.scrollbar.set(finalPosition.x, finalPosition.y);
+      },
+
       testColors(colors) {
         Blockly.CUSTOM_COLORS = colors;
         Blockly.HSV_SATURATION = colors.globalHsvSaturation;

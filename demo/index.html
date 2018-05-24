@@ -80,6 +80,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <button id="set_primitive_procedures_with_iconbtn">Set procedure with icon</button>
       <br/>
       <button id="modificar_dimensionesbtn">Modificar dimensiones</button>
+      <button id="scroll_blockbtn">Scroll to program</button>
       <br/>
       <button id="highlightbtn">Highlight del siguiente bloque -&gt;</button>
       <input type="text" id="highlighttxt" value='Id del bloque (ver xml)'></input>
@@ -204,6 +205,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       document.querySelector('#modificar_dimensionesbtn').addEventListener('click', function() {
         blocklyElement.set('width', 300 + Math.random() * 500);
         blocklyElement.set('height', 200 + Math.random() * 500);
+      });
+
+      document.querySelector('#scroll_blockbtn').addEventListener('click', function() {
+        blocklyElement.scrollToBlock();
       });
 
       window.addEventListener('WebComponentsReady', function(e) {
