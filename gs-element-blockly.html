@@ -370,6 +370,8 @@ Example:
         const primitiveProcedures = this._getPrimitiveNames(this.primitiveProcedures);
         const primitiveFunctions = this._getPrimitiveNames(this.primitiveFunctions);
 
+        this.setDefaultToolbox(this.toolbox && this.toolbox.defaultToolbox);
+
         let tree = this._defaultToolboxTree();
         let toolbox = [];
 
@@ -776,9 +778,14 @@ Example:
       },
 
       setDefaultToolbox: function(xml) {
-        this.$$('#toolbox').innerHTML = xml;
+        if (xml && !this._toolboxBackup)
+          this._toolboxBackup = this.$$('#toolbox').innerHTML;
 
-        const toolboxXml = `<xml>${xml}</xml>`;
+        const newXml = xml || this._toolboxBackup;
+        if (!newXml) return;
+
+        this.$$('#toolbox').innerHTML = newXml;
+        const toolboxXml = `<xml>${newXml}</xml>`;
         this.workspace.updateToolbox(toolboxXml);
       },
 
