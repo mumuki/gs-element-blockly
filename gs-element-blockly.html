@@ -490,6 +490,17 @@ Example:
         return name.split("_");
       },
 
+      _getDropdownOptions(definition) {
+        const attributes = definition.attributes;
+
+        const dropdown = definition.attributes && definition.attributes.block_dropdown;
+        const dropdownOptions = dropdown && dropdown.match(/\("\w+" *, *'[^']*'\)/g);
+        return dropdownOptions && dropdownOptions.map((option) => {
+          const parts = option.match(/^\("(\w+)" *, *'([^']*)'\)$/);
+          return [parts[1], parts[2]];
+        });
+      },
+
       /**
        * Define un bloque a partir de una definicion tipo Poner_En_
        */
@@ -497,6 +508,7 @@ Example:
         const name = this._getPrimitiveName(definition);
         const customName = definition.attributes && definition.attributes.block_name;
         const icon = definition.attributes && definition.attributes.block_icon;
+        const dropdownOptions = this._getDropdownOptions(definition);
 
         const finalName = customName || name;
         const parts = (customName ? this._getParts : this._getPartsByConvention.bind(this, true))
@@ -517,11 +529,24 @@ Example:
               ));
             }
 
-        		for(var i in parts) {
-              if(i == (parts.length - 1)) {
-    		        this.appendDummyInput().appendField(parts[i]);
-              }
-              else {
+            for (var i in parts) {
+              if (i == (parts.length - 1)) {
+                this.appendDummyInput().appendField(parts[i]);
+
+                if (dropdownOptions) {
+                  this.removeInput('arg1');
+                  this.jsonInit({
+                    message0: parts[i - 1] + " %1",
+                    args0: [
+                      {
+                        type: 'field_dropdown',
+                        name: "custom_teacher_dropdown",
+                        options: dropdownOptions
+                      }
+                    ]
+                  });
+                }
+              } else {
                 this.appendValueInput('arg' + argsIndex).appendField(parts[i]);
                 argsIndex++;
               }
@@ -557,6 +582,7 @@ Example:
         const name = this._getPrimitiveName(definition);
         const customName = definition.attributes && definition.attributes.block_name;
         const icon = definition.attributes && definition.attributes.block_icon;
+        const dropdownOptions = this._getDropdownOptions(definition);
 
         const finalName = customName || name;
         const parts = (customName ? this._getParts : this._getPartsByConvention.bind(this, false))
@@ -577,11 +603,24 @@ Example:
               ));
             }
 
-            for(var i in parts) {
-              if(i == (parts.length - 1)) {
+            for (var i in parts) {
+              if (i == (parts.length - 1)) {
                 this.appendDummyInput().appendField(parts[i]);
-              }
-              else {
+
+                if (dropdownOptions) {
+                  this.removeInput('arg1');
+                  this.jsonInit({
+                    message0: parts[i - 1] + " %1",
+                    args0: [
+                      {
+                        type: 'field_dropdown',
+                        name: "custom_teacher_dropdown",
+                        options: dropdownOptions
+                      }
+                    ]
+                  });
+                }
+              } else {
                 this.appendValueInput('arg' + argsIndex).appendField(parts[i]);
                 argsIndex++;
               }
