@@ -56,15 +56,18 @@ Blockly.GobstonesLanguage.addPragma = function(block, str){
 Blockly.utils.genUid.soup_ = Blockly.utils.genUid.soup_.replace(/@/g,"a");
 
 function getCustomTeacherDropdownValue(block) {
-  try {
-    const inputs = block.inputList;
-    const lastInput = inputs[inputs.length - 1];
-    const fields = lastInput.fieldRow;
-    const lastField = fields[fields.length - 1];
+  // TODO: Hackeada de compromiso
 
-    if (lastField.name === 'custom_teacher_dropdown')
-      return lastField.getValue();
-  } catch(e) { // TODO: Sacar esto
+  try {
+    const getCustomTeacherDropdown = (field) => field.name === 'custom_teacher_dropdown';
+
+    const input = block.inputList.find((input) =>
+      input.fieldRow.some(getCustomTeacherDropdown)
+    );
+    const field = input.fieldRow.find(getCustomTeacherDropdown);
+
+    return field.getValue();
+  } catch(e) {
     return null;
   }
 }

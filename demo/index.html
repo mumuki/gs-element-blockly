@@ -79,6 +79,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <input type="text" id="primitive_functionstxt" value='["hayFlores_en_", "cuantasHay_en_"]'></input>
       <button id="set_primitive_procedures_with_iconbtn">Set procedure with icon</button>
       <button id="set_primitive_procedures_with_dropdownbtn">Set procedure with dropdown</button>
+      <button id="set_primitive_functions_with_dropdownbtn">Set function with dropdown</button>
       <br/>
       <button id="modificar_dimensionesbtn">Modificar dimensiones</button>
       <button id="scroll_blockbtn">Scroll to program</button>
@@ -198,6 +199,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             name: "PonerCartaDe_",
             attributes: {
               block_dropdown: `[("Espadas", 'espadas()'), ("Oros", 'oros()'), ("Bastos", 'bastos()'), ("Copas", 'copas()')]`
+            }
+          }
+        ]);
+      });
+
+      document.querySelector('#set_primitive_functions_with_dropdownbtn').addEventListener('click', function() {
+        blocklyElement.set('primitiveFunctions', [
+          {
+            name: "hayComidita",
+            attributes: {
+              block_name: "¿hay _?",
+              block_dropdown: `[("una hamburguesa", 'hamburguesa() + queso()'), ("una milanesa", 'milanesa()')]`
             }
           }
         ]);
