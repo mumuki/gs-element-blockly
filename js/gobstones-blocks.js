@@ -1,12 +1,14 @@
 /* global Blockly */
 
 Blockly.CUSTOM_COLORS = {"globalHsvSaturation":0.45,"globalHsvValue":0.65,"primitiveCommand":"#1d3c99","assignation":"#051d66","controlStructure":"#0f2b80","literalExpression":"#1d992c","primitiveExpression":"#1d992c","operator":"#0f801c","program":"#8d1bb3","interactiveProgram":"#6e158c","interactiveBinding":"#a11fcc","procedure":"#935ba6","function":"#745380","primitiveProcedure":"#2e4fb3","primitiveFunction":"#2eb33e","procedure_call":"#355bcc","function_call":"#35cc47","variable":"#056610","parameter":"#056610","complete":"#ff0000","H":{"commands":225,"expressions":127,"definitions":285},"S":{"assignation":95,"variable":95,"parameter":95,"primitiveCommand":81,"literalExpression":81,"primitiveExpression":81,"controlStructure":88,"operator":88,"procedure_call":74,"function_call":74,"primitiveProcedure":74,"primitiveFunction":74,"program":85,"interactiveProgram":85,"interactiveBinding":85,"procedure":45,"function":35,"complete":99},"V":{"assignation":40,"variable":40,"parameter":40,"primitiveCommand":60,"literalExpression":60,"primitiveExpression":60,"controlStructure":50,"operator":50,"procedure_call":80,"function_call":80,"primitiveProcedure":70,"primitiveFunction":70,"program":70,"interactiveProgram":55,"interactiveBinding":80,"procedure":65,"function":50,"complete":99}};
+Blockly.AVAILABLE_ICONS = ["bool-false.svg","bool-true.svg","clean.png","color-azul.svg","color-negro.svg","color-rojo.svg","color-verde.svg","direccion-este.svg","direccion-norte.svg","direccion-oeste.svg","direccion-sur.svg","hand.png","minus.png","plus.png"];
 
 const getOptions = (block) => {
   const parentWorkspace = block.workspace.options.parentWorkspace;
   return parentWorkspace && parentWorkspace.options || block.workspace.options
 }
-const getLocalMedia = (block, name) => getOptions(block).localMedia + name;
+const getLocalMediaUrl = (block, name) => getOptions(block).localMedia + name;
+const getLocalMediaSize = (name) => Blockly.AVAILABLE_ICONS.includes(name) ? 16 : 0;
 
 /**
  * Create the svg representation of a block and render
@@ -133,10 +135,11 @@ Blockly.Blocks.InteractiveProgram = {
 	_addInit() {
 		this.$init = true;
 
+    const icon = "minnus.png";
 		var removeButton = new Blockly.FieldImage(
-			getLocalMedia(this, "minus.png"),
-			16,
-			16,
+			getLocalMediaUrl(this, icon),
+			getLocalMediaSize(icon),
+			getLocalMediaSize(icon),
 			"Eliminar",
 			function() {
 				this.$init = false;
@@ -157,10 +160,11 @@ Blockly.Blocks.InteractiveProgram = {
 	_addTimeout(timeout) {
 		this.$timeout = timeout;
 
+    const icon = "minus.png";
 		var removeButton = new Blockly.FieldImage(
-			getLocalMedia(this, "minus.png"),
-			16,
-			16,
+			getLocalMediaUrl(this, icon),
+			getLocalMediaSize(icon),
+			getLocalMediaSize(icon),
 			"Eliminar",
 			function() {
 				this.$timeout = undefined;
@@ -240,10 +244,12 @@ createInteractiveBinding = (name, keys) => {
 
       const self = this;
       const input = this.inputList[0];
+      const plusIcon = "plus.png";
+      const cleanIcon = "clean.png";
       input.appendField(new Blockly.FieldImage(
-        getLocalMedia(this, "plus.png"),
-        16,
-        16,
+        getLocalMediaUrl(this, plusIcon),
+        getLocalMediaSize(plusIcon),
+        getLocalMediaSize(plusIcon),
         "Agregar modificador",
         function() {
           const modifiersCount = getModifierFields(self).length / 2;
@@ -253,9 +259,9 @@ createInteractiveBinding = (name, keys) => {
         }
       ));
       input.appendField(new Blockly.FieldImage(
-        getLocalMedia(this, "clean.png"),
-        16,
-        16,
+        getLocalMediaUrl(this, cleanIcon),
+        getLocalMediaSize(cleanIcon),
+        getLocalMediaSize(cleanIcon),
         "Limpiar modificadores",
         function() {
           self._cleanModifiers();
@@ -516,6 +522,8 @@ Blockly.Blocks.AlternativaCompleta = {
 
 Blockly.Blocks.Poner = {
 	init: function () {
+    const icon = "putStone.png";
+
 		this.jsonInit({
 			message0: '%1 Poner %2',
 			type: "Statement",
@@ -524,9 +532,9 @@ Blockly.Blocks.Poner = {
 			args0: [
         {
           "type": "field_image",
-          "src": getLocalMedia(this, "putStone.png"),
-          "width": 16,
-          "height": 16
+          "src": getLocalMediaUrl(this, icon),
+          "width": getLocalMediaSize(icon),
+          "height": getLocalMediaSize(icon)
         },
 				{
 					type: 'input_value',
@@ -542,6 +550,8 @@ Blockly.Blocks.Poner = {
 
 Blockly.Blocks.Sacar = {
 	init: function () {
+    const icon = "removeStone.png";
+
 		this.jsonInit({
 			type: "Statement",
 			previousStatement: "Statement",
@@ -550,9 +560,9 @@ Blockly.Blocks.Sacar = {
 			args0: [
         {
           "type": "field_image",
-          "src": getLocalMedia(this, "removeStone.png"),
-          "width": 16,
-          "height": 16
+          "src": getLocalMediaUrl(this, icon),
+          "width": getLocalMediaSize(icon),
+          "height": getLocalMediaSize(icon)
         },
 				{
 					type: 'input_value',
@@ -568,6 +578,8 @@ Blockly.Blocks.Sacar = {
 
 Blockly.Blocks.Mover = {
 	init: function () {
+    const icon = "move.png";
+
 		this.jsonInit({
 			type: "Statement",
 			previousStatement: "Statement",
@@ -576,9 +588,9 @@ Blockly.Blocks.Mover = {
 			args0: [
         {
           "type": "field_image",
-          "src": getLocalMedia(this, "move.png"),
-          "width": 16,
-          "height": 16
+          "src": getLocalMediaUrl(this, icon),
+          "width": getLocalMediaSize(icon),
+          "height": getLocalMediaSize(icon)
         },
 				{
 					type: 'input_value',
@@ -594,6 +606,8 @@ Blockly.Blocks.Mover = {
 
 Blockly.Blocks.IrAlBorde = {
 	init: function () {
+    const icon = "goToEdge.png";
+
 		this.jsonInit({
 			type: "Statement",
 			previousStatement: "Statement",
@@ -602,9 +616,9 @@ Blockly.Blocks.IrAlBorde = {
 			args0: [
         {
           "type": "field_image",
-          "src": getLocalMedia(this, "goToEdge.png"),
-          "width": 16,
-          "height": 16
+          "src": getLocalMediaUrl(this, icon),
+          "width": getLocalMediaSize(icon),
+          "height": getLocalMediaSize(icon)
         },
 				{
 					type: 'input_value',
@@ -620,6 +634,8 @@ Blockly.Blocks.IrAlBorde = {
 
 Blockly.Blocks.VaciarTablero = {
 	init: function () {
+    const icon = "emptyBoard.png";
+
 		this.jsonInit({
 			type: "Statement",
 			previousStatement: "Statement",
@@ -628,9 +644,9 @@ Blockly.Blocks.VaciarTablero = {
       args0: [
         {
           "type": "field_image",
-          "src": getLocalMedia(this, "emptyBoard.png"),
-          "width": 16,
-          "height": 16
+          "src": getLocalMediaUrl(this, icon),
+          "width": getLocalMediaSize(icon),
+          "height": getLocalMediaSize(icon)
         },
       ],
 			colour: Blockly.CUSTOM_COLORS.VaciarTablero || Blockly.CUSTOM_COLORS.primitiveCommand,
@@ -642,6 +658,8 @@ Blockly.Blocks.VaciarTablero = {
 
 Blockly.Blocks.BOOM = {
 	init: function () {
+    const icon = "boom.png";
+
 		this.jsonInit({
 			"type": "Statement",
 			"previousStatement": "Statement",
@@ -651,9 +669,9 @@ Blockly.Blocks.BOOM = {
 			"args0": [
         {
           "type": "field_image",
-          "src": getLocalMedia(this, "boom.png"),
-          "width": 16,
-          "height": 16
+          "src": getLocalMediaUrl(this, icon),
+          "width": getLocalMediaSize(icon),
+          "height": getLocalMediaSize(icon)
         },
 				{
 					"type": "input_dummy"
@@ -728,12 +746,13 @@ Blockly.Blocks.math_number = deepCopyObj(Blockly.Blocks.math_number);
 Blockly.Blocks.math_number.init = function() {
 	oldMathNumber.init.call(this);
 
-  var icon = new Blockly.FieldImage(
-    getLocalMedia(this, "number.png"),
-    16,
-    16
+  const icon = "number.png";
+  var iconField = new Blockly.FieldImage(
+    getLocalMediaUrl(this, icon),
+    getLocalMediaSize(icon),
+    getLocalMediaSize(icon)
   );
-  this.inputList[0].insertFieldAt(0, icon);
+  this.inputList[0].insertFieldAt(0, iconField);
 	this.setColour(Blockly.CUSTOM_COLORS.math_number || Blockly.CUSTOM_COLORS.literalExpression);
 }
 
@@ -780,7 +799,7 @@ function createLiteralSelectorBlock(type,values){
       const [image, dropdown] = this.inputList[0].fieldRow;
       const value = dropdown.getValue();
 
-      image.setValue(getLocalMedia(this, `${type.toLowerCase()}-${value.toLowerCase()}.png`));
+      image.setValue(getLocalMediaUrl(this, `${type.toLowerCase()}-${value.toLowerCase()}.svg`));
     }
 	};
 }
@@ -905,15 +924,17 @@ Blockly.Blocks.OperadorLogico = {
 
 Blockly.Blocks.Asignacion = {
 	init: function () {
+    const icon = "assignation.png";
+
 		this.jsonInit({
 			"type": "asignacion",
 			"message0": "%1 Recordar que %2 %3 vale %4 %5",
 			"args0": [
         {
           "type": "field_image",
-          "src": getLocalMedia(this, "assignation.png"),
-          "width": 16,
-          "height": 16
+          "src": getLocalMediaUrl(this, icon),
+          "width": getLocalMediaSize(icon),
+          "height": getLocalMediaSize(icon)
         },
 				{
 				"type": "field_input",
@@ -942,10 +963,11 @@ Blockly.Blocks.Asignacion = {
 
 		var self = this;
 
+    const handIcon = "hand.png";
     var createGetterButton = new Blockly.FieldImage(
-      getLocalMedia(this, "hand.png"),
-      16,
-      16,
+      getLocalMediaUrl(this, handIcon),
+      getLocalMediaSize(handIcon),
+      getLocalMediaSize(handIcon),
       "Obtener variable",
       function() {
       	var name = self.getFieldValue('varName');
