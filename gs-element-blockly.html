@@ -225,6 +225,14 @@ Example:
         },
 
         /*
+         * URL suffix (e.g. to tell Github RAW CDN to serve the right content type)
+         */
+        localMediaSuffix: {
+          type: String,
+          value: "?sanitize=true"
+        },
+
+        /*
          * `readOnly` Use blockly in readOnly mode.
          */
         readOnly: {
@@ -902,6 +910,7 @@ Example:
           }
         });
         this.workspace.options.localMedia = this.localMedia;
+        this.workspace.options.localMediaSuffix = this.localMediaSuffix;
 
         var _this = this;
         this.workspace.addChangeListener(function (a, b, c) {

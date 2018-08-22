@@ -2,13 +2,18 @@
 
 Blockly.CUSTOM_COLORS = {"globalHsvSaturation":0.45,"globalHsvValue":0.65,"primitiveCommand":"#1d3c99","assignation":"#051d66","controlStructure":"#0f2b80","literalExpression":"#1d992c","primitiveExpression":"#1d992c","operator":"#0f801c","program":"#8d1bb3","interactiveProgram":"#6e158c","interactiveBinding":"#a11fcc","procedure":"#935ba6","function":"#745380","primitiveProcedure":"#2e4fb3","primitiveFunction":"#2eb33e","procedure_call":"#355bcc","function_call":"#35cc47","variable":"#056610","parameter":"#056610","complete":"#ff0000","H":{"commands":225,"expressions":127,"definitions":285},"S":{"assignation":95,"variable":95,"parameter":95,"primitiveCommand":81,"literalExpression":81,"primitiveExpression":81,"controlStructure":88,"operator":88,"procedure_call":74,"function_call":74,"primitiveProcedure":74,"primitiveFunction":74,"program":85,"interactiveProgram":85,"interactiveBinding":85,"procedure":45,"function":35,"complete":99},"V":{"assignation":40,"variable":40,"parameter":40,"primitiveCommand":60,"literalExpression":60,"primitiveExpression":60,"controlStructure":50,"operator":50,"procedure_call":80,"function_call":80,"primitiveProcedure":70,"primitiveFunction":70,"program":70,"interactiveProgram":55,"interactiveBinding":80,"procedure":65,"function":50,"complete":99}};
 Blockly.AVAILABLE_ICONS = ["bool-false.svg","bool-true.svg","clean.png","color-azul.svg","color-negro.svg","color-rojo.svg","color-verde.svg","direccion-este.svg","direccion-norte.svg","direccion-oeste.svg","direccion-sur.svg","hand.png","minus.png","plus.png"];
+const EMPTY_GIF = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
 
 const getOptions = (block) => {
   const parentWorkspace = block.workspace.options.parentWorkspace;
   return parentWorkspace && parentWorkspace.options || block.workspace.options
 }
-const getLocalMediaUrl = (block, name) => getOptions(block).localMedia + name;
-const getLocalMediaSize = (name) => Blockly.AVAILABLE_ICONS.includes(name) ? 16 : 0;
+const hasLocalMedia = (name) => Blockly.AVAILABLE_ICONS.includes(name)
+const getLocalMediaUrl = (block, name) =>
+  hasLocalMedia(name)
+    ? getOptions(block).localMedia + name + (getOptions(block).localMediaSuffix || "")
+    : EMPTY_GIF;
+const getLocalMediaSize = (name) => hasLocalMedia(name) ? 16 : 0;
 
 /**
  * Create the svg representation of a block and render
