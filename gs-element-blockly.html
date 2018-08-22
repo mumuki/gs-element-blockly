@@ -65,7 +65,7 @@ Example:
           <block type="math_number"></block>
           <block type="ColorSelector"></block>
           <block type="DireccionSelector"></block>
-					<block type="BoolSelector"></block>
+          <block type="BoolSelector"></block>
         </category>
         <category name="Expresiones primitivas">
           <block type="hayBolitas"></block>
@@ -81,9 +81,9 @@ Example:
           <block type="OperadorDeComparacion"></block>
           <block type="OperadorLogico"></block>
           <block type="not"></block>
-					<block type="siguiente"></block>
-					<block type="previo"></block>
-					<block type="opuesto"></block>
+          <block type="siguiente"></block>
+          <block type="previo"></block>
+          <block type="opuesto"></block>
         </category>
       </category>
       <category name="Definiciones">
@@ -288,7 +288,12 @@ Example:
         const primitiveFunctions = this._getPrimitiveNames(this.primitiveFunctions);
 
         let tree = []
-        let toolboxDefaultLines = (toolboxXML || this.$$('#toolbox').innerHTML).split("\n");
+        let xml = toolboxXML || this.$$('#toolbox').innerHTML;
+
+        // TODO: Este parseo por strings es tremendo, y esa property `xml` de los nodos se usa en _toolboxBlockXML, _toolboxBlockXML, etc. Hay que hacer de vuelta todo lo de acciones primitivas.
+
+        xml = xml.replace(/> *<\/category>/g, ">\n</category>");
+        let toolboxDefaultLines = xml.split("\n");
         let ignore_last = false;
         let parent = tree;
         let stack = [];
@@ -372,6 +377,8 @@ Example:
       _createToolbox: function() {
         const primitiveProcedures = this._getPrimitiveNames(this.primitiveProcedures);
         const primitiveFunctions = this._getPrimitiveNames(this.primitiveFunctions);
+
+        this.setDefaultToolbox(this.toolbox && this.toolbox.defaultToolbox);
 
         let tree = this._defaultToolboxTree();
         let toolbox = [];
@@ -491,6 +498,17 @@ Example:
         return name.split("_");
       },
 
+      _getDropdownOptions(definition) {
+        const attributes = definition.attributes;
+
+        const dropdown = definition.attributes && definition.attributes.block_dropdown;
+        const dropdownOptions = dropdown && dropdown.match(/\("[^"]+" *, *'[^']*'\)/g);
+        return dropdownOptions && dropdownOptions.map((option) => {
+          const parts = option.match(/^\("([^"]+)" *, *'([^']*)'\)$/);
+          return [parts[1], parts[2]];
+        });
+      },
+
       /**
        * Define un bloque a partir de una definicion tipo Poner_En_
        */
@@ -498,16 +516,18 @@ Example:
         const name = this._getPrimitiveName(definition);
         const customName = definition.attributes && definition.attributes.block_name;
         const icon = definition.attributes && definition.attributes.block_icon;
+        const dropdownOptions = this._getDropdownOptions(definition);
 
         const finalName = customName || name;
         const parts = (customName ? this._getParts : this._getPartsByConvention.bind(this, true))
           .bind(this)(finalName);
 
+        const self = this;
+
         // Bloque
         Blockly.Blocks[name] = {
-        	init: function () {
-            let argsIndex = 1;
-        		this.setColour(Blockly.CUSTOM_COLORS.primitiveProcedure);
+          init: function () {
+            this.setColour(Blockly.CUSTOM_COLORS.primitiveProcedure);
 
             if (icon) {
               this.appendDummyInput().appendField(new Blockly.FieldImage(
@@ -518,24 +538,19 @@ Example:
               ));
             }
 
-        		for(var i in parts) {
-              if(i == (parts.length - 1)) {
-    		        this.appendDummyInput().appendField(parts[i]);
-              }
-              else {
-                this.appendValueInput('arg' + argsIndex).appendField(parts[i]);
-                argsIndex++;
-              }
-            }
-        		this.setPreviousStatement(true);
-        		this.setNextStatement(true);
-        		this.setInputsInline(true);
-        	}
+            self._definePrimitiveHolesOrDropdown(this, parts, dropdownOptions);
+
+            this.setPreviousStatement(true);
+            this.setNextStatement(true);
+            this.setInputsInline(true);
+          }
         };
+
         let argsList = [];
         for(var i=1;i<parts.length;i++) {
           argsList.push('arg' + i);
         }
+
         // Generator
         Blockly.GobstonesLanguage[name] = procBlockCodeGenerator(name, argsList);
       },
@@ -558,15 +573,17 @@ Example:
         const name = this._getPrimitiveName(definition);
         const customName = definition.attributes && definition.attributes.block_name;
         const icon = definition.attributes && definition.attributes.block_icon;
+        const dropdownOptions = this._getDropdownOptions(definition);
 
         const finalName = customName || name;
         const parts = (customName ? this._getParts : this._getPartsByConvention.bind(this, false))
           .bind(this)(finalName);
 
+        const self = this;
+
         // Bloque
         Blockly.Blocks[name] = {
           init: function () {
-            let argsIndex = 1;
             this.setColour(Blockly.CUSTOM_COLORS.primitiveFunction);
 
             if (icon) {
@@ -578,25 +595,20 @@ Example:
               ));
             }
 
-            for(var i in parts) {
-              if(i == (parts.length - 1)) {
-                this.appendDummyInput().appendField(parts[i]);
-              }
-              else {
-                this.appendValueInput('arg' + argsIndex).appendField(parts[i]);
-                argsIndex++;
-              }
-            }
+            self._definePrimitiveHolesOrDropdown(this, parts, dropdownOptions);
+
             this.setPreviousStatement(false);
             this.setNextStatement(false);
             this.setInputsInline(true);
             this.setOutput('var');
           }
         };
+
         let argsList = [];
         for(var i=1;i<parts.length;i++) {
           argsList.push('arg' + i);
         }
+
         // Generator
         Blockly.GobstonesLanguage[name] = functionBlockCodeGenerator(name, argsList);
       },
@@ -608,6 +620,36 @@ Example:
 
         for(var i in this.primitiveFunctions) {
           this._definePrimitiveFunction(this.primitiveFunctions[i]);
+        }
+      },
+
+      _definePrimitiveHolesOrDropdown: function (block, parts, dropdownOptions) {
+        if (dropdownOptions) {
+          if (parts.length !== 2) throw new Error("Only one parameter is supported when using block_dropdown");
+
+          // En Space (U+2002)
+          dropdownOptions.forEach((opt) => opt[0] = opt[0].replace(/ /g, " "));
+
+          block.jsonInit({
+            message0: parts.join('%1'),
+            args0: [
+              {
+                type: 'field_dropdown',
+                name: "custom_teacher_dropdown",
+                options: dropdownOptions
+              }
+            ]
+          });
+        } else {
+          let argsIndex = 1;
+          for (var i in parts) {
+            if (i == parts.length - 1) {
+              block.appendDummyInput().appendField(parts[i]);
+            } else {
+              block.appendValueInput('arg' + argsIndex).appendField(parts[i]);
+              argsIndex++;
+            }
+          }
         }
       },
 
@@ -779,9 +821,14 @@ Example:
       },
 
       setDefaultToolbox: function(xml) {
-        this.$$('#toolbox').innerHTML = xml;
+        if (xml && !this._toolboxBackup)
+          this._toolboxBackup = this.$$('#toolbox').innerHTML;
 
-        const toolboxXml = `<xml>${xml}</xml>`;
+        const newXml = xml || this._toolboxBackup;
+        if (!newXml) return;
+
+        this.$$('#toolbox').innerHTML = newXml;
+        const toolboxXml = `<xml>${newXml}</xml>`;
         this.workspace.updateToolbox(toolboxXml);
       },
 
@@ -840,7 +887,7 @@ Example:
         this.blocklyDiv = blocklyDiv;
         this._fixSize();
         this._fixScroll();
-				this.workspace = Blockly.inject(blocklyDiv, {
+        this.workspace = Blockly.inject(blocklyDiv, {
           toolbox: this._createToolbox(),
           media: this.media,
           toolboxPosition: "start",
@@ -853,7 +900,7 @@ Example:
             controls: true,
             wheel: true
           }
-				});
+        });
         this.workspace.options.localMedia = this.localMedia;
 
         var _this = this;
@@ -960,6 +1007,26 @@ Example:
        */
       showBlockError: function(blockId, errorKind) {
         this.workspace.showBlockError(blockId, errorKind);
+      },
+
+      scrollToBlock: function(blockId, centered = false) {
+        const block = blockId
+          ? this.workspace.getBlockById(blockId)
+          : this.workspace.getAllBlocks().find((it) => it.type === "Program");
+        if (!block) return;
+
+        const position = block.getRelativeToSurfaceXY();
+        const { viewLeft, contentLeft, viewTop, contentTop, viewWidth, viewHeight } = this.workspace.getMetrics();
+
+        const offsetX = centered ? viewWidth / 4 : 25;
+        const offsetY = centered ? viewHeight / 2 : 25;
+
+        const finalPosition = {
+          x: position.x - offsetX - contentLeft,
+          y: position.y - offsetY - contentTop
+        };
+
+        this.workspace.scrollbar.set(finalPosition.x, finalPosition.y);
       },
 
       testColors(colors) {

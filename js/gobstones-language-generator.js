@@ -55,6 +55,23 @@ Blockly.GobstonesLanguage.addPragma = function(block, str){
 // Gobstones pragma BEGIN_REGION should avoid char 'at' ( @ )
 Blockly.utils.genUid.soup_ = Blockly.utils.genUid.soup_.replace(/@/g,"a");
 
+function getCustomTeacherDropdownValue(block) {
+  // TODO: Hackeada de compromiso
+
+  try {
+    const getCustomTeacherDropdown = (field) => field.name === 'custom_teacher_dropdown';
+
+    const input = block.inputList.find((input) =>
+      input.fieldRow.some(getCustomTeacherDropdown)
+    );
+    const field = input.fieldRow.find(getCustomTeacherDropdown);
+
+    return field.getValue();
+  } catch(e) {
+    return null;
+  }
+}
+
 /**
  * Retorna la función que representa la llamada a un procedimiento o funcion F(arg1, arg2, ...)
  * Importante: los arg son input values, no fields.
@@ -64,8 +81,13 @@ function callGenerator(name, args = [], newLine, order) {
 		var code = name + '(';
 		var sep = '';
 		args.forEach(function (arg) {
-			code += sep + Blockly.GobstonesLanguage.valueToCode(block, arg,
-				Blockly.GobstonesLanguage.ORDER_NONE);
+      const value = getCustomTeacherDropdownValue(block) || Blockly.GobstonesLanguage.valueToCode(
+        block,
+        arg,
+        Blockly.GobstonesLanguage.ORDER_NONE
+      );
+
+			code += sep + value;
 			sep = ', ';
 		});
 		code += newLine ? ')\n' : ')';
