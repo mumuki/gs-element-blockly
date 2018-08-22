@@ -8,7 +8,7 @@
 /spec/reports/
 /tmp/
 
-# styles
+# assets
 app/**
 
 # rspec failure tracking
