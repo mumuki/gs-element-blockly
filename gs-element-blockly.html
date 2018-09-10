@@ -44,7 +44,7 @@ Example:
           <block type="VaciarTablero"></block>
           <block type="BOOM"></block>
         </category>
-        <category name="Procedimientos primitivos">
+        <category name="Procedimientos primitivos" gbs_custom="PRIMITIVE_PROCEDURES">
         </category>
         <category name="Mis procedimientos" custom="PROCEDURE_CALLS">
         </category>
@@ -72,7 +72,7 @@ Example:
           <block type="puedeMover"></block>
           <block type="nroBolitas"></block>
         </category>
-        <category name="Funciones primitivas">
+        <category name="Funciones primitivas" gbs_custom="PRIMITIVE_FUNCTIONS">
         </category>
         <category name="Mis funciones" custom="FUNCTION_CALLS">
         </category>
@@ -126,13 +126,20 @@ Example:
   <script src="js/errors.js"></script>
 
   <script>
-    const BLOCKLY_PRIMITIVE_PROCEDURES = "Procedimientos primitivos";
-    const BLOCKLY_PRIMITIVE_FUNCTIONS = "Funciones primitivas";
-
     Polymer({
       is: 'gs-element-blockly',
 
       properties: {
+        primitiveProceduresCategoryName: {
+          type: String,
+          value: "Procedimientos primitivos"
+        },
+
+        primitiveFunctionsCategoryName: {
+          type: String,
+          value: "Funciones primitivas"
+        },
+
         /*
          * `primitiveProcedures` lista de definiciones de procedimientos primitivos.
          * Ej: ["Poner_FloresAl_"] Se transormara en un bloque con dos inputs inline, cuyo
@@ -298,6 +305,8 @@ Example:
         let tree = []
         let xml = toolboxXML || this.$$('#toolbox').innerHTML;
 
+        xml = this._processCustomCategories(xml);
+
         // TODO: Este parseo por strings es tremendo, y esa property `xml` de los nodos se usa en _toolboxBlockXML, _toolboxBlockXML, etc. Hay que hacer de vuelta todo lo de acciones primitivas.
 
         xml = xml.replace(/> *<\/category>/g, ">\n</category>");
@@ -319,9 +328,9 @@ Example:
           else if(line.indexOf('<category') >= 0) {
             let m = line.match('name="([^"]*)"')
             if(m.length == 2 && (
-              (m[1] == BLOCKLY_PRIMITIVE_PROCEDURES && primitiveProcedures && primitiveProcedures.length > 0) ||
-              (m[1] == BLOCKLY_PRIMITIVE_FUNCTIONS && primitiveFunctions && primitiveFunctions.length > 0) ||
-              (m[1] != BLOCKLY_PRIMITIVE_PROCEDURES && m[1] != BLOCKLY_PRIMITIVE_FUNCTIONS))) {
+              (m[1] == this.primitiveProceduresCategoryName && primitiveProcedures && primitiveProcedures.length > 0) ||
+              (m[1] == this.primitiveFunctionsCategoryName && primitiveFunctions && primitiveFunctions.length > 0) ||
+              (m[1] != this.primitiveProceduresCategoryName && m[1] != this.primitiveFunctionsCategoryName))) {
               parent.push({
                 type: 'category',
                 name: m[1],
@@ -330,7 +339,7 @@ Example:
               });
               stack.push(parent);
               parent = parent[parent.length - 1].child;
-              if(m[1] == BLOCKLY_PRIMITIVE_PROCEDURES)
+              if(m[1] == this.primitiveProceduresCategoryName)
               {
                 for(var i in primitiveProcedures) {
                   parent.push({
@@ -339,7 +348,7 @@ Example:
                   });
                 }
               }
-              if(m[1] == BLOCKLY_PRIMITIVE_FUNCTIONS)
+              if(m[1] == this.primitiveFunctionsCategoryName)
               {
                 for(var i in primitiveFunctions) {
                   parent.push({
@@ -455,8 +464,8 @@ Example:
             }
           };
 
-          addCustomActions("primitiveProcedures", BLOCKLY_PRIMITIVE_PROCEDURES);
-          addCustomActions("primitiveFunctions", BLOCKLY_PRIMITIVE_FUNCTIONS);
+          addCustomActions("primitiveProcedures", this.primitiveProceduresCategoryName);
+          addCustomActions("primitiveFunctions", this.primitiveFunctionsCategoryName);
         } else {
           toolbox = tree;
         }
@@ -862,6 +871,32 @@ Example:
             /*Do nothing for other types*/
           }
         });
+      },
+
+      _processCustomCategories(xml) {
+        const parsedXml = Blockly.Xml.textToDom(`<xml>${xml}</xml>`);
+
+        const forEachNode = (node, action) => {
+          action(node);
+          node.childNodes.forEach((node) => forEachNode(node, action));
+        }
+
+        forEachNode(parsedXml, (node) => {
+          if (!node.getAttribute) return;
+
+          const name = node.getAttribute("name");
+          const custom = node.getAttribute("gbs_custom");
+
+          if (custom === "PRIMITIVE_PROCEDURES") {
+            this.primitiveProceduresCategoryName = name;
+          }
+
+          if (custom === "PRIMITIVE_FUNCTIONS") {
+            this.primitiveFunctionsCategoryName = name;
+          }
+        });
+
+        return Blockly.Xml.domToText(parsedXml);
       },
 
       _mapToolboxTree: function(toolboxTree, f){
