@@ -305,7 +305,7 @@ Example:
         let tree = []
         let xml = toolboxXML || this.$$('#toolbox').innerHTML;
 
-        xml = this._processCustomCategories(xml);
+        this._processCustomCategories(xml);
 
         // TODO: Este parseo por strings es tremendo, y esa property `xml` de los nodos se usa en _toolboxBlockXML, _toolboxBlockXML, etc. Hay que hacer de vuelta todo lo de acciones primitivas.
 
@@ -895,8 +895,6 @@ Example:
             this.primitiveFunctionsCategoryName = name;
           }
         });
-
-        return Blockly.Xml.domToText(parsedXml);
       },
 
       _mapToolboxTree: function(toolboxTree, f){
