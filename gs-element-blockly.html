@@ -306,6 +306,9 @@ Example:
         let xml = toolboxXML || this.$$('#toolbox').innerHTML;
 
         this._processCustomCategories(xml);
+        setTimeout(() => {
+          this._processCustomCategoryStyles(xml);
+        });
 
         // TODO: Este parseo por strings es tremendo, y esa property `xml` de los nodos se usa en _toolboxBlockXML, _toolboxBlockXML, etc. Hay que hacer de vuelta todo lo de acciones primitivas.
 
@@ -893,6 +896,35 @@ Example:
 
           if (custom === "PRIMITIVE_FUNCTIONS") {
             this.primitiveFunctionsCategoryName = name;
+          }
+        });
+      },
+
+      _processCustomCategoryStyles(xml) {
+        const parsedXml = Blockly.Xml.textToDom(`<xml>${xml}</xml>`);
+
+        const forEachNode = (node, action) => {
+          action(node);
+          node.childNodes.forEach((node) => forEachNode(node, action));
+        }
+
+        forEachNode(parsedXml, (node) => {
+          if (!node.getAttribute) return;
+
+          const name = node.getAttribute("name");
+          const custom = node.getAttribute("gbs_custom");
+
+          if (custom === "SEPARATOR") {
+            const toolbar = document.querySelector("#blocklyDiv div div div").childNodes[1];
+
+            forEachNode(toolbar, (toolbarNode) => {
+              const isLabel = toolbarNode.classList && toolbarNode.classList[0] === "blocklyTreeLabel";
+              const isTheRightCategory = toolbarNode.textContent === name;
+
+              if (isLabel && isTheRightCategory) {
+                toolbarNode.innerHTML = `<strong>${toolbarNode.innerText}</strong>`;
+              }
+            });
           }
         });
       },
