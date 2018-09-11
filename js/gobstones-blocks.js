@@ -1044,6 +1044,28 @@ Blockly.Blocks.variables_get = {
 	}
 };
 
+Blockly.Blocks.OperadoresDeEnumeracion = {
+  init: function () {
+    this.jsonInit({
+      message0: '%1 %2',
+      args0: [
+        {
+          type: 'field_dropdown',
+          name: 'OPERATOR',
+          options: [['siguiente', 'siguiente'], ['previo', 'previo'], ['opuesto', 'opuesto']]
+        },
+        {
+          type: 'input_value',
+          name: 'VALUE'
+        }
+      ],
+      colour: Blockly.CUSTOM_COLORS.OperadoresDeEnumeracion || Blockly.CUSTOM_COLORS.operator,
+      inputsInline: true,
+      output: "*"
+    })
+  }
+};
+
 Blockly.Blocks.not = createSingleParameterExpressionBlock('no','Bool');
 Blockly.Blocks.siguiente = createSingleParameterExpressionBlock('siguiente','*');
 Blockly.Blocks.previo = createSingleParameterExpressionBlock('previo','*');

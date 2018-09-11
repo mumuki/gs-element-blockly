@@ -393,6 +393,10 @@ Blockly.GobstonesLanguage.OperadorLogico = function(block) {
 	return [code, order];
 };
 
+Blockly.GobstonesLanguage.OperadoresDeEnumeracion = function(block) {
+  return exprParamsBlockCodeGenerator(block.getFieldValue('OPERATOR'), ['VALUE'])(block);
+};
+
 Blockly.GobstonesLanguage.not = exprParamsBlockCodeGenerator('not',['VALUE']);
 Blockly.GobstonesLanguage.siguiente = exprParamsBlockCodeGenerator('siguiente',['VALUE']);
 Blockly.GobstonesLanguage.previo = exprParamsBlockCodeGenerator('previo',['VALUE']);
