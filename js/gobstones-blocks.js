@@ -388,7 +388,6 @@ Blockly.Blocks.RepeticionCondicional = {
 
 		this.setColour(Blockly.CUSTOM_COLORS.RepeticionCondicional || Blockly.CUSTOM_COLORS.controlStructure);
 		this.appendValueInput('condicion')
-			.setCheck('Bool')
 			.appendField('repetir hasta que');
 		this.appendStatementInput('block').setCheck(["Statement"]);
 		this.setInputsInline(true);
