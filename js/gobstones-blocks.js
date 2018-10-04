@@ -833,7 +833,7 @@ function createSingleParameterExpressionBlock(blockText,returnType, colorType = 
 
 Blockly.Blocks.hayBolitas = createSingleParameterExpressionBlock('hay bolitas','Bool', "primitiveExpression");
 Blockly.Blocks.puedeMover = createSingleParameterExpressionBlock('puede mover','Bool', "primitiveExpression");
-Blockly.Blocks.nroBolitas = createSingleParameterExpressionBlock('numero de bolitas','Number', "primitiveExpression");
+Blockly.Blocks.nroBolitas = createSingleParameterExpressionBlock('número de bolitas','Number', "primitiveExpression");
 
 // ------------------------------------------------------
 // Operaciones:
