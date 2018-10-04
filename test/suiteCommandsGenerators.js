@@ -130,7 +130,7 @@ program {
   HacerAlgoCon(Rojo, Verde)
 }\n`);
 
-  gsTestCode('Nombre de procedimiento acepta eñes y tildes', 
+  gsTestCode('Nombre de procedimiento acepta eñes y tildes',
     `<xml xmlns="http://www.w3.org/1999/xhtml"><variables></variables><block type="Program" id=")/i9X3Dkcy@_$dH-T^zG" deletable="false" x="30" y="30"><mutation timestamp="1509993436591"></mutation><statement name="program"><block type="procedures_callnoreturnnoparams" id="D|9vDEzTXWyhJZ7y(DAh"><mutation name="Ñáñaras en el occipucioÁáÉéÍíÓóÚú"></mutation></block></statement></block><block type="procedures_defnoreturnnoparams" id="P7)*c#QiF%zUE13b}+(1" x="37" y="115"><field name="NAME">Ñáñaras en el occipucioÁáÉéÍíÓóÚú</field></block></xml>`,
     `procedure ÑáñarasEnElOccipucioÁáÉéÍíÓóÚú() {
 }
@@ -144,7 +144,7 @@ program {
     let workspaceXml = `<xml><variables></variables><block type="Program" id=")/i9X3Dkcy@_$dH-T^zG" deletable="false" x="30" y="30"><mutation timestamp="1509990567335"></mutation><statement name="program"><block type="procedures_callnoreturnnoparams" id="D|9vDEzTXWyhJZ7y(DAh"><mutation name="Ñáñaras en el occipucio"></mutation></block></statement></block><block type="procedures_defnoreturnnoparams" id="P7)*c#QiF%zUE13b}+(1" x="37" y="115"><field name="NAME">Ñáñaras en el occipucio</field></block></xml>`;
     this.element.workspaceXml = workspaceXml;
     this.element.workspace.getBlockById('P7)*c#QiF%zUE13b}+(1').setFieldValue('Ñ!á"ñ#a$r%a&s/E(n)E=l?O¡c]c}i´p+u*c¨i{o-[','NAME');
-    assert.equal(workspaceXml,this.element.workspaceXml);    
+    assert.equal(workspaceXml,this.element.workspaceXml);
   });
 
   test('Procedimiento primitivo', function() {
@@ -203,9 +203,9 @@ program {
 }\n`);
 
   gsTestCode('Programa interactivo simple',
-    '<xml xmlns="http://www.w3.org/1999/xhtml"><variables></variables><block type="InteractiveProgram" id="${CGuk~7{sSlYdtq}{?Y" deletable="false" x="-7" y="25"><mutation timestamp="1509521036701"></mutation><statement name="interactiveprogram"><block type="InteractiveKeyBinding" id="6om}mHe,(P0sGz#1.7Yt"><mutation modifierscount="0"></mutation><field name="InteractiveBindingDropdownKey">ARROW_LEFT</field><statement name="block"><block type="Poner" id="BabEe00ufbd6`O}XfVvE"><value name="COLOR"><block type="ColorSelector" id=",0o~IWU5%DLohW[By1#v"><field name="ColorDropdown">Rojo</field></block></value></block></statement><next><block type="InteractiveLetterBinding" id="O9U+of9+(D.[.(rssdlq"><mutation modifierscount="3"></mutation><field name="InteractiveBindingDropdownKey">A</field><field name="d1">SHIFT</field><field name="d2">CTRL</field><field name="d3">ALT</field><statement name="block"><block type="Poner" id="S*ySXAm#eg2Uv:B|T4D^"><value name="COLOR"><block type="ColorSelector" id="`^5)~+rKBrK$IW3,:,@."><field name="ColorDropdown">Verde</field></block></value></block></statement><next><block type="InteractiveNumberBinding" id="VZ^AhWsStU_E+Q(1:@Zs"><mutation modifierscount="2"></mutation><field name="InteractiveBindingDropdownKey">1</field><field name="d1">CTRL</field><field name="d2">SHIFT</field><statement name="block"><block type="Poner" id="$vIU@NWv3kHg#P-0i#P0"><value name="COLOR"><block type="ColorSelector" id="wqa{Z.4vMhl)L;Iwz5Eg"><field name="ColorDropdown">Azul</field></block></value></block></statement></block></next></block></next></block></statement></block></xml>',
+    '<xml xmlns="http://www.w3.org/1999/xhtml"><variables></variables><block type="InteractiveProgram" id="${CGuk~7{sSlYdtq}{?Y" deletable="false" x="-7" y="25"><mutation timestamp="1509521036701"></mutation><statement name="interactiveprogram"><block type="InteractiveKeyBinding" id="6om}mHe,(P0sGz#1.7Yt"><mutation modifierscount="0"></mutation><field name="InteractiveBindingDropdownKey">LEFT</field><statement name="block"><block type="Poner" id="BabEe00ufbd6`O}XfVvE"><value name="COLOR"><block type="ColorSelector" id=",0o~IWU5%DLohW[By1#v"><field name="ColorDropdown">Rojo</field></block></value></block></statement><next><block type="InteractiveLetterBinding" id="O9U+of9+(D.[.(rssdlq"><mutation modifierscount="3"></mutation><field name="InteractiveBindingDropdownKey">A</field><field name="d1">SHIFT</field><field name="d2">CTRL</field><field name="d3">ALT</field><statement name="block"><block type="Poner" id="S*ySXAm#eg2Uv:B|T4D^"><value name="COLOR"><block type="ColorSelector" id="`^5)~+rKBrK$IW3,:,@."><field name="ColorDropdown">Verde</field></block></value></block></statement><next><block type="InteractiveNumberBinding" id="VZ^AhWsStU_E+Q(1:@Zs"><mutation modifierscount="2"></mutation><field name="InteractiveBindingDropdownKey">1</field><field name="d1">CTRL</field><field name="d2">SHIFT</field><statement name="block"><block type="Poner" id="$vIU@NWv3kHg#P-0i#P0"><value name="COLOR"><block type="ColorSelector" id="wqa{Z.4vMhl)L;Iwz5Eg"><field name="ColorDropdown">Azul</field></block></value></block></statement></block></next></block></next></block></statement></block></xml>',
     `interactive program {
-  K_ARROW_LEFT -> {
+  K_LEFT -> {
     Poner(Rojo)
   }
   K_CTRL_ALT_SHIFT_A -> {

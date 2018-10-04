@@ -343,13 +343,13 @@ Blockly.Blocks.InteractiveNumberBinding = createInteractiveBinding("número", [
 ].map(it => ({ code: it, name: it })));
 
 Blockly.Blocks.InteractiveKeyBinding = createInteractiveBinding("tecla", [
-	{ code: 'ARROW_LEFT', name: '←' },
-	{ code: 'ARROW_RIGHT', name: '→' },
-	{ code: 'ARROW_UP', name: '↑' },
-	{ code: 'ARROW_DOWN', name: '↓' },
+	{ code: 'LEFT', name: '←' },
+	{ code: 'RIGHT', name: '→' },
+	{ code: 'UP', name: '↑' },
+	{ code: 'DOWN', name: '↓' },
 	{ code: 'MINUS', name: '-' },
 	{ code: 'SPACE', name: 'Espacio' },
-	{ code: 'ENTER', name: 'Enter' },
+	{ code: 'RETURN', name: 'Enter' },
 	{ code: 'TAB', name: 'Tab' },
 	{ code: 'BACKSPACE', name: 'Borrar' },
 	{ code: 'DELETE', name: 'Suprimir' },
