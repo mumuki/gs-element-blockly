@@ -140,7 +140,7 @@ Blockly.Blocks.InteractiveProgram = {
 	_addInit() {
 		this.$init = true;
 
-    const icon = "minnus.png";
+    const icon = "minus.png";
 		var removeButton = new Blockly.FieldImage(
 			getLocalMediaUrl(this, icon),
 			getLocalMediaSize(icon),
