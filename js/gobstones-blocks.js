@@ -28,6 +28,15 @@ Blockly.createBlockSvg = function(workspace, name, f) {
 	newBlock.render();
 };
 
+const createVariable = (workspace, name) => {
+ Blockly.createBlockSvg(workspace, 'variables_get', b => {
+    b.setFieldValue(name, 'VAR');
+    b.moveBy(10,5);
+  });
+}
+
+// ---
+
 Blockly.Blocks.Program = {
 	init: function () {
 		this.jsonInit({
@@ -900,6 +909,52 @@ Blockly.Blocks.List = {
   }
 };
 
+Blockly.Blocks.ForEach = {
+  init: function () {
+    this.jsonInit({
+      type: "Statement",
+      previousStatement: "Statement",
+      nextStatement: "Statement",
+        message0: 'Repetir para cada %1 %2 %3',
+        args0: [
+          {
+            "type": "field_input",
+            "name": "varName",
+            "text": "elemento"
+          },
+          {
+            type: 'input_dummy'
+          },
+          {
+            "type": "field_label",
+            "text": "en"
+          },
+        ]
+    });
+
+    this.setColour(Blockly.CUSTOM_COLORS.ForEach || Blockly.CUSTOM_COLORS.controlStructure);
+    this.appendValueInput('list');
+    this.appendStatementInput('block').setCheck(["Statement"]);
+    this.setInputsInline(true);
+
+    var self = this;
+
+    const handIcon = "hand.png";
+    var createGetterButton = new Blockly.FieldImage(
+      getLocalMediaUrl(this, handIcon),
+      getLocalMediaSize(handIcon),
+      getLocalMediaSize(handIcon),
+      "Obtener variable",
+      function() {
+        var name = self.getFieldValue('varName');
+        createVariable(self.workspace, name);
+      }
+    );
+
+    this.inputList[0].appendField(createGetterButton);
+  }
+};
+
 function createSingleParameterExpressionBlock(blockText,returnType, colorType = "operator"){
 	return {
 		init: function () {
@@ -1079,10 +1134,7 @@ Blockly.Blocks.Asignacion = {
 	},
 
 	createVariableBlock: function(name) {
-		return Blockly.createBlockSvg(this.workspace, 'variables_get', b => {
-			b.setFieldValue(name, 'VAR');
-			b.moveBy(10,5);
-		});
+		return createVariable(this.workspace, name);
 	}
 };
 

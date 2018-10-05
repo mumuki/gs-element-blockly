@@ -357,6 +357,14 @@ Blockly.GobstonesLanguage.List = function(block) {
   return [code, Blockly.GobstonesLanguage.ORDER_ATOMIC];
 };
 
+Blockly.GobstonesLanguage.ForEach = function (block) {
+  let body = Blockly.GobstonesLanguage.statementToCode(block, 'block');
+  var varName = block.getFieldValue('varName');
+  var list = Blockly.GobstonesLanguage.valueToCode(block, 'list', Blockly.GobstonesLanguage.ORDER_NONE) || '';
+
+  return `foreach ${varName} in ${list} {\n${body}}\n`;
+};
+
 Blockly.GobstonesLanguage.OperadorDeComparacion = function (block) {
 	var code =
 		(Blockly.GobstonesLanguage.valueToCode(block, 'arg1', Blockly.GobstonesLanguage.ORDER_RELATIONAL) || '()') +
