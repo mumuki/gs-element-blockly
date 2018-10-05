@@ -346,6 +346,17 @@ Blockly.GobstonesLanguage.ColorSelector = literalSelectorBlockCodeGenerator('Col
 Blockly.GobstonesLanguage.DireccionSelector = literalSelectorBlockCodeGenerator('Direccion');
 Blockly.GobstonesLanguage.BoolSelector = literalSelectorBlockCodeGenerator('Bool');
 
+Blockly.GobstonesLanguage.List = function(block) {
+  const elements = block
+    .inputList
+    .filter((it) => it.name.startsWith("element"))
+    .map((it) => Blockly.GobstonesLanguage.valueToCode(block, it.name, Blockly.GobstonesLanguage.ORDER_NONE))
+    .join(", ");
+  const code = `[${elements}]`;
+
+  return [code, Blockly.GobstonesLanguage.ORDER_ATOMIC];
+};
+
 Blockly.GobstonesLanguage.OperadorDeComparacion = function (block) {
 	var code =
 		(Blockly.GobstonesLanguage.valueToCode(block, 'arg1', Blockly.GobstonesLanguage.ORDER_RELATIONAL) || '()') +

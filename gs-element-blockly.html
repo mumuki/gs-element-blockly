@@ -66,6 +66,7 @@ Example:
           <block type="ColorSelector"></block>
           <block type="DireccionSelector"></block>
           <block type="BoolSelector"></block>
+          <block type="List"></block>
         </category>
         <category name="Expresiones primitivas">
           <block type="hayBolitas"></block>
@@ -801,6 +802,8 @@ Example:
       _runWorkspaceXmlRetrocompatibilityFixes: function() {
         const oldAndOperator = `<field name="OPERATOR">&&</field>`;
         const newAndOperator = `<field name="OPERATOR">AND</field>`;
+
+        if (!this.workspaceXml) return;
 
         if (this.workspaceXml.includes(oldAndOperator)) {
           this.workspaceXml = this.workspaceXml.replace(new RegExp(oldAndOperator, "g"), newAndOperator);

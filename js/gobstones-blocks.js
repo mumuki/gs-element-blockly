@@ -241,8 +241,7 @@ createInteractiveBinding = (name, keys) => {
 						options: keys.map(it => [it.name, it.code]),
 					}
 				],
-				colour: Blockly.CUSTOM_COLORS.InteractiveBinding || Blockly.CUSTOM_COLORS.interactiveBinding,
-				tooltip: "Escoger una entrada",
+				colour: Blockly.CUSTOM_COLORS.InteractiveBinding || Blockly.CUSTOM_COLORS.interactiveBinding
 			});
 
       this.appendStatementInput('block').setCheck(["Statement"]);
@@ -811,6 +810,95 @@ function createLiteralSelectorBlock(type,values){
 Blockly.Blocks.ColorSelector = createLiteralSelectorBlock('Color',['Rojo','Verde','Negro','Azul']);
 Blockly.Blocks.DireccionSelector = createLiteralSelectorBlock('Direccion',['Este','Oeste','Norte','Sur']);
 Blockly.Blocks.BoolSelector = createLiteralSelectorBlock('Bool',['True','False']);
+
+Blockly.Blocks.List = {
+  init: function () {
+    const type = "List";
+
+    this.jsonInit({
+      type: type,
+      message0: "[",
+      args0: [],
+      output: type,
+      colour: Blockly.CUSTOM_COLORS.list || Blockly.CUSTOM_COLORS.literalExpression,
+      inputsInline: false
+    });
+
+    this._addAddButton();
+    this.length = 0;
+  },
+
+  mutationToDom: function() {
+    var container = document.createElement('mutation');
+    container.setAttribute('length', this.length);
+    return container;
+  },
+
+  domToMutation: function(xmlElement) {
+    var length = parseInt(xmlElement.getAttribute('length')) || 0;
+    for (let i = 0; i < length; i++) this._addElement();
+  },
+
+  _addElement: function() {
+    this.length++;
+    this._removeAddButton();
+    const input = this.appendValueInput('element' + this.length);
+    this._addRemoveButtonFor(input);
+    this._addAddButton();
+  },
+
+  _removeElement: function(input) {
+    this.removeInput(input.name);
+    this.length--;
+
+    let id = 1;
+    for (let input of this.inputList) {
+      if (input.name.startsWith("element")) {
+        input.name = "element" + id;
+        id++;
+      }
+    }
+  },
+
+  _addAddButton: function() {
+    const icon = "plus.png";
+    var addButton = new Blockly.FieldImage(
+      getLocalMediaUrl(this, icon),
+      getLocalMediaSize(icon),
+      getLocalMediaSize(icon),
+      "Agregar elemento",
+      function() {
+        this._addElement();
+      }.bind(this)
+    );
+    const input = this.appendDummyInput();
+    input.appendField(addButton);
+    input.name = "addButton";
+
+    const closingBracket = this.appendDummyInput();
+    closingBracket.appendField("]");
+    closingBracket.name = "closingBracket";
+  },
+
+  _removeAddButton: function() {
+    this.removeInput("addButton")
+    this.removeInput("closingBracket");
+  },
+
+  _addRemoveButtonFor: function(input) {
+    const icon = "minus.png";
+    var removeButton = new Blockly.FieldImage(
+      getLocalMediaUrl(this, icon),
+      getLocalMediaSize(icon),
+      getLocalMediaSize(icon),
+      "Quitar elemento",
+      function() {
+        this._removeElement(input);
+      }.bind(this)
+    );
+    input.appendField(removeButton);
+  }
+};
 
 function createSingleParameterExpressionBlock(blockText,returnType, colorType = "operator"){
 	return {

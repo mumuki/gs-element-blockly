@@ -115,4 +115,9 @@ program {
     '<xml><block type="ExpresionCompletar"></block></xml>',
     'boom("El programa todavía no está completo")'
   );
+
+  gsTestCode('List block',
+    `<xml xmlns="http://www.w3.org/1999/xhtml"><variables></variables><block type="Program" id="jDx7Va=c;aNy6GDQaV+7" deletable="false" x="30" y="30"><mutation timestamp="1538764282913"></mutation><statement name="program"><block type="Poner" id=")N}Q#BLd+s[9*.4^~W:["><value name="COLOR"><block type="List" id="Z.Mt^St+o}/EkcJJyTbD"><mutation length="3"></mutation><value name="element1"><block type="ColorSelector" id="BkEmledA=e+04++JLSPU"><field name="ColorDropdown">Rojo</field></block></value><value name="element2"><block type="ColorSelector" id="%}0S-AxQGT69D?pZf-[t"><field name="ColorDropdown">Negro</field></block></value><value name="element3"><block type="ColorSelector" id="2mJ~,b*g11BJY4B0$C+q"><field name="ColorDropdown">Verde</field></block></value></block></value></block></statement></block></xml>`,
+    `program {\n  Poner([Rojo, Negro, Verde])\n}\n`
+  );
 });
