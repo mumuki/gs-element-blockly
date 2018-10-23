@@ -28,10 +28,14 @@ Blockly.createBlockSvg = function(workspace, name, f) {
 	newBlock.render();
 };
 
-const createVariable = (workspace, name) => {
- Blockly.createBlockSvg(workspace, 'variables_get', b => {
+const createVariable = (parent, name) => {
+  const workspace = parent.workspace;
+  Blockly.createBlockSvg(workspace, 'variables_get', b => {
     b.setFieldValue(name, 'VAR');
-    b.moveBy(10,5);
+
+    const posParent = parent.getRelativeToSurfaceXY();
+    const pos = b.getRelativeToSurfaceXY();
+    b.moveBy(posParent.x - pos.x + parent.width + 16, posParent.y - pos.y + b.height + 6);
   });
 }
 
@@ -947,7 +951,7 @@ Blockly.Blocks.ForEach = {
       "Obtener variable",
       function() {
         var name = self.getFieldValue('varName');
-        createVariable(self.workspace, name);
+        createVariable(self, name);
       }
     );
 
@@ -1134,7 +1138,7 @@ Blockly.Blocks.Asignacion = {
 	},
 
 	createVariableBlock: function(name) {
-		return createVariable(this.workspace, name);
+		return createVariable(this, name);
 	}
 };
 
