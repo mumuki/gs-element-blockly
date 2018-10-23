@@ -21,11 +21,11 @@ const getLocalMediaSize = (name) => hasLocalMedia(name) ? 16 : 0;
  * @this Blockly.Block
  */
 Blockly.createBlockSvg = function(workspace, name, f) {
-	var newBlock = workspace.newBlock(name);
-	//newBlock.setEditable(false);
-	f(newBlock);
-	newBlock.initSvg();
-	newBlock.render();
+  var newBlock = workspace.newBlock(name);
+  //newBlock.setEditable(false);
+  f(newBlock);
+  newBlock.initSvg();
+  newBlock.render();
 };
 
 const createVariable = (parent, name) => {
@@ -46,161 +46,161 @@ const triggerRefresh = (block) => {
 // ---
 
 Blockly.Blocks.Program = {
-	init: function () {
-		this.jsonInit({
-			"type": "Program",
-			"message0": "%1 %2 %3",
-			"args0": [
-				{
-					"type": "field_label",
-					"text": "programa"
-				},
-				{
-					"type": "input_dummy"
-				},
-				{
-					"type": "input_statement",
-					"name": "program",
-					"check": ["Statement"]
-				}
-			]
-		})
-		this.setColour(Blockly.CUSTOM_COLORS.Program || Blockly.CUSTOM_COLORS.program);
-		this.setDeletable(true);
-		this.setEditable(true);
-		this.setMovable(true);
-	},
+  init: function () {
+    this.jsonInit({
+      "type": "Program",
+      "message0": "%1 %2 %3",
+      "args0": [
+        {
+          "type": "field_label",
+          "text": "programa"
+        },
+        {
+          "type": "input_dummy"
+        },
+        {
+          "type": "input_statement",
+          "name": "program",
+          "check": ["Statement"]
+        }
+      ]
+    })
+    this.setColour(Blockly.CUSTOM_COLORS.Program || Blockly.CUSTOM_COLORS.program);
+    this.setDeletable(true);
+    this.setEditable(true);
+    this.setMovable(true);
+  },
 
-	setDisabledAndUpdateTimestamp: function(disabled) {
-		this.setDisabled(disabled);
-		if (!disabled) this.$timestamp = Date.now();
-	},
+  setDisabledAndUpdateTimestamp: function(disabled) {
+    this.setDisabled(disabled);
+    if (!disabled) this.$timestamp = Date.now();
+  },
 
-	mutationToDom: function() {
-		var container = document.createElement("mutation");
-		container.setAttribute("timestamp", this.$timestamp || Date.now());
-		return container;
-	},
+  mutationToDom: function() {
+    var container = document.createElement("mutation");
+    container.setAttribute("timestamp", this.$timestamp || Date.now());
+    return container;
+  },
 
-	domToMutation: function(xmlElement) {
-		const timestamp = xmlElement.getAttribute("timestamp");
-		this.$timestamp = timestamp || Date.now();
-	},
+  domToMutation: function(xmlElement) {
+    const timestamp = xmlElement.getAttribute("timestamp");
+    this.$timestamp = timestamp || Date.now();
+  },
 
 };
 
 Blockly.Blocks.InteractiveProgram = {
-	init: function () {
-		this.jsonInit({
-			"type": "InteractiveProgram",
-			"message0": "%1 %2 %3",
-			"args0": [
-				{
-					"type": "field_label",
-					"text": "programa interactivo"
-				},
-				{
-					"type": "input_dummy"
-				},
-				{
-					"type": "input_statement",
-					"name": "interactiveprogram",
-					"check": ["InteractiveBinding"]
-				}
-			]
-		});
-		this.setColour(Blockly.CUSTOM_COLORS.InteractiveProgram || Blockly.CUSTOM_COLORS.interactiveProgram);
-		this.setDeletable(true);
-		this.setEditable(true);
-		this.setMovable(true);
-	},
+  init: function () {
+    this.jsonInit({
+      "type": "InteractiveProgram",
+      "message0": "%1 %2 %3",
+      "args0": [
+        {
+          "type": "field_label",
+          "text": "programa interactivo"
+        },
+        {
+          "type": "input_dummy"
+        },
+        {
+          "type": "input_statement",
+          "name": "interactiveprogram",
+          "check": ["InteractiveBinding"]
+        }
+      ]
+    });
+    this.setColour(Blockly.CUSTOM_COLORS.InteractiveProgram || Blockly.CUSTOM_COLORS.interactiveProgram);
+    this.setDeletable(true);
+    this.setEditable(true);
+    this.setMovable(true);
+  },
 
-	customContextMenu: function(options) {
-		options.unshift({ text: `Agregar timeout`, enabled: !this.$timeout, callback: () => {
-			let x = prompt("Ingrese un número en milisegundos");
-			if (isNaN(parseInt(x)) || parseInt(x) <= 0) return;
-			x = parseInt(x);
+  customContextMenu: function(options) {
+    options.unshift({ text: `Agregar timeout`, enabled: !this.$timeout, callback: () => {
+      let x = prompt("Ingrese un número en milisegundos");
+      if (isNaN(parseInt(x)) || parseInt(x) <= 0) return;
+      x = parseInt(x);
 
-			this._addTimeout(x);
-		}});
+      this._addTimeout(x);
+    }});
 
-		options.unshift({ text: `Agregar inicialización`, enabled: !this.$init, callback: () => {
-			this._addInit();
-		}});
-	},
+    options.unshift({ text: `Agregar inicialización`, enabled: !this.$init, callback: () => {
+      this._addInit();
+    }});
+  },
 
-	setDisabledAndUpdateTimestamp: function(disabled) {
-		this.setDisabled(disabled);
-		if (!disabled) this.$timestamp = Date.now();
-	},
+  setDisabledAndUpdateTimestamp: function(disabled) {
+    this.setDisabled(disabled);
+    if (!disabled) this.$timestamp = Date.now();
+  },
 
-	mutationToDom: function() {
-		var container = document.createElement("mutation");
-		if (this.$init) container.setAttribute("init", this.$init);
-		if (this.$timeout) container.setAttribute("timeout", this.$timeout);
+  mutationToDom: function() {
+    var container = document.createElement("mutation");
+    if (this.$init) container.setAttribute("init", this.$init);
+    if (this.$timeout) container.setAttribute("timeout", this.$timeout);
 
-		container.setAttribute("timestamp", this.$timestamp || Date.now());
-		return container;
-	},
+    container.setAttribute("timestamp", this.$timestamp || Date.now());
+    return container;
+  },
 
-	domToMutation: function(xmlElement) {
-		const init = xmlElement.getAttribute("init");
-		const timeout = xmlElement.getAttribute("timeout");
-		const timestamp = xmlElement.getAttribute("timestamp");
+  domToMutation: function(xmlElement) {
+    const init = xmlElement.getAttribute("init");
+    const timeout = xmlElement.getAttribute("timeout");
+    const timestamp = xmlElement.getAttribute("timestamp");
 
-		if (init) this._addInit()
-		if (timeout) this._addTimeout(parseInt(timeout));
-		this.$timestamp = timestamp || Date.now();
-	},
+    if (init) this._addInit()
+    if (timeout) this._addTimeout(parseInt(timeout));
+    this.$timestamp = timestamp || Date.now();
+  },
 
-	_addInit() {
-		this.$init = true;
-
-    const icon = "minus.png";
-		var removeButton = new Blockly.FieldImage(
-			getLocalMediaUrl(this, icon),
-			getLocalMediaSize(icon),
-			getLocalMediaSize(icon),
-			"Eliminar",
-			function() {
-				this.$init = false;
-				this.removeInput("initlabel");
-				this.removeInput("init");
-				this.removeInput("statementsLabel");
-        triggerRefresh(this);
-			}.bind(this)
-		);
-
-		this.appendDummyInput("initlabel").appendField('Al inicializar:').appendField(removeButton);
-		this.appendStatementInput('init').setCheck(["Statement"]);
-		this.appendDummyInput("statementsLabel").appendField('Al apretar...');
-		this.moveInputBefore("init", "interactiveprogram");
-		this.moveInputBefore("initlabel", "init");
-		this.moveInputBefore("statementsLabel", "interactiveprogram");
-    triggerRefresh(this);
-	},
-
-	_addTimeout(timeout) {
-		this.$timeout = timeout;
+  _addInit() {
+    this.$init = true;
 
     const icon = "minus.png";
-		var removeButton = new Blockly.FieldImage(
-			getLocalMediaUrl(this, icon),
-			getLocalMediaSize(icon),
-			getLocalMediaSize(icon),
-			"Eliminar",
-			function() {
-				this.$timeout = undefined;
-				this.removeInput("timeoutlabel");
-				this.removeInput("timeout");
+    var removeButton = new Blockly.FieldImage(
+      getLocalMediaUrl(this, icon),
+      getLocalMediaSize(icon),
+      getLocalMediaSize(icon),
+      "Eliminar",
+      function() {
+        this.$init = false;
+        this.removeInput("initlabel");
+        this.removeInput("init");
+        this.removeInput("statementsLabel");
         triggerRefresh(this);
-			}.bind(this)
-		);
+      }.bind(this)
+    );
 
-		this.appendDummyInput("timeoutlabel").appendField(`Al estar inactivo ${timeout} milisegundos:`).appendField(removeButton);
-		this.appendStatementInput('timeout').setCheck(["Statement"]);
+    this.appendDummyInput("initlabel").appendField('Al inicializar:').appendField(removeButton);
+    this.appendStatementInput('init').setCheck(["Statement"]);
+    this.appendDummyInput("statementsLabel").appendField('Al apretar...');
+    this.moveInputBefore("init", "interactiveprogram");
+    this.moveInputBefore("initlabel", "init");
+    this.moveInputBefore("statementsLabel", "interactiveprogram");
     triggerRefresh(this);
-	}
+  },
+
+  _addTimeout(timeout) {
+    this.$timeout = timeout;
+
+    const icon = "minus.png";
+    var removeButton = new Blockly.FieldImage(
+      getLocalMediaUrl(this, icon),
+      getLocalMediaSize(icon),
+      getLocalMediaSize(icon),
+      "Eliminar",
+      function() {
+        this.$timeout = undefined;
+        this.removeInput("timeoutlabel");
+        this.removeInput("timeout");
+        triggerRefresh(this);
+      }.bind(this)
+    );
+
+    this.appendDummyInput("timeoutlabel").appendField(`Al estar inactivo ${timeout} milisegundos:`).appendField(removeButton);
+    this.appendStatementInput('timeout').setCheck(["Statement"]);
+    triggerRefresh(this);
+  }
 };
 
 // -------------------------------------
@@ -208,9 +208,9 @@ Blockly.Blocks.InteractiveProgram = {
 // -------------------------------------
 
 const modifiers = [
-	[ 'SHIFT', 'SHIFT' ],
-	[ 'CTRL', 'CTRL' ],
-	[ 'ALT', 'ALT' ]
+  [ 'SHIFT', 'SHIFT' ],
+  [ 'CTRL', 'CTRL' ],
+  [ 'ALT', 'ALT' ]
 ];
 
 const getModifiersInput = (block) => block.inputList[1];
@@ -218,51 +218,51 @@ const getModifierFields = (block) => getModifiersInput(block).fieldRow.slice(2);
 const getModifierDropdownFields = (block) => getModifierFields(block).filter(it => it.constructor === Blockly.FieldDropdown);
 const getModifierValues = (block) => getModifierDropdownFields(block).map(it => it.getValue());
 const getAvailableModifiers = (block) => {
-	const currentModifiers = getModifierValues(block);
+  const currentModifiers = getModifierValues(block);
 
-	return modifiers.filter(it =>
-		currentModifiers.indexOf(it[1]) === -1
-	);
+  return modifiers.filter(it =>
+    currentModifiers.indexOf(it[1]) === -1
+  );
 };
 const updateModifierMenuGenerators = (block, nameToIgnore) => {
-	const availableModifiers = getAvailableModifiers(block);
-	const dropdowns = getModifierDropdownFields(block);
+  const availableModifiers = getAvailableModifiers(block);
+  const dropdowns = getModifierDropdownFields(block);
 
-	for (var dropdown of dropdowns) {
-		if (dropdown.name !== nameToIgnore)
-			dropdown.menuGenerator_ = modifiers.filter(it => {
-				return it[1] === dropdown.getValue() || availableModifiers.some(availableModifier => availableModifier[1] === it[1])
-			});
+  for (var dropdown of dropdowns) {
+    if (dropdown.name !== nameToIgnore)
+      dropdown.menuGenerator_ = modifiers.filter(it => {
+        return it[1] === dropdown.getValue() || availableModifiers.some(availableModifier => availableModifier[1] === it[1])
+      });
 
-	}
+  }
 }
 
 createInteractiveBinding = (name, keys) => {
-	return {
-		init: function () {
-			this.jsonInit({
-				message0: "%1 %2 %3 %4",
-				type: "InteractiveBinding",
-				previousStatement: "InteractiveBinding",
-				nextStatement: "InteractiveBinding",
-				args0: [
-					{
-						"type": "field_label",
-						"text": "Al apretar " + name
-					},
+  return {
+    init: function () {
+      this.jsonInit({
+        message0: "%1 %2 %3 %4",
+        type: "InteractiveBinding",
+        previousStatement: "InteractiveBinding",
+        nextStatement: "InteractiveBinding",
+        args0: [
+          {
+            "type": "field_label",
+            "text": "Al apretar " + name
+          },
           { "type": "input_dummy" },
           {
             "type": "field_label",
             "text": "➣"
           },
-					{
-						type: "field_dropdown",
-						name: "InteractiveBindingDropdownKey",
-						options: keys.map(it => [it.name, it.code]),
-					}
-				],
-				colour: Blockly.CUSTOM_COLORS.InteractiveBinding || Blockly.CUSTOM_COLORS.interactiveBinding
-			});
+          {
+            type: "field_dropdown",
+            name: "InteractiveBindingDropdownKey",
+            options: keys.map(it => [it.name, it.code]),
+          }
+        ],
+        colour: Blockly.CUSTOM_COLORS.InteractiveBinding || Blockly.CUSTOM_COLORS.interactiveBinding
+      });
 
       this.appendStatementInput('block').setCheck(["Statement"]);
 
@@ -291,90 +291,90 @@ createInteractiveBinding = (name, keys) => {
           self._cleanModifiers();
         }
       ));
-		},
+    },
 
-		customContextMenu: function(options) {
-			const modifiersCount = getModifierFields(this).length / 2;
+    customContextMenu: function(options) {
+      const modifiersCount = getModifierFields(this).length / 2;
 
-			options.unshift({ text: `Limpiar modificadores`, enabled: modifiersCount > 0, callback: () => {
-				this._cleanModifiers();
-			}});
-			options.unshift({ text: `Agregar modificador`, enabled: modifiersCount < modifiers.length, callback: () => {
-				this._addModifier();
-			}});
-		},
+      options.unshift({ text: `Limpiar modificadores`, enabled: modifiersCount > 0, callback: () => {
+        this._cleanModifiers();
+      }});
+      options.unshift({ text: `Agregar modificador`, enabled: modifiersCount < modifiers.length, callback: () => {
+        this._addModifier();
+      }});
+    },
 
-		mutationToDom: function() {
-			var container = document.createElement("mutation");
-			container.setAttribute("modifierscount", getModifierValues(this).length.toString());
-			return container;
-		},
+    mutationToDom: function() {
+      var container = document.createElement("mutation");
+      container.setAttribute("modifierscount", getModifierValues(this).length.toString());
+      return container;
+    },
 
-		domToMutation: function(xmlElement) {
-			const $modifiersCount = xmlElement.getAttribute("modifierscount");
-			if ($modifiersCount) {
-				const count = parseInt($modifiersCount);
-				for (var i = 0; i < count; i++)
-					this._addModifier();
-			}
+    domToMutation: function(xmlElement) {
+      const $modifiersCount = xmlElement.getAttribute("modifierscount");
+      if ($modifiersCount) {
+        const count = parseInt($modifiersCount);
+        for (var i = 0; i < count; i++)
+          this._addModifier();
+      }
 
-			setTimeout(() => {
-				updateModifierMenuGenerators(this);
-			}, 0);
-		},
+      setTimeout(() => {
+        updateModifierMenuGenerators(this);
+      }, 0);
+    },
 
-		_addModifier() {
-			const availableModifiers = getAvailableModifiers(this);
+    _addModifier() {
+      const availableModifiers = getAvailableModifiers(this);
 
-			const self = this;
-			const id = getModifierValues(this).length + 1;
-			const labelName = "l" + id;
-			const dropdownName = "d" + id;
+      const self = this;
+      const id = getModifierValues(this).length + 1;
+      const labelName = "l" + id;
+      const dropdownName = "d" + id;
 
-			getModifiersInput(this).appendField("+").appendField(new Blockly.FieldDropdown(availableModifiers, (newValue) => {
-				setTimeout(() => {
-					updateModifierMenuGenerators(self, dropdownName)
-				}, 0);
-			}));
+      getModifiersInput(this).appendField("+").appendField(new Blockly.FieldDropdown(availableModifiers, (newValue) => {
+        setTimeout(() => {
+          updateModifierMenuGenerators(self, dropdownName)
+        }, 0);
+      }));
 
-			const addedFields = getModifierFields(this).slice(-2);
-			addedFields[0].name = labelName;
-			addedFields[1].name = dropdownName;
+      const addedFields = getModifierFields(this).slice(-2);
+      addedFields[0].name = labelName;
+      addedFields[1].name = dropdownName;
 
-			updateModifierMenuGenerators(this, dropdownName);
+      updateModifierMenuGenerators(this, dropdownName);
       triggerRefresh(this);
-		},
+    },
 
-		_cleanModifiers() {
-			const fieldsToRemove = getModifierFields(this);
+    _cleanModifiers() {
+      const fieldsToRemove = getModifierFields(this);
 
-			for (var field of fieldsToRemove)
-				getModifiersInput(this).removeField(field.name);
+      for (var field of fieldsToRemove)
+        getModifiersInput(this).removeField(field.name);
       triggerRefresh(this);
-		}
-	}
+    }
+  }
 };
 
 Blockly.Blocks.InteractiveLetterBinding = createInteractiveBinding("letra", [
-	'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+  'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
 ].map(it => ({ code: it, name: it })));
 
 Blockly.Blocks.InteractiveNumberBinding = createInteractiveBinding("número", [
-	'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'
+  '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'
 ].map(it => ({ code: it, name: it })));
 
 Blockly.Blocks.InteractiveKeyBinding = createInteractiveBinding("tecla", [
-	{ code: 'LEFT', name: '←' },
-	{ code: 'RIGHT', name: '→' },
-	{ code: 'UP', name: '↑' },
-	{ code: 'DOWN', name: '↓' },
-	{ code: 'MINUS', name: '-' },
-	{ code: 'SPACE', name: 'Espacio' },
-	{ code: 'RETURN', name: 'Enter' },
-	{ code: 'TAB', name: 'Tab' },
-	{ code: 'BACKSPACE', name: 'Borrar' },
-	{ code: 'DELETE', name: 'Suprimir' },
-	{ code: 'ESCAPE', name: 'Escape' }
+  { code: 'LEFT', name: '←' },
+  { code: 'RIGHT', name: '→' },
+  { code: 'UP', name: '↑' },
+  { code: 'DOWN', name: '↓' },
+  { code: 'MINUS', name: '-' },
+  { code: 'SPACE', name: 'Espacio' },
+  { code: 'RETURN', name: 'Enter' },
+  { code: 'TAB', name: 'Tab' },
+  { code: 'BACKSPACE', name: 'Borrar' },
+  { code: 'DELETE', name: 'Suprimir' },
+  { code: 'ESCAPE', name: 'Escape' }
 ]);
 
 // ------------------------------------------------------
@@ -382,53 +382,53 @@ Blockly.Blocks.InteractiveKeyBinding = createInteractiveBinding("tecla", [
 // ------------------------------------------------------
 
 Blockly.Blocks.RepeticionSimple = {
-	init: function () {
-		this.jsonInit({
-			type: "Statement",
-			previousStatement: "Statement",
-			nextStatement: "Statement",
-		});
+  init: function () {
+    this.jsonInit({
+      type: "Statement",
+      previousStatement: "Statement",
+      nextStatement: "Statement",
+    });
 
-		this.setColour(Blockly.CUSTOM_COLORS.RepeticionSimple || Blockly.CUSTOM_COLORS.controlStructure);
-		this.appendValueInput('count')
-			.appendField('repetir');
-		this.appendDummyInput()
-			.appendField('veces');
-		this.appendStatementInput('block').setCheck(["Statement"]);
-		this.setInputsInline(true);
-	}
+    this.setColour(Blockly.CUSTOM_COLORS.RepeticionSimple || Blockly.CUSTOM_COLORS.controlStructure);
+    this.appendValueInput('count')
+      .appendField('repetir');
+    this.appendDummyInput()
+      .appendField('veces');
+    this.appendStatementInput('block').setCheck(["Statement"]);
+    this.setInputsInline(true);
+  }
 };
 
 Blockly.Blocks.RepeticionCondicional = {
-	init: function () {
-		this.jsonInit({
-			type: "Statement",
-			previousStatement: "Statement",
-			nextStatement: "Statement",
-		});
+  init: function () {
+    this.jsonInit({
+      type: "Statement",
+      previousStatement: "Statement",
+      nextStatement: "Statement",
+    });
 
-		this.setColour(Blockly.CUSTOM_COLORS.RepeticionCondicional || Blockly.CUSTOM_COLORS.controlStructure);
-		this.appendValueInput('condicion')
-			.appendField('repetir hasta que');
-		this.appendStatementInput('block').setCheck(["Statement"]);
-		this.setInputsInline(true);
-	}
+    this.setColour(Blockly.CUSTOM_COLORS.RepeticionCondicional || Blockly.CUSTOM_COLORS.controlStructure);
+    this.appendValueInput('condicion')
+      .appendField('repetir hasta que');
+    this.appendStatementInput('block').setCheck(["Statement"]);
+    this.setInputsInline(true);
+  }
 };
 
 Blockly.Blocks.AlternativaSimple = {
-	init: function () {
-		this.jsonInit({
-			type: "Statement",
-			previousStatement: "Statement",
-			nextStatement: "Statement"
-		});
+  init: function () {
+    this.jsonInit({
+      type: "Statement",
+      previousStatement: "Statement",
+      nextStatement: "Statement"
+    });
 
-		this.setColour(Blockly.CUSTOM_COLORS.AlternativaSimple || Blockly.CUSTOM_COLORS.controlStructure);
-		this.appendValueInput('condicion')
-			.appendField(Blockly.Msg["CONTROLS_IF_MSG_IF"]);
-		this.appendStatementInput('block').setCheck(["Statement"]);
-		this.setInputsInline(true);
-	}
+    this.setColour(Blockly.CUSTOM_COLORS.AlternativaSimple || Blockly.CUSTOM_COLORS.controlStructure);
+    this.appendValueInput('condicion')
+      .appendField(Blockly.Msg["CONTROLS_IF_MSG_IF"]);
+    this.appendStatementInput('block').setCheck(["Statement"]);
+    this.setInputsInline(true);
+  }
 };
 
 Blockly.Msg["CONTROLS_IF_MSG_ELSE"] = "si no";
@@ -438,109 +438,109 @@ Blockly.Msg["CONTROLS_IF_MSG_THEN"] = "";
 delete Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN.compose;
 delete Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN.decompose;
 Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN.updateShape_ = function() {
-	// Delete everything.
-	if (this.getInput('block2')) {
-		this.removeInput('block2');
-	}
-	var i = 1;
-	while (this.getInput('IF' + i)) {
-		this.removeInput('IF' + i);
-		this.removeInput('DO' + i);
-		i++;
-	}
-	// Rebuild block.
-	for (var i = 1; i <= this.elseifCount_; i++) {
-		this.appendValueInput('IF' + i)
-				.appendField(Blockly.Msg.CONTROLS_IF_MSG_ELSEIF);
-		this.appendStatementInput('DO' + i)
-				.setCheck(["Statement"])
-	}
-	if (this.elseCount_) {
-		this.appendStatementInput('block2')
-			.setCheck(["Statement"])
-			.appendField(Blockly.Msg.CONTROLS_IF_MSG_ELSE);
-	}
+  // Delete everything.
+  if (this.getInput('block2')) {
+    this.removeInput('block2');
+  }
+  var i = 1;
+  while (this.getInput('IF' + i)) {
+    this.removeInput('IF' + i);
+    this.removeInput('DO' + i);
+    i++;
+  }
+  // Rebuild block.
+  for (var i = 1; i <= this.elseifCount_; i++) {
+    this.appendValueInput('IF' + i)
+        .appendField(Blockly.Msg.CONTROLS_IF_MSG_ELSEIF);
+    this.appendStatementInput('DO' + i)
+        .setCheck(["Statement"])
+  }
+  if (this.elseCount_) {
+    this.appendStatementInput('block2')
+      .setCheck(["Statement"])
+      .appendField(Blockly.Msg.CONTROLS_IF_MSG_ELSE);
+  }
 
   triggerRefresh(this);
 };
 Blockly.Extensions.registerMutator(
-	"controls_if_mutator_without_ui",
-	Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN,
-	null,
-	[]
+  "controls_if_mutator_without_ui",
+  Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN,
+  null,
+  []
 );
 
 Blockly.Blocks.AlternativaCompleta = {
-	init: function () {
-		this.jsonInit({
-			"type": "Statement",
-			"previousStatement": "Statement",
-			"nextStatement": "Statement",
-			"message0": "%{BKY_CONTROLS_IF_MSG_IF} %1",
-			"args0": [
-				{
-					"type": "input_value",
-					"name": "condicion"
-				}
-			],
-			"message1": "%{BKY_CONTROLS_IF_MSG_THEN} %1",
-			"args1": [
-				{
-					"type": "input_statement",
-					"name": "block1",
-					"check": ["Statement"]
-				}
-			],
-			"colour": "%{BKY_LOGIC_HUE}",
-			"helpUrl": "%{BKY_CONTROLS_IF_HELPURL}",
-			"mutator": "controls_if_mutator_without_ui",
-			"extensions": ["controls_if_tooltip"]
-		});
+  init: function () {
+    this.jsonInit({
+      "type": "Statement",
+      "previousStatement": "Statement",
+      "nextStatement": "Statement",
+      "message0": "%{BKY_CONTROLS_IF_MSG_IF} %1",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "condicion"
+        }
+      ],
+      "message1": "%{BKY_CONTROLS_IF_MSG_THEN} %1",
+      "args1": [
+        {
+          "type": "input_statement",
+          "name": "block1",
+          "check": ["Statement"]
+        }
+      ],
+      "colour": "%{BKY_LOGIC_HUE}",
+      "helpUrl": "%{BKY_CONTROLS_IF_HELPURL}",
+      "mutator": "controls_if_mutator_without_ui",
+      "extensions": ["controls_if_tooltip"]
+    });
 
-		this.setColour(Blockly.CUSTOM_COLORS.AlternativaCompleta || Blockly.CUSTOM_COLORS.controlStructure);
-		this.setInputsInline(true);
+    this.setColour(Blockly.CUSTOM_COLORS.AlternativaCompleta || Blockly.CUSTOM_COLORS.controlStructure);
+    this.setInputsInline(true);
 
-		this.elseCount_++;
-		this.updateShape_();
-	},
-	customContextMenu: function(options) {
-		options.unshift({ text: `Limpiar ramas 'si no, si'`, enabled: true, callback: () => {
-			this.elseifCount_ = 0;
+    this.elseCount_++;
+    this.updateShape_();
+  },
+  customContextMenu: function(options) {
+    options.unshift({ text: `Limpiar ramas 'si no, si'`, enabled: true, callback: () => {
+      this.elseifCount_ = 0;
 
-			this.updateShape_();
-		}});
+      this.updateShape_();
+    }});
 
-		options.unshift({ text: `Agregar 'si no, si'`, enabled: true, callback: () => {
-			this.elseifCount_++;
+    options.unshift({ text: `Agregar 'si no, si'`, enabled: true, callback: () => {
+      this.elseifCount_++;
 
-			const valueConnections = [null];
-			const statementConnections = [null];
-			const elseStatementConnection = this.getInput("block2").connection.targetConnection;
-			let k;
-			let input;
+      const valueConnections = [null];
+      const statementConnections = [null];
+      const elseStatementConnection = this.getInput("block2").connection.targetConnection;
+      let k;
+      let input;
 
-			k = 1;
-			while (input = this.getInput("IF" + k)) {
-				valueConnections.push(input.connection.targetConnection);
-				k++;
-			}
+      k = 1;
+      while (input = this.getInput("IF" + k)) {
+        valueConnections.push(input.connection.targetConnection);
+        k++;
+      }
 
-			k = 1;
-			while (input = this.getInput("DO" + k)) {
-				statementConnections.push(input.connection.targetConnection);
-				k++;
-			}
+      k = 1;
+      while (input = this.getInput("DO" + k)) {
+        statementConnections.push(input.connection.targetConnection);
+        k++;
+      }
 
-			this.updateShape_();
+      this.updateShape_();
 
-			// Reconnect any child blocks.
-			for (var i = 1; i <= this.elseifCount_; i++) {
-				Blockly.Mutator.reconnect(valueConnections[i], this, 'IF' + i);
-				Blockly.Mutator.reconnect(statementConnections[i], this, 'DO' + i);
-			}
-			Blockly.Mutator.reconnect(elseStatementConnection, this, 'block2');
-		}});
-	}
+      // Reconnect any child blocks.
+      for (var i = 1; i <= this.elseifCount_; i++) {
+        Blockly.Mutator.reconnect(valueConnections[i], this, 'IF' + i);
+        Blockly.Mutator.reconnect(statementConnections[i], this, 'DO' + i);
+      }
+      Blockly.Mutator.reconnect(elseStatementConnection, this, 'block2');
+    }});
+  }
 };
 
 // ------------------------------------------------------
@@ -548,126 +548,126 @@ Blockly.Blocks.AlternativaCompleta = {
 // ------------------------------------------------------
 
 Blockly.Blocks.Poner = {
-	init: function () {
+  init: function () {
     const icon = "putStone.png";
 
-		this.jsonInit({
-			message0: '%1 Poner %2',
-			type: "Statement",
-			previousStatement: "Statement",
-			nextStatement: "Statement",
-			args0: [
+    this.jsonInit({
+      message0: '%1 Poner %2',
+      type: "Statement",
+      previousStatement: "Statement",
+      nextStatement: "Statement",
+      args0: [
         {
           "type": "field_image",
           "src": getLocalMediaUrl(this, icon),
           "width": getLocalMediaSize(icon),
           "height": getLocalMediaSize(icon)
         },
-				{
-					type: 'input_value',
-					name: 'COLOR'
-				}
-			],
-			colour: Blockly.CUSTOM_COLORS.Poner || Blockly.CUSTOM_COLORS.primitiveCommand,
-			tooltip: 'Poner color en casillero.',
-			inputsInline: true
-		});
-	}
+        {
+          type: 'input_value',
+          name: 'COLOR'
+        }
+      ],
+      colour: Blockly.CUSTOM_COLORS.Poner || Blockly.CUSTOM_COLORS.primitiveCommand,
+      tooltip: 'Poner color en casillero.',
+      inputsInline: true
+    });
+  }
 };
 
 Blockly.Blocks.Sacar = {
-	init: function () {
+  init: function () {
     const icon = "removeStone.png";
 
-		this.jsonInit({
-			type: "Statement",
-			previousStatement: "Statement",
-			nextStatement: "Statement",
-			message0: '%1 Sacar %2',
-			args0: [
+    this.jsonInit({
+      type: "Statement",
+      previousStatement: "Statement",
+      nextStatement: "Statement",
+      message0: '%1 Sacar %2',
+      args0: [
         {
           "type": "field_image",
           "src": getLocalMediaUrl(this, icon),
           "width": getLocalMediaSize(icon),
           "height": getLocalMediaSize(icon)
         },
-				{
-					type: 'input_value',
-					name: 'COLOR'
-				}
-			],
-			colour: Blockly.CUSTOM_COLORS.Sacar || Blockly.CUSTOM_COLORS.primitiveCommand,
-			tooltip: 'Sacar color de casillero.',
-			inputsInline: true
-		});
-	}
+        {
+          type: 'input_value',
+          name: 'COLOR'
+        }
+      ],
+      colour: Blockly.CUSTOM_COLORS.Sacar || Blockly.CUSTOM_COLORS.primitiveCommand,
+      tooltip: 'Sacar color de casillero.',
+      inputsInline: true
+    });
+  }
 };
 
 Blockly.Blocks.Mover = {
-	init: function () {
+  init: function () {
     const icon = "move.png";
 
-		this.jsonInit({
-			type: "Statement",
-			previousStatement: "Statement",
-			nextStatement: "Statement",
-			message0: '%1 Mover %2',
-			args0: [
+    this.jsonInit({
+      type: "Statement",
+      previousStatement: "Statement",
+      nextStatement: "Statement",
+      message0: '%1 Mover %2',
+      args0: [
         {
           "type": "field_image",
           "src": getLocalMediaUrl(this, icon),
           "width": getLocalMediaSize(icon),
           "height": getLocalMediaSize(icon)
         },
-				{
-					type: 'input_value',
-					name: 'DIRECCION'
-				}
-			],
-			colour: Blockly.CUSTOM_COLORS.Mover || Blockly.CUSTOM_COLORS.primitiveCommand,
-			tooltip: 'Mover en una dirección.',
-			inputsInline: true
-		});
-	}
+        {
+          type: 'input_value',
+          name: 'DIRECCION'
+        }
+      ],
+      colour: Blockly.CUSTOM_COLORS.Mover || Blockly.CUSTOM_COLORS.primitiveCommand,
+      tooltip: 'Mover en una dirección.',
+      inputsInline: true
+    });
+  }
 };
 
 Blockly.Blocks.IrAlBorde = {
-	init: function () {
+  init: function () {
     const icon = "goToEdge.png";
 
-		this.jsonInit({
-			type: "Statement",
-			previousStatement: "Statement",
-			nextStatement: "Statement",
-			message0: '%1 Ir al borde %2',
-			args0: [
+    this.jsonInit({
+      type: "Statement",
+      previousStatement: "Statement",
+      nextStatement: "Statement",
+      message0: '%1 Ir al borde %2',
+      args0: [
         {
           "type": "field_image",
           "src": getLocalMediaUrl(this, icon),
           "width": getLocalMediaSize(icon),
           "height": getLocalMediaSize(icon)
         },
-				{
-					type: 'input_value',
-					name: 'DIRECCION'
-				}
-			],
-			colour: Blockly.CUSTOM_COLORS.IrAlBorde || Blockly.CUSTOM_COLORS.primitiveCommand,
-			tooltip: 'Ir al borde del tablero.',
-			inputsInline: true
-		});
-	}
+        {
+          type: 'input_value',
+          name: 'DIRECCION'
+        }
+      ],
+      colour: Blockly.CUSTOM_COLORS.IrAlBorde || Blockly.CUSTOM_COLORS.primitiveCommand,
+      tooltip: 'Ir al borde del tablero.',
+      inputsInline: true
+    });
+  }
 };
 
 Blockly.Blocks.VaciarTablero = {
-	init: function () {
+  init: function () {
     const icon = "emptyBoard.png";
 
-		this.jsonInit({
-			type: "Statement",
-			previousStatement: "Statement",
-			nextStatement: "Statement",
-			message0: '%1 Vaciar tablero',
+    this.jsonInit({
+      type: "Statement",
+      previousStatement: "Statement",
+      nextStatement: "Statement",
+      message0: '%1 Vaciar tablero',
       args0: [
         {
           "type": "field_image",
@@ -676,82 +676,82 @@ Blockly.Blocks.VaciarTablero = {
           "height": getLocalMediaSize(icon)
         },
       ],
-			colour: Blockly.CUSTOM_COLORS.VaciarTablero || Blockly.CUSTOM_COLORS.primitiveCommand,
-			tooltip: 'Vaciar el tablero.',
-			inputsInline: true
-		});
-	}
+      colour: Blockly.CUSTOM_COLORS.VaciarTablero || Blockly.CUSTOM_COLORS.primitiveCommand,
+      tooltip: 'Vaciar el tablero.',
+      inputsInline: true
+    });
+  }
 };
 
 Blockly.Blocks.BOOM = {
-	init: function () {
+  init: function () {
     const icon = "boom.png";
 
-		this.jsonInit({
-			"type": "Statement",
-			"previousStatement": "Statement",
-			"nextStatement": "Statement",
-			"lastDummyAlign0": "RIGHT",
-			"message0": "%1 Hacer ¡BOOM! porque:  %2 %3",
-			"args0": [
+    this.jsonInit({
+      "type": "Statement",
+      "previousStatement": "Statement",
+      "nextStatement": "Statement",
+      "lastDummyAlign0": "RIGHT",
+      "message0": "%1 Hacer ¡BOOM! porque:  %2 %3",
+      "args0": [
         {
           "type": "field_image",
           "src": getLocalMediaUrl(this, icon),
           "width": getLocalMediaSize(icon),
           "height": getLocalMediaSize(icon)
         },
-				{
-					"type": "input_dummy"
-				},
-				{
-					"type": "field_input",
-					"name": "boomDescription",
-					"text": "Ingresar motivo..."
-				}
-			],
-			"inputsInline": false,
-			"colour": Blockly.CUSTOM_COLORS.BOOM || Blockly.CUSTOM_COLORS.primitiveCommand,
-			"tooltip": "Este comando hace que estalle todo."
-		});
-	}
+        {
+          "type": "input_dummy"
+        },
+        {
+          "type": "field_input",
+          "name": "boomDescription",
+          "text": "Ingresar motivo..."
+        }
+      ],
+      "inputsInline": false,
+      "colour": Blockly.CUSTOM_COLORS.BOOM || Blockly.CUSTOM_COLORS.primitiveCommand,
+      "tooltip": "Este comando hace que estalle todo."
+    });
+  }
 };
 
 Blockly.Blocks.makeShadowEventListener = function(event){
-	if(event.blockId == this.id && event.newParentId){
-			this.setShadow(true);
-	}
+  if(event.blockId == this.id && event.newParentId){
+      this.setShadow(true);
+  }
 };
 
 Blockly.Blocks.ComandoCompletar = {
-	init: function () {
-		this.jsonInit({
-			"type": "Statement",
-			"previousStatement": "Statement",
-			"nextStatement": "Statement",
-			"lastDummyAlign0": "RIGHT",
-			"message0": "COMPLETAR",
-			"colour": Blockly.CUSTOM_COLORS.ComandoCompletar || Blockly.CUSTOM_COLORS.complete,
-			"tooltip": "Tenés que reemplazar este bloque por tu solución"
-		});
-	},
+  init: function () {
+    this.jsonInit({
+      "type": "Statement",
+      "previousStatement": "Statement",
+      "nextStatement": "Statement",
+      "lastDummyAlign0": "RIGHT",
+      "message0": "COMPLETAR",
+      "colour": Blockly.CUSTOM_COLORS.ComandoCompletar || Blockly.CUSTOM_COLORS.complete,
+      "tooltip": "Tenés que reemplazar este bloque por tu solución"
+    });
+  },
 
-	onchange: Blockly.Blocks.makeShadowEventListener
+  onchange: Blockly.Blocks.makeShadowEventListener
 };
 
 Blockly.Blocks.AsociacionDeTeclaCompletar = {
-	init: function () {
-		this.jsonInit({
-			"type": "InteractiveBinding",
-			"previousStatement": "InteractiveBinding",
-			"nextStatement": "InteractiveBinding",
-			"lastDummyAlign0": "RIGHT",
-			"message0": "COMPLETAR",
-			"colour": Blockly.CUSTOM_COLORS.AsociacionDeTeclaCompletar || Blockly.CUSTOM_COLORS.complete,
-			"tooltip": "Tenés que reemplazar este bloque por tu solución"
-		});
-	},
+  init: function () {
+    this.jsonInit({
+      "type": "InteractiveBinding",
+      "previousStatement": "InteractiveBinding",
+      "nextStatement": "InteractiveBinding",
+      "lastDummyAlign0": "RIGHT",
+      "message0": "COMPLETAR",
+      "colour": Blockly.CUSTOM_COLORS.AsociacionDeTeclaCompletar || Blockly.CUSTOM_COLORS.complete,
+      "tooltip": "Tenés que reemplazar este bloque por tu solución"
+    });
+  },
 
-	onchange: Blockly.Blocks.makeShadowEventListener
+  onchange: Blockly.Blocks.makeShadowEventListener
 };
 
 // ------------------------------------------------------
@@ -771,7 +771,7 @@ function deepCopyObj(aObject) {
 const oldMathNumber = Blockly.Blocks.math_number;
 Blockly.Blocks.math_number = deepCopyObj(Blockly.Blocks.math_number);
 Blockly.Blocks.math_number.init = function() {
-	oldMathNumber.init.call(this);
+  oldMathNumber.init.call(this);
 
   const icon = "number.png";
   var iconField = new Blockly.FieldImage(
@@ -780,30 +780,30 @@ Blockly.Blocks.math_number.init = function() {
     getLocalMediaSize(icon)
   );
   this.inputList[0].insertFieldAt(0, iconField);
-	this.setColour(Blockly.CUSTOM_COLORS.math_number || Blockly.CUSTOM_COLORS.literalExpression);
+  this.setColour(Blockly.CUSTOM_COLORS.math_number || Blockly.CUSTOM_COLORS.literalExpression);
 }
 
 Blockly.Blocks.ExpresionCompletar = {
-	init: function () {
-		this.jsonInit({
-			"type": "completar_expression",
-			"message0": "COMPLETAR",
-			"output": "any",
-			"colour": Blockly.CUSTOM_COLORS.ExpresionCompletar || Blockly.CUSTOM_COLORS.complete,
-			"tooltip": "Tenés que reemplazar este bloque por tu solución"
-		});
-	},
+  init: function () {
+    this.jsonInit({
+      "type": "completar_expression",
+      "message0": "COMPLETAR",
+      "output": "any",
+      "colour": Blockly.CUSTOM_COLORS.ExpresionCompletar || Blockly.CUSTOM_COLORS.complete,
+      "tooltip": "Tenés que reemplazar este bloque por tu solución"
+    });
+  },
 
-	onchange: Blockly.Blocks.makeShadowEventListener
+  onchange: Blockly.Blocks.makeShadowEventListener
 };
 
 function createLiteralSelectorBlock(type,values){
-	return {
-		init: function () {
-			this.jsonInit({
-				type: type,
-				message0: "%1 %2",
-				args0: [
+  return {
+    init: function () {
+      this.jsonInit({
+        type: type,
+        message0: "%1 %2",
+        args0: [
           {
             "type": "field_image",
             "src": "",
@@ -811,16 +811,16 @@ function createLiteralSelectorBlock(type,values){
             "height": 16
           },
           {
-  					type: "field_dropdown",
-  					name: type + "Dropdown",
-  					options: values.map(value => [value,value])
+            type: "field_dropdown",
+            name: type + "Dropdown",
+            options: values.map(value => [value,value])
           }
-				],
-				output: type,
-				colour: Blockly.CUSTOM_COLORS[`${type}Selector`] || Blockly.CUSTOM_COLORS.literalExpression,
-				tooltip: "Escoger " + type,
-			});
-		},
+        ],
+        output: type,
+        colour: Blockly.CUSTOM_COLORS[`${type}Selector`] || Blockly.CUSTOM_COLORS.literalExpression,
+        tooltip: "Escoger " + type,
+      });
+    },
 
     onchange: function(event) {
       const [image, dropdown] = this.inputList[0].fieldRow;
@@ -828,7 +828,7 @@ function createLiteralSelectorBlock(type,values){
 
       image.setValue(getLocalMediaUrl(this, `${type.toLowerCase()}-${value.toLowerCase()}.svg`));
     }
-	};
+  };
 }
 
 Blockly.Blocks.ColorSelector = createLiteralSelectorBlock('Color',['Rojo','Verde','Negro','Azul']);
@@ -973,22 +973,22 @@ Blockly.Blocks.ForEach = {
 };
 
 function createSingleParameterExpressionBlock(blockText,returnType, colorType = "operator"){
-	return {
-		init: function () {
-			this.jsonInit({
-				message0: blockText + ' %1',
-				args0: [
-					{
-						type: 'input_value',
-						name: 'VALUE'
-					}
-				],
-				colour: Blockly.CUSTOM_COLORS[this.type] || Blockly.CUSTOM_COLORS[colorType],
-				inputsInline: true,
-				output: returnType
-			})
-		}
-	};
+  return {
+    init: function () {
+      this.jsonInit({
+        message0: blockText + ' %1',
+        args0: [
+          {
+            type: 'input_value',
+            name: 'VALUE'
+          }
+        ],
+        colour: Blockly.CUSTOM_COLORS[this.type] || Blockly.CUSTOM_COLORS[colorType],
+        inputsInline: true,
+        output: returnType
+      })
+    }
+  };
 }
 
 Blockly.Blocks.hayBolitas = createSingleParameterExpressionBlock('hay bolitas','Bool', "primitiveExpression");
@@ -1000,132 +1000,132 @@ Blockly.Blocks.nroBolitas = createSingleParameterExpressionBlock('número de bol
 // ------------------------------------------------------
 
 Blockly.Blocks.OperadorDeComparacion = {
-	init: function () {
-		this.jsonInit({
-			message0: '%1 %2 %3 %4',
-			args0: [
-				{
-					type: 'input_value',
-					name: 'arg1'
-				},
-				{
-					type: 'field_dropdown',
-					name: 'RELATION',
-					options: [['==', '=='], ['/=', '/='], ['<=', '<='], ['<', '<'], ['>=', '>='], ['>', '>']]
-				},
-				{
-					type: 'input_dummy'
-				},
-				{
-					type: 'input_value',
-					name: 'arg2'
-				}
-			],
-			colour: Blockly.CUSTOM_COLORS.OperadorDeComparacion || Blockly.CUSTOM_COLORS.operator,
-			inputsInline: false,
-			output: 'Bool'
-		});
-	}
+  init: function () {
+    this.jsonInit({
+      message0: '%1 %2 %3 %4',
+      args0: [
+        {
+          type: 'input_value',
+          name: 'arg1'
+        },
+        {
+          type: 'field_dropdown',
+          name: 'RELATION',
+          options: [['==', '=='], ['/=', '/='], ['<=', '<='], ['<', '<'], ['>=', '>='], ['>', '>']]
+        },
+        {
+          type: 'input_dummy'
+        },
+        {
+          type: 'input_value',
+          name: 'arg2'
+        }
+      ],
+      colour: Blockly.CUSTOM_COLORS.OperadorDeComparacion || Blockly.CUSTOM_COLORS.operator,
+      inputsInline: false,
+      output: 'Bool'
+    });
+  }
 };
 
 Blockly.Blocks.OperadorNumerico = {
-	init: function () {
-		this.jsonInit({
-			message0: '%1 %2 %3 %4',
-			args0: [
-				{
-					type: 'input_value',
-					name: 'arg1'
-				},
-				{
-					type: 'field_dropdown',
-					name: 'OPERATOR',
-					options: [['+', '+'], ['-', '-'], ['*', '*'], ['div', 'div'], ['mod', 'mod'], ['^', '^']]
-				},
-				{
-					type: 'input_dummy'
-				},
-				{
-					type: 'input_value',
-					name: 'arg2'
-				}
-			],
-			colour: Blockly.CUSTOM_COLORS.OperadorNumerico || Blockly.CUSTOM_COLORS.operator,
-			inputsInline: false,
-			output: 'Number'
-		});
-	}
+  init: function () {
+    this.jsonInit({
+      message0: '%1 %2 %3 %4',
+      args0: [
+        {
+          type: 'input_value',
+          name: 'arg1'
+        },
+        {
+          type: 'field_dropdown',
+          name: 'OPERATOR',
+          options: [['+', '+'], ['-', '-'], ['*', '*'], ['div', 'div'], ['mod', 'mod'], ['^', '^']]
+        },
+        {
+          type: 'input_dummy'
+        },
+        {
+          type: 'input_value',
+          name: 'arg2'
+        }
+      ],
+      colour: Blockly.CUSTOM_COLORS.OperadorNumerico || Blockly.CUSTOM_COLORS.operator,
+      inputsInline: false,
+      output: 'Number'
+    });
+  }
 };
 
 Blockly.Blocks.OperadorLogico = {
-	init: function () {
-		this.jsonInit({
-			message0: '%1 %2 %3 %4',
-			args0: [
-				{
-					type: 'input_value',
-					name: 'arg1'
-				},
-				{
-					type: 'field_dropdown',
-					name: 'OPERATOR',
-					options: [['y también', 'AND'], ['o bien', '||']]
-				},
-				{
-					type: 'input_dummy'
-				},
-				{
-					type: 'input_value',
-					name: 'arg2'
-				}
-			],
-			colour: Blockly.CUSTOM_COLORS.OperadorLogico || Blockly.CUSTOM_COLORS.operator,
-			inputsInline: false,
-			output: 'Bool'
-		});
-	}
+  init: function () {
+    this.jsonInit({
+      message0: '%1 %2 %3 %4',
+      args0: [
+        {
+          type: 'input_value',
+          name: 'arg1'
+        },
+        {
+          type: 'field_dropdown',
+          name: 'OPERATOR',
+          options: [['y también', 'AND'], ['o bien', '||']]
+        },
+        {
+          type: 'input_dummy'
+        },
+        {
+          type: 'input_value',
+          name: 'arg2'
+        }
+      ],
+      colour: Blockly.CUSTOM_COLORS.OperadorLogico || Blockly.CUSTOM_COLORS.operator,
+      inputsInline: false,
+      output: 'Bool'
+    });
+  }
 };
 
 Blockly.Blocks.Asignacion = {
-	init: function () {
+  init: function () {
     const icon = "assignation.png";
 
-		this.jsonInit({
-			"type": "asignacion",
-			"message0": "%1 Recordar que %2 %3 vale %4 %5",
-			"args0": [
+    this.jsonInit({
+      "type": "asignacion",
+      "message0": "%1 Recordar que %2 %3 vale %4 %5",
+      "args0": [
         {
           "type": "field_image",
           "src": getLocalMediaUrl(this, icon),
           "width": getLocalMediaSize(icon),
           "height": getLocalMediaSize(icon)
         },
-				{
-				"type": "field_input",
-				"name": "varName",
-				"text": "una variable",
-				"class": Blockly.Procedures.rename
-				},
-				{
-				"type": "input_dummy"
-				},
-				{
-				"type": "input_dummy"
-				},
-				{
-				"type": "input_value",
-				"name": "varValue"
-				}
-			],
-			"inputsInline": true,
-			"previousStatement": null,
-			"nextStatement": null,
-			"colour": Blockly.CUSTOM_COLORS.Asignacion || Blockly.CUSTOM_COLORS.assignation,
-			"tooltip": "",
-			"helpUrl": ""
-		});
+        {
+        "type": "field_input",
+        "name": "varName",
+        "text": "una variable",
+        "class": Blockly.Procedures.rename
+        },
+        {
+        "type": "input_dummy"
+        },
+        {
+        "type": "input_dummy"
+        },
+        {
+        "type": "input_value",
+        "name": "varValue"
+        }
+      ],
+      "inputsInline": true,
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": Blockly.CUSTOM_COLORS.Asignacion || Blockly.CUSTOM_COLORS.assignation,
+      "tooltip": "",
+      "helpUrl": ""
+    });
 
-		var self = this;
+    var self = this;
 
     const handIcon = "hand.png";
     var createGetterButton = new Blockly.FieldImage(
@@ -1134,70 +1134,70 @@ Blockly.Blocks.Asignacion = {
       getLocalMediaSize(handIcon),
       "Obtener variable",
       function() {
-      	var name = self.getFieldValue('varName');
-      	self.createVariableBlock(name);
+        var name = self.getFieldValue('varName');
+        self.createVariableBlock(name);
       }
     );
 
     this.appendDummyInput().appendField(createGetterButton);
-	},
+  },
 
-	customContextMenu: function(options) {
-		var name = this.getFieldValue('varName');
+  customContextMenu: function(options) {
+    var name = this.getFieldValue('varName');
 
-		options.unshift({ text: `Crear ${name}`, enabled: true, callback: () => {
-			this.createVariableBlock(name);
-		}});
-	},
+    options.unshift({ text: `Crear ${name}`, enabled: true, callback: () => {
+      this.createVariableBlock(name);
+    }});
+  },
 
-	createVariableBlock: function(name) {
-		return createVariable(this, name);
-	}
+  createVariableBlock: function(name) {
+    return createVariable(this, name);
+  }
 };
 
 
 Blockly.Blocks.variables_get = {
-	init: function () {
-		this.jsonInit({
-			"type": "variables_get",
-			"message0": "%1",
-			"args0": [
-				{
-				"type": "field_input",
-				"name": "VAR",
-				"text": "nombre de variable"
-				}
-			],
-			"output": null,
-			"colour": Blockly.CUSTOM_COLORS.variable,
-			"tooltip": "",
-			"helpUrl": "",
-		});
-	},
-	mutationToDom: function() {
-		var container = document.createElement('mutation');
-		container.setAttribute('var', this.getFieldValue('VAR'));
-		if (this.$parent) container.setAttribute("parent", this.$parent);
-		return container;
-	},
-	domToMutation: function(xmlElement) {
-		var var_name = xmlElement.getAttribute('var');
-		this.setFieldValue(var_name, 'VAR');
-		this.$parent = xmlElement.getAttribute("parent") || null;
-	},
+  init: function () {
+    this.jsonInit({
+      "type": "variables_get",
+      "message0": "%1",
+      "args0": [
+        {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "nombre de variable"
+        }
+      ],
+      "output": null,
+      "colour": Blockly.CUSTOM_COLORS.variable,
+      "tooltip": "",
+      "helpUrl": "",
+    });
+  },
+  mutationToDom: function() {
+    var container = document.createElement('mutation');
+    container.setAttribute('var', this.getFieldValue('VAR'));
+    if (this.$parent) container.setAttribute("parent", this.$parent);
+    return container;
+  },
+  domToMutation: function(xmlElement) {
+    var var_name = xmlElement.getAttribute('var');
+    this.setFieldValue(var_name, 'VAR');
+    this.$parent = xmlElement.getAttribute("parent") || null;
+  },
 
-	onchange: function(event){
-		if (this.$parent) {
-			this.getField("VAR").EDITABLE = false;
-			this.setColour(Blockly.CUSTOM_COLORS.parameter);
-		} else {
-			this.setColour(Blockly.CUSTOM_COLORS.variable);
-		}
+  onchange: function(event){
+    if (this.$parent) {
+      this.getField("VAR").EDITABLE = false;
+      this.setColour(Blockly.CUSTOM_COLORS.parameter);
+    } else {
+      this.setColour(Blockly.CUSTOM_COLORS.variable);
+    }
 
-		if (event.blockId == this.id && event.type == Blockly.Events.BLOCK_DELETE) {
-			// do something with parent
-		}
-	}
+    if (event.blockId == this.id && event.type == Blockly.Events.BLOCK_DELETE) {
+      // do something with parent
+    }
+  }
 };
 
 Blockly.Blocks.OperadoresDeEnumeracion = {
@@ -1231,14 +1231,14 @@ Blockly.Blocks.opuesto = createSingleParameterExpressionBlock('opuesto','*');
 // Necesario para sanitizar nombres de procedimientos.
 // En la interfaz de bloques de gobstones por ahora vamos a dejar pasar sólo espacios y letras con tilde
 Blockly.Blocks.GobstonesSanitizer = function(name){
-	return name.replace(/[^A-Za-z0-9ÁÉÍÓÚÑáéíóúñ_ ]/g,'');
+  return name.replace(/[^A-Za-z0-9ÁÉÍÓÚÑáéíóúñ_ ]/g,'');
 };
 
 
 Blockly.Procedures.OldRename = Blockly.Procedures.rename;
 Blockly.Procedures.rename = function(name){
-	return Blockly.Procedures.OldRename.call(this,
-		Blockly.Blocks.GobstonesSanitizer(name));
+  return Blockly.Procedures.OldRename.call(this,
+    Blockly.Blocks.GobstonesSanitizer(name));
 };
 
 // Necesario para sanitizar nombres de parámetros.
@@ -1246,6 +1246,6 @@ Blockly.Procedures.rename = function(name){
 // Mirá, mirá cómo rompo el encapsulamiento y repito código, mirá.
 Blockly.Blocks.procedures_mutatorarg.validator_old = Blockly.Blocks.procedures_mutatorarg.validator_;
 Blockly.Blocks.procedures_mutatorarg.validator_ = function(name){
-	return Blockly.Blocks.procedures_mutatorarg.validator_old.call(this,
-		Blockly.Blocks.GobstonesSanitizer(name));
+  return Blockly.Blocks.procedures_mutatorarg.validator_old.call(this,
+    Blockly.Blocks.GobstonesSanitizer(name));
 };
