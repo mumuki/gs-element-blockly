@@ -675,14 +675,6 @@ Example:
         }
       },
 
-      _onBlocklyWorkspaceUpdate: function () {
-        let xml = Blockly.Xml.workspaceToDom(this.workspace);
-        this._blocklyWorkspaceXML = Blockly.Xml.domToText(xml);
-        this.workspaceXml = this._blocklyWorkspaceXML;
-        this._keepOnlyAProgram(xml);
-        this._checkParameterBounds(xml);
-      },
-
       _keepOnlyAProgram(xml) {
         const findProgram = (programType) => {
           const children = xml.children;
@@ -980,11 +972,12 @@ Example:
         });
         this.workspace.options.localMedia = this.localMedia;
         this.workspace.options.localMediaSuffix = this.localMediaSuffix;
+        this.workspace.options.parentController = this;
 
         var _this = this;
         this.workspace.addChangeListener(function (a, b, c) {
           Blockly.Events.disableOrphans(a, b, c);
-          _this._onBlocklyWorkspaceUpdate();
+          _this.onBlocklyWorkspaceUpdate();
         });
         this.resetWorkspace()
         this._onresize();
@@ -1120,7 +1113,15 @@ Example:
         setTimeout(() => {
           this.workspaceXml = xml;
         }, 1);
-      }
+      },
+
+      onBlocklyWorkspaceUpdate: function () {
+        let xml = Blockly.Xml.workspaceToDom(this.workspace);
+        this._blocklyWorkspaceXML = Blockly.Xml.domToText(xml);
+        this.workspaceXml = this._blocklyWorkspaceXML;
+        this._keepOnlyAProgram(xml);
+        this._checkParameterBounds(xml);
+      },
     });
   </script>
 </dom-module>

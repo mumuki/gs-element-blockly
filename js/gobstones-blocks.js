@@ -39,6 +39,10 @@ const createVariable = (parent, name) => {
   });
 }
 
+const triggerRefresh = (block) => {
+  getOptions(block).parentController.onBlocklyWorkspaceUpdate();
+};
+
 // ---
 
 Blockly.Blocks.Program = {
@@ -113,9 +117,8 @@ Blockly.Blocks.InteractiveProgram = {
 
 	customContextMenu: function(options) {
 		options.unshift({ text: `Agregar timeout`, enabled: !this.$timeout, callback: () => {
-			let x = '';
-			while (isNaN(parseInt(x)) || parseInt(x) <= 0)
-				x = prompt("Ingrese un número en milisegundos");
+			let x = prompt("Ingrese un número en milisegundos");
+			if (isNaN(parseInt(x)) || parseInt(x) <= 0) return;
 			x = parseInt(x);
 
 			this._addTimeout(x);
@@ -164,6 +167,7 @@ Blockly.Blocks.InteractiveProgram = {
 				this.removeInput("initlabel");
 				this.removeInput("init");
 				this.removeInput("statementsLabel");
+        triggerRefresh(this);
 			}.bind(this)
 		);
 
@@ -173,6 +177,7 @@ Blockly.Blocks.InteractiveProgram = {
 		this.moveInputBefore("init", "interactiveprogram");
 		this.moveInputBefore("initlabel", "init");
 		this.moveInputBefore("statementsLabel", "interactiveprogram");
+    triggerRefresh(this);
 	},
 
 	_addTimeout(timeout) {
@@ -188,11 +193,13 @@ Blockly.Blocks.InteractiveProgram = {
 				this.$timeout = undefined;
 				this.removeInput("timeoutlabel");
 				this.removeInput("timeout");
+        triggerRefresh(this);
 			}.bind(this)
 		);
 
 		this.appendDummyInput("timeoutlabel").appendField(`Al estar inactivo ${timeout} milisegundos:`).appendField(removeButton);
 		this.appendStatementInput('timeout').setCheck(["Statement"]);
+    triggerRefresh(this);
 	}
 };
 
@@ -335,6 +342,7 @@ createInteractiveBinding = (name, keys) => {
 			addedFields[1].name = dropdownName;
 
 			updateModifierMenuGenerators(this, dropdownName);
+      triggerRefresh(this);
 		},
 
 		_cleanModifiers() {
@@ -342,6 +350,7 @@ createInteractiveBinding = (name, keys) => {
 
 			for (var field of fieldsToRemove)
 				getModifiersInput(this).removeField(field.name);
+      triggerRefresh(this);
 		}
 	}
 };
@@ -451,6 +460,8 @@ Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN.updateShape_ = function() {
 			.setCheck(["Statement"])
 			.appendField(Blockly.Msg.CONTROLS_IF_MSG_ELSE);
 	}
+
+  triggerRefresh(this);
 };
 Blockly.Extensions.registerMutator(
 	"controls_if_mutator_without_ui",
@@ -858,6 +869,7 @@ Blockly.Blocks.List = {
     const input = this.appendValueInput('element' + this.length);
     this._addRemoveButtonFor(input);
     this._addAddButton();
+    triggerRefresh(this);
   },
 
   _removeElement: function(input) {
@@ -871,6 +883,7 @@ Blockly.Blocks.List = {
         id++;
       }
     }
+    triggerRefresh(this);
   },
 
   _addAddButton: function() {
