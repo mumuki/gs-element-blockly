@@ -374,7 +374,20 @@ Blockly.Blocks.InteractiveKeyBinding = createInteractiveBinding("tecla", [
   { code: 'TAB', name: 'Tab' },
   { code: 'BACKSPACE', name: 'Borrar' },
   { code: 'DELETE', name: 'Suprimir' },
-  { code: 'ESCAPE', name: 'Escape' }
+  { code: 'ESCAPE', name: 'Escape' },
+  { code: 'INSERT', name: 'Insert' },
+  { code: 'F1', name: 'F1' },
+  { code: 'F2', name: 'F2' },
+  { code: 'F3', name: 'F3' },
+  { code: 'F4', name: 'F4' },
+  { code: 'F5', name: 'F5' },
+  { code: 'F6', name: 'F6' },
+  { code: 'F7', name: 'F7' },
+  { code: 'F8', name: 'F8' },
+  { code: 'F9', name: 'F9' },
+  { code: 'F10', name: 'F10' },
+  { code: 'F11', name: 'F11' },
+  { code: 'F12', name: 'F12' }
 ]);
 
 // ------------------------------------------------------
