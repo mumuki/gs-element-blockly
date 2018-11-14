@@ -27,6 +27,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         top: 100px;
         right: 25px;
       }
+
+      .blocklyFlyoutBackground {
+        fill: #dcedf5 !important;
+      }
+
+      .blocklyToolboxDiv {
+        background-color: #dcedf5 !important;
+      }
+
+      .blocklyTreeRow:not(.blocklyTreeSelected):hover {
+        background-color: #ebf5f9 !important;
+      }
+
+      .blocklyTreeSelected {
+        background-color: #4ea7ca !important;
+      }
     </style>
 
     <p>An example of <code>&lt;gs-element-blockly&gt;</code>:</p>
@@ -115,7 +131,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
 
       document.querySelector('#default_toolbox_set_btn').addEventListener('click', function() {
-        blocklyElement.setDefaultToolbox(`
+        blocklyElement.set('toolbox', { defaultToolbox: `
           <category name="Cosas para hacer">
             <block type="Poner"></block>
             <block type="Sacar"></block>
@@ -131,9 +147,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </category>
 
           <category name="Los cosos primitivos" gbs_custom="PRIMITIVE_PROCEDURES"> </category>
-          <category name="Separador loco" gbs_custom="SEPARATOR"> </category>
+          <category name="*Separador loco" gbs_custom="SEPARATOR"> </category>
+          <category name="Sub-separador" gbs_custom="SEPARATOR"> </category>
           <category name="Las cosas primitivas" gbs_custom="PRIMITIVE_FUNCTIONS"> </category>
-        `);
+        ` });
       });
 
       document.querySelector('#limited_toolboxbtn').addEventListener('click', function() {

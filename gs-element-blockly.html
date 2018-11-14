@@ -918,7 +918,22 @@ Example:
               const isTheRightCategory = toolbarNode.textContent === name;
 
               if (isLabel && isTheRightCategory) {
-                toolbarNode.innerHTML = `<strong>${toolbarNode.innerText}</strong>`;
+                const row = toolbarNode.parentElement;
+                row.style["pointer-elements"] = "none";
+                row.style["background"] = "#15546f";
+                row.style["color"] = "#ffffff";
+                row.style["margin-top"] = "15px";
+                row.style["margin-bottom"] = "15px";
+                row.style["pointer-events"] = "none";
+                row.style["user-select"] = "none";
+
+                if (toolbarNode.innerText.startsWith("*")) {
+                  row.style["margin-bottom"] = "-15px";
+                  row.style["font-weight"] = "900";
+                  toolbarNode.innerText = toolbarNode.innerText.replace("*", "");
+                }
+
+                toolbarNode.innerHTML = `<span>${toolbarNode.innerText}</span>`;
               }
             });
           }
