@@ -928,6 +928,7 @@ Example:
                 row.style["user-select"] = "none";
 
                 if (toolbarNode.innerHTML.startsWith("*")) {
+                  row.style["margin-bottom"] = "0";
                   row.style["margin-bottom"] = "-15px";
                   row.style["font-weight"] = "900";
                   toolbarNode.innerHTML = toolbarNode.innerHTML.replace("*", "");
