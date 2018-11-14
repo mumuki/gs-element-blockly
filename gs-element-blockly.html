@@ -927,13 +927,13 @@ Example:
                 row.style["pointer-events"] = "none";
                 row.style["user-select"] = "none";
 
-                if (toolbarNode.innerText.startsWith("*")) {
+                if (toolbarNode.innerHTML.startsWith("*")) {
                   row.style["margin-bottom"] = "-15px";
                   row.style["font-weight"] = "900";
-                  toolbarNode.innerText = toolbarNode.innerText.replace("*", "");
+                  toolbarNode.innerHTML = toolbarNode.innerHTML.replace("*", "");
                 }
 
-                toolbarNode.innerHTML = `<span>${toolbarNode.innerText}</span>`;
+                toolbarNode.innerHTML = `<span>${toolbarNode.innerHTML}</span>`;
               }
             });
           }
