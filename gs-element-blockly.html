@@ -108,7 +108,7 @@ Example:
           <block type="procedures_defreturn"></block>
         </category>
       </category>
-      <category name="Auxiliares Docente">
+      <category name="Auxiliares Docente" gbs_visible="teacher">
         <block type="ComandoCompletar"></block>
         <block type="ExpresionCompletar"></block>
         <block type="AsociacionDeTeclaCompletar"></block>
@@ -199,6 +199,14 @@ Example:
          */
         workspaceCanEdit: {
           type: Boolean,
+        },
+
+        /*
+         * `role` Indica el role del usuario ("teacher" || "student").
+         */
+        role: {
+          type: Boolean,
+          value: "teacher"
         },
 
         /*
@@ -909,8 +917,9 @@ Example:
 
           const name = node.getAttribute("name");
           const custom = node.getAttribute("gbs_custom");
+          const visible = node.getAttribute("gbs_visible");
 
-          if (custom === "SEPARATOR") {
+          if (custom === "SEPARATOR" || visible !== null) {
             const toolbar = document.querySelector("#blocklyDiv div div div").childNodes[1];
 
             forEachNode(toolbar, (toolbarNode) => {
@@ -918,23 +927,27 @@ Example:
               const isTheRightCategory = toolbarNode.textContent === name;
 
               if (isLabel && isTheRightCategory) {
-                const row = toolbarNode.parentElement;
-                row.style["pointer-elements"] = "none";
-                row.style["background"] = "#15546f";
-                row.style["color"] = "#ffffff";
-                row.style["margin-top"] = "15px";
-                row.style["margin-bottom"] = "15px";
-                row.style["pointer-events"] = "none";
-                row.style["user-select"] = "none";
+                if (custom === "SEPARATOR") {
+                  const row = toolbarNode.parentElement;
+                  row.style["pointer-elements"] = "none";
+                  row.style["background"] = "#15546f";
+                  row.style["color"] = "#ffffff";
+                  row.style["margin-top"] = "15px";
+                  row.style["margin-bottom"] = "15px";
+                  row.style["pointer-events"] = "none";
+                  row.style["user-select"] = "none";
 
-                if (toolbarNode.innerHTML.startsWith("*")) {
-                  row.style["margin-top"] = "0";
-                  row.style["margin-bottom"] = "-15px";
-                  row.style["font-weight"] = "900";
-                  toolbarNode.innerHTML = toolbarNode.innerHTML.replace("*", "");
+                  if (toolbarNode.innerHTML.startsWith("*")) {
+                    row.style["margin-top"] = "0";
+                    row.style["margin-bottom"] = "-15px";
+                    row.style["font-weight"] = "900";
+                    toolbarNode.innerHTML = toolbarNode.innerHTML.replace("*", "");
+                  }
+
+                  toolbarNode.innerHTML = `<span>${toolbarNode.innerHTML}</span>`;
+                } else if (visible !== null && visible !== this.role) {
+                  toolbarNode.remove();
                 }
-
-                toolbarNode.innerHTML = `<span>${toolbarNode.innerHTML}</span>`;
               }
             });
           }
