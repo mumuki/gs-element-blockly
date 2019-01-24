@@ -1,5 +1,5 @@
 module Gobstones
   module Blockly
-    VERSION = "0.25.4"
+    VERSION = "0.28.0"
   end
 end
