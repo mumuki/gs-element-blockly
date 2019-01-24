@@ -126,6 +126,14 @@ program {
   }
 }\n`);
 
+  gsTestCode('ForEach y listas',
+    '<xml xmlns="http://www.w3.org/1999/xhtml"><variables></variables><block type="Program" id="qwjkSp54cuRU6rQ*?ljp" deletable="false" x="30" y="30"><mutation timestamp="1548369639666"></mutation><statement name="program"><block type="ForEach" id="dMVjI9e}psvsd4n/vY8/"><field name="varName">uno de los colores</field><value name="list"><block type="List" id="a]1=;2utbO`i.aS-n-Ns"><mutation length="2"></mutation><value name="element1"><block type="ColorSelector" id="90zJG~YPO?FjW`]?+gxQ"><field name="ColorDropdown">Rojo</field></block></value><value name="element2"><block type="ColorSelector" id="J(sf)l!dlFglUu8myo.s"><field name="ColorDropdown">Azul</field></block></value></block></value><statement name="block"><block type="Poner" id="5(oBVTnT#cLSG??r%+Eg"><value name="COLOR"><block type="variables_get" id="zPHysVVbKCL}9WfHp`K["><mutation var="uno de los colores"></mutation><field name="VAR">uno de los colores</field></block></value></block></statement></block></statement></block></xml>',
+    `program {
+  foreach unoDeLosColores in [Rojo, Azul] {
+    Poner(unoDeLosColores)
+  }
+}\n`);
+
   gsTestCode('Llamada a procedimiento',
     '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" deletable="false" movable="false" editable="false"><statement name="program"><block type="procedures_callnoreturn"><mutation name="hacer algo con"><arg name="x"></arg><arg name="y"></arg></mutation><value name="ARG0"><block type="ColorSelector"><field name="ColorDropdown">Rojo</field></block></value><value name="ARG1"><block type="ColorSelector"><field name="ColorDropdown">Verde</field></block></value></block></statement></block><block type="procedures_defnoreturn"><mutation><arg name="x"></arg><arg name="y"></arg></mutation><field name="NAME">hacer algo con</field><comment></comment></block></xml>',
     `procedure HacerAlgoCon(x, y) {

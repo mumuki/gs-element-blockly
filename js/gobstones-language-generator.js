@@ -359,7 +359,7 @@ Blockly.GobstonesLanguage.List = function(block) {
 
 Blockly.GobstonesLanguage.ForEach = function (block) {
   let body = Blockly.GobstonesLanguage.statementToCode(block, 'block');
-  var varName = block.getFieldValue('varName');
+  var varName = formatCallName(block.getFieldValue('varName'), false, Blockly.VARIABLE_CATEGORY_NAME);
   var list = Blockly.GobstonesLanguage.valueToCode(block, 'list', Blockly.GobstonesLanguage.ORDER_NONE) || '';
 
   return `foreach ${varName} in ${list} {\n${body}}\n`;
