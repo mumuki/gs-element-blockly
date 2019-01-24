@@ -1240,13 +1240,11 @@ Blockly.Blocks.siguiente = createSingleParameterExpressionBlock('siguiente','*')
 Blockly.Blocks.previo = createSingleParameterExpressionBlock('previo','*');
 Blockly.Blocks.opuesto = createSingleParameterExpressionBlock('opuesto','*');
 
-
 // Necesario para sanitizar nombres de procedimientos.
 // En la interfaz de bloques de gobstones por ahora vamos a dejar pasar sólo espacios y letras con tilde
 Blockly.Blocks.GobstonesSanitizer = function(name){
   return name.replace(/[^A-Za-z0-9ÁÉÍÓÚÑáéíóúñ_ ]/g,'');
 };
-
 
 Blockly.Procedures.OldRename = Blockly.Procedures.rename;
 Blockly.Procedures.rename = function(name){
@@ -1262,3 +1260,32 @@ Blockly.Blocks.procedures_mutatorarg.validator_ = function(name){
   return Blockly.Blocks.procedures_mutatorarg.validator_old.call(this,
     Blockly.Blocks.GobstonesSanitizer(name));
 };
+
+// Enable/Disable atomic
+const oldProceduresCustomContextMenu = Blockly.Blocks.procedures_defnoreturn.customContextMenu
+Blockly.Blocks.procedures_defnoreturn.customContextMenu = function(options) {
+  oldProceduresCustomContextMenu.call(this, options);
+
+  const block = this;
+  options.splice(1, 0, {
+    enabled: true,
+    text: block.$isAtomic ? "✗ Mostrar paso a paso" : "✓ Mostrar paso a paso",
+    callback: function() {
+      block.$isAtomic = !block.$isAtomic;
+      triggerRefresh(block);
+    }
+  })
+}
+const oldProceduresMutationToDom = Blockly.Blocks['procedures_defnoreturn'].mutationToDom;
+Blockly.Blocks.procedures_defnoreturn.mutationToDom = function() {
+  const container = oldProceduresMutationToDom.call(this);
+  container.setAttribute("isatomic", this.$isAtomic ? "true" : "false");
+  return container;
+}
+const oldProceduresDomToMutation = Blockly.Blocks['procedures_defnoreturn'].domToMutation;
+Blockly.Blocks.procedures_defnoreturn.domToMutation = function(xmlElement) {
+  const isAtomic = xmlElement.getAttribute("isatomic");
+  this.$isAtomic = isAtomic === "true";
+
+  return oldProceduresDomToMutation.call(this, xmlElement);
+}

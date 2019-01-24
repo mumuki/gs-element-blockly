@@ -539,11 +539,11 @@ var makeParameterList = function (block) {
 };
 
 Blockly.GobstonesLanguage.procedures_defnoreturn = function (block) {
-	var name = formatCallName(block.getFieldValue('NAME'),true);
-	var body = Blockly.GobstonesLanguage.statementToCode(block, 'STACK');
+  var name = formatCallName(block.getFieldValue('NAME'),true);
+  var body = Blockly.GobstonesLanguage.statementToCode(block, 'STACK');
 
-	var code = 'procedure ' + name + '(' + makeParameterList(block) + ') {\n' +
-		body + '}\n';
+  var code = 'procedure ' + name + '(' + makeParameterList(block) + ') {\n' + body + '}\n';
+  if (block.$isAtomic) code = "/*@ATTRIBUTE@atomic@*/" + "\n" + code;
 
 	code = Blockly.GobstonesLanguage.scrub_(block, code);
 	Blockly.GobstonesLanguage.definitions_[name] = code;

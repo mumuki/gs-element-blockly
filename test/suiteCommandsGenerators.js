@@ -43,6 +43,12 @@ gsSuite('Generadores de Comandos', function() {
 procedure HacerAlgoConParametros(valor1, otroValor) {
 }\n`);
 
+  gsTestCode('Procedimiento atómico',
+  '<xml xmlns="http://www.w3.org/1999/xhtml"><variables><variable type="" id="E*b$U_6Bi5EIHop=.,eT">valor1</variable><variable type="" id="(L7!O6N:-9]VyJ;$#Wb=">otroValor</variable></variables><block type="procedures_defnoreturn" id="X{rD-;XsC,EEaa.w}z]J" x="29" y="46"><mutation isatomic="true"></mutation><field name="NAME">Procedimiento atómico</field></block></xml>',
+  `/*@ATTRIBUTE@atomic@*/
+procedure ProcedimientoAtómico() {
+}\n`);
+
   gsTestCode('Procedimiento sin parámetros',
   '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="procedures_defnoreturnnoparams" id="7.WqYnDK,%AyDkn]|W[A" x="30" y="-53"><field name="NAME">Hacer algo</field><comment pinned="false" h="80" w="160">Desc del procedure</comment><statement name="STACK"><block type="Poner" id="CAG,1GO#L(~dKF(`l3Pg"></block></statement></block><block type="Program" id="mrH;=*5x58d@d@)e6_%D" deletable="false" movable="false" editable="false" x="30" y="30"><statement name="program"><block type="procedures_callnoreturnnoparams" id="##h_(l?bVZ3ib~o`|j,F"><mutation name="Hacer algo"></mutation></block></statement></block></xml>',
     `//
