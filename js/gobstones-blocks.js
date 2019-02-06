@@ -118,6 +118,15 @@ Blockly.CUSTOM_COLORS = {"globalHsvSaturation":0.45,"globalHsvValue":0.65,"primi
 Blockly.AVAILABLE_ICONS = ["bool-false.svg","bool-true.svg","clean.png","color-azul.svg","color-negro.svg","color-rojo.svg","color-verde.svg","direccion-este.svg","direccion-norte.svg","direccion-oeste.svg","direccion-sur.svg","hand.png","minus.png","plus.png"];
 const EMPTY_GIF = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
 
+const ATOMICALLY = (action) => {
+  try {
+    Blockly.Events.disabled_ = 1;
+    action();
+  } finally {
+    Blockly.Events.disabled_ = 0;
+  }
+}
+
 const getOptions = (block) => {
   const parentWorkspace = block.workspace.options.parentWorkspace;
   return parentWorkspace && parentWorkspace.options || block.workspace.options
@@ -145,11 +154,12 @@ Blockly.createBlockSvg = function(workspace, name, f) {
 const createVariable = (parent, name) => {
   const workspace = parent.workspace;
   Blockly.createBlockSvg(workspace, 'variables_get', b => {
-    b.setFieldValue(name, 'VAR');
-
-    const posParent = parent.getRelativeToSurfaceXY();
-    const pos = b.getRelativeToSurfaceXY();
-    b.moveBy(posParent.x - pos.x + parent.width + 16, posParent.y - pos.y + b.height + 6);
+    ATOMICALLY(() => {
+      b.setFieldValue(name, 'VAR');
+      const posParent = parent.getRelativeToSurfaceXY();
+      const pos = b.getRelativeToSurfaceXY();
+      b.moveBy(posParent.x - pos.x + parent.width + 16, posParent.y - pos.y + b.height + 6);
+    });
   });
 }
 
