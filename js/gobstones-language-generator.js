@@ -568,6 +568,9 @@ Blockly.GobstonesLanguage.procedures_defreturn = function (block) {
 Blockly.GobstonesLanguage.procedures_defnoreturnnoparams = Blockly.GobstonesLanguage.procedures_defnoreturn;
 Blockly.GobstonesLanguage.procedures_defreturnsimplewithparams = Blockly.GobstonesLanguage.procedures_defreturn;
 Blockly.GobstonesLanguage.procedures_defreturnsimple = Blockly.GobstonesLanguage.procedures_defreturn;
+Blockly.GobstonesLanguage.DefinicionDeFuncionDeclarativa = Blockly.GobstonesLanguage.procedures_defreturn;
+Blockly.GobstonesLanguage.DefinicionDeFuncionSimpleConParametrosDeclarativa = Blockly.GobstonesLanguage.procedures_defreturn;
+Blockly.GobstonesLanguage.DefinicionDeFuncionSimpleDeclarativa = Blockly.GobstonesLanguage.procedures_defreturn;
 
 var procedureCall = function(block, capitalizeFirst, newLine) {
 	var procName = formatCallName(block.getFieldValue('NAME'),capitalizeFirst);
@@ -590,6 +593,9 @@ Blockly.GobstonesLanguage.procedures_callreturn = function (block) {
 Blockly.GobstonesLanguage.procedures_callnoreturnnoparams = Blockly.GobstonesLanguage.procedures_callnoreturn;
 Blockly.GobstonesLanguage.procedures_callreturnsimplewithparams = Blockly.GobstonesLanguage.procedures_callreturn;
 Blockly.GobstonesLanguage.procedures_callreturnsimple = Blockly.GobstonesLanguage.procedures_callreturn;
+Blockly.GobstonesLanguage.procedures_callreturndeclarative = Blockly.GobstonesLanguage.procedures_callreturn;
+Blockly.GobstonesLanguage.procedures_callreturndeclarativesimplewithparams = Blockly.GobstonesLanguage.procedures_callreturn;
+Blockly.GobstonesLanguage.procedures_callreturndeclarativesimple = Blockly.GobstonesLanguage.procedures_callreturn;
 
 Blockly.GobstonesLanguage.variables_get = function (block) {
 	var code = formatCallName(block.getFieldValue('VAR'),false,Blockly.VARIABLE_CATEGORY_NAME);
