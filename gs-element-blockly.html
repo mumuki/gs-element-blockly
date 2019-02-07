@@ -528,7 +528,7 @@ Example:
       _getDropdownOptions(definition) {
         const attributes = definition.attributes;
 
-        const dropdown = definition.attributes && definition.attributes.block_dropdown;
+        const dropdown = attributes && attributes.block_dropdown;
         const dropdownOptions = dropdown && dropdown.match(/\("[^"]+" *, *'[^']*'\)/g);
         return dropdownOptions && dropdownOptions.map((option) => {
           const parts = option.match(/^\("([^"]+)" *, *'([^']*)'\)$/);
@@ -570,6 +570,7 @@ Example:
             this.setPreviousStatement(true);
             this.setNextStatement(true);
             this.setInputsInline(true);
+            this.setTooltip(definition.attributes && definition.attributes.tooltip || "");
           }
         };
 
