@@ -1364,6 +1364,9 @@ Blockly.Blocks.siguiente = createSingleParameterExpressionBlock('siguiente','*')
 Blockly.Blocks.previo = createSingleParameterExpressionBlock('previo','*');
 Blockly.Blocks.opuesto = createSingleParameterExpressionBlock('opuesto','*');
 
+// Removing "/" from the block id character set to avoid syntax errors
+Blockly.utils.genUid.soup_ = Blockly.utils.genUid.soup_.replace("/", "");
+
 // Necesario para sanitizar nombres de procedimientos.
 // En la interfaz de bloques de gobstones por ahora vamos a dejar pasar sólo espacios y letras con tilde
 Blockly.Blocks.GobstonesSanitizer = function(name){
