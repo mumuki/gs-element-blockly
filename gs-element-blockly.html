@@ -767,7 +767,11 @@ Example:
                 if (parent.id === block.$parent) break;
               }
 
-              block.setDisabled(parent === null);
+              const isDisabled = parent === null;
+              const isConnected = block.getSurroundParent() !== null;
+              const isInvalid = isDisabled && isConnected;
+              block.setDisabled(isDisabled);
+              Blockly.utils[isInvalid ? "addClass" : "removeClass"](block.svgGroup_, 'blocklyInvalidParent');
             } else {
               block.dispose();
             }
