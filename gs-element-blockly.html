@@ -554,6 +554,11 @@ Example:
         // Bloque
         Blockly.Blocks[name] = {
           init: function () {
+            this.jsonInit({
+              type: "Statement",
+              previousStatement: "Statement",
+              nextStatement: "Statement",
+            });
             this.setColour(Blockly.CUSTOM_COLORS.primitiveProcedure);
 
             if (icon) {
@@ -567,8 +572,6 @@ Example:
 
             self._definePrimitiveHolesOrDropdown(this, parts, dropdownOptions);
 
-            this.setPreviousStatement(true);
-            this.setNextStatement(true);
             this.setInputsInline(true);
             this.setTooltip(definition.attributes && definition.attributes.tooltip || "");
           }
