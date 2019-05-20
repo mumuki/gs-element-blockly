@@ -151,7 +151,7 @@ Blockly.createBlockSvg = function(workspace, name, f) {
   newBlock.render();
 };
 
-const createVariable = (parent, name) => {
+const createVariable = (parent, name, callback = () => {}) => {
   const workspace = parent.workspace;
   Blockly.createBlockSvg(workspace, 'variables_get', b => {
     ATOMICALLY(() => {
@@ -159,6 +159,7 @@ const createVariable = (parent, name) => {
       const posParent = parent.getRelativeToSurfaceXY();
       const pos = b.getRelativeToSurfaceXY();
       b.moveBy(posParent.x - pos.x + parent.width + 16, posParent.y - pos.y + b.height + 6);
+      callback(b);
     });
   });
 }
@@ -1086,12 +1087,31 @@ Blockly.Blocks.ForEach = {
         ]
     });
 
+    var self = this;
+
+    const nameField = this.getField("varName");
+    nameField.setValidator(function(name) {
+      // Strip leading and trailing whitespace. Beyond this, all names are legal.
+      name = name.replace(/^[\s\xa0]+|[\s\xa0]+$/g, '');
+
+      var oldName = this.text_;
+      if (oldName != name) {
+        // Rename any callers.
+        var blocks = this.sourceBlock_.workspace.getAllBlocks(false);
+        for (var i = 0; i < blocks.length; i++) {
+          if (blocks[i].$parent === self.id) {
+            blocks[i].setFieldValue(name, "VAR")
+          }
+        }
+      }
+
+      return name;
+    });
+
     this.setColour(Blockly.CUSTOM_COLORS.ForEach || Blockly.CUSTOM_COLORS.controlStructure);
     this.appendValueInput('list');
     this.appendStatementInput('block').setCheck(["Statement"]);
     this.setInputsInline(true);
-
-    var self = this;
 
     const handIcon = "hand.png";
     var createGetterButton = new Blockly.FieldImage(
@@ -1101,7 +1121,9 @@ Blockly.Blocks.ForEach = {
       "Obtener variable",
       function() {
         var name = self.getFieldValue('varName');
-        createVariable(self, name);
+        createVariable(self, name, (block) => {
+          block.$parent = self.id;
+        });
       }
     );
 
