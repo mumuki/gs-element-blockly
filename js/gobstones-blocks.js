@@ -1064,6 +1064,124 @@ Blockly.Blocks.List = {
   }
 };
 
+Blockly.Blocks.AlternativaEnExpresiones = {
+  init: function () {
+    this.jsonInit({
+      message0: "",
+      args0: [],
+      output: "*",
+      colour: Blockly.CUSTOM_COLORS.AlternativaEnExpresiones || Blockly.CUSTOM_COLORS.operator,
+      inputsInline: true
+    });
+    this.length = 0;
+
+    this._addOtherwise();
+    this._addElement();
+  },
+
+  // mutationToDom: function() {
+  //   var container = document.createElement('mutation');
+  //   container.setAttribute('length', this.length);
+  //   return container;
+  // },
+
+  // domToMutation: function(xmlElement) {
+  //   var length = parseInt(xmlElement.getAttribute('length')) || 0;
+  //   for (let i = 0; i < length; i++) this._addElement();
+  // },
+
+  _addElement: function() {
+    this.length++;
+    this._removeOtherwise();
+    this._removeAddButton();
+
+    if (this.length > 1) this._addNewline("newline" + this.length);
+    this.appendDummyInput().appendField('elegir').name = "label1" + this.length;
+    const input1 = this.appendValueInput('element' + this.length);
+    this.appendDummyInput().appendField('cuando').name = "label2" + this.length;
+    const input2 = this.appendValueInput('condition' + this.length);
+
+    if (this.length > 1) this._addRemoveButtonFor(this.length, input2);
+    this._addAddButton();
+    this._addOtherwise();
+    triggerRefresh(this);
+  },
+
+  _removeElement: function(n) {
+    const elements = ["newline", "label1", "element", "label2", "condition"];
+    elements.forEach((element) => this.removeInput(element + n));
+    this.length--;
+
+    let id;
+    elements.forEach((element) => {
+      id = 1;
+      for (let input of this.inputList) {
+        if (input.name.startsWith(element)) {
+          input.name = element + id;
+          id++;
+        }
+      }
+    });
+
+    triggerRefresh(this);
+  },
+
+  _addAddButton: function() {
+    const icon = "plus.png";
+    var addButton = new Blockly.FieldImage(
+      getLocalMediaUrl(this, icon),
+      getLocalMediaSize(icon),
+      getLocalMediaSize(icon),
+      "Agregar opción",
+      function() {
+        this._addElement();
+      }.bind(this)
+    );
+    const input = this.appendDummyInput();
+    input.appendField(addButton);
+    input.name = "addButton";
+  },
+
+  _removeAddButton: function() {
+    this.removeInput("addButton")
+    this.removeInput("closingBracket");
+  },
+
+  _addOtherwise: function() {
+    this._addNewline("otherwiseNewline");
+
+    const textInput = this.appendDummyInput();
+    textInput.appendField("o si no");
+    textInput.name = "otherwiseText";
+
+    this.appendValueInput("otherwise");
+  },
+
+  _removeOtherwise: function() {
+    this.removeInput("otherwiseText");
+    this.removeInput("otherwise");
+    this.removeInput("otherwiseNewline");
+  },
+
+  _addNewline: function(name) {
+    this.appendStatementInput(name).setCheck(["NEWLINE"]);
+  },
+
+  _addRemoveButtonFor: function(n, input) {
+    const icon = "minus.png";
+    var removeButton = new Blockly.FieldImage(
+      getLocalMediaUrl(this, icon),
+      getLocalMediaSize(icon),
+      getLocalMediaSize(icon),
+      "Quitar opción",
+      function() {
+        this._removeElement(n);
+      }.bind(this)
+    );
+    input.appendField(removeButton);
+  }
+};
+
 Blockly.Blocks.ForEach = {
   init: function () {
     this.jsonInit({
