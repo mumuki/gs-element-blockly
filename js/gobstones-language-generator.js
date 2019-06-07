@@ -357,6 +357,23 @@ Blockly.GobstonesLanguage.List = function(block) {
   return [code, Blockly.GobstonesLanguage.ORDER_ATOMIC];
 };
 
+Blockly.GobstonesLanguage.AlternativaEnExpresiones = function(block) {
+  const elements = block
+    .inputList
+    .filter((it) => it.name.startsWith("element"))
+    .map((it) => {
+      const value = Blockly.GobstonesLanguage.valueToCode(block, it.name, Blockly.GobstonesLanguage.ORDER_NONE)
+
+      return `${value} when (True)`
+    })
+    .join("\n");
+
+  const otherwise = "Coso";
+  const code = `choose ${elements}\n${otherwise} otherwise`;
+
+  return [code, Blockly.GobstonesLanguage.ORDER_ATOMIC];
+};
+
 Blockly.GobstonesLanguage.ForEach = function (block) {
   let body = Blockly.GobstonesLanguage.statementToCode(block, 'block');
   var varName = formatCallName(block.getFieldValue('varName'), false, Blockly.VARIABLE_CATEGORY_NAME);

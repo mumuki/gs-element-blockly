@@ -1079,16 +1079,16 @@ Blockly.Blocks.AlternativaEnExpresiones = {
     this._addElement();
   },
 
-  // mutationToDom: function() {
-  //   var container = document.createElement('mutation');
-  //   container.setAttribute('length', this.length);
-  //   return container;
-  // },
+  mutationToDom: function() {
+    var container = document.createElement('mutation');
+    container.setAttribute('extrabranches', this.length - 1);
+    return container;
+  },
 
-  // domToMutation: function(xmlElement) {
-  //   var length = parseInt(xmlElement.getAttribute('length')) || 0;
-  //   for (let i = 0; i < length; i++) this._addElement();
-  // },
+  domToMutation: function(xmlElement) {
+    var extraBranches = parseInt(xmlElement.getAttribute('extrabranches')) || 0;
+    for (let i = 0; i < extraBranches; i++) this._addElement();
+  },
 
   _addElement: function() {
     this.length++;
