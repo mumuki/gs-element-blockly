@@ -286,7 +286,7 @@ Blockly.Blocks.InteractiveProgram = {
       getLocalMediaUrl(this, icon),
       getLocalMediaSize(icon),
       getLocalMediaSize(icon),
-      "Eliminar",
+      "",
       function() {
         this.$init = false;
         this.removeInput("initlabel");
@@ -295,6 +295,7 @@ Blockly.Blocks.InteractiveProgram = {
         triggerRefresh(this);
       }.bind(this)
     );
+    setTimeout(() => { removeButton.setTooltip("Eliminar"); });
 
     this.appendDummyInput("initlabel").appendField('Al inicializar:').appendField(removeButton);
     this.appendStatementInput('init').setCheck(["Statement"]);
@@ -313,7 +314,7 @@ Blockly.Blocks.InteractiveProgram = {
       getLocalMediaUrl(this, icon),
       getLocalMediaSize(icon),
       getLocalMediaSize(icon),
-      "Eliminar",
+      "",
       function() {
         this.$timeout = undefined;
         this.removeInput("timeoutlabel");
@@ -321,6 +322,7 @@ Blockly.Blocks.InteractiveProgram = {
         triggerRefresh(this);
       }.bind(this)
     );
+    setTimeout(() => { removeButton.setTooltip("Eliminar"); });
 
     this.appendDummyInput("timeoutlabel").appendField(`Al estar inactivo ${timeout} milisegundos:`).appendField(removeButton);
     this.appendStatementInput('timeout').setCheck(["Statement"]);
@@ -395,27 +397,32 @@ createInteractiveBinding = (name, keys) => {
       const input = this.inputList[0];
       const plusIcon = "plus.png";
       const cleanIcon = "clean.png";
-      input.appendField(new Blockly.FieldImage(
+      const addModifier = new Blockly.FieldImage(
         getLocalMediaUrl(this, plusIcon),
         getLocalMediaSize(plusIcon),
         getLocalMediaSize(plusIcon),
-        "Agregar modificador",
+        "",
         function() {
           const modifiersCount = getModifierFields(self).length / 2;
           if (modifiersCount >= modifiers.length) return;
 
           self._addModifier();
         }
-      ));
-      input.appendField(new Blockly.FieldImage(
+      );
+      setTimeout(() => { addModifier.setTooltip("Agregar modificador"); });
+      input.appendField(addModifier);
+
+      const cleanModifiers = new Blockly.FieldImage(
         getLocalMediaUrl(this, cleanIcon),
         getLocalMediaSize(cleanIcon),
         getLocalMediaSize(cleanIcon),
-        "Limpiar modificadores",
+        "",
         function() {
           self._cleanModifiers();
         }
-      ));
+      );
+      setTimeout(() => { addModifier.setTooltip("Limpiar modificadores"); });
+      input.appendField(cleanModifiers);
     },
 
     customContextMenu: function(options) {
@@ -1030,11 +1037,13 @@ Blockly.Blocks.List = {
       getLocalMediaUrl(this, icon),
       getLocalMediaSize(icon),
       getLocalMediaSize(icon),
-      "Agregar elemento",
+      "",
       function() {
         this._addElement();
       }.bind(this)
     );
+    setTimeout(() => { addButton.setTooltip("Agregar elemento"); });
+
     const input = this.appendDummyInput();
     input.appendField(addButton);
     input.name = "addButton";
@@ -1055,11 +1064,12 @@ Blockly.Blocks.List = {
       getLocalMediaUrl(this, icon),
       getLocalMediaSize(icon),
       getLocalMediaSize(icon),
-      "Quitar elemento",
+      "",
       function() {
         this._removeElement(input);
       }.bind(this)
     );
+    setTimeout(() => { removeButton.setTooltip("Quitar elemento"); });
     input.appendField(removeButton);
   }
 };
@@ -1136,11 +1146,13 @@ Blockly.Blocks.AlternativaEnExpresiones = {
       getLocalMediaUrl(this, icon),
       getLocalMediaSize(icon),
       getLocalMediaSize(icon),
-      "Agregar opción",
+      "",
       function() {
         this._addElement();
       }.bind(this)
     );
+    setTimeout(() => { addButton.setTooltip("Agregar opción"); });
+
     const input = this.appendDummyInput();
     input.appendField(addButton);
     input.name = "addButton";
@@ -1177,11 +1189,12 @@ Blockly.Blocks.AlternativaEnExpresiones = {
       getLocalMediaUrl(this, icon),
       getLocalMediaSize(icon),
       getLocalMediaSize(icon),
-      "Quitar opción",
+      "",
       function() {
         this._removeElement(n);
       }.bind(this)
     );
+    setTimeout(() => { removeButton.setTooltip("Quitar opción"); });
     input.appendField(removeButton);
   }
 };
@@ -1240,7 +1253,7 @@ Blockly.Blocks.ForEach = {
       getLocalMediaUrl(this, handIcon),
       getLocalMediaSize(handIcon),
       getLocalMediaSize(handIcon),
-      "Obtener variable",
+      "",
       function() {
         var name = self.getFieldValue('varName');
         createVariable(self, name, (block) => {
@@ -1248,6 +1261,7 @@ Blockly.Blocks.ForEach = {
         });
       }
     );
+    setTimeout(() => { createGetterButton.setTooltip("Obtener variable"); });
 
     this.inputList[0].appendField(createGetterButton);
   }
@@ -1413,12 +1427,13 @@ Blockly.Blocks.Asignacion = {
       getLocalMediaUrl(this, handIcon),
       getLocalMediaSize(handIcon),
       getLocalMediaSize(handIcon),
-      "Obtener variable",
+      "",
       function() {
         var name = self.getFieldValue('varName');
         self.createVariableBlock(name);
       }
     );
+    setTimeout(() => { createGetterButton.setTooltip("Obtener variable"); });
 
     this.appendDummyInput().appendField(createGetterButton);
   },
