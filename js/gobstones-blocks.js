@@ -1108,6 +1108,8 @@ Blockly.Blocks.AlternativaEnExpresiones = {
   },
 
   _removeElement: function(n) {
+    const isLastBranch = this.length === 2;
+
     const elements = ["newline", "label1", "element", "label2", "condition"];
     elements.forEach((element) => this.removeInput(element + n));
     this.length--;
@@ -1122,6 +1124,8 @@ Blockly.Blocks.AlternativaEnExpresiones = {
         }
       }
     });
+
+    if (isLastBranch) this.removeInput("newline1");
 
     triggerRefresh(this);
   },
