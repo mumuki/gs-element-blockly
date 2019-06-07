@@ -362,14 +362,16 @@ Blockly.GobstonesLanguage.AlternativaEnExpresiones = function(block) {
     .inputList
     .filter((it) => it.name.startsWith("element"))
     .map((it) => {
-      const value = Blockly.GobstonesLanguage.valueToCode(block, it.name, Blockly.GobstonesLanguage.ORDER_NONE)
+    	const id = it.name.match(/element(\d+)/)[1];
+      const value = Blockly.GobstonesLanguage.valueToCode(block, it.name, Blockly.GobstonesLanguage.ORDER_NONE);
+      const conditionValue = Blockly.GobstonesLanguage.valueToCode(block, `condition${id}`, Blockly.GobstonesLanguage.ORDER_NONE);
 
-      return `${value} when (True)`
+      return `${value} when (${conditionValue})`;
     })
-    .join("\n");
+    .join("\n  ");
 
-  const otherwise = "Coso";
-  const code = `choose ${elements}\n${otherwise} otherwise`;
+  const otherwise = Blockly.GobstonesLanguage.valueToCode(block, "otherwise", Blockly.GobstonesLanguage.ORDER_NONE);
+  const code = `\n  choose ${elements}\n  ${otherwise} otherwise\n`;
 
   return [code, Blockly.GobstonesLanguage.ORDER_ATOMIC];
 };
