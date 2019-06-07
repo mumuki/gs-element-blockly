@@ -1118,9 +1118,7 @@ Blockly.Blocks.AlternativaEnExpresiones = {
   },
 
   _removeElement: function(n) {
-    const isLastBranch = this.length === 2;
-
-    const elements = ["newline", "label1", "element", "label2", "condition"];
+    const elements = ["label1", "element", "label2", "condition", "newline"];
     elements.forEach((element) => this.removeInput(element + n));
     this.length--;
 
@@ -1129,13 +1127,11 @@ Blockly.Blocks.AlternativaEnExpresiones = {
       id = 1;
       for (let input of this.inputList) {
         if (input.name.startsWith(element)) {
-          input.name = element + id;
+          input.name = element + (id + (element === "newline" ? 1 : 0));
           id++;
         }
       }
     });
-
-    if (isLastBranch) this.removeInput("newline1");
 
     triggerRefresh(this);
   },
@@ -1191,7 +1187,7 @@ Blockly.Blocks.AlternativaEnExpresiones = {
       getLocalMediaSize(icon),
       "",
       function() {
-        this._removeElement(n);
+        this._removeElement(parseInt(input.name.replace(/\D/g,'')));
       }.bind(this)
     );
     setTimeout(() => { removeButton.setTooltip("Quitar opción"); });
