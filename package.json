@@ -16,7 +16,7 @@
     "url": "git+https://github.com/program-ar/gs-element-blockly.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "LGPL-3.0",
   "bugs": {
     "url": "https://github.com/program-ar/gs-element-blockly/issues"
   },
