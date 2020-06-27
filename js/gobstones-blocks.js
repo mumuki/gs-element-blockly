@@ -560,6 +560,22 @@ Blockly.Blocks.RepeticionCondicional = {
   }
 };
 
+Blockly.Blocks.RepeticionCondicionalReal = {
+  init: function () {
+    this.jsonInit({
+      type: "Statement",
+      previousStatement: "Statement",
+      nextStatement: "Statement",
+    });
+
+    this.setColour(Blockly.CUSTOM_COLORS.RepeticionCondicional || Blockly.CUSTOM_COLORS.controlStructure);
+    this.appendValueInput('condicion')
+      .appendField('repetir mientras que');
+    this.appendStatementInput('block').setCheck(["Statement"]);
+    this.setInputsInline(true);
+  }
+};
+
 Blockly.Blocks.AlternativaSimple = {
   init: function () {
     this.jsonInit({

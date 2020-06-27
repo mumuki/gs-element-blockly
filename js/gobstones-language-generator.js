@@ -508,6 +508,15 @@ Blockly.GobstonesLanguage.RepeticionCondicional = function (block) {
 	return codigo;
 };
 
+Blockly.GobstonesLanguage.RepeticionCondicionalReal = function (block) {
+	let body = Blockly.GobstonesLanguage.statementToCode(block, 'block');
+	var condicion = Blockly.GobstonesLanguage.valueToCode(block, 'condicion',
+	Blockly.GobstonesLanguage.ORDER_NONE) || '';
+
+	let codigo = `while (${condicion}) {\n${body}}\n`;
+	return codigo;
+};
+
 Blockly.GobstonesLanguage.AlternativaSimple = function (block) {
 	let body = Blockly.GobstonesLanguage.statementToCode(block, 'block');
 	var condicion = Blockly.GobstonesLanguage.valueToCode(block, 'condicion',
