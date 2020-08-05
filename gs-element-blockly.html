@@ -855,15 +855,31 @@ Example:
       },
 
       setDefaultToolbox: function(xml) {
-        if (xml && !this._toolboxBackup)
+        if (xml && !this._toolboxBackup) {
           this._toolboxBackup = this.$$('#toolbox').innerHTML;
+        }
 
         const newXml = xml || this._toolboxBackup;
         if (!newXml) return;
 
         this.$$('#toolbox').innerHTML = newXml;
         const toolboxXml = `<xml>${newXml}</xml>`;
-        this.workspace.updateToolbox(toolboxXml);
+
+        try {
+          this.workspace.updateToolbox(toolboxXml);
+        } catch (error) {
+          // Blockly no soporta cambiar del modo sin categorías al modo con, ni viceversa.
+          // Si falla por eso, volvemos a crear el componente con el nuevo modo.
+          if (!this._isCategoryModeChangeError(error)) {
+            throw error;
+          }
+
+          this._createBlocklyWorkspace(toolboxXml);
+        }
+      },
+
+      _isCategoryModeChangeError(error) {
+        return /Existing toolbox has (no )?categories. {2}Can't change mode./.test(error);
       },
 
       /**
@@ -972,9 +988,13 @@ Example:
         return resultingList;
       },
 
-      _createBlocklyWorkspace: function() {
-        const workspace = Blockly.inject(this.blocklyDiv, {
-          toolbox: this._createToolbox(),
+      _createBlocklyWorkspace: function(toolboxXml) {
+        if (this.workspace) {
+          this.workspace.dispose();
+        }
+
+        this.workspace = Blockly.inject(this.blocklyDiv, {
+          toolbox: toolboxXml,
           media: this.media,
           toolboxPosition: "start",
           scrollbars: true,
@@ -988,19 +1008,18 @@ Example:
           }
         });
 
-        workspace.options.localMedia = this.localMedia;
-        workspace.options.localMediaSuffix = this.localMediaSuffix;
-        workspace.options.parentController = this;
+        this.workspace.options.localMedia = this.localMedia;
+        this.workspace.options.localMediaSuffix = this.localMediaSuffix;
+        this.workspace.options.parentController = this;
 
         var _this = this;
-        workspace.addChangeListener(function (a, b, c) {
+        this.workspace.addChangeListener(function (a, b, c) {
           Blockly.Events.disableOrphans(a, b, c);
           _this.onBlocklyWorkspaceUpdate();
         });
 
-        Blockly.ErrorInforming.addToWorkspace(workspace);
-
-        return workspace;
+        Blockly.ErrorInforming.addToWorkspace(this.workspace);
+        this.resetWorkspace();
       },
 
       /**
@@ -1026,8 +1045,7 @@ Example:
         this.blocklyDiv = blocklyDiv;
         this._fixSize();
         this._fixScroll();
-        this.workspace = this._createBlocklyWorkspace();
-        this.resetWorkspace();
+        this._createBlocklyWorkspace(this._createToolbox());
         this._onresize();
         if(window.jQuery !== undefined) {
           $(window).resize(() => this._onresize());

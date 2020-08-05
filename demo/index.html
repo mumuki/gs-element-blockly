@@ -90,7 +90,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <button id="limited_toolboxbtn">Limited toolbox</button>
       <button id="limited_toolboxbtn2">Limited toolbox 2</button>
       <button id="limited_toolboxbtn3">Limited toolbox 3</button>
-      <button id="default_toolbox_set_btn">Set default toolbox</button>
+      <button id="default_toolbox_set_btn">Set default toolbox (custom categories)</button>
+      <button id="default_toolbox_without_categories_btn">Set default toolbox (no categories)</button>
       <button id="set_xmlbtn">Set xml</button>
       <br />
       <button id="set_primitive_proceduresbtn">Set procedures</button>
@@ -158,6 +159,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <category name="*Separador loco" gbs_custom="SEPARATOR"> </category>
           <category name="Sub-separador" gbs_custom="SEPARATOR"> </category>
           <category name="Las cosas primitivas" gbs_custom="PRIMITIVE_FUNCTIONS"> </category>
+        ` });
+      });
+
+      document.querySelector('#default_toolbox_without_categories_btn').addEventListener('click', function() {
+        blocklyElement.set('toolbox', { defaultToolbox: `
+          <block type="Poner"></block>
+          <block type="Sacar"></block>
+          <block type="ColorSelector"></block>
         ` });
       });
 

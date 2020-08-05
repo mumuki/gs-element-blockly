@@ -64,6 +64,26 @@ suite('General', function() {
     </category>
   </xml>`)
     );
+  });
+
+  test('Arma el toolbox sin categorías a partir de un defaultToolbox', function() {
+    element.primitiveProcedures = ['ComerTomate'];
+    element.toolbox = {
+      defaultToolbox: `
+    <block type="Poner"></block>
+    <block type="Sacar"></block>
+    <block type="Mover"></block>`
+    };
+
+    assert.equal(
+      formatXml(element._toolboxXml),
+      formatXml(`
+      <xml>
+        <block type="Poner" ></block>
+        <block type="Sacar" ></block>
+        <block type="Mover" ></block>
+      </xml>`)
+    );
 	});
 
 /*	test('Tira el error BlockTypeError por falta de definición de procedimientos primitivos', function() {
