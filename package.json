@@ -7,9 +7,14 @@
     "test": "test"
   },
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^7.6.0",
+    "eslint-plugin-html": "^6.0.2",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "eslint --ext .html,.js --fix js/ test/ *.html"
   },
   "repository": {
     "type": "git",
@@ -17,6 +22,14 @@
   },
   "author": "",
   "license": "LGPL-3.0",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js,*.html": "eslint --fix"
+  },
   "bugs": {
     "url": "https://github.com/program-ar/gs-element-blockly/issues"
   },
