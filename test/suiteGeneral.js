@@ -39,52 +39,80 @@ suite('General', function() {
     assert.equal(element.workspace.getBlockById("e#V#LeRb8Dja`aE0#Nha").warning.getText(), "¿Problema de tipos?\n Aquí se esperaba string, pero se encontró boolean");
   });
 
-  test('Arma el toolbox a partir de un defaultToolbox', function() {
-    element.primitiveProcedures = ['ComerTomate'];
-    element.toolbox = {
-      defaultToolbox: `
-    <category name="Cosas">
-    <block type="Poner"></block>
-    <block type="Sacar"></block>
-    <block type="Mover"></block>
-  </category>
-  <category name="Los cosos primitivos" gbs_custom="PRIMITIVE_PROCEDURES"> </category>`,
-    };
+  suite('Arma correctamente el toolbox', () => {
+    test('defaultToolbox, con categorías', () => {
+      element.primitiveProcedures = ['ComerTomate'];
+      element.toolbox = {
+        defaultToolbox: `
+        <category name="Cosas">
+          <block type="Poner"></block>
+          <block type="Sacar"></block>
+          <block type="Mover"></block>
+        </category>
+        <category name="Los cosos primitivos" gbs_custom="PRIMITIVE_PROCEDURES"> </category>`,
+      };
 
-    assert.equal(
-      formatXml(element._toolboxXml),
-      formatXml(`<xml>
-    <category name="Cosas">
-      <block type="Poner" ></block>
-      <block type="Sacar" ></block>
-      <block type="Mover" ></block>
-    </category>
-    <category name="Los cosos primitivos" gbs_custom="PRIMITIVE_PROCEDURES">
-      <block type="ComerTomate" ></block>
-    </category>
-  </xml>`)
-    );
-  });
+      assert.equal(
+        formatXml(element._toolboxXml),
+        formatXml(`
+        <xml>
+          <category name="Cosas">
+            <block type="Poner" ></block>
+            <block type="Sacar" ></block>
+            <block type="Mover" ></block>
+          </category>
+          <category name="Los cosos primitivos" gbs_custom="PRIMITIVE_PROCEDURES">
+            <block type="ComerTomate" ></block>
+          </category>
+        </xml>`)
+      );
+    });
 
-  test('Arma el toolbox sin categorías a partir de un defaultToolbox', function() {
-    element.primitiveProcedures = ['ComerTomate'];
-    element.toolbox = {
-      defaultToolbox: `
-    <block type="Poner"></block>
-    <block type="Sacar"></block>
-    <block type="Mover"></block>`
-    };
+    test('defaultToolbox, con categorías y showCategories = false', () => {
+      element.primitiveProcedures = ['ComerTomate'];
+      element.toolbox = {
+        showCategories: false,
+        defaultToolbox: `
+        <category name="Cosas">
+          <block type="Poner"></block>
+          <block type="Sacar"></block>
+          <block type="Mover"></block>
+        </category>
+        <category name="No importa porque no se ve" gbs_custom="PRIMITIVE_PROCEDURES"> </category>`,
+      };
 
-    assert.equal(
-      formatXml(element._toolboxXml),
-      formatXml(`
-      <xml>
-        <block type="Poner" ></block>
-        <block type="Sacar" ></block>
-        <block type="Mover" ></block>
-      </xml>`)
-    );
-	});
+      assert.equal(
+        formatXml(element._toolboxXml),
+        formatXml(`
+        <xml>
+          <block type="Poner" ></block>
+          <block type="Sacar" ></block>
+          <block type="Mover" ></block>
+          <block type="ComerTomate" ></block>
+        </xml>`)
+      );
+    });
+
+    test('defaultToolbox, sin categorías', function() {
+      element.primitiveProcedures = ['ComerTomate'];
+      element.toolbox = {
+        defaultToolbox: `
+      <block type="Poner"></block>
+      <block type="Sacar"></block>
+      <block type="Mover"></block>`
+      };
+
+      assert.equal(
+        formatXml(element._toolboxXml),
+        formatXml(`
+        <xml>
+          <block type="Poner" ></block>
+          <block type="Sacar" ></block>
+          <block type="Mover" ></block>
+        </xml>`)
+      );
+    });
+  })
 
 /*	test('Tira el error BlockTypeError por falta de definición de procedimientos primitivos', function() {
 	  let element = document.getElementById("gseb");

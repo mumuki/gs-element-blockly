@@ -171,7 +171,8 @@ Example:
          * ```json
          * {
          *  "visible": ["Comandos primitivos", "Literales", "Expresiones"],
-         *  "disabled": ["Poner", "hayBolitas", "Literales"]
+         *  "disabled": ["Poner", "hayBolitas", "Literales"],
+         *  "showCategories": true
          * }
          * ```
          *
@@ -286,10 +287,24 @@ Example:
           }
           return;
         }
-        let toolbox = this._createToolbox();
+        this._updateToolbox(this._createToolbox());
+      },
+
+      _updateToolbox(toolboxXml) {
         // Utilizado solamente para testear
-        this._toolboxXml = toolbox;
-        this.workspace.updateToolbox(toolbox);
+        this._toolboxXml = toolboxXml;
+
+        try {
+          this.workspace.updateToolbox(toolboxXml);
+        } catch (error) {
+          // Blockly no soporta cambiar del modo sin categorías al modo con, ni viceversa.
+          // Si falla por eso, volvemos a crear el componente con el nuevo modo.
+          if (!this._isCategoryModeChangeError(error)) {
+            throw error;
+          }
+
+          this._createBlocklyWorkspace(toolboxXml);
+        }
       },
 
       /**
@@ -497,6 +512,7 @@ Example:
       },
 
       _toolboxTreeToXML : function(toolbox, noXmlTags, disabled) {
+        const { showCategories = true } = this.toolbox || {};
         let xml = [];
         if(!noXmlTags) {
           xml.push('<xml>');
@@ -506,9 +522,13 @@ Example:
             xml.push(this._toolboxBlockXML(toolbox[i], disabled));
           }
           else if(toolbox[i].type == 'category') {
-            xml.push(toolbox[i].xml);
+            if (showCategories) {
+              xml.push(toolbox[i].xml);
+            }
             xml.push(this._toolboxTreeToXML(toolbox[i].child, true, toolbox[i].disabled || disabled));
-            xml.push('</category>');
+            if (showCategories) {
+              xml.push('</category>');
+            }
           }
         }
         if(!noXmlTags) {
@@ -863,19 +883,7 @@ Example:
         if (!newXml) return;
 
         this.$$('#toolbox').innerHTML = newXml;
-        const toolboxXml = `<xml>${newXml}</xml>`;
-
-        try {
-          this.workspace.updateToolbox(toolboxXml);
-        } catch (error) {
-          // Blockly no soporta cambiar del modo sin categorías al modo con, ni viceversa.
-          // Si falla por eso, volvemos a crear el componente con el nuevo modo.
-          if (!this._isCategoryModeChangeError(error)) {
-            throw error;
-          }
-
-          this._createBlocklyWorkspace(toolboxXml);
-        }
+        this._updateToolbox(`<xml>${newXml}</xml>`)
       },
 
       _isCategoryModeChangeError(error) {
@@ -999,6 +1007,7 @@ Example:
           toolboxPosition: "start",
           scrollbars: true,
           horizontalLayout: false,
+          trashcan: true,
           collapse: true,
           css: true,
           readOnly: this.readOnly,
