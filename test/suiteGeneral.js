@@ -1,3 +1,5 @@
+/* global formatXml */
+
 suite('General', function() {
 	var element;
 
@@ -35,6 +37,33 @@ suite('General', function() {
 	test('Muestra texto de error de tipos correctamente', function() {
     element.showBlockError("e#V#LeRb8Dja`aE0#Nha", { kind: 'TYPE_ERROR', expectedType:'string', actualType: 'boolean'});
     assert.equal(element.workspace.getBlockById("e#V#LeRb8Dja`aE0#Nha").warning.getText(), "¿Problema de tipos?\n Aquí se esperaba string, pero se encontró boolean");
+  });
+
+  test('Arma el toolbox a partir de un defaultToolbox', function() {
+    element.primitiveProcedures = ['ComerTomate'];
+    element.toolbox = {
+      defaultToolbox: `
+    <category name="Cosas">
+    <block type="Poner"></block>
+    <block type="Sacar"></block>
+    <block type="Mover"></block>
+  </category>
+  <category name="Los cosos primitivos" gbs_custom="PRIMITIVE_PROCEDURES"> </category>`,
+    };
+
+    assert.equal(
+      formatXml(element._toolboxXml),
+      formatXml(`<xml>
+    <category name="Cosas">
+      <block type="Poner" ></block>
+      <block type="Sacar" ></block>
+      <block type="Mover" ></block>
+    </category>
+    <category name="Los cosos primitivos" gbs_custom="PRIMITIVE_PROCEDURES">
+      <block type="ComerTomate" ></block>
+    </category>
+  </xml>`)
+    );
 	});
 
 /*	test('Tira el error BlockTypeError por falta de definición de procedimientos primitivos', function() {
