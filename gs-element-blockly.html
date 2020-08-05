@@ -972,6 +972,37 @@ Example:
         return resultingList;
       },
 
+      _createBlocklyWorkspace: function() {
+        const workspace = Blockly.inject(this.blocklyDiv, {
+          toolbox: this._createToolbox(),
+          media: this.media,
+          toolboxPosition: "start",
+          scrollbars: true,
+          horizontalLayout: false,
+          collapse: true,
+          css: true,
+          readOnly: this.readOnly,
+          zoom: {
+            controls: true,
+            wheel: true
+          }
+        });
+
+        workspace.options.localMedia = this.localMedia;
+        workspace.options.localMediaSuffix = this.localMediaSuffix;
+        workspace.options.parentController = this;
+
+        var _this = this;
+        workspace.addChangeListener(function (a, b, c) {
+          Blockly.Events.disableOrphans(a, b, c);
+          _this.onBlocklyWorkspaceUpdate();
+        });
+
+        Blockly.ErrorInforming.addToWorkspace(workspace);
+
+        return workspace;
+      },
+
       /**
        * Reinicializa el estado del componente,
        */
@@ -995,36 +1026,12 @@ Example:
         this.blocklyDiv = blocklyDiv;
         this._fixSize();
         this._fixScroll();
-        this.workspace = Blockly.inject(blocklyDiv, {
-          toolbox: this._createToolbox(),
-          media: this.media,
-          toolboxPosition: "start",
-          scrollbars: true,
-          horizontalLayout: false,
-          collapse: true,
-          css: true,
-          readOnly: this.readOnly,
-          zoom: {
-            controls: true,
-            wheel: true
-          }
-        });
-        this.workspace.options.localMedia = this.localMedia;
-        this.workspace.options.localMediaSuffix = this.localMediaSuffix;
-        this.workspace.options.parentController = this;
-
-        var _this = this;
-        this.workspace.addChangeListener(function (a, b, c) {
-          Blockly.Events.disableOrphans(a, b, c);
-          _this.onBlocklyWorkspaceUpdate();
-        });
-        this.resetWorkspace()
+        this.workspace = this._createBlocklyWorkspace();
+        this.resetWorkspace();
         this._onresize();
         if(window.jQuery !== undefined) {
           $(window).resize(() => this._onresize());
         }
-
-    Blockly.ErrorInforming.addToWorkspace(this.workspace);
       },
 
       _onresize() {
