@@ -1,4 +1,4 @@
-/* global Blockly */
+/* global initProcedsBlockly */
 
 // Initialize proceds-blockly creating new custom functions
 initProcedsBlockly("Statement", (makeProcedureInit, makeUpdateParams, makeProcedureDomToMutation, makeProcedureCustomMenu) => {
@@ -364,7 +364,7 @@ const updateModifierMenuGenerators = (block, nameToIgnore) => {
   }
 }
 
-createInteractiveBinding = (name, keys) => {
+const createInteractiveBinding = (name, keys) => {
   return {
     init: function () {
       this.jsonInit({
@@ -463,7 +463,7 @@ createInteractiveBinding = (name, keys) => {
       const labelName = "l" + id;
       const dropdownName = "d" + id;
 
-      getModifiersInput(this).appendField("+").appendField(new Blockly.FieldDropdown(availableModifiers, (newValue) => {
+      getModifiersInput(this).appendField("+").appendField(new Blockly.FieldDropdown(availableModifiers, () => {
         setTimeout(() => {
           updateModifierMenuGenerators(self, dropdownName)
         }, 0);
@@ -594,10 +594,10 @@ Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN.updateShape_ = function() {
     i++;
   }
   // Rebuild block.
-  for (var i = 1; i <= this.elseifCount_; i++) {
-    this.appendValueInput('IF' + i)
+  for (var j = 1; j <= this.elseifCount_; j++) {
+    this.appendValueInput('IF' + j)
         .appendField(Blockly.Msg.CONTROLS_IF_MSG_ELSEIF);
-    this.appendStatementInput('DO' + i)
+    this.appendStatementInput('DO' + j)
         .setCheck(["Statement"])
   }
   if (this.elseCount_) {
@@ -665,15 +665,19 @@ Blockly.Blocks.AlternativaCompleta = {
       let input;
 
       k = 1;
-      while (input = this.getInput("IF" + k)) {
+      input = this.getInput("IF" + k);
+      while (input) {
         valueConnections.push(input.connection.targetConnection);
         k++;
+        input = this.getInput("IF" + k)
       }
 
       k = 1;
-      while (input = this.getInput("DO" + k)) {
+      input = this.getInput("DO" + k)
+      while (input) {
         statementConnections.push(input.connection.targetConnection);
         k++;
+        input = this.getInput("DO" + k)
       }
 
       this.updateShape_();
@@ -967,7 +971,7 @@ function createLiteralSelectorBlock(type,values){
       });
     },
 
-    onchange: function(event) {
+    onchange: function() {
       const [image, dropdown] = this.inputList[0].fieldRow;
       const value = dropdown.getValue();
 
@@ -1107,7 +1111,6 @@ Blockly.Blocks.AlternativaEnExpresiones = {
 
     if (this.length > 1) this._addNewline("newline" + this.length);
     this.appendDummyInput().appendField('elegir').name = "label1" + this.length;
-    const input1 = this.appendValueInput('element' + this.length);
     this.appendDummyInput().appendField('cuando').name = "label2" + this.length;
     const input2 = this.appendValueInput('condition' + this.length);
 

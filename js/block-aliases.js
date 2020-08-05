@@ -9,8 +9,6 @@ Blockly.GobstonesLanguage.blockIDAliases = {
   "Direccion":"DireccionSelector",
   "Numero":"math_number",
   "Booleano":"BoolSelector",
-  "ExpresionesPrimitivas": "Expresiones primitivas",
-  "FuncionesPrimitivas": "Funciones primitivas",
   "MisFunciones": "Mis funciones",
   "OperadorDeNegacion": "not",
   "OperadorSiguiente": "siguiente",
@@ -37,7 +35,7 @@ Blockly.GobstonesLanguage.aliasForBlockID = function(id){
 
 Blockly.GobstonesLanguage.aliasesFor = function (blockOrCategoryID){
   var aliases = [blockOrCategoryID];
-  for (alias in this.blockIDAliases) {
+  for (const alias in this.blockIDAliases) {
     if(this.blockIDAliases[alias] === blockOrCategoryID){
       aliases.push(alias);
     }

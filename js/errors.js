@@ -1,3 +1,5 @@
+/* global goog */
+
 goog.provide('Blockly.ErrorInforming');
 
 Blockly.ErrorInforming = {};
@@ -30,13 +32,13 @@ Blockly.ErrorInforming.Error = function(desc, cssClass){
     };
 
     this._cssClass = cssClass;
-    
+
     this.cssClass = function(){
         return this._cssClass || "blocklyGenericError";
     }
 };
 
-Blockly.ErrorInforming.INCOMPLETE_ERROR = function(errorKind){
+Blockly.ErrorInforming.INCOMPLETE_ERROR = function(){
     return new Blockly.ErrorInforming.Error(
         'Falta completar por aquí...',
         'blocklyIncompleteError'
@@ -44,7 +46,7 @@ Blockly.ErrorInforming.INCOMPLETE_ERROR = function(errorKind){
 };
 
 
-Blockly.ErrorInforming.TYPE_ERROR = function(errorKind){ 
+Blockly.ErrorInforming.TYPE_ERROR = function(errorKind){
     const error = new Blockly.ErrorInforming.Error('','blocklyTypeError');
     error.description = function(){
         return "¿Problema de tipos?\n Aquí se esperaba " + errorKind.expectedType + ", pero se encontró " + errorKind.actualType;
@@ -67,10 +69,10 @@ Blockly.ErrorInforming.PRECONDITION_ERROR = function(errorKind){
  * Method to be mixed into a Blockly Workspace object.
  * Adds posibility of showing different types of errors to a block.
  * `blockId` is the block ID where the error should appear
- * 
+ *
  * `errorKind` is either a string with the description or an object with a kind of error.
  * Next are examples with the existent error kinds.
- * 
+ *
  * Examples:
  * * `workspace.showBlockError('a1s2', 'Hey, here is an error')`
  * * `workspace.showBlockError('a1s2', { kind: 'INCOMPLETE_ERROR'} )`
@@ -101,7 +103,7 @@ Blockly.ErrorInforming.removeBlockErrors = function(){
 Blockly.ErrorInforming.addCssToDocument = function (cssText) {
     var cssNode = document.createElement('style');
     document.head.insertBefore(cssNode, document.head.lastChild);
-  
+
     var cssTextNode = document.createTextNode(cssText);
     cssNode.appendChild(cssTextNode);
     Blockly.Css.styleSheet_ = cssNode.sheet;
@@ -118,7 +120,7 @@ Blockly.ErrorInforming.CssContent = [
         'stroke: #f60;',
         'stroke-width: 3px;',
     '}',
-    
+
     '.blocklyTypeError>.blocklyPath {',
         'stroke: #f00;',
         'stroke-width: 3px;',

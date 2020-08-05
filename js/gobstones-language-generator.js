@@ -1,4 +1,4 @@
-/* global Blockly, goog */
+/* global goog */
 /* eslint camelcase: "off" */
 
 /*
@@ -303,23 +303,26 @@ Blockly.GobstonesLanguage.init = function () {
 
 		// Gobstones lets ñáéíóú, so Blockly's safeName should be rewritten.
 		// In the process, makes everything CamelCase which is Gobstones' default.
-		Blockly.GobstonesLanguage.variableDB_.safeName_ = function(name) {
-		  if (!name) return 'unnamed';
+		Blockly.GobstonesLanguage.variableDB_.safeName_ = function (name) {
+      if (!name) return "unnamed";
 
-		  //Get rid of unwanted chars
-		  var safe = name.replace(/[^\wáéíóúÁÉÍÓÚñÑ ]/g, '')
+      //Get rid of unwanted chars
+      var safe = name.replace(/[^\wáéíóúÁÉÍÓÚñÑ ]/g, "");
 
-		  //Escape initial numbers
-		  if ('0123456789'.indexOf(safe[0]) != -1) safe = 'my ' + safe;
+      //Escape initial numbers
+      if ("0123456789".indexOf(safe[0]) != -1) safe = "my " + safe;
 
-		  // Join spaces capitalizing in the process: ¡Gobstones is CamelCase!
-		  // Leave first char as user wanted, for now...
-		  safe = safe.split(' ').map((word, i) =>
-				!word | i == 0 ? word : word[0].toUpperCase() + word.slice(1)
-		  	).join('');
+      // Join spaces capitalizing in the process: ¡Gobstones is CamelCase!
+      // Leave first char as user wanted, for now...
+      safe = safe
+        .split(" ")
+        .map((word, i) =>
+          !word | (i == 0) ? word : word[0].toUpperCase() + word.slice(1)
+        )
+        .join("");
 
-		  return safe;
-		};
+      return safe;
+    };
 	}
 };
 
@@ -333,14 +336,14 @@ Blockly.GobstonesLanguage.BOOM = function(block) {
 	var sinComillasEnvolventes = desc;
 	if (desc[0] === "\"" && desc[desc.length-1] === "\"") {
 		sinComillasEnvolventes = desc.substring(1, desc.length-1);
- 	}
+  }
 	return 'BOOM("' + sinComillasEnvolventes.replace(/"/g, "'") + '")\n';
 };
 
 
-Blockly.GobstonesLanguage.ComandoCompletar = b => 'BOOM("El programa todavía no está completo")\n';
-Blockly.GobstonesLanguage.ExpresionCompletar = b => ['boom("El programa todavía no está completo")',Blockly.GobstonesLanguage.ORDER_FUNCTION_CALL];
-Blockly.GobstonesLanguage.AsociacionDeTeclaCompletar = b => ''
+Blockly.GobstonesLanguage.ComandoCompletar = () => 'BOOM("El programa todavía no está completo")\n';
+Blockly.GobstonesLanguage.ExpresionCompletar = () => ['boom("El programa todavía no está completo")',Blockly.GobstonesLanguage.ORDER_FUNCTION_CALL];
+Blockly.GobstonesLanguage.AsociacionDeTeclaCompletar = () => ''
 
 Blockly.GobstonesLanguage.ColorSelector = literalSelectorBlockCodeGenerator('Color');
 Blockly.GobstonesLanguage.DireccionSelector = literalSelectorBlockCodeGenerator('Direccion');
@@ -362,7 +365,7 @@ Blockly.GobstonesLanguage.AlternativaEnExpresiones = function(block) {
     .inputList
     .filter((it) => it.name.startsWith("element"))
     .map((it) => {
-    	const id = it.name.match(/element(\d+)/)[1];
+      const id = it.name.match(/element(\d+)/)[1];
       const value = Blockly.GobstonesLanguage.valueToCode(block, it.name, Blockly.GobstonesLanguage.ORDER_NONE);
       const conditionValue = Blockly.GobstonesLanguage.valueToCode(block, `condition${id}`, Blockly.GobstonesLanguage.ORDER_NONE);
 
@@ -624,6 +627,6 @@ Blockly.GobstonesLanguage.variables_get = function (block) {
 Blockly.GobstonesLanguage.Asignacion = function(block) {
   var varValue = Blockly.GobstonesLanguage.valueToCode(block, 'varValue', Blockly.GobstonesLanguage.ORDER_ASSIGNMENT);
   var code = formatCallName(block.getFieldValue('varName'),false,Blockly.VARIABLE_CATEGORY_NAME)  +
-  	' := ' + varValue + '\n';
+    ' := ' + varValue + '\n';
   return code;
 };

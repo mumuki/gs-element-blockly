@@ -1,3 +1,5 @@
+/* global gsSuite, gsTestCode */
+
 gsSuite('Generadores de Comandos', function() {
   gsTestCode('Programa vacío',
     '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="Program" deletable="false" movable="false" editable="false" x="30" y="30"><statement name="program"></statement></block></xml>',
