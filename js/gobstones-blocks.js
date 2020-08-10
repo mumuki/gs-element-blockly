@@ -165,7 +165,10 @@ const createVariable = (parent, name, callback = () => {}) => {
 }
 
 const triggerRefresh = (block) => {
-  getOptions(block).parentController.onBlocklyWorkspaceUpdate();
+  const gsElement = getOptions(block).parentController;
+  if (gsElement) {
+    gsElement.onBlocklyWorkspaceUpdate();
+  }
 };
 
 // ---

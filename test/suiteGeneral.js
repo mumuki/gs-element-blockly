@@ -93,6 +93,25 @@ suite('General', function() {
       );
     });
 
+    // La alternativa completa tiene un mutator que se queda enganchado al workspace anterior.
+    test('defaultToolbox, con alternativa completa y showCategories = false', () => {
+      element.toolbox = {
+        showCategories: false,
+        defaultToolbox: `
+        <category name="Estructuras de control">
+          <block type="AlternativaCompleta"></block>
+        </category>`
+      };
+
+      assert.equal(
+        formatXml(element._toolboxXml),
+        formatXml(`
+        <xml>
+          <block type="AlternativaCompleta" ></block>
+        </xml>`)
+      );
+    });
+
     test('defaultToolbox, sin categorías', function() {
       element.primitiveProcedures = ['ComerTomate'];
       element.toolbox = {
