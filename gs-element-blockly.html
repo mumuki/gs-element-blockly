@@ -126,6 +126,8 @@ Example:
   <script src="js/errors.js"></script>
 
   <script>
+    /* globals procBlockCodeGenerator, functionBlockCodeGenerator */
+
     Polymer({
       is: 'gs-element-blockly',
 
@@ -352,19 +354,19 @@ Example:
               parent = parent[parent.length - 1].child;
               if(m[1] == this.primitiveProceduresCategoryName)
               {
-                for(var i in primitiveProcedures) {
+                for(const j in primitiveProcedures) {
                   parent.push({
                     type: 'block',
-                    name: primitiveProcedures[i],
+                    name: primitiveProcedures[j],
                   });
                 }
               }
               if(m[1] == this.primitiveFunctionsCategoryName)
               {
-                for(var i in primitiveFunctions) {
+                for(const j in primitiveFunctions) {
                   parent.push({
                     type: 'block',
-                    name: primitiveFunctions[i],
+                    name: primitiveFunctions[j],
                   });
                 }
               }
@@ -424,7 +426,7 @@ Example:
             }
           }
 
-          function filtrarToolboxTree(ttree) {
+          const filtrarToolboxTree = (ttree) => {
             let tbox = [];
             for(var i in ttree) {
               if(visibles.length == 0 || visibles.indexOf(ttree[i].name) >= 0) {
@@ -443,8 +445,7 @@ Example:
 
           toolbox = filtrarToolboxTree(tree);
 
-          // Marcar disabled
-          function marcarDisabled(tbox) {
+          const marcarDisabled = (tbox) => {
             for(var i in tbox) {
               if(disabled.indexOf(tbox[i].name) >= 0) {
                 tbox[i].disabled = true;
@@ -753,9 +754,9 @@ Example:
         }
       },
 
-      _checkParameterBounds(xml) {
+      _checkParameterBounds() {
         const blocks = this.workspace.getAllBlocks();
-        for (block of blocks) {
+        for (const block of blocks) {
           if (block.type === "variables_get" && block.$parent) {
             const parentBlock = this.workspace.getBlockById(block.$parent);
             const varField = block.getField("VAR");
@@ -1019,9 +1020,9 @@ Example:
         this._onresize();
         if(window.jQuery !== undefined) {
           $(window).resize(() => this._onresize());
-        };
+        }
 
-        Blockly.ErrorInforming.addToWorkspace(this.workspace);
+    Blockly.ErrorInforming.addToWorkspace(this.workspace);
       },
 
       _onresize() {
@@ -1087,7 +1088,7 @@ Example:
        * los bloques especificados en el xml (descartando el program si es que viene).
        *
        */
-      appendBlocksToWorkspace: function(xml) {
+      appendBlocksToWorkspace: function() {
       },
 
       /**
@@ -1123,7 +1124,7 @@ Example:
         if (!block) return;
 
         const position = block.getRelativeToSurfaceXY();
-        const { viewLeft, contentLeft, viewTop, contentTop, viewWidth, viewHeight } = this.workspace.getMetrics();
+        const { contentLeft, contentTop, viewWidth, viewHeight } = this.workspace.getMetrics();
 
         const offsetX = centered ? viewWidth / 4 : 25;
         const offsetY = centered ? viewHeight / 2 : 25;

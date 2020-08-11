@@ -123,6 +123,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <p>(Entre paréntesis los ids válidos para ese bloque/categoría)</p>
     <pre id="divValidIds"></pre>
     <script>
+      /* global formatXml */
+      // TODO: debería tomarlo automáticamente porque el script que lo define está más arribas, pero no ocurre
+
       var blocklyElement = document.querySelector('gs-element-blockly');
 
       document.querySelector('#generatebtn').addEventListener('click', function() {
@@ -260,7 +263,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         blocklyElement.scrollToBlock();
       });
 
-      window.addEventListener('WebComponentsReady', function(e) {
+      window.addEventListener('WebComponentsReady', function() {
 
         function printObject(o){
           if(o.blockXMLID){ //es bloque
@@ -355,7 +358,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             timeout = setTimeout(later, wait);
             if (callNow) func.apply(context, args);
           };
-        };
+        }
 
         const rebuildFromHsv = debounce(() => {
           Object.keys(CATEGORIES).forEach((bigCategory) => {

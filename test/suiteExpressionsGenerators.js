@@ -1,3 +1,5 @@
+/* global gsSuite, gsTestCode */
+
 gsSuite('Generadores de Expresiones', function() {
 	gsTestCode('|| se genera bien',
     '<xml><block type="OperadorLogico"><field name="OPERATOR">&amp;&amp;</field><value name="arg1"><block type="BoolSelector"><field name="BoolDropdown">True</field></block></value><value name="arg2"><block type="BoolSelector"><field name="BoolDropdown">False</field></block></value></block></xml>',

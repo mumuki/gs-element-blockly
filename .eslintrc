@@ -1,0 +1,17 @@
+{
+  "extends": "eslint:recommended",
+  "env": {
+    "browser": true,
+    "es6": true,
+    "mocha": true
+  },
+  "globals": {
+    "Blockly": "readonly",
+    "Polymer": "readonly",
+    "$": "readonly",
+    "assert": "readonly"
+  },
+  "plugins": [
+    "html"
+  ]
+}

@@ -1,3 +1,5 @@
+/* global gsSuite, gsTestCode, printPragmaRow */
+
 gsSuite('Genera usando pragma REGION', function() {
 
   // --------------------------------------------------
