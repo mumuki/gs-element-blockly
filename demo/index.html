@@ -169,8 +169,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
 
       const loadData = ({ defaultToolbox, workspaceXml }) => {
+        blocklyElement.set('showCategories', false);
         blocklyElement.set('toolbox', {
-          showCategories: false,
           defaultToolbox
         });
         blocklyElement.set('workspaceXml', workspaceXml);
@@ -188,25 +188,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
 
       document.querySelector('#limited_toolboxbtn').addEventListener('click', function() {
+        blocklyElement.set('showCategories', document.getElementById("show_categories").checked);
         blocklyElement.set('toolbox', {
-          showCategories: document.getElementById("show_categories").checked,
           "visible": ["Poner", "OperadorNumerico", "CategoriaAsignacion", "DefinicionesDeFunciones", "ProcedimientosPrimitivos"],
           "disabled": ["Literales"]
         });
       });
 
       document.querySelector('#limited_toolboxbtn2').addEventListener('click', function() {
+        blocklyElement.set('showCategories', document.getElementById("show_categories").checked);
         blocklyElement.set('toolbox',
           {
-            showCategories: document.getElementById("show_categories").checked,
             "visible": ["Poner", "OperadorDeComparacion", "Procedimientos", "Funciones", "FuncionesPrimitivas"], "disabled": ["Sacar"]
           });
       });
 
       document.querySelector('#limited_toolboxbtn3').addEventListener('click', function() {
+        blocklyElement.set('showCategories', document.getElementById("show_categories").checked);
         blocklyElement.set('toolbox',
           {
-            showCategories: document.getElementById("show_categories").checked,
             "visible": [
               "Poner","OperadorNumerico",
               "CategoriaAsignacion", "DefinicionesDeFunciones",

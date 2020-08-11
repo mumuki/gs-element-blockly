@@ -172,7 +172,6 @@ Example:
          * {
          *  "visible": ["Comandos primitivos", "Literales", "Expresiones"],
          *  "disabled": ["Poner", "hayBolitas", "Literales"],
-         *  "showCategories": true
          * }
          * ```
          *
@@ -256,6 +255,14 @@ Example:
         readOnly: {
             type: Boolean,
             value: false
+        },
+
+        /*
+         * Si el valor es `false`, "aplana" las categorías dejando todos los bloques sueltos en el toolbox.
+         */
+        showCategories: {
+          type: Boolean,
+          value: true
         },
       },
 
@@ -512,7 +519,6 @@ Example:
       },
 
       _toolboxTreeToXML : function(toolbox, noXmlTags, disabled) {
-        const { showCategories = true } = this.toolbox || {};
         let xml = [];
         if(!noXmlTags) {
           xml.push('<xml>');
@@ -522,11 +528,11 @@ Example:
             xml.push(this._toolboxBlockXML(toolbox[i], disabled));
           }
           else if(toolbox[i].type == 'category') {
-            if (showCategories) {
+            if (this.showCategories) {
               xml.push(toolbox[i].xml);
             }
             xml.push(this._toolboxTreeToXML(toolbox[i].child, true, toolbox[i].disabled || disabled));
-            if (showCategories) {
+            if (this.showCategories) {
               xml.push('</category>');
             }
           }

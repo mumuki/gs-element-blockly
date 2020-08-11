@@ -70,8 +70,8 @@ suite('General', function() {
 
     test('defaultToolbox, con categorías y showCategories = false', () => {
       element.primitiveProcedures = ['ComerTomate'];
+      element.showCategories = false;
       element.toolbox = {
-        showCategories: false,
         defaultToolbox: `
         <category name="Cosas">
           <block type="Poner"></block>
@@ -95,8 +95,8 @@ suite('General', function() {
 
     // La alternativa completa tiene un mutator que se queda enganchado al workspace anterior.
     test('defaultToolbox, con alternativa completa y showCategories = false', () => {
+      element.showCategories = false;
       element.toolbox = {
-        showCategories: false,
         defaultToolbox: `
         <category name="Estructuras de control">
           <block type="AlternativaCompleta"></block>
