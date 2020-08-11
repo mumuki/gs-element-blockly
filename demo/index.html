@@ -14,7 +14,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
     <title>gs-element-blockly Demo</title>
     <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
-
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.js"
+      integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+      crossorigin="anonymous"></script>
     <script src="../js/formatXML.js"></script>
     <link rel="import" href="../gs-element-blockly.html">
   </head>
@@ -165,14 +168,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         ` });
       });
 
-      document.querySelector('#default_toolbox_without_categories_btn').addEventListener('click', function() {
+      const loadData = ({ defaultToolbox, workspaceXml }) => {
         blocklyElement.set('toolbox', {
-          showCategories: document.getElementById("show_categories").checked,
-          defaultToolbox: `
-          <block type="Poner"></block>
-          <block type="Sacar"></block>
-          <block type="ColorSelector"></block>
-        ` });
+          showCategories: false,
+          defaultToolbox
+        });
+        blocklyElement.set('workspaceXml', workspaceXml);
+      };
+
+      document.querySelector('#default_toolbox_without_categories_btn').addEventListener('click', function() {
+        $.when(
+          $.get({ url: './tierra/toolbox.xml', dataType: 'text' }),
+          $.get({ url: './tierra/extra.xml', dataType: 'text' })
+          )
+          .done((toolbox, extra) => {
+            loadData({ defaultToolbox: toolbox[0], workspaceXml: extra[0] });
+          })
+          .fail(error => console.error(error));
       });
 
       document.querySelector('#limited_toolboxbtn').addEventListener('click', function() {
