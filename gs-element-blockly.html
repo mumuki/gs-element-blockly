@@ -1171,8 +1171,10 @@ Example:
         const offsetX = centered ? viewWidth / 4 : 25;
         const offsetY = centered ? viewHeight / 2 : 25;
 
+        // TODO: for some reason, toolbox without categories is not visible for the workspace, so we hack the position with a hardcoded width.
+        const TOOLBOX_WITHOUT_CATEGORIES_FIX = 300;
         const finalPosition = {
-          x: position.x - offsetX - contentLeft,
+          x: position.x - offsetX - contentLeft - (this.showCategories ? 0 : TOOLBOX_WITHOUT_CATEGORIES_FIX),
           y: position.y - offsetY - contentTop
         };
 
