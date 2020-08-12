@@ -14,7 +14,7 @@
   ],
   "main": "gs-element-blockly.html",
   "license": "LGPL-3.0",
-  "homepage": "https://github.com/Program-AR/gs-element-blockly",
+  "homepage": "https://github.com/mumuki/gs-element-blockly",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
     "blockly-package": "0.0.15",

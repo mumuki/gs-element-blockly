@@ -4,7 +4,7 @@ Element providing Blockly interface for Gobstones Web
 
 ## Install Development Environment
 
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) and Bower installed. 
+First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) and Bower installed.
 
 ```Bash
 $ npm install -g bower polymer-cli
@@ -30,14 +30,14 @@ $ polymer test
 
 Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester).
 
-## Deploy Demo to Program-AR.github.io/gs-element-blockly
+## Deploy Demo to mumuki.github.io/gs-element-blockly
 
 Just create a folder and run `gp.sh` with parameters:
 
 ```bash
 mkdir temp
 cd temp
-../gp.sh Program-AR gs-element-blockly dev
+../gp.sh mumuki gs-element-blockly dev
 cd ..
 rm -rf temp
 ```
@@ -54,7 +54,7 @@ This command will build a minified .html file with all included:
 
 ## Gem wrapper
 
-This module can also be deployed a ruby gem. `gobstones-blockly` works with Ruby 2.3.1
+This module can also be deployed a ruby gem. `mumuki-gobstones-blockly` works with Ruby 2.3.1
 
 ```bash
 ./build-gem
@@ -62,7 +62,7 @@ This module can also be deployed a ruby gem. `gobstones-blockly` works with Ruby
 
 ## Tagging and releasing
 
-Run the `./tag.sh` script with the version you want. For instance, to tag version `1.0.0` you should execute: 
+Run the `./tag.sh` script with the version you want. For instance, to tag version `1.0.0` you should execute:
 
 ```bash
 ./tag.sh 1.0.0
