@@ -14,7 +14,7 @@
     "lint-staged": "^10.2.11"
   },
   "scripts": {
-    "test": "eslint --ext .html,.js --fix js/ test/ *.html"
+    "test": "eslint --ext .html,.js js/ test/ *.html"
   },
   "repository": {
     "type": "git",
