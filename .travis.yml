@@ -1,10 +1,18 @@
 sudo: false
 language: node_js
-node_js:
-- 4.2.4
+addons:
+  firefox: latest
+  chrome: stable
+before_script:
+- npm install -g bower polymer-cli
+- bower install
 script:
-- npm install -g bower && npm install -g vulcanize && bower install && ./build.sh
-- cd gem && ./bin/setup && bundle exec rake
+- npm test
+- polymer test
+before_deploy:
+- npm install -g vulcanize
+- ./build.sh
+- ./build-gem.sh
 deploy:
   provider: rubygems
   skip_cleanup: true
@@ -13,4 +21,4 @@ deploy:
   gem: gobstones-blockly
   on:
     tags: true
-    repo: Program-AR/gs-element-blockly
+    repo: mumuki/gs-element-blockly

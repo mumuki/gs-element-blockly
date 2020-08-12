@@ -1,0 +1,41 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <category name="Comandos">
+    <block type="Poner"></block>
+    <block type="Sacar"></block>
+    <block type="Mover"></block>
+    <block type="IrAlBorde"></block>
+  </category>
+  <category name="Valores">
+    <block type="ColorSelector"></block>
+    <block type="DireccionSelector"></block>
+    <block type="math_number"></block>
+    <block type="nroBolitas"></block>
+  </category>
+
+  <category name="Operadores">
+    <block type="OperadorNumerico"></block>
+    <block type="OperadorLogico"></block>
+    <block type="not"></block>
+  </category>
+
+  <category name="Procedimientos">
+    <category name="Procedimientos primitivos"></category>
+    <category name="Mis procedimientos" custom="PROCEDURE_CALLS"></category>
+    <category name="Definiciones">
+      <block type="procedures_defnoreturnnoparams"></block>
+    </category>
+  </category>
+
+  <category name="Estructuras de control">
+    <block type="AlternativaSimple"></block>
+    <block type="AlternativaCompleta"></block>
+    <block type="RepeticionSimple"></block>
+    <block type="RepeticionCondicional"></block>
+  </category>
+
+  <category name="Condiciones">
+    <block type="hayBolitas"></block>
+    <block type="puedeMover"></block>
+    <category name="Otras" gbs_custom="PRIMITIVE_FUNCTIONS"></category>
+  </category>
+</xml>

@@ -14,8 +14,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
     <title>gs-element-blockly Demo</title>
     <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
-
-    <script src="formatXML.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.js"
+      integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+      crossorigin="anonymous"></script>
+    <script src="../test/formatXML.js"></script>
     <link rel="import" href="../gs-element-blockly.html">
   </head>
   <body unresolved>
@@ -90,8 +93,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <button id="limited_toolboxbtn">Limited toolbox</button>
       <button id="limited_toolboxbtn2">Limited toolbox 2</button>
       <button id="limited_toolboxbtn3">Limited toolbox 3</button>
-      <button id="default_toolbox_set_btn">Set default toolbox</button>
+      <button id="default_toolbox_set_btn">Set default toolbox (custom categories)</button>
+      <button id="default_toolbox_without_categories_btn">Set default toolbox (no categories)</button>
       <button id="set_xmlbtn">Set xml</button>
+      <input id="show_categories" type="checkbox" checked="true">Show categories?</input>
       <br />
       <button id="set_primitive_proceduresbtn">Set procedures</button>
       <input type="text" id="primitive_procedurestxt" value='["Poner_FloresAl_", "Podar"]'></input>
@@ -138,7 +143,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
 
       document.querySelector('#default_toolbox_set_btn').addEventListener('click', function() {
-        blocklyElement.set('toolbox', { defaultToolbox: `
+        blocklyElement.set('toolbox', {
+          showCategories: document.getElementById("show_categories").checked,
+          defaultToolbox: `
           <category name="Cosas para hacer">
             <block type="Poner"></block>
             <block type="Sacar"></block>
@@ -161,16 +168,44 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         ` });
       });
 
+      const loadData = ({ defaultToolbox, workspaceXml }) => {
+        blocklyElement.set('showCategories', false);
+        blocklyElement.set('toolbox', {
+          defaultToolbox
+        });
+        blocklyElement.set('workspaceXml', workspaceXml);
+      };
+
+      document.querySelector('#default_toolbox_without_categories_btn').addEventListener('click', function() {
+        $.when(
+          $.get({ url: './tierra/toolbox.xml', dataType: 'text' }),
+          $.get({ url: './tierra/extra.xml', dataType: 'text' })
+          )
+          .done((toolbox, extra) => {
+            loadData({ defaultToolbox: toolbox[0], workspaceXml: extra[0] });
+          })
+          .fail(error => console.error(error));
+      });
+
       document.querySelector('#limited_toolboxbtn').addEventListener('click', function() {
-        blocklyElement.set('toolbox', '{ "visible": ["Poner","OperadorNumerico", "CategoriaAsignacion", "DefinicionesDeFunciones","ProcedimientosPrimitivos"], "disabled": ["Literales"]}');
+        blocklyElement.set('showCategories', document.getElementById("show_categories").checked);
+        blocklyElement.set('toolbox', {
+          "visible": ["Poner", "OperadorNumerico", "CategoriaAsignacion", "DefinicionesDeFunciones", "ProcedimientosPrimitivos"],
+          "disabled": ["Literales"]
+        });
       });
 
       document.querySelector('#limited_toolboxbtn2').addEventListener('click', function() {
-        blocklyElement.set('toolbox', '{ "visible": ["Poner","OperadorDeComparacion", "Procedimientos","Funciones","FuncionesPrimitivas"], "disabled": ["Sacar"]}');
+        blocklyElement.set('showCategories', document.getElementById("show_categories").checked);
+        blocklyElement.set('toolbox',
+          {
+            "visible": ["Poner", "OperadorDeComparacion", "Procedimientos", "Funciones", "FuncionesPrimitivas"], "disabled": ["Sacar"]
+          });
       });
 
       document.querySelector('#limited_toolboxbtn3').addEventListener('click', function() {
-        blocklyElement.set('toolbox', `
+        blocklyElement.set('showCategories', document.getElementById("show_categories").checked);
+        blocklyElement.set('toolbox',
           {
             "visible": [
               "Poner","OperadorNumerico",
@@ -178,9 +213,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               "ProcedimientosPrimitivos"
             ],
             "disabled": ["Literales"],
-            "primitiveProcedures": "<category name=\\"Los primeros cinco\\">\\n<block type=\\"Uno\\"></block>\\n<block type=\\"Dos\\"></block>\\n<block type=\\"Tres (¡este no se puede usar!)\\" disabled=\\"true\\"></block>\\n<block type=\\"Cuatro\\"></block>\\n<block type=\\"Cinco\\"></block>\\n</category>\\n<category name=\\"El resto\\">\\n<block type=\\"Seis\\" ></block>\\n<block type=\\"Siete\\" ></block>\\n</category>"
-          }
-        `);
+            "primitiveProcedures": `"<category name=\\"Los primeros cinco\\">\\n<block type=\\"Uno\\"></block>\\n<block type=\\"Dos\\"></block>\\n<block type=\\"Tres (¡este no se puede usar!)\\" disabled=\\"true\\"></block>\\n<block type=\\"Cuatro\\"></block>\\n<block type=\\"Cinco\\"></block>\\n</category>\\n<category name=\\"El resto\\">\\n<block type=\\"Seis\\" ></block>\\n<block type=\\"Siete\\" ></block>\\n</category>"`
+          });
         /* Versión legible por humanos: */
         /* Probar con ["Uno", "Dos", "Tres (¡este no se puede usar!)", "Cuatro", "Cinco", "Seis", "Siete"] */
         /*

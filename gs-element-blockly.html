@@ -171,7 +171,7 @@ Example:
          * ```json
          * {
          *  "visible": ["Comandos primitivos", "Literales", "Expresiones"],
-         *  "disabled": ["Poner", "hayBolitas", "Literales"]
+         *  "disabled": ["Poner", "hayBolitas", "Literales"],
          * }
          * ```
          *
@@ -256,6 +256,14 @@ Example:
             type: Boolean,
             value: false
         },
+
+        /*
+         * Si el valor es `false`, "aplana" las categorías dejando todos los bloques sueltos en el toolbox.
+         */
+        showCategories: {
+          type: Boolean,
+          value: true
+        },
       },
 
       _onPrimitiveProceduresChange: function() {
@@ -286,8 +294,24 @@ Example:
           }
           return;
         }
-        let toolbox = this._createToolbox();
-        this.workspace.updateToolbox(toolbox);
+        this._updateToolbox(this._createToolbox());
+      },
+
+      _updateToolbox(toolboxXml) {
+        // Utilizado solamente para testear
+        this._toolboxXml = toolboxXml;
+
+        try {
+          this.workspace.updateToolbox(toolboxXml);
+        } catch (error) {
+          // Blockly no soporta cambiar del modo sin categorías al modo con, ni viceversa.
+          // Si falla por eso, volvemos a crear el componente con el nuevo modo.
+          if (!this._isCategoryModeChangeError(error)) {
+            throw error;
+          }
+
+          this._createBlocklyWorkspace(toolboxXml);
+        }
       },
 
       /**
@@ -504,9 +528,13 @@ Example:
             xml.push(this._toolboxBlockXML(toolbox[i], disabled));
           }
           else if(toolbox[i].type == 'category') {
-            xml.push(toolbox[i].xml);
+            if (this.showCategories) {
+              xml.push(toolbox[i].xml);
+            }
             xml.push(this._toolboxTreeToXML(toolbox[i].child, true, toolbox[i].disabled || disabled));
-            xml.push('</category>');
+            if (this.showCategories) {
+              xml.push('</category>');
+            }
           }
         }
         if(!noXmlTags) {
@@ -853,15 +881,19 @@ Example:
       },
 
       setDefaultToolbox: function(xml) {
-        if (xml && !this._toolboxBackup)
+        if (xml && !this._toolboxBackup) {
           this._toolboxBackup = this.$$('#toolbox').innerHTML;
+        }
 
         const newXml = xml || this._toolboxBackup;
         if (!newXml) return;
 
         this.$$('#toolbox').innerHTML = newXml;
-        const toolboxXml = `<xml>${newXml}</xml>`;
-        this.workspace.updateToolbox(toolboxXml);
+        this._updateToolbox(`<xml>${newXml}</xml>`)
+      },
+
+      _isCategoryModeChangeError(error) {
+        return /Existing toolbox has (no )?categories. {2}Can't change mode./.test(error);
       },
 
       /**
@@ -970,6 +1002,41 @@ Example:
         return resultingList;
       },
 
+      _createBlocklyWorkspace: function(toolboxXml) {
+        if (this.workspace) {
+          this.workspace.dispose();
+        }
+
+        this.workspace = Blockly.inject(this.blocklyDiv, {
+          toolbox: toolboxXml,
+          media: this.media,
+          toolboxPosition: "start",
+          scrollbars: true,
+          horizontalLayout: false,
+          trashcan: true,
+          collapse: true,
+          css: true,
+          readOnly: this.readOnly,
+          zoom: {
+            controls: true,
+            wheel: true
+          }
+        });
+
+        this.workspace.options.localMedia = this.localMedia;
+        this.workspace.options.localMediaSuffix = this.localMediaSuffix;
+        this.workspace.options.parentController = this;
+
+        var _this = this;
+        this.workspace.addChangeListener(function (a, b, c) {
+          Blockly.Events.disableOrphans(a, b, c);
+          _this.onBlocklyWorkspaceUpdate();
+        });
+
+        Blockly.ErrorInforming.addToWorkspace(this.workspace);
+        this.resetWorkspace();
+      },
+
       /**
        * Reinicializa el estado del componente,
        */
@@ -993,36 +1060,11 @@ Example:
         this.blocklyDiv = blocklyDiv;
         this._fixSize();
         this._fixScroll();
-        this.workspace = Blockly.inject(blocklyDiv, {
-          toolbox: this._createToolbox(),
-          media: this.media,
-          toolboxPosition: "start",
-          scrollbars: true,
-          horizontalLayout: false,
-          collapse: true,
-          css: true,
-          readOnly: this.readOnly,
-          zoom: {
-            controls: true,
-            wheel: true
-          }
-        });
-        this.workspace.options.localMedia = this.localMedia;
-        this.workspace.options.localMediaSuffix = this.localMediaSuffix;
-        this.workspace.options.parentController = this;
-
-        var _this = this;
-        this.workspace.addChangeListener(function (a, b, c) {
-          Blockly.Events.disableOrphans(a, b, c);
-          _this.onBlocklyWorkspaceUpdate();
-        });
-        this.resetWorkspace()
+        this._createBlocklyWorkspace(this._createToolbox());
         this._onresize();
         if(window.jQuery !== undefined) {
           $(window).resize(() => this._onresize());
         }
-
-    Blockly.ErrorInforming.addToWorkspace(this.workspace);
       },
 
       _onresize() {
@@ -1129,8 +1171,10 @@ Example:
         const offsetX = centered ? viewWidth / 4 : 25;
         const offsetY = centered ? viewHeight / 2 : 25;
 
+        // TODO: for some reason, toolbox without categories is not visible for the workspace, so we hack the position with a hardcoded width.
+        const TOOLBOX_WITHOUT_CATEGORIES_FIX = 300;
         const finalPosition = {
-          x: position.x - offsetX - contentLeft,
+          x: position.x - offsetX - contentLeft - (this.showCategories ? 0 : TOOLBOX_WITHOUT_CATEGORIES_FIX),
           y: position.y - offsetY - contentTop
         };
 
