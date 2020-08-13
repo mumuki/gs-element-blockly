@@ -95,6 +95,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <button id="limited_toolboxbtn3">Limited toolbox 3</button>
       <button id="default_toolbox_set_btn">Set default toolbox (custom categories)</button>
       <button id="default_toolbox_without_categories_btn">Set default toolbox (no categories)</button>
+      <button id="iconic_toolbox_btn">Set iconic example</button>
       <button id="set_xmlbtn">Set xml</button>
       <input id="show_categories" type="checkbox" checked="true">Show categories?</input>
       <br />
@@ -166,6 +167,82 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <category name="Sub-separador" gbs_custom="SEPARATOR"> </category>
           <category name="Las cosas primitivas" gbs_custom="PRIMITIVE_FUNCTIONS"> </category>
         ` });
+      });
+
+      document.querySelector('#iconic_toolbox_btn').addEventListener('click', function() {
+        blocklyElement.set('primitiveProcedures', [
+          {
+            name: "ComerTomate",
+            attributes: {
+              block_name: " ",
+              block_icon: "icons/tomate.png"
+            }
+          },
+          {
+            name: "ComerLechuga",
+            attributes: {
+              block_name: " ",
+              block_icon: "icons/lechuga.png"
+            }
+          },
+          {
+            name: "CaminarDerecha",
+            attributes: {
+              block_name: " ",
+              block_icon: "icons/derecha.png"
+            }
+          },
+          {
+            name: "CaminarIzquierda",
+            attributes: {
+              block_name: " ",
+              block_icon: "icons/izquierda.png"
+            }
+          },
+        ]);
+        blocklyElement.set('showCategories', false);
+        blocklyElement.set('toolbox', {
+          defaultToolbox: `
+          <category name="Bloques de Gobstones">
+            <block type="RepeticionSimple"></block>
+            <block type="math_number"></block>
+          </category>
+          <category name="Procedimientos primitivos"></category>`
+        });
+        blocklyElement.set('workspaceXml',
+        `<xml xmlns="http://www.w3.org/1999/xhtml">
+          <variables></variables>
+          <block type="Program" deletable="false" x="30" y="30">
+            <statement name="program">
+              <block type="RepeticionSimple">
+                <value name="count">
+                  <block type="math_number">
+                    <field name="NUM">3</field>
+                  </block>
+                </value>
+                <statement name="block">
+                  <block type="CaminarDerecha">
+                    <next>
+                      <block type="ComerTomate">
+                        <next>
+                          <block type="CaminarIzquierda">
+                            <next>
+                              <block type="CaminarIzquierda">
+                                <next>
+                                  <block type="ComerLechuga></block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </statement>
+              </block>
+            </statement>
+          </block>
+        </xml>`)
       });
 
       const loadData = ({ defaultToolbox, workspaceXml }) => {
