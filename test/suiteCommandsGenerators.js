@@ -286,5 +286,4 @@ program {
   nombreDeVariable := previo()
   nombreDeVariable := opuesto()
 }\n`);
-
 });

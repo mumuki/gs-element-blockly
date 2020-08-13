@@ -569,12 +569,21 @@ var makeParameterList = function (block) {
 		.join(', ');
 };
 
+const addIconAttributeIfPresent = (block, code) =>
+  block.$icon ? `/*@ATTRIBUTE@block_icon@${block.$icon}@*/\n${code}` : code;
+
 Blockly.GobstonesLanguage.procedures_defnoreturn = function (block) {
   var name = formatCallName(block.getFieldValue('NAME'),true);
   var body = Blockly.GobstonesLanguage.statementToCode(block, 'STACK');
 
-  var code = 'procedure ' + name + '(' + makeParameterList(block) + ') {\n' + body + '}\n';
-  if (block.$isAtomic) code = "/*@ATTRIBUTE@atomic@*/" + "\n" + code;
+  const baseCode =
+`procedure ${name}(${makeParameterList(block)}) {
+${body}}\n`
+
+  var code = addIconAttributeIfPresent(block, baseCode);
+  if (block.$isAtomic) {
+    code = "/*@ATTRIBUTE@atomic@*/" + "\n" + code;
+  }
 
 	code = Blockly.GobstonesLanguage.scrub_(block, code);
 	Blockly.GobstonesLanguage.definitions_[name] = code;
@@ -587,8 +596,12 @@ Blockly.GobstonesLanguage.procedures_defreturn = function (block) {
 	var body = Blockly.GobstonesLanguage.statementToCode(block, 'STACK');
 	var returnValue = Blockly.GobstonesLanguage.valueToCode(block, 'RETURN');
 
-	var code = 'function ' + name + '(' + makeParameterList(block) + ') {\n' +
-		body + '  return (' + returnValue + ')\n}\n';
+  const baseCode =
+`function ${name}(${makeParameterList(block)}) {
+${body}  return (${returnValue})
+}\n`;
+
+  var code = addIconAttributeIfPresent(block, baseCode);
 
 	code = Blockly.GobstonesLanguage.scrub_(block, code);
 	Blockly.GobstonesLanguage.definitions_[name] = code;

@@ -1580,6 +1580,45 @@ Blockly.Blocks.procedures_defnoreturn.customContextMenu = function(options) {
     }
   })
 }
+
+const includeIconMutationMixin = (block) => {
+  const originalMutationToDom = block.mutationToDom;
+  block.mutationToDom = function() {
+    const container = originalMutationToDom.call(this);
+    if (this.$icon) {
+      container.setAttribute("icon", this.$icon);
+    }
+    return container;
+  }
+
+  const originalDomToMutation = block.domToMutation;
+  block.domToMutation = function(xmlElement) {
+    const icon = xmlElement.getAttribute("icon");
+    if (icon) {
+      this.$icon = icon;
+    }
+
+    return originalDomToMutation.call(this, xmlElement);
+  }
+}
+
+// Por retrocompatibilidad, agregamos el mixin que parsea el ícono a todas las formas posibles
+// de definir procedimientos y funciones.
+const allProceduresAndFunctionsTypes = [
+  "procedures_defnoreturn",
+  "procedures_defnoreturnnoparams",
+  "procedures_defreturn",
+  "procedures_defreturnsimple",
+  "procedures_defreturnsimplewithparams",
+  "DefinicionDeFuncionDeclarativa",
+  "DefinicionDeFuncionSimpleConParametrosDeclarativa",
+  "DefinicionDeFuncionSimpleDeclarativa",
+];
+
+allProceduresAndFunctionsTypes.forEach((blockName) =>
+  includeIconMutationMixin(Blockly.Blocks[blockName])
+);
+
 const oldProceduresMutationToDom = Blockly.Blocks['procedures_defnoreturn'].mutationToDom;
 Blockly.Blocks.procedures_defnoreturn.mutationToDom = function() {
   const container = oldProceduresMutationToDom.call(this);
@@ -1588,8 +1627,6 @@ Blockly.Blocks.procedures_defnoreturn.mutationToDom = function() {
 }
 const oldProceduresDomToMutation = Blockly.Blocks['procedures_defnoreturn'].domToMutation;
 Blockly.Blocks.procedures_defnoreturn.domToMutation = function(xmlElement) {
-  const isAtomic = xmlElement.getAttribute("isatomic");
-  this.$isAtomic = isAtomic === "true";
-
+  this.$isAtomic = xmlElement.getAttribute("isatomic") === "true";
   return oldProceduresDomToMutation.call(this, xmlElement);
 }
