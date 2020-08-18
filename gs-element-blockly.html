@@ -594,13 +594,15 @@ Example:
             if (icon) {
               this.appendDummyInput().appendField(new Blockly.FieldImage(
                 icon,
-                16,
-                16,
+                Blockly.currentDisplayMode().iconSize,
+                Blockly.currentDisplayMode().iconSize,
                 finalName
               ));
             }
 
-            self._definePrimitiveHolesOrDropdown(this, parts, dropdownOptions);
+            if (Blockly.currentDisplayMode().showText) {
+              self._definePrimitiveHolesOrDropdown(this, parts, dropdownOptions);
+            }
 
             this.setInputsInline(true);
             this.setTooltip(definition.attributes && definition.attributes.tooltip || "");
@@ -650,13 +652,15 @@ Example:
             if (icon) {
               this.appendDummyInput().appendField(new Blockly.FieldImage(
                 icon,
-                16,
-                16,
+                Blockly.currentDisplayMode().iconSize,
+                Blockly.currentDisplayMode().iconSize,
                 finalName
               ));
             }
 
-            self._definePrimitiveHolesOrDropdown(this, parts, dropdownOptions);
+            if (Blockly.currentDisplayMode().showText) {
+              self._definePrimitiveHolesOrDropdown(this, parts, dropdownOptions);
+            }
 
             this.setPreviousStatement(false);
             this.setNextStatement(false);
@@ -945,6 +949,12 @@ Example:
       },
 
       _processCustomCategoryStyles(xml) {
+        // TODO: el querySelector no funciona si no hay categorías, y además este método no tiene sentido en ese contexto.
+        // Habría que revisarlo si más adelante se quieren soportar los separadores en ese contexto.
+        if (!this.showCategories) {
+          return;
+        }
+
         const parsedXml = Blockly.Xml.textToDom(`<xml>${xml}</xml>`);
 
         const forEachNode = (node, action) => {

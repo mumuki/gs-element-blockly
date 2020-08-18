@@ -170,6 +170,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
 
       document.querySelector('#iconic_toolbox_btn').addEventListener('click', function() {
+        Blockly.displayMode = 'iconic';
         blocklyElement.set('primitiveProcedures', [
           {
             name: "ComerTomate",
@@ -205,7 +206,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           defaultToolbox: `
           <category name="Bloques de Gobstones">
             <block type="RepeticionSimple"></block>
-            <block type="math_number"></block>
+            <block type="math_number">
+              <field name="NUM">2</field>
+            </block>
+            <block type="math_number">
+              <field name="NUM">3</field>
+            </block>
+            <block type="math_number">
+              <field name="NUM">4</field>
+            </block>
+            <block type="math_number">
+              <field name="NUM">5</field>
+            </block>
           </category>
           <category name="Procedimientos primitivos"></category>`
         });
