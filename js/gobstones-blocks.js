@@ -1,5 +1,20 @@
 /* global initProcedsBlockly */
 
+Blockly.displayMode = 'text';
+
+Blockly.displayModes = {
+  text: {
+    iconSize: 16,
+    showText: true
+  },
+  iconic: {
+    iconSize: 32,
+    showText: false
+  },
+};
+
+Blockly.currentDisplayMode = () => Blockly.displayModes[Blockly.displayMode];
+
 // Initialize proceds-blockly creating new custom functions
 initProcedsBlockly("Statement", (makeProcedureInit, makeUpdateParams, makeProcedureDomToMutation, makeProcedureCustomMenu) => {
   Blockly.Blocks['DefinicionDeFuncionDeclarativa'] = {
@@ -115,7 +130,7 @@ initProcedsBlockly("Statement", (makeProcedureInit, makeUpdateParams, makeProced
 });
 
 Blockly.CUSTOM_COLORS = {"globalHsvSaturation":0.45,"globalHsvValue":0.65,"primitiveCommand":"#1d3c99","assignation":"#051d66","controlStructure":"#0f2b80","literalExpression":"#1d992c","primitiveExpression":"#1d992c","operator":"#0f801c","program":"#8d1bb3","interactiveProgram":"#6e158c","interactiveBinding":"#a11fcc","procedure":"#935ba6","function":"#745380","primitiveProcedure":"#2e4fb3","primitiveFunction":"#2eb33e","procedure_call":"#355bcc","function_call":"#35cc47","variable":"#056610","parameter":"#056610","complete":"#ff0000","H":{"commands":225,"expressions":127,"definitions":285},"S":{"assignation":95,"variable":95,"parameter":95,"primitiveCommand":81,"literalExpression":81,"primitiveExpression":81,"controlStructure":88,"operator":88,"procedure_call":74,"function_call":74,"primitiveProcedure":74,"primitiveFunction":74,"program":85,"interactiveProgram":85,"interactiveBinding":85,"procedure":45,"function":35,"complete":99},"V":{"assignation":40,"variable":40,"parameter":40,"primitiveCommand":60,"literalExpression":60,"primitiveExpression":60,"controlStructure":50,"operator":50,"procedure_call":80,"function_call":80,"primitiveProcedure":70,"primitiveFunction":70,"program":70,"interactiveProgram":55,"interactiveBinding":80,"procedure":65,"function":50,"complete":99}};
-Blockly.AVAILABLE_ICONS = ["bool-false.svg","bool-true.svg","clean.png","color-azul.svg","color-negro.svg","color-rojo.svg","color-verde.svg","direccion-este.svg","direccion-norte.svg","direccion-oeste.svg","direccion-sur.svg","hand.png","minus.png","plus.png"];
+Blockly.AVAILABLE_ICONS = ["bool-false.svg","bool-true.svg","clean.png","color-azul.svg","color-negro.svg","color-rojo.svg","color-verde.svg","direccion-este.svg","direccion-norte.svg","direccion-oeste.svg","direccion-sur.svg","hand.png","minus.png","plus.png", "repeticion-simple.png", "program.png"];
 const EMPTY_GIF = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
 
 const ATOMICALLY = (action) => {
@@ -136,7 +151,8 @@ const getLocalMediaUrl = (block, name) =>
   hasLocalMedia(name)
     ? getOptions(block).localMedia + name + (getOptions(block).localMediaSuffix || "")
     : EMPTY_GIF;
-const getLocalMediaSize = (name) => hasLocalMedia(name) ? 16 : 0;
+const getLocalMediaSize = (name) =>
+  hasLocalMedia(name) ? Blockly.currentDisplayMode().iconSize : 0;
 
 /**
  * Create the svg representation of a block and render
@@ -175,24 +191,32 @@ const triggerRefresh = (block) => {
 
 Blockly.Blocks.Program = {
   init: function () {
+    const icon = 'program.png';
     this.jsonInit({
-      "type": "Program",
-      "message0": "%1 %2 %3",
-      "args0": [
+      type: "Program",
+      message0: "%1 %2 %3",
+      args0: [
+        Blockly.currentDisplayMode().showText
+          ? {
+              type: "field_label",
+              text: "programa",
+            }
+          : {
+              type: "field_image",
+              src: getLocalMediaUrl(this, icon),
+              width: getLocalMediaSize(icon),
+              height: getLocalMediaSize(icon),
+            },
         {
-          "type": "field_label",
-          "text": "programa"
+          type: "input_dummy",
         },
         {
-          "type": "input_dummy"
+          type: "input_statement",
+          name: "program",
+          check: ["Statement"],
         },
-        {
-          "type": "input_statement",
-          "name": "program",
-          "check": ["Statement"]
-        }
-      ]
-    })
+      ],
+    });
     this.setColour(Blockly.CUSTOM_COLORS.Program || Blockly.CUSTOM_COLORS.program);
     this.setDeletable(true);
     this.setEditable(true);
@@ -538,10 +562,24 @@ Blockly.Blocks.RepeticionSimple = {
     });
 
     this.setColour(Blockly.CUSTOM_COLORS.RepeticionSimple || Blockly.CUSTOM_COLORS.controlStructure);
-    this.appendValueInput('count')
-      .appendField('repetir');
-    this.appendDummyInput()
-      .appendField('veces');
+
+    if (Blockly.currentDisplayMode().showText) {
+      this.appendValueInput("count").appendField("repetir");
+      this.appendDummyInput().appendField("veces");
+    } else {
+      const icon = "repeticion-simple.png";
+      const imageField = this.appendDummyInput().appendField(new Blockly.FieldImage(
+        '',
+        getLocalMediaSize(icon),
+        getLocalMediaSize(icon)
+      ));
+      this.appendValueInput("count");
+
+      // El atributo localMedia recién va a estar disponible cuando termine de cargar el toolbox,
+      // por eso la imagen se carga en el evento y no directamente más arriba.
+      this.onchange = () => imageField.fieldRow[0].setValue(getLocalMediaUrl(this, icon));
+    }
+
     this.appendStatementInput('block').setCheck(["Statement"]);
     this.setInputsInline(true);
   }
@@ -1580,6 +1618,45 @@ Blockly.Blocks.procedures_defnoreturn.customContextMenu = function(options) {
     }
   })
 }
+
+const includeIconMutationMixin = (block) => {
+  const originalMutationToDom = block.mutationToDom;
+  block.mutationToDom = function() {
+    const container = originalMutationToDom.call(this);
+    if (this.$icon) {
+      container.setAttribute("icon", this.$icon);
+    }
+    return container;
+  }
+
+  const originalDomToMutation = block.domToMutation;
+  block.domToMutation = function(xmlElement) {
+    const icon = xmlElement.getAttribute("icon");
+    if (icon) {
+      this.$icon = icon;
+    }
+
+    return originalDomToMutation.call(this, xmlElement);
+  }
+}
+
+// Por retrocompatibilidad, agregamos el mixin que parsea el ícono a todas las formas posibles
+// de definir procedimientos y funciones.
+const allProceduresAndFunctionsTypes = [
+  "procedures_defnoreturn",
+  "procedures_defnoreturnnoparams",
+  "procedures_defreturn",
+  "procedures_defreturnsimple",
+  "procedures_defreturnsimplewithparams",
+  "DefinicionDeFuncionDeclarativa",
+  "DefinicionDeFuncionSimpleConParametrosDeclarativa",
+  "DefinicionDeFuncionSimpleDeclarativa",
+];
+
+allProceduresAndFunctionsTypes.forEach((blockName) =>
+  includeIconMutationMixin(Blockly.Blocks[blockName])
+);
+
 const oldProceduresMutationToDom = Blockly.Blocks['procedures_defnoreturn'].mutationToDom;
 Blockly.Blocks.procedures_defnoreturn.mutationToDom = function() {
   const container = oldProceduresMutationToDom.call(this);
@@ -1588,8 +1665,6 @@ Blockly.Blocks.procedures_defnoreturn.mutationToDom = function() {
 }
 const oldProceduresDomToMutation = Blockly.Blocks['procedures_defnoreturn'].domToMutation;
 Blockly.Blocks.procedures_defnoreturn.domToMutation = function(xmlElement) {
-  const isAtomic = xmlElement.getAttribute("isatomic");
-  this.$isAtomic = isAtomic === "true";
-
+  this.$isAtomic = xmlElement.getAttribute("isatomic") === "true";
   return oldProceduresDomToMutation.call(this, xmlElement);
 }
