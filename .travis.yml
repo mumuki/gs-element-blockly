@@ -13,6 +13,7 @@ before_deploy:
 - npm install -g vulcanize
 - ./build.sh
 - ./build-gem.sh
+- cd gem
 deploy:
   provider: rubygems
   skip_cleanup: true
