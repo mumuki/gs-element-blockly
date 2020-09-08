@@ -566,14 +566,14 @@ Blockly.Blocks.RepeticionSimple = {
     if (Blockly.currentDisplayMode().showText) {
       this.appendValueInput("count").appendField("repetir");
       this.appendDummyInput().appendField("veces");
+      this.setInputsInline(true);
     } else {
       const icon = "repeticion-simple.png";
-      const imageField = this.appendDummyInput().appendField(new Blockly.FieldImage(
+      const imageField = this.appendValueInput("count").appendField(new Blockly.FieldImage(
         '',
         getLocalMediaSize(icon),
         getLocalMediaSize(icon)
       ));
-      this.appendValueInput("count");
 
       // El atributo localMedia recién va a estar disponible cuando termine de cargar el toolbox,
       // por eso la imagen se carga en el evento y no directamente más arriba.
@@ -581,7 +581,6 @@ Blockly.Blocks.RepeticionSimple = {
     }
 
     this.appendStatementInput('block').setCheck(["Statement"]);
-    this.setInputsInline(true);
   }
 };
 

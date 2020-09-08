@@ -201,25 +201,44 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
           },
         ]);
+        blocklyElement.set('primitiveFunctions', [
+          {
+            name: "dos",
+            attributes: {
+              block_name: " ",
+              block_icon: "icons/2.png"
+            }
+          },
+          {
+            name: "tres",
+            attributes: {
+              block_name: " ",
+              block_icon: "icons/3.png"
+            }
+          },
+          {
+            name: "cuatro",
+            attributes: {
+              block_name: " ",
+              block_icon: "icons/4.png"
+            }
+          },
+          {
+            name: "cinco",
+            attributes: {
+              block_name: " ",
+              block_icon: "icons/5.png"
+            }
+          },
+        ]);
         blocklyElement.set('showCategories', false);
         blocklyElement.set('toolbox', {
           defaultToolbox: `
           <category name="Bloques de Gobstones">
             <block type="RepeticionSimple"></block>
-            <block type="math_number">
-              <field name="NUM">2</field>
-            </block>
-            <block type="math_number">
-              <field name="NUM">3</field>
-            </block>
-            <block type="math_number">
-              <field name="NUM">4</field>
-            </block>
-            <block type="math_number">
-              <field name="NUM">5</field>
-            </block>
           </category>
-          <category name="Procedimientos primitivos"></category>`
+          <category name="Procedimientos primitivos"></category>
+          <category name="Funciones primitivas"></category>`
         });
         blocklyElement.set('workspaceXml',
         `<xml xmlns="http://www.w3.org/1999/xhtml">
@@ -228,9 +247,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <statement name="program">
               <block type="RepeticionSimple">
                 <value name="count">
-                  <block type="math_number">
-                    <field name="NUM">3</field>
-                  </block>
+                  <block type="tres"></block>
                 </value>
                 <statement name="block">
                   <block type="CaminarDerecha">
