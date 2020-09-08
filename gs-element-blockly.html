@@ -258,6 +258,14 @@ Example:
         },
 
         /*
+         * Cantidad máxima de bloques permitidos en el workspace. Si no se le da ningún valor, se admiten infinitos bloques.
+         */
+        maxBlocks: {
+          type: Number,
+          value: null
+        },
+
+        /*
          * Si el valor es `false`, "aplana" las categorías dejando todos los bloques sueltos en el toolbox.
          */
         showCategories: {
@@ -853,6 +861,16 @@ Example:
       },
 
       /**
+       * Agrega un listener que se ejecutará cada vez que los bloques del workspace cambien
+       */
+      onBlocksChanged(action) {
+        this.workspace.addChangeListener(() => action({
+          remainingCapacity: this.workspace.remainingCapacity(),
+          workspace: this.workspace
+        }));
+      },
+
+      /**
        * Reinicializa el workspace, dejando solo el bloque programa
        */
       resetWorkspace: function() {
@@ -1027,6 +1045,7 @@ Example:
           collapse: true,
           css: true,
           readOnly: this.readOnly,
+          maxBlocks: this.maxBlocks,
           zoom: {
             controls: true,
             wheel: true

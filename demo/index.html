@@ -231,6 +231,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
           },
         ]);
+        blocklyElement.maxBlocks = 10;
         blocklyElement.set('showCategories', false);
         blocklyElement.set('toolbox', {
           defaultToolbox: `
@@ -273,6 +274,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </statement>
           </block>
         </xml>`)
+
+        blocklyElement.onBlocksChanged(({ remainingCapacity }) => {
+          if (remainingCapacity <= 0) {
+            console.log('Oops, no more blocks available. :(');
+          }
+        });
       });
 
       const loadData = ({ defaultToolbox, workspaceXml }) => {
