@@ -1188,6 +1188,10 @@ Example:
         this.workspace.showBlockError(blockId, errorKind);
       },
 
+      getBlocksOfType(type) {
+        return this.workspace.getAllBlocks().filter((it) => it.type === type);
+      },
+
       scrollToBlock: function(blockId, centered = false) {
         const block = blockId
           ? this.workspace.getBlockById(blockId)
